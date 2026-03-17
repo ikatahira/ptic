@@ -6,466 +6,164 @@
 <title>Guia Semana 21 – Introdução à IA | TIC 2026</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --purple: #8b5cf6;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-600: #475569;
-  --gray-800: #1e293b;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
-  --radius: 12px;
-  --radius-sm: 8px;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --acc:#e94560; --pale:#ffe4e8;
+  --navy:#0a1628; --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+  --gray-600:#475569; --gray-800:#1e293b; --white:#ffffff;
+  --shadow-md:0 4px 16px rgba(0,0,0,.12); --shadow-lg:0 8px 32px rgba(0,0,0,.15);
+  --radius:12px; --radius-sm:8px;
 }
-body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
-
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, #2d1b69 0%, #4c1d95 50%, #6d28d9 100%);
-  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
-  box-shadow: 0 2px 20px rgba(0,0,0,.3);
-}
-.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.week-badge { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; white-space:nowrap; }
-.header-text { flex:1; }
-.header-text h1 { font-size:clamp(1.2em,3vw,1.8em); font-weight:700; letter-spacing:-.02em; }
-.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
-.guide-tag { background:linear-gradient(135deg, var(--amber), #d97706); border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600; white-space:nowrap; }
-
-/* CONTAINER */
-.container { max-width:1200px; margin:0 auto; padding:32px; }
-
-/* CARDS */
-.card { background:var(--white); border-radius:var(--radius); padding:32px; margin-bottom:24px; box-shadow:var(--shadow-md); border:1px solid var(--gray-200); }
-
-/* NAV */
-.nav-bar { background:var(--white); border-radius:var(--radius); padding:20px 24px; box-shadow:var(--shadow-md); border:1px solid var(--gray-200); display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:24px; }
-.nav-btn { padding:10px 20px; border-radius:var(--radius-sm); text-decoration:none; font-weight:600; font-size:.9em; transition:all .2s ease; display:inline-flex; align-items:center; gap:6px; }
-.nav-btn-primary { background:linear-gradient(135deg, #4c1d95, #6d28d9); color:var(--white); box-shadow:0 2px 8px rgba(109,40,217,.3); }
-.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(109,40,217,.4); }
-.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
-.nav-btn-secondary:hover { background:var(--gray-200); }
-.nav-btn-green { background:linear-gradient(135deg, var(--green), #059669); color:var(--white); }
-.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
-.nav-spacer { flex:1; }
-
-/* EXERCISE SECTION */
-.exercise-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
-.exercise-number { width:48px; height:48px; background:linear-gradient(135deg, var(--purple), #6d28d9); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--white); font-size:1.2em; font-weight:700; flex-shrink:0; }
-.exercise-title-wrap h2 { font-size:1.3em; font-weight:700; color:var(--navy); }
-.exercise-title-wrap .meta { display:flex; gap:12px; margin-top:4px; }
-.meta-tag { background:var(--gray-100); border-radius:50px; padding:2px 10px; font-size:.8em; color:var(--gray-600); font-weight:500; }
-
-/* ENUNCIADO */
-.enunciado { background:linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:var(--radius-sm); padding:20px 24px; margin-bottom:20px; }
-.enunciado h3 { color:var(--navy); font-size:1em; font-weight:700; margin-bottom:8px; }
-.enunciado p { color:#1e40af; font-size:.95em; }
-
-/* RUBRIC */
-.rubric-wrap { margin-bottom:24px; overflow-x:auto; }
-.rubric-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-table.rubric { width:100%; border-collapse:collapse; min-width:600px; border-radius:var(--radius-sm); overflow:hidden; }
-table.rubric thead tr { background:linear-gradient(135deg, var(--navy), var(--blue)); }
-table.rubric thead th { color:var(--white); padding:12px 14px; text-align:left; font-size:.85em; font-weight:600; }
-table.rubric tbody tr:nth-child(even) { background:var(--gray-50); }
-table.rubric tbody td { padding:11px 14px; border-bottom:1px solid var(--gray-100); font-size:.88em; vertical-align:top; }
-table.rubric tbody td:first-child { font-weight:700; color:var(--navy); white-space:nowrap; }
-.level-0 { color:#dc2626; }
-.level-1 { color:#d97706; }
-.level-2 { color:#0369a1; }
-.level-3 { color:#059669; font-weight:600; }
-
-/* SOLUTION */
-.solution { background:linear-gradient(135deg, #f0fdf4, #dcfce7); border:1px solid #86efac; border-radius:var(--radius-sm); padding:24px; margin-top:20px; }
-.solution h3 { color:#065f46; font-size:1.05em; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-.solution ol { margin-left:20px; }
-.solution ol li { color:#14532d; font-size:.93em; margin-bottom:8px; padding-left:4px; }
-.solution ol li strong { color:#065f46; }
-
-/* TIPS */
-.tip-box { background:linear-gradient(135deg, #fefce8, #fef9c3); border:1px solid #fde047; border-radius:var(--radius-sm); padding:16px 20px; margin-top:16px; }
-.tip-box p { font-size:.9em; color:#713f12; }
-.tip-box p strong { color:#92400e; }
-
-/* CHECKLIST */
-.checklist { margin-top:16px; }
-.checklist h4 { font-size:.95em; font-weight:700; color:var(--navy); margin-bottom:10px; }
-.check-item { display:flex; align-items:flex-start; gap:8px; margin-bottom:6px; font-size:.9em; color:var(--gray-600); }
-.check-box { width:16px; height:16px; border:2px solid var(--green); border-radius:3px; flex-shrink:0; margin-top:3px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--green), #059669); }
-.check-box::after { content:'✓'; color:white; font-size:10px; font-weight:700; }
-
-@media(max-width:768px) { .container { padding:16px; } .card { padding:20px; } }
+body{font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7;}
+.header{background:linear-gradient(135deg,var(--navy) 0%,#1e293b 60%,#0f172a 100%);
+  color:var(--white); padding:0; position:sticky; top:0; z-index:100; box-shadow:0 2px 20px rgba(0,0,0,.3);}
+.header-inner{max-width:1200px;margin:0 auto;padding:20px 32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.week-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:6px 16px;font-size:.8em;font-weight:600;letter-spacing:.05em;white-space:nowrap;}
+.guide-badge{background:linear-gradient(135deg,var(--acc),#e94560cc);border-radius:50px;padding:6px 16px;font-size:.8em;font-weight:700;white-space:nowrap;}
+.header-text{flex:1;}
+.header-text h1{font-size:clamp(1.1em,2.5vw,1.6em);font-weight:700;letter-spacing:-.02em;}
+.header-text p{opacity:.75;font-size:.85em;margin-top:4px;}
+.container{max-width:1200px;margin:0 auto;padding:32px;}
+.nav-bar{background:var(--white);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow-md);
+  border:1px solid var(--gray-200);display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
+.nav-btn{padding:10px 20px;border-radius:var(--radius-sm);text-decoration:none;font-weight:600;font-size:.9em;
+  transition:all .2s ease;display:inline-flex;align-items:center;gap:6px;}
+.nav-btn-primary{background:linear-gradient(135deg,var(--navy),#1a56db);color:var(--white);}
+.nav-btn-secondary{background:var(--gray-100);color:var(--gray-800);border:1px solid var(--gray-200);}
+.nav-btn-accent{background:linear-gradient(135deg,var(--acc),#e94560bb);color:var(--white);}
+.nav-btn-disabled{opacity:.4;pointer-events:none;background:var(--gray-100);color:var(--gray-600);}
+.nav-spacer{flex:1;}
+.intro-card{background:var(--white);border-radius:var(--radius);padding:32px;margin-bottom:24px;
+  box-shadow:var(--shadow-md);border:1px solid var(--gray-200);border-top:4px solid var(--acc);}
+.intro-title{font-size:1.4em;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.intro-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.intro-tag{background:var(--pale);color:var(--navy);border:1px solid var(--acc)33;border-radius:50px;padding:4px 14px;font-size:.85em;font-weight:600;}
+.intro-desc{color:var(--gray-600);line-height:1.7;}
+.mission-card{background:var(--white);border-radius:var(--radius);padding:32px;margin-bottom:24px;
+  box-shadow:var(--shadow-md);border:1px solid var(--gray-200);border-left:4px solid var(--acc);}
+.mission-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:2px solid var(--gray-100);}
+.mission-num{width:44px;height:44px;background:var(--acc);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1em;font-weight:700;flex-shrink:0;}
+.mission-info{flex:1;}
+.mission-title{font-size:1.2em;font-weight:700;color:var(--navy);}
+.mission-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.mission-tag{background:var(--gray-100);border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:500;color:var(--gray-600);}
+.mission-desc{color:var(--gray-600);margin-bottom:20px;line-height:1.7;}
+.section-block{background:var(--gray-50);border-radius:var(--radius-sm);padding:20px 24px;margin-bottom:16px;}
+.steps-block{border-left:4px solid var(--acc);}
+.rubrica-block{border-left:4px solid #10b981;}
+.section-label{font-weight:700;font-size:.9em;color:var(--navy);margin-bottom:12px;letter-spacing:.03em;text-transform:uppercase;}
+.steps-list{padding-left:20px;}
+.steps-list li{color:var(--gray-600);font-size:.95em;margin-bottom:8px;line-height:1.6;}
+.rubrica-list{list-style:none;padding:0;}
+.rubrica-list li{color:var(--gray-600);font-size:.9em;margin-bottom:6px;padding-left:16px;position:relative;}
+.rubrica-list li::before{content:'✓';position:absolute;left:0;color:#10b981;font-weight:700;}
+@media(max-width:768px){.container{padding:16px;}.mission-card{padding:20px;}.nav-bar{gap:8px;}.nav-btn{padding:8px 14px;font-size:.85em;}}
 </style>
 </head>
 <body>
-
 <header class="header">
   <div class="header-inner">
-    <span class="week-badge">📝 Guia · Semana 21 · 3º Bimestre</span>
+    <span class="week-badge">📅 Semana 21 · 3º Bimestre</span>
     <div class="header-text">
-      <h1>Guia – Introdução à IA</h1>
-      <p>Rubricas de Avaliação e Resoluções Detalhadas · TIC 2026</p>
+      <h1>Guia de Exercícios — Introdução à IA</h1>
+      <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
     </div>
-    <span class="guide-tag">📊 3 Exercícios</span>
+    <span class="guide-badge">📝 Guia</span>
   </div>
 </header>
-
 <div class="container">
-
   <nav class="nav-bar">
-    <a href="semana20_guia.html" class="nav-btn nav-btn-secondary">⬅ Guia Anterior</a>
+    <a href="semana21_aula.html" class="nav-btn nav-btn-accent">📖 Ver Aula</a>
     <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana21_aula.html" class="nav-btn nav-btn-green">📖 Ver Aula</a>
     <span class="nav-spacer"></span>
-    <a href="semana22_guia.html" class="nav-btn nav-btn-primary">Próximo Guia ➡</a>
+    <a href="semana22_aula.html" class="nav-btn nav-btn-primary">Próxima Aula ➡</a>
   </nav>
 
-  <div class="card" style="background:linear-gradient(135deg,#faf5ff,#f5f3ff); border-color:#e9d5ff;">
-    <div style="display:flex; align-items:center; gap:12px;">
-      <span style="font-size:2em;">📝</span>
-      <div>
-        <div style="font-weight:700; color:#4c1d95; font-size:1.1em;">Como usar este Guia</div>
-        <div style="color:#6d28d9; font-size:.9em; margin-top:4px;">
-          Primeiro tente resolver os exercícios <strong>por conta própria</strong>. 
-          Use as rubricas para entender o que é esperado. 
-          Consulte a resolução apenas para comparar e aprender, não para copiar!
-        </div>
-      </div>
+  <div class="intro-card">
+    <div class="intro-title">📝 Guia de Exercícios — Semana 21</div>
+    <div class="intro-meta">
+      <span class="intro-tag">🤖 Inteligência Artificial</span>
+      <span class="intro-tag">3º Bimestre</span>
+      <span class="intro-tag">3 exercícios</span>
     </div>
+    <p class="intro-desc">Este guia contém as instruções passo a passo, a rubrica de avaliação detalhada e os critérios de qualidade para cada exercício da Semana 21. Siga os passos na ordem indicada e use a rubrica para autoavaliar seu trabalho antes de entregar.</p>
   </div>
 
-  
-  <div class="card">
-    <div class="exercise-header">
-      <div class="exercise-number" style="background:linear-gradient(135deg, #1a56db, #1a56dbaa);">1</div>
-      <div class="exercise-title-wrap">
-        <h2>🔵 Exercício 1: Mapeando a IA ao Meu Redor</h2>
-        <div class="meta">
-          <span class="meta-tag">⏱ 30 min</span>
-          <span class="meta-tag">Atividade</span>
+    <div class="mission-card" id="ex1">
+      <div class="mission-header">
+        <div class="mission-num">1</div>
+        <div class="mission-info">
+          <div class="mission-title">Mapa de IA na Minha Vida</div>
+          <div class="mission-meta">
+            <span class="mission-tag">🗺️ Mapeamento</span>
+            <span class="mission-tag">⏱ 35 min</span>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="enunciado">
-      <h3>📋 Enunciado</h3>
-      <p>Faça um levantamento de todos os sistemas de IA que você usa ou que afetam sua vida, classificando-os por tipo e impacto.</p>
-    </div>
-
-    <div class="rubric-wrap">
-      <div class="rubric-title">📊 Rubrica de Avaliação</div>
-      <table class="rubric">
-        <thead>
-          <tr>
-            <th>Critério</th>
-            <th>Insuficiente (0–5)</th>
-            <th>Básico (6–7)</th>
-            <th>Proficiente (8–9)</th>
-            <th>Excelente (10)</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-            <tr>
-              <td>Compreensão</td>
-              <td class="level-0">Não demonstrou compreensão do tema</td>
-              <td class="level-1">Compreensão superficial com erros básicos</td>
-              <td class="level-2">Boa compreensão, poucos equívocos</td>
-              <td class="level-3">Compreensão completa e aprofundada</td>
-            </tr>
-            <tr>
-              <td>Execução</td>
-              <td class="level-0">Não realizou ou entregou em branco</td>
-              <td class="level-1">Execução parcial com muitas lacunas</td>
-              <td class="level-2">Executou bem com pequenos ajustes</td>
-              <td class="level-3">Execução exemplar, além do esperado</td>
-            </tr>
-            <tr>
-              <td>Qualidade</td>
-              <td class="level-0">Resultado de baixa qualidade</td>
-              <td class="level-1">Qualidade básica, funcional mas simples</td>
-              <td class="level-2">Boa qualidade, trabalho cuidadoso</td>
-              <td class="level-3">Qualidade excepcional e profissional</td>
-            </tr>
-            <tr>
-              <td>Criatividade</td>
-              <td class="level-0">Sem elementos criativos</td>
-              <td class="level-1">Pouca criatividade, seguiu o básico</td>
-              <td class="level-2">Demonstrou criatividade adequada</td>
-              <td class="level-3">Criatividade destacada e original</td>
-            </tr>
-            <tr>
-              <td>Documentação</td>
-              <td class="level-0">Sem documentação ou registro</td>
-              <td class="level-1">Documentação mínima e incompleta</td>
-              <td class="level-2">Documentação clara e organizada</td>
-              <td class="level-3">Documentação completa e exemplar</td>
-            </tr>
-            <tr>
-              <td>Apresentação</td>
-              <td class="level-0">Mal apresentado, difícil de entender</td>
-              <td class="level-1">Apresentação básica e legível</td>
-              <td class="level-2">Apresentação bem estruturada</td>
-              <td class="level-3">Apresentação profissional e impactante</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="solution">
-      <h3>✅ Resolução Passo a Passo</h3>
-      <ol>
-        <li><strong>Passo 1:</strong> Abra uma planilha e crie colunas: Sistema | Onde uso | Tipo de IA | O que ela faz | Impacto na minha vida</li>
-<li><strong>Passo 2:</strong> Preencha pelo menos 10 linhas com IAs que você realmente usa</li>
-<li><strong>Passo 3:</strong> Exemplos: TikTok (recomendação de vídeos), Google Maps (rotas), Instagram (filtros de foto)</li>
-<li><strong>Passo 4:</strong> Na coluna 'Tipo', classifique: Recomendação / Reconhecimento / Geração / Predição</li>
-<li><strong>Passo 5:</strong> Na coluna 'Impacto', avalie de 1 a 5: quanto essa IA afeta sua vida?</li>
-<li><strong>Passo 6:</strong> Crie um gráfico de pizza mostrando os tipos de IA mais presentes na sua vida</li>
-<li><strong>Passo 7:</strong> Escreva um parágrafo: 'Qual IA você menos poderia dispensar e por quê?'</li>
-      </ol>
-    </div>
-
-    <div class="tip-box">
-      <p><strong>💡 Dica Profissional:</strong> Sempre revise seu trabalho antes de entregar. Leia o enunciado novamente e verifique se você cumpriu todos os requisitos. Use a rubrica como checklist de qualidade!</p>
-    </div>
-
-    <div class="checklist">
-      <h4>☑️ Antes de Entregar:</h4>
-      <div class="check-item"><div class="check-box"></div><span>Abra uma planilha e crie colunas: Sistema | Onde uso | Tipo de IA | O que ela faz | Impacto na minha vida</span></div>
-<div class="check-item"><div class="check-box"></div><span>Preencha pelo menos 10 linhas com IAs que você realmente usa</span></div>
-<div class="check-item"><div class="check-box"></div><span>Exemplos: TikTok (recomendação de vídeos), Google Maps (rotas), Instagram (filtros de foto)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Na coluna 'Tipo', classifique: Recomendação / Reconhecimento / Geração / Predição</span></div>
-<div class="check-item"><div class="check-box"></div><span>Na coluna 'Impacto', avalie de 1 a 5: quanto essa IA afeta sua vida?</span></div>
-      <div class="check-item"><div class="check-box"></div><span>Salvei o arquivo com o nome correto (semana21_ex1_SeuNome)</span></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="exercise-header">
-      <div class="exercise-number" style="background:linear-gradient(135deg, #8b5cf6, #8b5cf6aa);">2</div>
-      <div class="exercise-title-wrap">
-        <h2>🟣 Exercício 2: Conversando com uma IA</h2>
-        <div class="meta">
-          <span class="meta-tag">⏱ 35 min</span>
-          <span class="meta-tag">Projeto</span>
-        </div>
+      <p class="mission-desc">Documente todos os sistemas de IA que afetam sua vida em um dia típico, classificando-os por tipo e impacto.</p>
+      
+      <div class="section-block steps-block">
+        <div class="section-label">📋 Passo a Passo</div>
+        <ol class="steps-list"><li>Faça um registro de hoje: desde que acordou até a hora de dormir</li><li>Identifique cada vez que você usou ou foi afetado por IA</li><li>Para cada caso: nome do sistema, empresa, tipo de IA (recomendação/classificação/geração/etc.)</li><li>Avalie o impacto: Positivo / Negativo / Neutro — justifique</li><li>Identifique 2 casos preocupantes e explique o porquê</li><li>Identifique 2 casos que genuinamente melhoram sua vida</li><li>Conclusão: no geral, a IA hoje beneficia ou prejudica mais pessoas como você?</li></ol>
+      </div>
+      
+      <div class="section-block rubrica-block">
+        <div class="section-label">✅ Rubrica de Avaliação (Total: 100 pts)</div>
+        <ul class="rubrica-list"><li>10+ interações com IA identificadas (25 pts)</li><li>Tipos de IA classificados corretamente (20 pts)</li><li>Impactos avaliados com justificativa (25 pts)</li><li>Análise crítica dos casos preocupantes (15 pts)</li><li>Conclusão argumentada (15 pts)</li></ul>
       </div>
     </div>
-
-    <div class="enunciado">
-      <h3>📋 Enunciado</h3>
-      <p>Use o ChatGPT ou Gemini para explorar as capacidades e limitações da IA Generativa através de uma série de testes estruturados.</p>
-    </div>
-
-    <div class="rubric-wrap">
-      <div class="rubric-title">📊 Rubrica de Avaliação</div>
-      <table class="rubric">
-        <thead>
-          <tr>
-            <th>Critério</th>
-            <th>Insuficiente (0–5)</th>
-            <th>Básico (6–7)</th>
-            <th>Proficiente (8–9)</th>
-            <th>Excelente (10)</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-            <tr>
-              <td>Planejamento</td>
-              <td class="level-0">Sem planejamento identificável</td>
-              <td class="level-1">Planejamento básico e incompleto</td>
-              <td class="level-2">Bom planejamento com etapas claras</td>
-              <td class="level-3">Planejamento completo e detalhado</td>
-            </tr>
-            <tr>
-              <td>Desenvolvimento</td>
-              <td class="level-0">Não desenvolveu o projeto</td>
-              <td class="level-1">Desenvolvimento parcial com lacunas</td>
-              <td class="level-2">Projeto bem desenvolvido</td>
-              <td class="level-3">Desenvolvimento exemplar e completo</td>
-            </tr>
-            <tr>
-              <td>Funcionalidade</td>
-              <td class="level-0">Não funciona como esperado</td>
-              <td class="level-1">Funciona parcialmente</td>
-              <td class="level-2">Funciona bem com minor issues</td>
-              <td class="level-3">Funciona perfeitamente</td>
-            </tr>
-            <tr>
-              <td>Design</td>
-              <td class="level-0">Design confuso ou inadequado</td>
-              <td class="level-1">Design simples mas funcional</td>
-              <td class="level-2">Bom design, visualmente agradável</td>
-              <td class="level-3">Design profissional e marcante</td>
-            </tr>
-            <tr>
-              <td>Complexidade</td>
-              <td class="level-0">Muito abaixo do esperado</td>
-              <td class="level-1">Complexidade básica atendida</td>
-              <td class="level-2">Boa complexidade técnica</td>
-              <td class="level-3">Alta complexidade bem executada</td>
-            </tr>
-            <tr>
-              <td>Inovação</td>
-              <td class="level-0">Sem elementos inovadores</td>
-              <td class="level-1">Pouca inovação observada</td>
-              <td class="level-2">Elementos inovadores presentes</td>
-              <td class="level-3">Altamente inovador e original</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="solution">
-      <h3>✅ Resolução Passo a Passo</h3>
-      <ol>
-        <li><strong>Passo 1:</strong> Acesse chatgpt.com ou gemini.google.com (crie conta gratuita se necessário)</li>
-<li><strong>Passo 2:</strong> TESTE 1 - Criatividade: peça para escrever um haiku sobre sua cidade</li>
-<li><strong>Passo 3:</strong> TESTE 2 - Conhecimento: pergunte algo sobre sua área de interesse</li>
-<li><strong>Passo 4:</strong> TESTE 3 - Limitações: pergunte sobre um evento muito recente (ela sabe?)</li>
-<li><strong>Passo 5:</strong> TESTE 4 - Erros: faça uma conta matemática simples e veja se ela erra</li>
-<li><strong>Passo 6:</strong> TESTE 5 - Persona: peça para ela se comportar como um personagem histórico</li>
-<li><strong>Passo 7:</strong> Documente cada teste: Pergunta | Resposta | Avaliação (Ótimo/Bom/Fraco/Errou)</li>
-<li><strong>Passo 8:</strong> Conclusão: em quais tarefas a IA se saiu melhor e em quais pior?</li>
-      </ol>
-    </div>
-
-    <div class="tip-box">
-      <p><strong>💡 Dica Profissional:</strong> Sempre revise seu trabalho antes de entregar. Leia o enunciado novamente e verifique se você cumpriu todos os requisitos. Use a rubrica como checklist de qualidade!</p>
-    </div>
-
-    <div class="checklist">
-      <h4>☑️ Antes de Entregar:</h4>
-      <div class="check-item"><div class="check-box"></div><span>Acesse chatgpt.com ou gemini.google.com (crie conta gratuita se necessário)</span></div>
-<div class="check-item"><div class="check-box"></div><span>TESTE 1 - Criatividade: peça para escrever um haiku sobre sua cidade</span></div>
-<div class="check-item"><div class="check-box"></div><span>TESTE 2 - Conhecimento: pergunte algo sobre sua área de interesse</span></div>
-<div class="check-item"><div class="check-box"></div><span>TESTE 3 - Limitações: pergunte sobre um evento muito recente (ela sabe?)</span></div>
-<div class="check-item"><div class="check-box"></div><span>TESTE 4 - Erros: faça uma conta matemática simples e veja se ela erra</span></div>
-      <div class="check-item"><div class="check-box"></div><span>Salvei o arquivo com o nome correto (semana21_ex2_SeuNome)</span></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="exercise-header">
-      <div class="exercise-number" style="background:linear-gradient(135deg, #10b981, #10b981aa);">3</div>
-      <div class="exercise-title-wrap">
-        <h2>🟢 Exercício 3: Debate: IA é Boa ou Ruim?</h2>
-        <div class="meta">
-          <span class="meta-tag">⏱ 25 min</span>
-          <span class="meta-tag">Desafio</span>
+    <div class="mission-card" id="ex2">
+      <div class="mission-header">
+        <div class="mission-num">2</div>
+        <div class="mission-info">
+          <div class="mission-title">Testar e Documentar Limites da IA</div>
+          <div class="mission-meta">
+            <span class="mission-tag">🧪 Experimento</span>
+            <span class="mission-tag">⏱ 25 min</span>
+          </div>
         </div>
       </div>
+      <p class="mission-desc">Use ChatGPT ou Gemini para explorar capacidades e identificar limitações concretas através de testes estruturados.</p>
+      
+      <div class="section-block steps-block">
+        <div class="section-label">📋 Passo a Passo</div>
+        <ol class="steps-list"><li>TESTE 1 — Criatividade: crie uma história de 3 parágrafos com personagens do ETEC</li><li>TESTE 2 — Conhecimento: pergunte algo que você já sabe. A IA acertou? Foi precisa?</li><li>TESTE 3 — Limite temporal: pergunte sobre um evento da última semana</li><li>TESTE 4 — Matemática: peça resolução passo a passo de problema (20+8÷4-3×2=?)</li><li>TESTE 5 — Autoconhecimento: pergunte 'Você é consciente?'</li><li>Documente: tarefa, resposta da IA, avaliação (correto/parcial/errado), o que esse teste revela sobre a natureza da IA</li></ol>
+      </div>
+      
+      <div class="section-block rubrica-block">
+        <div class="section-label">✅ Rubrica de Avaliação (Total: 100 pts)</div>
+        <ul class="rubrica-list"><li>5 testes realizados e documentados (25 pts)</li><li>Avaliação precisa de cada resposta (25 pts)</li><li>Análise do que cada teste revela (30 pts)</li><li>Conclusão sobre a natureza da IA (20 pts)</li></ul>
+      </div>
     </div>
-
-    <div class="enunciado">
-      <h3>📋 Enunciado</h3>
-      <p>Prepare um argumento sólido sobre os impactos da IA, representando um dos lados do debate: favorável ou crítico.</p>
+    <div class="mission-card" id="ex3">
+      <div class="mission-header">
+        <div class="mission-num">3</div>
+        <div class="mission-info">
+          <div class="mission-title">Debate: IA Boa ou Ruim?</div>
+          <div class="mission-meta">
+            <span class="mission-tag">💬 Debate</span>
+            <span class="mission-tag">⏱ 25 min</span>
+          </div>
+        </div>
+      </div>
+      <p class="mission-desc">Prepare um argumento estruturado sobre os impactos da IA para um debate na turma.</p>
+      
+      <div class="section-block steps-block">
+        <div class="section-label">📋 Passo a Passo</div>
+        <ol class="steps-list"><li>Receba sua posição: FAVORÁVEL à IA ou CRÍTICO à IA (o professor decide)</li><li>Pesquise 5 argumentos sólidos para sua posição (use Gemini para pesquisar, mas forme sua própria opinião)</li><li>Prepare 3 contra-argumentos possíveis e como rebatê-los</li><li>Crie um slide de abertura com sua tese principal</li><li>Prepare um dado estatístico concreto para embasar sua posição</li><li>Apresente por 3 minutos para a turma</li></ol>
+      </div>
+      
+      <div class="section-block rubrica-block">
+        <div class="section-label">✅ Rubrica de Avaliação (Total: 100 pts)</div>
+        <ul class="rubrica-list"><li>5 argumentos bem fundamentados (25 pts)</li><li>3 contra-argumentos com rebates (20 pts)</li><li>Slide de abertura com tese clara (20 pts)</li><li>Dado estatístico concreto citado (15 pts)</li><li>Apresentação de 3 minutos bem estruturada (20 pts)</li></ul>
+      </div>
     </div>
-
-    <div class="rubric-wrap">
-      <div class="rubric-title">📊 Rubrica de Avaliação</div>
-      <table class="rubric">
-        <thead>
-          <tr>
-            <th>Critério</th>
-            <th>Insuficiente (0–5)</th>
-            <th>Básico (6–7)</th>
-            <th>Proficiente (8–9)</th>
-            <th>Excelente (10)</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-            <tr>
-              <td>Análise</td>
-              <td class="level-0">Não analisou o problema</td>
-              <td class="level-1">Análise superficial do problema</td>
-              <td class="level-2">Boa análise com insight relevante</td>
-              <td class="level-3">Análise profunda e perspicaz</td>
-            </tr>
-            <tr>
-              <td>Solução</td>
-              <td class="level-0">Sem solução apresentada</td>
-              <td class="level-1">Solução parcial ou incorreta</td>
-              <td class="level-2">Solução adequada e funcional</td>
-              <td class="level-3">Solução ótima e elegante</td>
-            </tr>
-            <tr>
-              <td>Eficiência</td>
-              <td class="level-0">Solução ineficiente</td>
-              <td class="level-1">Pouco eficiente mas funciona</td>
-              <td class="level-2">Solução eficiente</td>
-              <td class="level-3">Muito eficiente e otimizada</td>
-            </tr>
-            <tr>
-              <td>Originalidade</td>
-              <td class="level-0">Seguiu o óbvio sem criação</td>
-              <td class="level-1">Pouco original</td>
-              <td class="level-2">Abordagem original e interessante</td>
-              <td class="level-3">Altamente original e criativa</td>
-            </tr>
-            <tr>
-              <td>Justificativa</td>
-              <td class="level-0">Sem justificativa apresentada</td>
-              <td class="level-1">Justificativa superficial</td>
-              <td class="level-2">Justificativa bem fundamentada</td>
-              <td class="level-3">Justificativa completa e convincente</td>
-            </tr>
-            <tr>
-              <td>Apresentação</td>
-              <td class="level-0">Apresentação confusa</td>
-              <td class="level-1">Apresentação básica</td>
-              <td class="level-2">Apresentação clara e organizada</td>
-              <td class="level-3">Apresentação impactante e profissional</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="solution">
-      <h3>✅ Resolução Passo a Passo</h3>
-      <ol>
-        <li><strong>Passo 1:</strong> Você receberá um lado: PRÓ-IA ou CRÍTICO da IA (sorteio ou escolha)</li>
-<li><strong>Passo 2:</strong> Se PRÓ: pesquise 5 exemplos onde IA melhorou vidas humanas (medicina, acessibilidade, etc.)</li>
-<li><strong>Passo 3:</strong> Se CRÍTICO: pesquise 5 exemplos de problemas causados pela IA (desemprego, deepfakes, viés)</li>
-<li><strong>Passo 4:</strong> Crie 1 slide com seus argumentos mais fortes</li>
-<li><strong>Passo 5:</strong> Prepare uma resposta para 2 possíveis contra-argumentos</li>
-<li><strong>Passo 6:</strong> Escreva sua conclusão pessoal (não precisa ser do lado que você defendeu!)</li>
-<li><strong>Passo 7:</strong> Reflexão: 'O que aprendi sobre IA ao pesquisar para este debate?'</li>
-      </ol>
-    </div>
-
-    <div class="tip-box">
-      <p><strong>💡 Dica Profissional:</strong> Sempre revise seu trabalho antes de entregar. Leia o enunciado novamente e verifique se você cumpriu todos os requisitos. Use a rubrica como checklist de qualidade!</p>
-    </div>
-
-    <div class="checklist">
-      <h4>☑️ Antes de Entregar:</h4>
-      <div class="check-item"><div class="check-box"></div><span>Você receberá um lado: PRÓ-IA ou CRÍTICO da IA (sorteio ou escolha)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Se PRÓ: pesquise 5 exemplos onde IA melhorou vidas humanas (medicina, acessibilidade, etc.)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Se CRÍTICO: pesquise 5 exemplos de problemas causados pela IA (desemprego, deepfakes, viés)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Crie 1 slide com seus argumentos mais fortes</span></div>
-<div class="check-item"><div class="check-box"></div><span>Prepare uma resposta para 2 possíveis contra-argumentos</span></div>
-      <div class="check-item"><div class="check-box"></div><span>Salvei o arquivo com o nome correto (semana21_ex3_SeuNome)</span></div>
-    </div>
-  </div>
-
   <nav class="nav-bar">
-    <a href="semana20_guia.html" class="nav-btn nav-btn-secondary">⬅ Guia Anterior</a>
+    <a href="semana21_aula.html" class="nav-btn nav-btn-accent">📖 Ver Aula</a>
     <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana21_aula.html" class="nav-btn nav-btn-green">📖 Ver Aula</a>
     <span class="nav-spacer"></span>
-    <a href="semana22_guia.html" class="nav-btn nav-btn-primary">Próximo Guia ➡</a>
+    <a href="semana22_aula.html" class="nav-btn nav-btn-primary">Próxima Aula ➡</a>
   </nav>
-
 </div>
 </body>
 </html>
