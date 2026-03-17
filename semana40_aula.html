@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 40 – Encerramento | TIC 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy: #0a1628;
+  --blue: #1a56db;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-600: #475569;
+  --gray-800: #1e293b;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0d47a1 100%);
+  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
+  box-shadow: 0 2px 20px rgba(0,0,0,.3);
+}
+.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.week-badge {
+  background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
+  border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; letter-spacing:.05em;
+  white-space:nowrap;
+}
+.header-text { flex:1; }
+.header-text h1 { font-size:clamp(1.2em, 3vw, 1.8em); font-weight:700; letter-spacing:-.02em; }
+.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
+.module-tag {
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600;
+  white-space:nowrap;
+}
+
+/* CONTAINER */
+.container { max-width:1200px; margin:0 auto; padding:32px; }
+
+/* CARDS */
+.card {
+  background:var(--white); border-radius:var(--radius); padding:32px;
+  margin-bottom:24px; box-shadow:var(--shadow-md);
+  border:1px solid var(--gray-200);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.card:hover { box-shadow:var(--shadow-lg); transform: translateY(-1px); }
+.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
+.card-icon { font-size:1.5em; }
+.card-title { font-size:1.3em; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
+
+/* OBJETIVOS */
+.objetivos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+.objetivo-item {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border:1px solid #bfdbfe; border-radius:var(--radius-sm);
+  padding:16px; display:flex; align-items:flex-start; gap:10px;
+}
+.objetivo-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; margin-top:7px; flex-shrink:0; }
+.objetivo-text { font-size:.95em; font-weight:500; color:var(--navy); }
+
+/* CONTEUDO */
+.conteudo-item {
+  background:var(--gray-50); border-radius:var(--radius-sm);
+  padding:20px 24px; margin-bottom:16px;
+  border-left:4px solid var(--cyan);
+}
+.conteudo-item h3 { color:var(--navy); font-size:1.05em; font-weight:700; margin-bottom:8px; }
+.conteudo-item p { color:var(--gray-600); font-size:.95em; line-height:1.7; }
+
+/* EXERCICIOS */
+.exercise-card {
+  border:1px solid var(--gray-200); border-radius:var(--radius-sm);
+  padding:20px; margin-bottom:16px; position:relative; overflow:hidden;
+}
+.exercise-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background: linear-gradient(180deg, var(--blue), var(--cyan));
+}
+.exercise-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:32px; height:32px; background:var(--navy); color:var(--white);
+  border-radius:50%; font-size:.8em; font-weight:700; margin-bottom:8px;
+}
+.exercise-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:4px; }
+.exercise-meta { display:flex; gap:12px; margin-bottom:10px; }
+.exercise-tag {
+  background:var(--gray-100); border-radius:50px; padding:3px 10px;
+  font-size:.8em; font-weight:500; color:var(--gray-600);
+}
+.exercise-desc { color:var(--gray-600); font-size:.92em; }
+
+/* NAV */
+.nav-bar {
+  background:var(--white); border-radius:var(--radius); padding:20px 24px;
+  box-shadow:var(--shadow-md); border:1px solid var(--gray-200);
+  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+  margin-bottom:24px;
+}
+.nav-btn {
+  padding:10px 20px; border-radius:var(--radius-sm);
+  text-decoration:none; font-weight:600; font-size:.9em;
+  transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;
+}
+.nav-btn-primary {
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  color:var(--white); box-shadow:0 2px 8px rgba(26,86,219,.3);
+}
+.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,86,219,.4); }
+.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
+.nav-btn-secondary:hover { background:var(--gray-200); }
+.nav-btn-accent { background: linear-gradient(135deg, var(--green), #059669); color:var(--white); }
+.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
+.nav-spacer { flex:1; }
+
+/* RESPONSIVE */
+@media(max-width:768px) {
+  .container { padding:16px; }
+  .card { padding:20px; }
+  .objetivos-grid { grid-template-columns:1fr; }
+  .nav-bar { gap:8px; }
+  .nav-btn { padding:8px 14px; font-size:.85em; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-badge">📅 Semana 40 · 4º Bimestre</span>
+    <div class="header-text">
+      <h1>Encerramento</h1>
+      <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
+    </div>
+    <span class="module-tag">🗂 Projetos Práticos</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- NAV TOPO -->
+  <nav class="nav-bar">
+    <a href="semana39_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
+    <a href="semana40_guia.html" class="nav-btn nav-btn-accent">📝 Guia de Exercícios</a>
+    <span class="nav-spacer"></span>
+    <a href="#" class="nav-btn nav-btn-disabled">Próxima ➡</a>
+  </nav>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <h2 class="card-title">Objetivos de Aprendizagem</h2>
+    </div>
+    <div class="objetivos-grid">
+      <div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Celebrar as conquistas do ano letivo</span></div>
+<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Realizar uma autoavaliação honesta do aprendizado</span></div>
+<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Planejar os próximos passos na jornada tecnológica</span></div>
+<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Encerrar o ciclo com reflexão e gratidão</span></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📖</span>
+      <h2 class="card-title">Conteúdo da Aula</h2>
+    </div>
+    
+        <div class="conteudo-item">
+            <h3>🎉 Parabéns, Você Chegou ao Final!</h3>
+            <p>Você completou 40 semanas de estudo intenso! Isso representa 80 horas-aula, 120 exercícios práticos, 3 projetos integradores e um ano inteiro de crescimento. Isso não é pouco — é muito!</p>
+        </div>
+        <div class="conteudo-item">
+            <h3>📊 O que Você Aprendeu</h3>
+            <p>Em 4 grandes módulos: gerenciamento profissional de arquivos digitais, pensamento computacional com algoritmos e lógica, uso inteligente e ético de ferramentas de IA, e desenvolvimento de projeto real em equipe. Cada um desses pilares vai te acompanhar na carreira.</p>
+        </div>
+        <div class="conteudo-item">
+            <h3>🚀 Para Onde Ir Agora?</h3>
+            <p>Este curso foi o ponto de partida. As próximas etapas: aprender uma linguagem de programação (Python é ótima opção!), aprofundar em desenvolvimento web (HTML, CSS, JavaScript), explorar banco de dados, e construir um portfólio de projetos.</p>
+        </div>
+        <div class="conteudo-item">
+            <h3>❤️ Obrigado</h3>
+            <p>Ao professor, por guiar esta jornada. Aos colegas, por aprenderem juntos. A você, por ter persistido nos dias difíceis. A tecnologia muda o mundo — e agora você tem ferramentas para fazer parte dessa mudança.</p>
+        </div>
+  </div>
+
+  <!-- ATIVIDADES -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">✏️</span>
+      <h2 class="card-title">Atividades Práticas</h2>
+    </div>
+    <p style="color:var(--gray-600); margin-bottom:20px; font-size:.95em;">
+      Para cada exercício, consulte o <a href="semana40_guia.html" style="color:var(--blue); font-weight:600;">Guia de Exercícios</a> 
+      para ver a rubrica de avaliação detalhada e a resolução passo a passo.
+    </p>
+    
+        <div class="exercise-card">
+            <div class="exercise-num">1</div>
+            <div class="exercise-title">Portfólio do Ano</div>
+            <div class="exercise-meta">
+                <span class="exercise-tag">⏱ 30 min</span>
+                <span class="exercise-tag">✏️ Exercício 1</span>
+            </div>
+            <div class="exercise-desc">Organize seus melhores trabalhos do ano em um portfólio digital profissional.</div>
+        </div>
+        <div class="exercise-card">
+            <div class="exercise-num">2</div>
+            <div class="exercise-title">Autoavaliação do Ano</div>
+            <div class="exercise-meta">
+                <span class="exercise-tag">⏱ 35 min</span>
+                <span class="exercise-tag">✏️ Exercício 2</span>
+            </div>
+            <div class="exercise-desc">Realize uma autoavaliação honesta e detalhada do seu aprendizado ao longo de todo o ano letivo.</div>
+        </div>
+        <div class="exercise-card">
+            <div class="exercise-num">3</div>
+            <div class="exercise-title">Carta para o Futuro</div>
+            <div class="exercise-meta">
+                <span class="exercise-tag">⏱ 25 min</span>
+                <span class="exercise-tag">✏️ Exercício 3</span>
+            </div>
+            <div class="exercise-desc">Escreva uma carta para você mesmo que será lida em 2 anos, refletindo sobre sua jornada em TIC.</div>
+        </div>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔗</span>
+      <h2 class="card-title">Recursos Complementares</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
+      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
+        <div style="font-size:1.5em; margin-bottom:8px;">▶️</div>
+        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Vídeos no YouTube</div>
+        <div style="font-size:.85em; color:var(--gray-600);">Pesquise por: "encerramento para iniciantes"</div>
+      </div>
+      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
+        <div style="font-size:1.5em; margin-bottom:8px;">📚</div>
+        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Khan Academy</div>
+        <div style="font-size:.85em; color:var(--gray-600);">pt.khanacademy.org — cursos gratuitos</div>
+      </div>
+      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
+        <div style="font-size:1.5em; margin-bottom:8px;">🤖</div>
+        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Pergunte à IA</div>
+        <div style="font-size:.85em; color:var(--gray-600);">Use ChatGPT ou Gemini para tirar dúvidas</div>
+      </div>
+      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
+        <div style="font-size:1.5em; margin-bottom:8px;">💬</div>
+        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Professor</div>
+        <div style="font-size:.85em; color:var(--gray-600);">Nunca tenha vergonha de perguntar!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV RODAPÉ -->
+  <nav class="nav-bar">
+    <a href="semana39_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
+    <a href="semana40_guia.html" class="nav-btn nav-btn-accent">📝 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="#" class="nav-btn nav-btn-disabled">Próxima ➡</a>
+  </nav>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projetos de TIC 2026 – Índice Completo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0a1628; --blue:#1a56db; --gray-50:#f8fafc; --gray-100:#f1f5f9;
+  --gray-200:#e2e8f0; --gray-600:#475569; --gray-800:#1e293b; --white:#fff;
+  --radius:12px; --radius-sm:8px;
+}
+body{font-family:'Space Grotesk',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 40%,#0d47a1 80%,#1565c0 100%);
+  color:white; padding:60px 32px; text-align:center;
+}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:8px 20px;font-size:.85em;font-weight:600;margin-bottom:20px;}
+.hero h1{font-size:clamp(2em,5vw,3.5em);font-weight:700;letter-spacing:-.04em;margin-bottom:12px;}
+.hero h1 span{color:#60a5fa;}
+.hero p{opacity:.8;font-size:1.05em;max-width:600px;margin:0 auto 32px;}
+.hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-size:2em;font-weight:700;color:#60a5fa;}
+.stat-label{font-size:.8em;opacity:.7;margin-top:2px;}
+
+/* CONTAINER */
+.container{max-width:1200px;margin:0 auto;padding:40px 32px;}
+
+/* BIMESTRE */
+.bimestre-section{margin-bottom:48px;}
+.bimestre-header{
+  display:flex;align-items:center;gap:16px;padding:20px 24px;
+  background:white;border-radius:var(--radius);box-shadow:0 2px 12px rgba(0,0,0,.08);
+  border-left:5px solid var(--bcolor,var(--blue));margin-bottom:16px;
+}
+.bimestre-icon{font-size:2em;}
+.bimestre-info h2{font-size:1.3em;font-weight:700;color:var(--navy);}
+.bimestre-info p{font-size:.9em;color:var(--gray-600);}
+.bimestre-count{margin-left:auto;background:var(--gray-100);border-radius:50px;padding:6px 14px;font-size:.8em;font-weight:600;color:var(--gray-600);white-space:nowrap;}
+
+/* WEEKS GRID */
+.weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.week-card{
+  background:white;border-radius:var(--radius-sm);padding:16px;
+  border:1px solid var(--gray-200);border-top:3px solid var(--accent,var(--blue));
+  text-decoration:none;color:inherit;display:block;
+  transition:all .2s ease;cursor:pointer;
+}
+.week-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--accent,var(--blue));}
+.week-num{font-size:.75em;font-weight:700;color:var(--accent,var(--blue));letter-spacing:.05em;margin-bottom:6px;}
+.week-title{font-size:.9em;font-weight:600;color:var(--navy);margin-bottom:10px;line-height:1.4;}
+.week-links{display:flex;gap:6px;}
+.wl-aula,.wl-guia{padding:4px 8px;border-radius:4px;font-size:.75em;font-weight:600;text-decoration:none;}
+.wl-aula{background:var(--gray-100);color:var(--gray-600);}
+.wl-guia{background:rgba(139,92,246,.1);color:#6d28d9;}
+.wl-guia:hover{background:rgba(139,92,246,.2);}
+
+/* FOOTER */
+footer{text-align:center;padding:32px;color:var(--gray-600);font-size:.85em;border-top:1px solid var(--gray-200);}
+
+@media(max-width:768px){
+  .hero{padding:40px 16px;}
+  .container{padding:20px 16px;}
+  .hero-stats{gap:16px;}
+  .weeks-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-badge">🎓 ETEC · Centro Paula Souza · 2026</div>
+  <h1>Projetos de <span>TIC</span></h1>
+  <p>Tecnologia de Informação e Comunicação · 1ª Série do Ensino Médio Técnico · Um ano letivo completo</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">40</div><div class="stat-label">Semanas</div></div>
+    <div class="stat"><div class="stat-num">80</div><div class="stat-label">Horas-aula</div></div>
+    <div class="stat"><div class="stat-num">120</div><div class="stat-label">Exercícios</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Bimestres</div></div>
+  </div>
+</header>
+
+<div class="container">
+  
+    <section class="bimestre-section">
+      <div class="bimestre-header" style="--bcolor:#1a56db">
+        <div class="bimestre-icon">🗂</div>
+        <div class="bimestre-info">
+          <h2>1º Bimestre</h2>
+          <p>Gerenciamento de Arquivos</p>
+        </div>
+        <div class="bimestre-count">10 semanas</div>
+      </div>
+      <div class="weeks-grid">
+        
+        <a href="semana01_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S01</div>
+          <div class="week-title">Apresentação do Curso</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana01_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana02_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S02</div>
+          <div class="week-title">Organização de Arquivos</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana02_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana03_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S03</div>
+          <div class="week-title">Armazenamento em Nuvem</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana03_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana04_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S04</div>
+          <div class="week-title">Segurança Digital</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana04_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana05_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S05</div>
+          <div class="week-title">Edição de Textos – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana05_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana06_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S06</div>
+          <div class="week-title">Edição de Textos – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana06_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana07_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S07</div>
+          <div class="week-title">Planilhas – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana07_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana08_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S08</div>
+          <div class="week-title">Planilhas – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana08_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana09_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S09</div>
+          <div class="week-title">Apresentações</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana09_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana10_aula.html" class="week-card" style="--accent:#1a56db">
+          <div class="week-num">S10</div>
+          <div class="week-title">Introdução ao Pensamento Computacional</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana10_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="bimestre-section">
+      <div class="bimestre-header" style="--bcolor:#8b5cf6">
+        <div class="bimestre-icon">🧠</div>
+        <div class="bimestre-info">
+          <h2>2º Bimestre</h2>
+          <p>Pensamento Computacional</p>
+        </div>
+        <div class="bimestre-count">10 semanas</div>
+      </div>
+      <div class="weeks-grid">
+        
+        <a href="semana11_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S11</div>
+          <div class="week-title">Decomposição – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana11_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana12_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S12</div>
+          <div class="week-title">Decomposição – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana12_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana13_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S13</div>
+          <div class="week-title">Padrões – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana13_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana14_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S14</div>
+          <div class="week-title">Padrões – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana14_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana15_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S15</div>
+          <div class="week-title">Abstração – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana15_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana16_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S16</div>
+          <div class="week-title">Abstração – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana16_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana17_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S17</div>
+          <div class="week-title">Algoritmos – Introdução</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana17_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana18_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S18</div>
+          <div class="week-title">Algoritmos – Sequencial</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana18_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana19_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S19</div>
+          <div class="week-title">Algoritmos – Decisão</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana19_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana20_aula.html" class="week-card" style="--accent:#8b5cf6">
+          <div class="week-num">S20</div>
+          <div class="week-title">Algoritmos – Repetição</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana20_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="bimestre-section">
+      <div class="bimestre-header" style="--bcolor:#06b6d4">
+        <div class="bimestre-icon">🤖</div>
+        <div class="bimestre-info">
+          <h2>3º Bimestre</h2>
+          <p>Inteligência Artificial</p>
+        </div>
+        <div class="bimestre-count">10 semanas</div>
+      </div>
+      <div class="weeks-grid">
+        
+        <a href="semana21_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S21</div>
+          <div class="week-title">Introdução à IA</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana21_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana22_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S22</div>
+          <div class="week-title">IA Generativa</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana22_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana23_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S23</div>
+          <div class="week-title">Ferramentas de IA</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana23_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana24_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S24</div>
+          <div class="week-title">Texto com IA – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana24_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana25_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S25</div>
+          <div class="week-title">Texto com IA – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana25_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana26_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S26</div>
+          <div class="week-title">Imagens com IA – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana26_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana27_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S27</div>
+          <div class="week-title">Imagens com IA – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana27_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana28_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S28</div>
+          <div class="week-title">IA para Produtividade – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana28_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana29_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S29</div>
+          <div class="week-title">IA para Produtividade – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana29_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana30_aula.html" class="week-card" style="--accent:#06b6d4">
+          <div class="week-num">S30</div>
+          <div class="week-title">Ética em IA</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana30_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="bimestre-section">
+      <div class="bimestre-header" style="--bcolor:#10b981">
+        <div class="bimestre-icon">🚀</div>
+        <div class="bimestre-info">
+          <h2>4º Bimestre</h2>
+          <p>Projetos Práticos</p>
+        </div>
+        <div class="bimestre-count">10 semanas</div>
+      </div>
+      <div class="weeks-grid">
+        
+        <a href="semana31_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S31</div>
+          <div class="week-title">Planejamento de Projeto – Parte 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana31_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana32_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S32</div>
+          <div class="week-title">Planejamento de Projeto – Parte 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana32_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana33_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S33</div>
+          <div class="week-title">Desenvolvimento – Semana 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana33_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana34_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S34</div>
+          <div class="week-title">Desenvolvimento – Semana 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana34_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana35_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S35</div>
+          <div class="week-title">Desenvolvimento – Semana 3</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana35_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana36_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S36</div>
+          <div class="week-title">Finalização e Documentação</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana36_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana37_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S37</div>
+          <div class="week-title">Apresentações – Dia 1</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana37_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana38_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S38</div>
+          <div class="week-title">Apresentações – Dia 2</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana38_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana39_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S39</div>
+          <div class="week-title">Autoavaliação</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana39_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+        <a href="semana40_aula.html" class="week-card" style="--accent:#10b981">
+          <div class="week-num">S40</div>
+          <div class="week-title">Encerramento</div>
+          <div class="week-links">
+            <span class="wl-aula">📖 Aula</span>
+            <a href="semana40_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+          </div>
+        </a>
+      </div>
+    </section>
+</div>
+
+<footer>
+  <p>📚 Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
+  <p style="margin-top:6px;">Técnico em Informática para Internet · 1ª Série do Ensino Médio</p>
+</footer>
+
+</body>
+</html>

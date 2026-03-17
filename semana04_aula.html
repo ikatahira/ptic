@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 04 – Missão: Blindando sua Fortaleza | TIC 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:#0d0d1a; --bg2:#13132a; --bg3:#1a1a35; --card:#16163a;
+  --border:#2a2a5a; --neon:#7c3aed; --neon2:#06b6d4;
+  --green:#10b981; --yellow:#fbbf24; --pink:#ec4899; --red:#ef4444;
+  --text:#e2e8f0; --text2:#94a3b8; --white:#ffffff;
+  --glow:0 0 20px rgba(124,58,237,.4); --glow2:0 0 20px rgba(6,182,212,.4);
+  --accent:#f59e0b; --glow4:0 0 20px rgba(245,158,11,.4);
+}
+body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; }
+body::before {
+  content:''; position:fixed; top:0;left:0;right:0;bottom:0;
+  background-image:radial-gradient(1px 1px at 20% 25%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 75%, rgba(255,255,255,.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.15) 0%, transparent 100%);
+  pointer-events:none; z-index:0;
+}
+.header {
+  background:linear-gradient(135deg, #1a1200 0%, #2a1500 50%, #1a0a00 100%);
+  border-bottom:2px solid var(--accent);
+  box-shadow:0 4px 30px rgba(245,158,11,.3);
+  position:sticky; top:0; z-index:100;
+}
+.header-inner { max-width:1100px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.week-badge { background:linear-gradient(135deg, #d97706, #b45309); border-radius:50px; padding:6px 18px; font-family:'Fredoka One',cursive; font-size:.9em; letter-spacing:.05em; box-shadow:var(--glow4); white-space:nowrap; }
+.header-text { flex:1; }
+.header-text h1 { font-family:'Fredoka One',cursive; font-size:clamp(1.3em,3vw,2em); background:linear-gradient(90deg, #fde68a, #fed7aa, #fecaca); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.header-text p { color:var(--text2); font-size:.88em; margin-top:2px; }
+.xp-badge { background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1200; border-radius:50px; padding:6px 16px; font-weight:900; font-size:.85em; white-space:nowrap; box-shadow:0 0 16px rgba(251,191,36,.4); }
+.progress-bar-wrap { background:var(--bg2); border-bottom:1px solid var(--border); padding:10px 32px; }
+.progress-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:12px; }
+.progress-label { font-size:.8em; color:var(--text2); white-space:nowrap; font-weight:700; }
+.progress-track { flex:1; height:10px; background:var(--bg3); border-radius:50px; overflow:hidden; border:1px solid var(--border); }
+.progress-fill { height:100%; width:40%; background:linear-gradient(90deg, var(--neon), var(--accent)); border-radius:50px; box-shadow:0 0 10px var(--accent); animation:progressLoad .8s ease-out forwards; }
+@keyframes progressLoad { from{width:0} to{width:40%} }
+.progress-steps { font-size:.8em; color:var(--text2); white-space:nowrap; }
+.container { max-width:1100px; margin:0 auto; padding:32px; position:relative; z-index:1; }
+.mission-card { background:linear-gradient(135deg, #1a1200 0%, #2a1a00 100%); border:2px solid var(--accent); border-radius:20px; padding:36px; margin-bottom:28px; box-shadow:var(--glow4), inset 0 1px 0 rgba(245,158,11,.2); position:relative; overflow:hidden; }
+.mission-card::before { content:'🛡️'; position:absolute; right:32px; top:50%; transform:translateY(-50%); font-size:5em; opacity:.08; }
+.mission-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(245,158,11,.2); border:1px solid var(--accent); border-radius:50px; padding:4px 14px; font-size:.78em; font-weight:800; color:#fde68a; letter-spacing:.05em; margin-bottom:16px; }
+.mission-card h2 { font-family:'Fredoka One',cursive; font-size:1.8em; color:var(--white); margin-bottom:12px; }
+.mission-card p { color:var(--text2); font-size:1em; max-width:700px; }
+.mission-rewards { display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+.reward-chip { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:50px; padding:6px 14px; font-size:.85em; font-weight:700; }
+.reward-chip.xp { color:var(--yellow); border-color:var(--yellow); }
+.reward-chip.badge { color:#fde68a; border-color:var(--accent); }
+.reward-chip.time { color:var(--accent); border-color:var(--accent); }
+.card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:24px; transition:border-color .2s, box-shadow .2s; animation:fadeUp .4s ease-out both; }
+.card:hover { border-color:var(--accent); box-shadow:var(--glow4); }
+.card:nth-child(2){animation-delay:.1s} .card:nth-child(3){animation-delay:.2s} .card:nth-child(4){animation-delay:.3s} .card:nth-child(5){animation-delay:.4s}
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+.card-icon { font-size:1.5em; }
+.card-title { font-family:'Fredoka One',cursive; font-size:1.3em; color:var(--white); }
+.card-subtitle { font-size:.82em; color:var(--text2); margin-top:2px; }
+.obj-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:12px; }
+.obj-item { background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.3); border-radius:12px; padding:14px 16px; display:flex; align-items:flex-start; gap:10px; transition:background .2s; }
+.obj-item:hover { background:rgba(245,158,11,.2); }
+.obj-num { background:var(--accent); color:var(--bg); width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75em; font-weight:900; flex-shrink:0; margin-top:1px; }
+.obj-text { font-size:.93em; font-weight:600; color:#fde68a; }
+.topic-block { background:var(--bg3); border-radius:12px; padding:22px 24px; margin-bottom:16px; border-left:4px solid var(--accent); transition:border-color .2s; }
+.topic-block:hover { border-color:var(--red); }
+.topic-block h3 { color:var(--accent); font-size:1.05em; font-weight:800; margin-bottom:10px; }
+.topic-block p { color:var(--text2); font-size:.95em; line-height:1.8; margin-bottom:10px; }
+.topic-block p:last-child { margin-bottom:0; }
+.highlight-box { background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.3); border-radius:8px; padding:12px 16px; margin-top:12px; font-size:.9em; color:#fde68a; }
+.highlight-box strong { color:var(--accent); }
+.alert-box { background:rgba(239,68,68,.08); border:1px solid rgba(239,68,68,.4); border-radius:8px; padding:12px 16px; margin-top:12px; font-size:.9em; color:#fca5a5; display:flex; gap:8px; }
+.alert-box::before { content:'⚠️'; flex-shrink:0; }
+.password-examples { display:grid; gap:8px; margin-top:10px; }
+.pw-row { display:flex; align-items:center; gap:12px; background:rgba(255,255,255,.03); border-radius:8px; padding:8px 12px; font-family:'JetBrains Mono',monospace; font-size:.85em; }
+.pw-bad { color:#f87171; flex:1; }
+.pw-good { color:#34d399; flex:1; }
+.pw-why { color:var(--text2); font-size:.8em; font-family:'Nunito',sans-serif; flex:1; }
+.threat-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-top:12px; }
+.threat-card { background:rgba(239,68,68,.06); border:1px solid rgba(239,68,68,.3); border-radius:10px; padding:14px; }
+.threat-name { font-weight:900; color:#f87171; margin-bottom:4px; font-size:.95em; }
+.threat-desc { color:var(--text2); font-size:.82em; line-height:1.6; }
+.threat-example { font-family:'JetBrains Mono',monospace; font-size:.78em; color:#fca5a5; margin-top:4px; background:rgba(239,68,68,.1); padding:4px 8px; border-radius:4px; }
+.quest-card { background:var(--bg3); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:16px; position:relative; overflow:hidden; transition:border-color .2s, box-shadow .2s; }
+.quest-card:hover { border-color:var(--accent); box-shadow:var(--glow4); }
+.quest-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:linear-gradient(180deg, var(--accent), var(--red)); }
+.quest-header { display:flex; align-items:flex-start; gap:14px; margin-bottom:14px; }
+.quest-num { background:linear-gradient(135deg, #d97706, #b45309); color:white; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka One',cursive; font-size:1.1em; flex-shrink:0; box-shadow:var(--glow4); }
+.quest-info { flex:1; }
+.quest-title { font-size:1.1em; font-weight:800; color:var(--white); margin-bottom:4px; }
+.quest-tags { display:flex; gap:8px; flex-wrap:wrap; }
+.qtag { background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:50px; padding:2px 10px; font-size:.78em; font-weight:700; color:var(--text2); }
+.qtag.xp { color:var(--yellow); border-color:rgba(251,191,36,.4); }
+.qtag.time { color:var(--accent); border-color:rgba(245,158,11,.3); }
+.quest-desc { color:var(--text2); font-size:.93em; line-height:1.7; margin-bottom:14px; }
+.steps-title { font-size:.85em; font-weight:800; color:#fde68a; margin-bottom:8px; letter-spacing:.05em; }
+.steps-list { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.steps-list li { display:flex; align-items:flex-start; gap:10px; font-size:.88em; color:var(--text2); background:rgba(255,255,255,.03); border-radius:8px; padding:8px 12px; }
+.step-num { background:rgba(245,158,11,.2); color:#fde68a; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75em; font-weight:900; flex-shrink:0; margin-top:1px; }
+.dica-box { background:rgba(251,191,36,.08); border:1px solid rgba(251,191,36,.3); border-radius:8px; padding:10px 14px; font-size:.85em; color:#fde68a; margin-top:12px; display:flex; gap:8px; }
+.dica-box::before { content:'💡'; flex-shrink:0; }
+.accordion-toggle { width:100%; background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.3); border-radius:8px; padding:10px 14px; color:#fde68a; font-weight:800; font-size:.85em; cursor:pointer; text-align:left; display:flex; align-items:center; gap:8px; margin-top:12px; transition:background .2s; font-family:'Nunito',sans-serif; }
+.accordion-toggle:hover { background:rgba(245,158,11,.2); }
+.accordion-content { display:none; margin-top:8px; }
+.accordion-content.open { display:block; }
+.rubrica-table { width:100%; border-collapse:collapse; font-size:.88em; margin-top:14px; }
+.rubrica-table th { background:rgba(245,158,11,.2); color:#fde68a; padding:10px 14px; text-align:left; font-weight:800; border-bottom:2px solid var(--accent); }
+.rubrica-table td { padding:9px 14px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:top; }
+.rubrica-table tr:last-child td { border-bottom:none; }
+.rubrica-table tr:hover td { background:rgba(255,255,255,.03); }
+.score-badge { display:inline-block; padding:2px 8px; border-radius:50px; font-weight:900; font-size:.85em; }
+.score-10 { background:rgba(16,185,129,.2); color:#34d399; }
+.score-7 { background:rgba(251,191,36,.2); color:#fbbf24; }
+.score-4 { background:rgba(239,68,68,.2); color:#f87171; }
+.recursos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px; }
+.recurso-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:18px; transition:border-color .2s, transform .2s; }
+.recurso-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+.recurso-icon { font-size:1.6em; margin-bottom:8px; }
+.recurso-title { font-weight:800; font-size:.9em; color:var(--white); margin-bottom:4px; }
+.recurso-desc { font-size:.82em; color:var(--text2); }
+.nav-bar { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 20px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:24px; }
+.nav-btn { padding:10px 20px; border-radius:10px; text-decoration:none; font-weight:800; font-size:.88em; transition:all .2s; display:inline-flex; align-items:center; gap:6px; border:none; cursor:pointer; }
+.nav-btn-primary { background:linear-gradient(135deg, var(--neon), #9333ea); color:white; box-shadow:var(--glow); }
+.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 30px rgba(124,58,237,.6); }
+.nav-btn-secondary { background:var(--bg3); color:var(--text); border:1px solid var(--border); }
+.nav-btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+.nav-btn-accent { background:linear-gradient(135deg, var(--green), #059669); color:white; }
+.nav-btn-accent:hover { transform:translateY(-2px); }
+.nav-spacer { flex:1; }
+/* QUIZ INTERATIVO */
+.quiz-block { background:rgba(245,158,11,.06); border:1px solid rgba(245,158,11,.3); border-radius:12px; padding:20px; margin-top:12px; }
+.quiz-title { font-weight:800; color:#fde68a; margin-bottom:14px; font-size:.95em; }
+.quiz-question { color:var(--text); font-size:.93em; margin-bottom:10px; font-weight:600; }
+.quiz-options { display:flex; flex-direction:column; gap:6px; }
+.quiz-option { background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:8px; padding:8px 14px; font-size:.88em; color:var(--text2); cursor:pointer; transition:all .2s; text-align:left; }
+.quiz-option:hover { border-color:var(--accent); color:var(--accent); }
+.quiz-option.correct { background:rgba(16,185,129,.15); border-color:var(--green); color:#34d399; }
+.quiz-option.wrong { background:rgba(239,68,68,.15); border-color:var(--red); color:#f87171; }
+.quiz-feedback { display:none; margin-top:10px; padding:10px 14px; border-radius:8px; font-size:.88em; font-weight:700; }
+.quiz-feedback.correct { background:rgba(16,185,129,.15); border:1px solid var(--green); color:#34d399; }
+.quiz-feedback.wrong { background:rgba(239,68,68,.15); border:1px solid var(--red); color:#f87171; }
+@media(max-width:768px) { .container{padding:16px} .card,.mission-card{padding:18px} .header-inner{padding:12px 16px} }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-badge">🛡️ SEMANA 04</span>
+    <div class="header-text">
+      <h1>Missão: Blindando sua Fortaleza</h1>
+      <p>TIC 2026 · Projetos de Tecnologia · ETEC · 1º Bimestre</p>
+    </div>
+    <span class="xp-badge">⭐ 300 XP disponíveis</span>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">📍 PROGRESSO DO CURSO</span>
+    <div class="progress-track"><div class="progress-fill"></div></div>
+    <span class="progress-steps">Semana 4 de 40</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <nav class="nav-bar">
+    <a href="semana03_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Mapa do Curso</a>
+    <a href="semana04_guia.html" class="nav-btn nav-btn-accent">📋 Guia Completo</a>
+    <span class="nav-spacer"></span>
+    <a href="semana05_aula.html" class="nav-btn nav-btn-primary">Próxima Missão ➡</a>
+  </nav>
+
+  <div class="mission-card">
+    <div class="mission-tag">🗺️ MISSÃO PRINCIPAL</div>
+    <h2>Segurança Digital — Proteja você e seus dados</h2>
+    <p>Toda semana, milhões de pessoas têm contas hackeadas, dados roubados, ou caem em golpes digitais. E a maioria poderia ter se protegido com medidas simples. Nesta missão, você vai aprender a se defender no mundo digital — conhecimento que vai usar pelo resto da vida.</p>
+    <div class="mission-rewards">
+      <span class="reward-chip xp">⭐ +300 XP</span>
+      <span class="reward-chip badge">🏅 Badge: Guardião Digital</span>
+      <span class="reward-chip time">⏱ 2h aula</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <div>
+        <div class="card-title">Objetivos da Missão</div>
+        <div class="card-subtitle">Conhecimento que você vai usar pelo resto da vida</div>
+      </div>
+    </div>
+    <div class="obj-grid">
+      <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Criar e gerenciar senhas fortes para todas as suas contas</span></div>
+      <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Identificar golpes digitais (phishing, engenharia social) antes de cair</span></div>
+      <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Configurar autenticação de dois fatores (2FA) nas contas principais</span></div>
+      <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Navegar com segurança e proteger sua privacidade online</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📖</span>
+      <div>
+        <div class="card-title">Conteúdo da Aula</div>
+        <div class="card-subtitle">Leia com atenção — isso pode salvar suas contas de um ataque</div>
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>🔐 Senhas: A Primeira e Mais Importante Defesa</h3>
+      <p>Hacker não precisa adivinhar sua senha. Ele usa programas que testam milhões de combinações por segundo. Uma senha como "123456" é quebrada em menos de 1 segundo. "Maria2010" em menos de 1 hora. Mas há formas de criar senhas impossíveis de quebrar que você ainda consegue lembrar.</p>
+      <div class="password-examples">
+        <div class="pw-row">
+          <span class="pw-bad">❌ 123456</span>
+          <span class="pw-good">✅ Tr3m@Bala!2026</span>
+          <span class="pw-why">Número simples vs frase com substituições</span>
+        </div>
+        <div class="pw-row">
+          <span class="pw-bad">❌ maria2010</span>
+          <span class="pw-good">✅ Gat0Pr3t0#Voa!</span>
+          <span class="pw-why">Nome e ano vs frase criativa com símbolos</span>
+        </div>
+        <div class="pw-row">
+          <span class="pw-bad">❌ senha1234</span>
+          <span class="pw-good">✅ C4fe!QuEnte@Manha</span>
+          <span class="pw-why">Palavra óbvia vs frase transformada</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>🔑 Técnica da FRASE-SENHA:</strong> Pense em uma frase fácil de lembrar, como "Eu tomo café às 7 da manhã". Transforme: "EuTomoCafe@7DaManha!". Longa, pessoal, difícil de quebrar!<br><br>
+        <strong>Regras de uma senha forte:</strong> 12+ caracteres · Letras maiúsculas E minúsculas · Números · Símbolos (!@#$%) · Nada óbvio (nome, data de nascimento, sequências)
+      </div>
+      <div class="alert-box">
+        NUNCA use a mesma senha em dois sites. Se um site for hackeado e vazar sua senha, o hacker vai tentar essa mesma senha em seu e-mail, banco, redes sociais, etc. Use um gerenciador de senhas!
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>🔑 Gerenciadores de Senha: Seu Cofre Digital</h3>
+      <p>A solução para ter senhas fortes E diferentes em todos os sites é usar um <strong>gerenciador de senhas</strong>. Você tem apenas UMA senha mestra para lembrar — todas as outras ficam guardadas e criptografadas no gerenciador.</p>
+      <div class="highlight-box">
+        <strong>🛠️ Gerenciadores de senha gratuitos e confiáveis:</strong><br>
+        • <strong>Bitwarden</strong> — bitwarden.com — completamente gratuito, open source, o mais recomendado<br>
+        • <strong>Google Senha</strong> — passwords.google.com — já integrado no Chrome e Android<br>
+        • <strong>KeePass</strong> — armazena localmente, sem internet<br>
+        <br>
+        <strong>Como funciona:</strong> Quando você cria uma conta em um site, o gerenciador sugere uma senha forte e guarda automaticamente. Na próxima vez, preenche sozinho!
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>📱 Autenticação de Dois Fatores (2FA): A Trava Extra</h3>
+      <p>Mesmo que alguém descubra sua senha, o 2FA impede o acesso. Com 2FA ativado, além da senha, é necessário um segundo código (geralmente enviado por SMS ou gerado por um app) que muda a cada 30 segundos.</p>
+      <p>É como ter fechadura E cadeado na porta. Mesmo que o ladrão quebre a fechadura, ainda tem o cadeado.</p>
+      <div class="highlight-box">
+        <strong>🔧 Como ativar 2FA no Google:</strong><br>
+        1. Acesse myaccount.google.com<br>
+        2. Clique em "Segurança" no menu esquerdo<br>
+        3. Em "Como você faz login no Google", clique em "Verificação em duas etapas"<br>
+        4. Siga as instruções. Você pode usar SMS ou o app Google Authenticator<br>
+        <br>
+        <strong>Ative também em:</strong> Instagram, Facebook, e-mail, Discord, qualquer coisa importante!
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>🎣 Phishing: Reconhecendo Armadilhas</h3>
+      <p>Phishing (pronuncia-se "fíching") é quando alguém se faz passar por uma empresa ou pessoa confiável para roubar suas informações. É o tipo de ataque mais comum — e quase sempre funciona porque parece real.</p>
+      <div class="threat-grid">
+        <div class="threat-card">
+          <div class="threat-name">📧 Phishing por E-mail</div>
+          <div class="threat-desc">E-mail parecendo ser do banco dizendo que sua conta foi bloqueada. Link leva a site falso idêntico ao real.</div>
+          <div class="threat-example">De: seubanco@gmail.com (falso!)<br>"Urgente: verifique sua conta"</div>
+        </div>
+        <div class="threat-card">
+          <div class="threat-name">📱 SMS Falso</div>
+          <div class="threat-desc">SMS do "Correios" ou "Receita Federal" pedindo para clicar em link para desbloquear entrega ou evitar multa.</div>
+          <div class="threat-example">Link: correios-rastreio.com.br (falso!)</div>
+        </div>
+        <div class="threat-card">
+          <div class="threat-name">💬 WhatsApp Golpe</div>
+          <div class="threat-desc">Mensagem do "número novo" de um amigo ou familiar pedindo dinheiro urgente. Conta clonada ou hackeada.</div>
+          <div class="threat-example">"Oi, sou eu! Muda de número, preciso de pix urgente"</div>
+        </div>
+        <div class="threat-card">
+          <div class="threat-name">🌐 Site Falso</div>
+          <div class="threat-desc">Site com visual idêntico ao real mas URL diferente. Qualquer dado digitado vai para o golpista.</div>
+          <div class="threat-example">faceb00k.com vs facebook.com</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>🛡️ Como identificar golpe ANTES de clicar:</strong><br>
+        • Olhe o remetente do e-mail — banco real não usa @gmail.com<br>
+        • Passe o mouse sobre links SEM clicar — veja o URL que aparece no rodapé<br>
+        • Site real de banco começa com "https://" E tem o cadeado no navegador<br>
+        • Desconfie de URGÊNCIA excessiva — "sua conta será bloqueada em 24h!!"<br>
+        • Em caso de dúvida: acesse o site digitando diretamente no navegador, NUNCA clique em link de e-mail
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>🔒 Privacidade Online: O que você compartilha importa</h3>
+      <p>Tudo que você posta online pode ser encontrado por recrutadores, faculdades, parceiros de negócios — e por golpistas. Uma foto com a placa do carro, endereço de casa, ou rotina do dia-a-dia pode ser usada por quem tem má intenção.</p>
+      <div class="highlight-box">
+        <strong>✅ Boas práticas de privacidade:</strong><br>
+        • Configure seu Instagram/Facebook como privado<br>
+        • Não poste fotos com localização de casa ou escola habilitada<br>
+        • Pesquise seu próprio nome no Google — o que aparece?<br>
+        • Use e-mail diferente para cadastros de sites (cria spam) vs e-mail principal<br>
+        • Nunca cadastre cartão de crédito em sites desconhecidos<br>
+        • Use CartãoVirtual para compras online (Nubank, Itaú e outros bancos oferecem)
+      </div>
+    </div>
+
+    <!-- QUIZ INTERATIVO -->
+    <div class="quiz-block">
+      <div class="quiz-title">🎮 MINI QUIZ — Teste seus conhecimentos!</div>
+      <div class="quiz-question">Você recebe um e-mail do "Bradesco" dizendo "Sua conta foi bloqueada. Clique aqui para desbloquear em 24h". O e-mail veio de: suporte@bradesco-banco.net. O que você deve fazer?</div>
+      <div class="quiz-options" id="quiz1">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'quiz1-fb', 'Cuidado! O e-mail veio de um domínio suspeito (.net e com hífen). Banco real usa @bradesco.com.br. NUNCA clique!')">A) Clicar no link e verificar a conta rapidamente</button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'quiz1-fb', '✅ Correto! E-mail suspeito (domínio .net), urgência criada artificialmente, link não confiável. Acesse sempre pelo app do banco ou digitando o site diretamente.')">B) Ignorar o e-mail e acessar o banco diretamente pelo app ou site oficial</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'quiz1-fb', 'Não! Encaminhar propaga o phishing. Apenas delete e acesse seu banco diretamente.')">C) Encaminhar para amigos avisando do problema</button>
+      </div>
+      <div class="quiz-feedback" id="quiz1-fb"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">⚔️</span>
+      <div>
+        <div class="card-title">Missões Práticas</div>
+        <div class="card-subtitle">3 exercícios · Segurança começa com ação, não com teoria</div>
+      </div>
+    </div>
+
+    <div class="quest-card">
+      <div class="quest-header">
+        <div class="quest-num">1</div>
+        <div class="quest-info">
+          <div class="quest-title">🔑 Auditoria de Senhas + 2FA</div>
+          <div class="quest-tags">
+            <span class="qtag time">⏱ 30 min</span>
+            <span class="qtag xp">⭐ 100 XP</span>
+            <span class="qtag">🔐 Google Conta + Docs</span>
+          </div>
+        </div>
+      </div>
+      <div class="quest-desc">Você vai fazer uma auditoria de segurança das suas contas principais e ativar o 2FA no Google. Isso deixa sua conta Google — que você vai usar o ano inteiro — muito mais segura.</div>
+      <div class="steps-title">📋 PASSO A PASSO:</div>
+      <ol class="steps-list">
+        <li><div class="step-num">1</div>Acesse myaccount.google.com > aba Segurança. Veja o seu "Score de segurança" (se tiver). Tire um print desta tela.</li>
+        <li><div class="step-num">2</div>Em Segurança > "Verificação em duas etapas" > ative o 2FA. Escolha SMS (mais fácil para começar). Depois de ativar, tire um print mostrando que está ativo.</li>
+        <li><div class="step-num">3</div>Crie um Google Docs chamado: <span style="font-family:'JetBrains Mono'; color:#fde68a;">auditoria_seguranca_semana04_seu_nome</span></li>
+        <li><div class="step-num">4</div>No documento, crie uma tabela com 3 colunas: "Site/App" | "Senha Forte? (Sim/Não)" | "2FA Ativo? (Sim/Não)". Não escreva as senhas — apenas avalie se cada uma é forte ou fraca seguindo as regras que você aprendeu.</li>
+        <li><div class="step-num">5</div>Liste pelo menos 8 contas que você tem (Google, Instagram, WhatsApp escola, Spotify, etc). Seja honesto na avaliação — se a senha for fraca, escreva "Não".</li>
+        <li><div class="step-num">6</div>Ao final, escreva um plano de ação: quais contas com senha fraca você vai trocar primeiro? Em que ordem? Por que essa prioridade?</li>
+        <li><div class="step-num">7</div>Cole os prints de evidência no documento.</li>
+      </ol>
+      <div class="dica-box">Não sabe se sua senha vazou em algum ataque? Acesse haveibeenpwned.com e verifique seu e-mail. É um site seguro, criado por pesquisadores de segurança, que mostra se seu e-mail apareceu em vazamentos de dados.</div>
+
+      <button class="accordion-toggle" onclick="toggleAcc(this)">📊 Ver Rubrica de Avaliação ▼</button>
+      <div class="accordion-content">
+        <table class="rubrica-table">
+          <tr><th>Critério</th><th>Completo <span class="score-badge score-10">10</span></th><th>Parcial <span class="score-badge score-7">7</span></th><th>Iniciante <span class="score-badge score-4">4</span></th></tr>
+          <tr><td><strong>2FA</strong></td><td>2FA ativado na conta Google com print de evidência</td><td>Tentou mas não conseguiu ativar (com print mostrando tentativa)</td><td>Sem evidência de tentativa</td></tr>
+          <tr><td><strong>Auditoria</strong></td><td>8+ contas avaliadas honestamente com justificativa clara sobre forte/fraco</td><td>5-7 contas</td><td>Menos de 5</td></tr>
+          <tr><td><strong>Plano</strong></td><td>Plano de ação com prioridades claras e justificadas</td><td>Plano sem justificativa</td><td>Sem plano</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="quest-card">
+      <div class="quest-header">
+        <div class="quest-num">2</div>
+        <div class="quest-info">
+          <div class="quest-title">🎣 Detetive de Phishing</div>
+          <div class="quest-tags">
+            <span class="qtag time">⏱ 35 min</span>
+            <span class="qtag xp">⭐ 100 XP</span>
+            <span class="qtag">🔍 Análise + Apresentação</span>
+          </div>
+        </div>
+      </div>
+      <div class="quest-desc">Você vai pesquisar exemplos reais de phishing no Google, analisar o que os torna convincentes, e criar um "Guia de Como Não Cair em Golpes" para compartilhar com família ou amigos. Você vai se tornar especialista em detectar fraudes!</div>
+      <div class="steps-title">📋 PASSO A PASSO:</div>
+      <ol class="steps-list">
+        <li><div class="step-num">1</div>Pesquise no Google: "exemplos de phishing brasil 2024 2025". Encontre pelo menos 3 exemplos diferentes de golpes digitais (pode ser e-mail falso, SMS, WhatsApp, etc).</li>
+        <li><div class="step-num">2</div>Para cada exemplo encontrado, salve o print ou link e identifique: Que empresa/pessoa o golpista está se passando? Qual técnica de manipulação usou (urgência, medo, prêmio)? Como você pode saber que é falso?</li>
+        <li><div class="step-num">3</div>Crie uma apresentação no Canva ou Google Slides chamada: <span style="font-family:'JetBrains Mono'; color:#fde68a;">guia_anti_golpe_seu_nome</span></li>
+        <li><div class="step-num">4</div>A apresentação deve ter: Slide 1 (Capa) · Slides 2-4 (Um golpe analisado por slide — imagem + análise) · Slide 5 (Suas 5 regras de ouro para não cair em golpe) · Slide 6 (O que fazer SE você cair em um golpe)</li>
+        <li><div class="step-num">5</div>No Slide 6, pesquise: o que fazer se sua conta for hackeada? Se você cair em golpe de pix? Se seu celular for roubado? Escreva os passos corretos.</li>
+      </ol>
+      <div class="dica-box">Pesquise também no YouTube: "golpes digitais brasil 2025". Existem vídeos excelentes com análises de golpes reais. Canal "Tobias Vargas" e "Kaspersky BR" têm conteúdo ótimo sobre o assunto!</div>
+
+      <button class="accordion-toggle" onclick="toggleAcc(this)">📊 Ver Rubrica de Avaliação ▼</button>
+      <div class="accordion-content">
+        <table class="rubrica-table">
+          <tr><th>Critério</th><th>Completo <span class="score-badge score-10">10</span></th><th>Parcial <span class="score-badge score-7">7</span></th><th>Iniciante <span class="score-badge score-4">4</span></th></tr>
+          <tr><td><strong>Pesquisa</strong></td><td>3 golpes reais analisados com identificação correta das técnicas de manipulação</td><td>2 golpes analisados</td><td>1 ou sem análise real</td></tr>
+          <tr><td><strong>Guia</strong></td><td>5 regras claras, práticas e bem explicadas com base no que aprendeu</td><td>Regras genéricas ou sem base</td><td>Menos de 3 regras</td></tr>
+          <tr><td><strong>Plano de Resposta</strong></td><td>Passos corretos e específicos para 3 situações de emergência pesquisados e bem descritos</td><td>1-2 situações cobertas</td><td>Sem plano de resposta</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="quest-card">
+      <div class="quest-header">
+        <div class="quest-num">3</div>
+        <div class="quest-info">
+          <div class="quest-title">🔒 Configurando sua Privacidade</div>
+          <div class="quest-tags">
+            <span class="qtag time">⏱ 25 min</span>
+            <span class="qtag xp">⭐ 100 XP</span>
+            <span class="qtag">⚙️ Configurações + Docs</span>
+          </div>
+        </div>
+      </div>
+      <div class="quest-desc">Você vai configurar as definições de privacidade de suas contas principais e documentar o que fez. Não precisa mudar tudo — mas vai saber o que cada configuração faz e decidir conscientemente.</div>
+      <div class="steps-title">📋 PASSO A PASSO:</div>
+      <ol class="steps-list">
+        <li><div class="step-num">1</div>Acesse as configurações de privacidade do seu Instagram (ou outra rede social que você usa). Configure: conta privada? sim/não — justifique sua escolha. Quem pode te marcar em fotos? Quem pode ver seus seguidores?</li>
+        <li><div class="step-num">2</div>Acesse myaccount.google.com > Dados e Privacidade. Veja quais apps têm acesso à sua conta Google (pode surpreender!). Remova o acesso de apps desconhecidos ou que você não usa mais.</li>
+        <li><div class="step-num">3</div>Pesquise seu nome completo no Google. O que aparece? (ex: redes sociais, fotos, comentários). Anote o que você encontrou.</li>
+        <li><div class="step-num">4</div>Crie um Google Docs chamado: <span style="font-family:'JetBrains Mono'; color:#fde68a;">configuracao_privacidade_semana04_seu_nome</span></li>
+        <li><div class="step-num">5</div>No documento, para cada ação acima, escreva: O que você encontrou/viu e O que você decidiu fazer e por quê. Não existe resposta errada — o importante é a justificativa consciente.</li>
+        <li><div class="step-num">6</div>Ao final, escreva: "Minha pegada digital" — um parágrafo descrevendo o que alguém saberia sobre você só pesquisando seu nome no Google. Isso é a sua pegada digital!</li>
+      </ol>
+      <div class="dica-box">A pegada digital não some facilmente — coisas que você posta hoje podem aparecer em buscas daqui a anos. Recrutadores e faculdades pesquisam candidatos no Google. O que aparece sobre você diz muito sobre quem você é!</div>
+
+      <button class="accordion-toggle" onclick="toggleAcc(this)">📊 Ver Rubrica de Avaliação ▼</button>
+      <div class="accordion-content">
+        <table class="rubrica-table">
+          <tr><th>Critério</th><th>Completo <span class="score-badge score-10">10</span></th><th>Parcial <span class="score-badge score-7">7</span></th><th>Iniciante <span class="score-badge score-4">4</span></th></tr>
+          <tr><td><strong>Ação</strong></td><td>Todas as 3 atividades realizadas com prints de evidência</td><td>2 atividades com evidência</td><td>1 ou sem evidência</td></tr>
+          <tr><td><strong>Reflexão</strong></td><td>Cada decisão justificada com argumentos próprios, mostrando compreensão das implicações</td><td>Justificativas superficiais</td><td>Sem justificativas</td></tr>
+          <tr><td><strong>Pegada Digital</strong></td><td>Parágrafo reflexivo e honesto sobre a pegada digital pessoal, com implicações futuras</td><td>Descrição básica sem reflexão</td><td>Sem análise da pegada digital</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔗</span>
+      <div>
+        <div class="card-title">Arsenal do Herói</div>
+        <div class="card-subtitle">Ferramentas e recursos de segurança digital</div>
+      </div>
+    </div>
+    <div class="recursos-grid">
+      <div class="recurso-card">
+        <div class="recurso-icon">🔍</div>
+        <div class="recurso-title">Have I Been Pwned?</div>
+        <div class="recurso-desc">haveibeenpwned.com — veja se seu e-mail já vazou em algum ataque</div>
+      </div>
+      <div class="recurso-card">
+        <div class="recurso-icon">🔑</div>
+        <div class="recurso-title">Bitwarden</div>
+        <div class="recurso-desc">bitwarden.com — gerenciador de senhas gratuito e confiável</div>
+      </div>
+      <div class="recurso-card">
+        <div class="recurso-icon">▶️</div>
+        <div class="recurso-title">YouTube</div>
+        <div class="recurso-desc">Pesquise: "como ativar 2fa google" ou "golpes digitais como se proteger"</div>
+      </div>
+      <div class="recurso-card">
+        <div class="recurso-icon">🛡️</div>
+        <div class="recurso-title">SaferNet Brasil</div>
+        <div class="recurso-desc">safernet.org.br — Central de denúncias e educação digital</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="semana03_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Mapa do Curso</a>
+    <a href="semana04_guia.html" class="nav-btn nav-btn-accent">📋 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="semana05_aula.html" class="nav-btn nav-btn-primary">Próxima Missão ➡</a>
+  </nav>
+
+</div>
+
+<script>
+function toggleAcc(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.textContent = content.classList.contains('open')
+    ? btn.textContent.replace('▼','▲')
+    : btn.textContent.replace('▲','▼');
+}
+
+function checkQuiz(btn, isCorrect, feedbackId, msg) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  const fb = document.getElementById(feedbackId);
+  fb.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
+  fb.textContent = msg;
+  fb.style.display = 'block';
+}
+</script>
+</body>
+</html>

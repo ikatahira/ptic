@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 01 – Missão: Início da Jornada | TIC 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg: #0d0d1a;
+  --bg2: #13132a;
+  --bg3: #1a1a35;
+  --card: #16163a;
+  --border: #2a2a5a;
+  --neon: #7c3aed;
+  --neon2: #06b6d4;
+  --green: #10b981;
+  --yellow: #fbbf24;
+  --pink: #ec4899;
+  --red: #ef4444;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --white: #ffffff;
+  --glow: 0 0 20px rgba(124,58,237,.4);
+  --glow2: 0 0 20px rgba(6,182,212,.4);
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* STARS BG */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 15%, rgba(255,255,255,.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 90%, rgba(255,255,255,.1) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #1a0a3a 0%, #0a1a3a 50%, #1a0a2a 100%);
+  border-bottom: 2px solid var(--neon);
+  box-shadow: 0 4px 30px rgba(124,58,237,.3);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 16px 32px;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.week-badge {
+  background: linear-gradient(135deg, var(--neon), #9333ea);
+  border-radius: 50px; padding: 6px 18px;
+  font-family: 'Fredoka One', cursive;
+  font-size: .9em; letter-spacing: .05em;
+  box-shadow: var(--glow);
+  white-space: nowrap;
+}
+.header-text { flex: 1; }
+.header-text h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.3em, 3vw, 2em);
+  background: linear-gradient(90deg, #a78bfa, #38bdf8, #34d399);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: .02em;
+}
+.header-text p { color: var(--text2); font-size: .88em; margin-top: 2px; }
+.xp-badge {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1a1200; border-radius: 50px; padding: 6px 16px;
+  font-weight: 900; font-size: .85em; white-space: nowrap;
+  box-shadow: 0 0 16px rgba(251,191,36,.4);
+}
+
+/* PROGRESS BAR */
+.progress-bar-wrap {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 10px 32px;
+}
+.progress-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+.progress-label { font-size: .8em; color: var(--text2); white-space: nowrap; font-weight: 700; }
+.progress-track {
+  flex: 1; height: 10px; background: var(--bg3);
+  border-radius: 50px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-fill {
+  height: 100%; width: 10%;
+  background: linear-gradient(90deg, var(--neon), var(--neon2));
+  border-radius: 50px;
+  box-shadow: 0 0 10px var(--neon);
+  animation: progressLoad .8s ease-out forwards;
+}
+@keyframes progressLoad { from { width: 0 } to { width: 10% } }
+.progress-steps { font-size: .8em; color: var(--text2); white-space: nowrap; }
+
+/* CONTAINER */
+.container { max-width: 1100px; margin: 0 auto; padding: 32px; position: relative; z-index: 1; }
+
+/* MISSION CARD (hero) */
+.mission-card {
+  background: linear-gradient(135deg, #1a0a3a 0%, #0a1a3a 100%);
+  border: 2px solid var(--neon);
+  border-radius: 20px; padding: 36px;
+  margin-bottom: 28px;
+  box-shadow: var(--glow), inset 0 1px 0 rgba(124,58,237,.2);
+  position: relative; overflow: hidden;
+}
+.mission-card::before {
+  content: '🚀';
+  position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
+  font-size: 5em; opacity: .08;
+}
+.mission-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(124,58,237,.2); border: 1px solid var(--neon);
+  border-radius: 50px; padding: 4px 14px;
+  font-size: .78em; font-weight: 800; color: #a78bfa;
+  letter-spacing: .05em; margin-bottom: 16px;
+}
+.mission-card h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.8em; color: var(--white);
+  margin-bottom: 12px;
+}
+.mission-card p { color: var(--text2); font-size: 1em; max-width: 700px; }
+.mission-rewards {
+  display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;
+}
+.reward-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  border-radius: 50px; padding: 6px 14px;
+  font-size: .85em; font-weight: 700;
+}
+.reward-chip.xp { color: var(--yellow); border-color: var(--yellow); }
+.reward-chip.badge { color: #a78bfa; border-color: var(--neon); }
+.reward-chip.time { color: var(--neon2); border-color: var(--neon2); }
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px;
+  margin-bottom: 24px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.card:hover { border-color: var(--neon); box-shadow: var(--glow); }
+.card-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.card-icon { font-size: 1.5em; }
+.card-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3em; color: var(--white);
+  letter-spacing: .02em;
+}
+.card-subtitle { font-size: .82em; color: var(--text2); margin-top: 2px; }
+
+/* OBJETIVOS */
+.obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 12px; }
+.obj-item {
+  background: rgba(124,58,237,.1);
+  border: 1px solid rgba(124,58,237,.3);
+  border-radius: 12px; padding: 14px 16px;
+  display: flex; align-items: flex-start; gap: 10px;
+  transition: background .2s;
+}
+.obj-item:hover { background: rgba(124,58,237,.2); }
+.obj-num {
+  background: var(--neon); color: white;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75em; font-weight: 900; flex-shrink: 0; margin-top: 1px;
+}
+.obj-text { font-size: .93em; font-weight: 600; color: #c4b5fd; }
+
+/* CONTEUDO */
+.topic-block {
+  background: var(--bg3);
+  border-radius: 12px; padding: 22px 24px;
+  margin-bottom: 16px;
+  border-left: 4px solid var(--neon2);
+  transition: border-color .2s;
+}
+.topic-block:hover { border-color: var(--neon); }
+.topic-block h3 {
+  color: var(--neon2); font-size: 1.05em; font-weight: 800;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.topic-block p { color: var(--text2); font-size: .95em; line-height: 1.8; margin-bottom: 10px; }
+.topic-block p:last-child { margin-bottom: 0; }
+.highlight-box {
+  background: rgba(6,182,212,.08);
+  border: 1px solid rgba(6,182,212,.3);
+  border-radius: 8px; padding: 12px 16px;
+  margin-top: 12px; font-size: .9em; color: #7dd3fc;
+}
+.highlight-box strong { color: var(--neon2); }
+.code-example {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0a0a1a; border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 16px;
+  font-size: .85em; color: #34d399; margin-top: 10px;
+  overflow-x: auto; white-space: pre-wrap;
+}
+
+/* EXERCÍCIOS */
+.quest-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px;
+  margin-bottom: 16px; position: relative; overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.quest-card:hover { border-color: var(--neon2); box-shadow: var(--glow2); }
+.quest-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, var(--neon), var(--neon2));
+}
+.quest-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+.quest-num {
+  background: linear-gradient(135deg, var(--neon), #9333ea);
+  color: white; width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fredoka One', cursive; font-size: 1.1em; flex-shrink: 0;
+  box-shadow: var(--glow);
+}
+.quest-info { flex: 1; }
+.quest-title { font-size: 1.1em; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.quest-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.qtag {
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  border-radius: 50px; padding: 2px 10px;
+  font-size: .78em; font-weight: 700; color: var(--text2);
+}
+.qtag.xp { color: var(--yellow); border-color: rgba(251,191,36,.4); }
+.qtag.time { color: var(--neon2); border-color: rgba(6,182,212,.3); }
+.quest-desc { color: var(--text2); font-size: .93em; line-height: 1.7; margin-bottom: 14px; }
+.steps-title { font-size: .85em; font-weight: 800; color: #a78bfa; margin-bottom: 8px; letter-spacing: .05em; }
+.steps-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.steps-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: .88em; color: var(--text2);
+  background: rgba(255,255,255,.03); border-radius: 8px; padding: 8px 12px;
+}
+.step-num {
+  background: rgba(124,58,237,.3); color: #a78bfa;
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75em; font-weight: 900; flex-shrink: 0; margin-top: 1px;
+}
+.dica-box {
+  background: rgba(251,191,36,.08);
+  border: 1px solid rgba(251,191,36,.3);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: .85em; color: #fde68a; margin-top: 12px;
+  display: flex; gap: 8px;
+}
+.dica-box::before { content: '💡'; flex-shrink: 0; }
+
+/* RUBRICA */
+.rubrica-table {
+  width: 100%; border-collapse: collapse; font-size: .88em;
+  margin-top: 14px;
+}
+.rubrica-table th {
+  background: rgba(124,58,237,.2); color: #a78bfa;
+  padding: 10px 14px; text-align: left; font-weight: 800;
+  border-bottom: 2px solid var(--neon);
+}
+.rubrica-table td {
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text2); vertical-align: top;
+}
+.rubrica-table tr:last-child td { border-bottom: none; }
+.rubrica-table tr:hover td { background: rgba(255,255,255,.03); }
+.score-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 50px;
+  font-weight: 900; font-size: .85em;
+}
+.score-10 { background: rgba(16,185,129,.2); color: #34d399; }
+.score-7 { background: rgba(251,191,36,.2); color: #fbbf24; }
+.score-4 { background: rgba(239,68,68,.2); color: #f87171; }
+
+/* RECURSOS */
+.recursos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; }
+.recurso-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px;
+  transition: border-color .2s, transform .2s;
+  cursor: pointer;
+}
+.recurso-card:hover { border-color: var(--neon2); transform: translateY(-2px); }
+.recurso-icon { font-size: 1.6em; margin-bottom: 8px; }
+.recurso-title { font-weight: 800; font-size: .9em; color: var(--white); margin-bottom: 4px; }
+.recurso-desc { font-size: .82em; color: var(--text2); }
+
+/* NAV */
+.nav-bar {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 20px;
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 24px;
+}
+.nav-btn {
+  padding: 10px 20px; border-radius: 10px;
+  text-decoration: none; font-weight: 800; font-size: .88em;
+  transition: all .2s; display: inline-flex; align-items: center; gap: 6px;
+  border: none; cursor: pointer;
+}
+.nav-btn-primary {
+  background: linear-gradient(135deg, var(--neon), #9333ea);
+  color: white; box-shadow: var(--glow);
+}
+.nav-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(124,58,237,.6); }
+.nav-btn-secondary {
+  background: var(--bg3); color: var(--text);
+  border: 1px solid var(--border);
+}
+.nav-btn-secondary:hover { border-color: var(--neon2); color: var(--neon2); }
+.nav-btn-accent {
+  background: linear-gradient(135deg, var(--green), #059669);
+  color: white;
+}
+.nav-btn-accent:hover { transform: translateY(-2px); }
+.nav-btn-disabled { opacity: .3; pointer-events: none; background: var(--bg3); color: var(--text2); }
+.nav-spacer { flex: 1; }
+
+/* SECTION DIVIDER */
+.section-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 8px 0 20px;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: .9em; color: var(--text2); letter-spacing: .08em;
+}
+
+/* ACCORDION for rubricas */
+.accordion-toggle {
+  width: 100%; background: rgba(124,58,237,.1);
+  border: 1px solid rgba(124,58,237,.3);
+  border-radius: 8px; padding: 10px 14px;
+  color: #a78bfa; font-weight: 800; font-size: .85em;
+  cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px;
+  margin-top: 12px; transition: background .2s;
+}
+.accordion-toggle:hover { background: rgba(124,58,237,.2); }
+.accordion-content { display: none; margin-top: 8px; }
+.accordion-content.open { display: block; }
+
+/* SCROLL ANIMATION */
+.card, .quest-card, .mission-card {
+  animation: fadeUp .4s ease-out both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card:nth-child(2) { animation-delay: .1s; }
+.card:nth-child(3) { animation-delay: .2s; }
+.card:nth-child(4) { animation-delay: .3s; }
+.card:nth-child(5) { animation-delay: .4s; }
+
+@media(max-width: 768px) {
+  .container { padding: 16px; }
+  .card, .mission-card { padding: 18px; }
+  .header-inner { padding: 12px 16px; }
+  .progress-bar-wrap { padding: 8px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-badge">⚔️ SEMANA 01</span>
+    <div class="header-text">
+      <h1>Missão: Início da Jornada</h1>
+      <p>TIC 2026 · Projetos de Tecnologia · ETEC · 1º Bimestre</p>
+    </div>
+    <span class="xp-badge">⭐ 300 XP disponíveis</span>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">📍 PROGRESSO DO CURSO</span>
+    <div class="progress-track"><div class="progress-fill"></div></div>
+    <span class="progress-steps">Semana 1 de 40</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- NAV TOPO -->
+  <nav class="nav-bar">
+    <span class="nav-btn nav-btn-disabled">⬅ Anterior</span>
+    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Mapa do Curso</a>
+    <a href="semana01_guia.html" class="nav-btn nav-btn-accent">📋 Guia Completo</a>
+    <span class="nav-spacer"></span>
+    <a href="semana02_aula.html" class="nav-btn nav-btn-primary">Próxima Missão ➡</a>
+  </nav>
+
+  <!-- MISSÃO HERO -->
+  <div class="mission-card">
+    <div class="mission-tag">🗺️ MISSÃO PRINCIPAL</div>
+    <h2>Bem-vindo ao Curso de TIC!</h2>
+    <p>Sua jornada começa agora. Nesta primeira semana, você vai descobrir o que vai aprender durante todo o ano, por que esse conhecimento vai mudar sua vida profissional, e vai criar seu ambiente digital de trabalho. Prepare-se para uma aventura de 40 semanas!</p>
+    <div class="mission-rewards">
+      <span class="reward-chip xp">⭐ +300 XP</span>
+      <span class="reward-chip badge">🏅 Badge: Explorador Digital</span>
+      <span class="reward-chip time">⏱ 2h aula</span>
+    </div>
+  </div>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <div>
+        <div class="card-title">Objetivos da Missão</div>
+        <div class="card-subtitle">O que você vai ser capaz de fazer ao final desta aula</div>
+      </div>
+    </div>
+    <div class="obj-grid">
+      <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Entender a estrutura completa do curso e o que vai aprender em cada módulo</span></div>
+      <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Compreender por que TIC é essencial para quem quer trabalhar com tecnologia</span></div>
+      <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Criar seu primeiro documento digital de apresentação pessoal</span></div>
+      <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Estabelecer metas reais de aprendizado para o ano letivo</span></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO RICO -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📖</span>
+      <div>
+        <div class="card-title">Conteúdo da Aula</div>
+        <div class="card-subtitle">Leia com atenção — vai precisar disso nos exercícios!</div>
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>🌍 Por que TIC mudou o mundo?</h3>
+      <p>Você usa celular para tudo: conversar, jogar, assistir vídeos, fazer pesquisas. Mas você já parou para pensar <strong>quem fez</strong> esses aplicativos? Foram pessoas como você, que aprenderam tecnologia da informação e criaram soluções para o mundo!</p>
+      <p>Hoje, 2026, praticamente toda profissão usa computadores. Médico usa software para diagnóstico. Arquiteto usa computador para projetar. Músico usa IA para criar. Agricultor usa drones e apps. <strong>Saber usar tecnologia com eficiência não é um diferencial — é o básico.</strong></p>
+      <div class="highlight-box">
+        <strong>💡 Dado real:</strong> Segundo o LinkedIn, profissionais com habilidades digitais ganham em média 30% mais do que quem não tem. E a demanda por esses profissionais cresce 25% ao ano no Brasil.
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>🗺️ O Mapa da Sua Jornada: 4 Módulos em 40 Semanas</h3>
+      <p>O curso está dividido em <strong>4 grandes módulos</strong>, cada um com 10 semanas. Pense em cada módulo como uma "fase" do game:</p>
+      <p><strong>📁 Módulo 1 – Gerenciamento de Arquivos (Semanas 1-10):</strong> Você aprende a dominar seu ambiente digital. Organizar arquivos, usar a nuvem, digitar rápido, criar documentos profissionais. Parece básico, mas profissionais que não dominam isso perdem horas toda semana!</p>
+      <p><strong>🧠 Módulo 2 – Pensamento Computacional (Semanas 11-20):</strong> Você começa a pensar como um computador: lógica, algoritmos, resolução de problemas. Essa é a base de toda programação — mesmo sem escrever uma linha de código.</p>
+      <p><strong>🤖 Módulo 3 – Inteligência Artificial (Semanas 21-30):</strong> IA está em todo lugar. Você vai aprender como funciona, como usar IA para trabalhar mais rápido, e como não ser substituído por ela.</p>
+      <p><strong>🏗️ Módulo 4 – Projetos Práticos (Semanas 31-40):</strong> Agora você usa tudo que aprendeu para criar projetos reais. Um site, um sistema, uma solução para um problema real da sua escola ou comunidade.</p>
+      <div class="highlight-box">
+        <strong>🎮 Como as aulas funcionam:</strong> Cada semana tem 2 horas-aula. Cerca de 30-40 min de teoria (este arquivo!) e 60-80 min de prática. Cada semana tem 3 exercícios, cada um valendo 100 pontos (totalizando 300 XP por semana).
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>💻 Seu Ambiente de Trabalho Digital</h3>
+      <p>Você tem um notebook. Isso é uma ferramenta profissional — não apenas para jogos ou redes sociais. Os profissionais de TI tratam seus computadores como ferramentas de trabalho: organizados, atualizados, com arquivos salvos corretamente.</p>
+      <p>Nesta semana, você vai começar a organizar seu ambiente digital. Nas próximas semanas, vai aprofundar isso. Por enquanto, vamos garantir que você tem acesso às ferramentas básicas:</p>
+      <div class="highlight-box">
+        <strong>🔧 Ferramentas que você vai usar (todas gratuitas!):</strong><br>
+        • <strong>Google Workspace</strong> (Docs, Sheets, Slides, Drive) — acesse com seu e-mail Google<br>
+        • <strong>Microsoft 365 Online</strong> — Word, Excel, PowerPoint no navegador, grátis<br>
+        • <strong>Canva</strong> — canva.com — para criar designs incríveis<br>
+        • <strong>ChatGPT / Gemini</strong> — IAs para tirar dúvidas (usaremos muito!)<br>
+        • <strong>YouTube</strong> — a melhor aula gratuita do mundo está lá
+      </div>
+    </div>
+
+    <div class="topic-block">
+      <h3>📊 Como você vai ser avaliado?</h3>
+      <p>Cada exercício tem uma <strong>rubrica clara</strong> — uma tabela que diz exatamente o que é esperado para cada nota. Não tem surpresa, não tem "achismo" do professor. Se você seguir os critérios, você tira 10.</p>
+      <p>A rubrica tem 3 níveis: <span style="color:#34d399; font-weight:800;">Completo (10)</span>, <span style="color:#fbbf24; font-weight:800;">Parcial (7)</span> e <span style="color:#f87171; font-weight:800;">Iniciante (4)</span>. Sempre que entrar em sala, olhe primeiro a rubrica do exercício — ela vai guiar seu trabalho.</p>
+      <div class="highlight-box">
+        <strong>⚠️ Regra de ouro:</strong> Se você ficou com dúvida sobre algo do conteúdo, pergunte ao professor ANTES de começar os exercícios. É muito melhor tirar dúvidas cedo do que entregar um exercício errado.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCÍCIOS -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">⚔️</span>
+      <div>
+        <div class="card-title">Missões Práticas</div>
+        <div class="card-subtitle">3 exercícios · Siga os passos com atenção</div>
+      </div>
+    </div>
+
+    <!-- EXERCÍCIO 1 -->
+    <div class="quest-card">
+      <div class="quest-header">
+        <div class="quest-num">1</div>
+        <div class="quest-info">
+          <div class="quest-title">🧍 Minha Apresentação Digital</div>
+          <div class="quest-tags">
+            <span class="qtag time">⏱ 30 min</span>
+            <span class="qtag xp">⭐ 100 XP</span>
+            <span class="qtag">📄 Google Docs ou Word</span>
+          </div>
+        </div>
+      </div>
+      <div class="quest-desc">
+        Crie um documento de apresentação pessoal profissional. Este será o seu "cartão de visita digital" — algo que você poderia mostrar em uma entrevista de estágio para dizer "olha, eu sei usar ferramentas digitais". Capriche na formatação!
+      </div>
+      <div class="steps-title">📋 PASSO A PASSO:</div>
+      <ol class="steps-list">
+        <li><div class="step-num">1</div>Abra o Google Docs (docs.google.com) ou Word Online (office.com). Se não tem conta Google, crie uma agora — é gratuita e você vai usar o ano todo.</li>
+        <li><div class="step-num">2</div>Crie um novo documento. Clique em "Sem título" no topo e nomeie como: <span style="font-family:'JetBrains Mono'; color:#34d399;">seu_nome_apresentacao_semana01</span></li>
+        <li><div class="step-num">3</div>Adicione um <strong>título grande</strong> com seu nome completo. Use a formatação "Título 1" (não apenas negrito — use os estilos de parágrafo).</li>
+        <li><div class="step-num">4</div>Crie seções com subtítulos (Título 2) para: Sobre Mim, Minha Cidade, Meus Hobbies, Por que escolhi este curso, Meus objetivos para 2026.</li>
+        <li><div class="step-num">5</div>Em cada seção, escreva pelo menos 2-3 frases completas. Seja honesto — não existe resposta certa aqui, queremos conhecer você de verdade.</li>
+        <li><div class="step-num">6</div>Insira pelo menos uma imagem. Pode ser uma foto sua, uma imagem que te representa, ou algo relacionado à tecnologia. Use Insert > Image.</li>
+        <li><div class="step-num">7</div>Salve e compartilhe o link com o professor (no Google Docs: Compartilhar > qualquer pessoa com o link pode ver).</li>
+      </ol>
+      <div class="dica-box">Não sabe como usar o Google Docs? Pesquise no YouTube: "como usar o google docs para iniciantes 2024". Tem vídeos de 5 minutos que explicam tudo!</div>
+
+      <button class="accordion-toggle" onclick="toggleAcc(this)">📊 Ver Rubrica de Avaliação ▼</button>
+      <div class="accordion-content">
+        <table class="rubrica-table">
+          <tr><th>Critério</th><th>Completo <span class="score-badge score-10">10</span></th><th>Parcial <span class="score-badge score-7">7</span></th><th>Iniciante <span class="score-badge score-4">4</span></th></tr>
+          <tr><td><strong>Estrutura</strong></td><td>Título + 5 seções com subtítulos formatados corretamente</td><td>Título + 3-4 seções, formatação básica</td><td>Apenas texto sem formatação</td></tr>
+          <tr><td><strong>Conteúdo</strong></td><td>Todas as seções preenchidas com 2+ frases, conteúdo pessoal e detalhado</td><td>Maioria das seções preenchidas</td><td>Respostas muito curtas ou genéricas</td></tr>
+          <tr><td><strong>Visual</strong></td><td>Imagem inserida, documento visualmente agradável</td><td>Sem imagem mas bem formatado</td><td>Sem cuidado visual</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- EXERCÍCIO 2 -->
+    <div class="quest-card">
+      <div class="quest-header">
+        <div class="quest-num">2</div>
+        <div class="quest-info">
+          <div class="quest-title">🗺️ Mapa do Curso em Planilha</div>
+          <div class="quest-tags">
+            <span class="qtag time">⏱ 35 min</span>
+            <span class="qtag xp">⭐ 100 XP</span>
+            <span class="qtag">📊 Google Sheets ou Excel</span>
+          </div>
+        </div>
+      </div>
+      <div class="quest-desc">
+        Crie uma planilha com as 40 semanas do curso. Isso vai te ajudar a visualizar a jornada completa e ter um "mapa" de onde você está a qualquer momento do ano. Você também vai registrar uma expectativa pessoal para cada semana.
+      </div>
+      <div class="steps-title">📋 PASSO A PASSO:</div>
+      <ol class="steps-list">
+        <li><div class="step-num">1</div>Abra o Google Sheets (sheets.google.com) ou Excel Online. Crie uma nova planilha e nomeie como: <span style="font-family:'JetBrains Mono'; color:#34d399;">mapa_curso_tic_2026_seu_nome</span></li>
+        <li><div class="step-num">2</div>Crie os seguintes cabeçalhos na linha 1 (uma coluna cada): Semana | Bimestre | Tema | Módulo | Minha Expectativa/Pergunta</li>
+        <li><div class="step-num">3</div>Preencha as 40 linhas com os dados. Use o conteúdo do índice do curso para os temas. Dica: o professor vai disponibilizar a lista completa.</li>
+        <li><div class="step-num">4</div>Na coluna "Minha Expectativa/Pergunta", escreva algo que você quer aprender ou uma dúvida sobre aquele tema. Não pode ficar em branco!</li>
+        <li><div class="step-num">5</div>Formate os cabeçalhos em negrito e com cor de fundo. Selecione a linha 1, vá em Format > Cells e escolha uma cor.</li>
+        <li><div class="step-num">6</div>Use cores diferentes para separar os 4 bimestres. Selecione as linhas de cada bimestre e aplique uma cor de fundo suave.</li>
+      </ol>
+      <div class="dica-box">Atalho no Google Sheets: Ctrl+D copia o conteúdo da célula acima para baixo. Muito útil para preencher colunas repetidas!</div>
+
+      <button class="accordion-toggle" onclick="toggleAcc(this)">📊 Ver Rubrica de Avaliação ▼</button>
+      <div class="accordion-content">
+        <table class="rubrica-table">
+          <tr><th>Critério</th><th>Completo <span class="score-badge score-10">10</span></th><th>Parcial <span class="score-badge score-7">7</span></th><th>Iniciante <span class="score-badge score-4">4</span></th></tr>
+          <tr><td><strong>Completude</strong></td><td>40 semanas preenchidas com todos os campos</td><td>Pelo menos 30 semanas</td><td>Menos de 20 semanas</td></tr>
+          <tr><td><strong>Expectativas</strong></td><td>Todas as 40 semanas com expectativas/perguntas únicas e pessoais</td><td>Maioria preenchida</td><td>Poucas ou genéricas ("legal", "bom")</td></tr>
+          <tr><td><strong>Formatação</strong></td><td>Cabeçalhos em negrito + cores por bimestre</td><td>Só cabeçalhos em negrito</td><td>Sem formatação</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- EXERCÍCIO 3 -->
+    <div class="quest-card">
+      <div class="quest-header">
+        <div class="quest-num">3</div>
+        <div class="quest-info">
+          <div class="quest-title">📜 Contrato de Aprendizado</div>
+          <div class="quest-tags">
+            <span class="qtag time">⏱ 25 min</span>
+            <span class="qtag xp">⭐ 100 XP</span>
+            <span class="qtag">🎨 Google Slides ou Canva</span>
+          </div>
+        </div>
+      </div>
+      <div class="quest-desc">
+        Crie uma apresentação visual com seus 5 compromissos para o ano. É um contrato consigo mesmo — não com o professor, não com os pais. Com você mesmo. Seja honesto sobre o que realmente quer alcançar!
+      </div>
+      <div class="steps-title">📋 PASSO A PASSO:</div>
+      <ol class="steps-list">
+        <li><div class="step-num">1</div>Acesse o Canva (canva.com) — é gratuito para estudantes. Ou use Google Slides (slides.google.com). Escolha um dos dois.</li>
+        <li><div class="step-num">2</div>No Canva: clique em "Criar design" > "Apresentação". Já tem templates prontos — escolha um que você goste. No Slides: crie uma nova apresentação.</li>
+        <li><div class="step-num">3</div>Slide 1 (capa): Título "Meu Contrato de Aprendizado 2026" + seu nome + uma imagem ou ícone que represente você.</li>
+        <li><div class="step-num">4</div>Slides 2-6: Cada slide tem um compromisso. Escreva o compromisso em destaque e logo abaixo explique POR QUÊ esse compromisso é importante para você. Seja específico!</li>
+        <li><div class="step-num">5</div>Exemplos de compromissos bons: "Vou entregar todos os exercícios até a data limite porque quero meu certificado de conclusão" ou "Vou aprender a criar um site até o final do ano para mostrar no processo seletivo do estágio".</li>
+        <li><div class="step-num">6</div>Slide final: Escreva "Assinado por [seu nome] em [data de hoje]" e adicione sua "assinatura digital" (pode digitar em fonte cursiva).</li>
+      </ol>
+      <div class="dica-box">No Canva, use a busca por "student contract" ou "aprendizado" para encontrar templates prontos e personalizáveis. Você não precisa criar do zero!</div>
+
+      <button class="accordion-toggle" onclick="toggleAcc(this)">📊 Ver Rubrica de Avaliação ▼</button>
+      <div class="accordion-content">
+        <table class="rubrica-table">
+          <tr><th>Critério</th><th>Completo <span class="score-badge score-10">10</span></th><th>Parcial <span class="score-badge score-7">7</span></th><th>Iniciante <span class="score-badge score-4">4</span></th></tr>
+          <tr><td><strong>Conteúdo</strong></td><td>5 compromissos com justificativa genuína e específica para cada um</td><td>5 compromissos sem justificativa ou genéricos</td><td>Menos de 5 compromissos</td></tr>
+          <tr><td><strong>Visual</strong></td><td>Design criativo, uso de cores, imagens, fonte grande e legível</td><td>Apresentação básica mas organizada</td><td>Só texto sem design</td></tr>
+          <tr><td><strong>Reflexão</strong></td><td>Os compromissos mostram reflexão pessoal real e objetivos alcançáveis</td><td>Compromissos genéricos mas adequados</td><td>Compromissos copiados ou superficiais</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔗</span>
+      <div>
+        <div class="card-title">Arsenal do Herói</div>
+        <div class="card-subtitle">Recursos gratuitos para aprender ainda mais</div>
+      </div>
+    </div>
+    <div class="recursos-grid">
+      <div class="recurso-card">
+        <div class="recurso-icon">▶️</div>
+        <div class="recurso-title">YouTube</div>
+        <div class="recurso-desc">Pesquise "tutorial google docs iniciante" ou "como usar canva grátis"</div>
+      </div>
+      <div class="recurso-card">
+        <div class="recurso-icon">🎨</div>
+        <div class="recurso-title">Canva</div>
+        <div class="recurso-desc">canva.com — templates prontos, design sem precisar saber design</div>
+      </div>
+      <div class="recurso-card">
+        <div class="recurso-icon">🤖</div>
+        <div class="recurso-title">ChatGPT / Gemini</div>
+        <div class="recurso-desc">Peça ajuda para estruturar textos, tire dúvidas de formatação</div>
+      </div>
+      <div class="recurso-card">
+        <div class="recurso-icon">📚</div>
+        <div class="recurso-title">Google Digital Garage</div>
+        <div class="recurso-desc">learndigital.withgoogle.com — cursos gratuitos e certificados</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV RODAPÉ -->
+  <nav class="nav-bar">
+    <span class="nav-btn nav-btn-disabled">⬅ Anterior</span>
+    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Mapa do Curso</a>
+    <a href="semana01_guia.html" class="nav-btn nav-btn-accent">📋 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="semana02_aula.html" class="nav-btn nav-btn-primary">Próxima Missão ➡</a>
+  </nav>
+
+</div>
+
+<script>
+function toggleAcc(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.textContent = content.classList.contains('open')
+    ? btn.textContent.replace('▼','▲')
+    : btn.textContent.replace('▲','▼');
+}
+</script>
+</body>
+</html>
