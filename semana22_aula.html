@@ -5,281 +5,459 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Semana 22 – IA Generativa | TIC 2026</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-600: #475569;
-  --gray-800: #1e293b;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
-  --radius: 12px;
-  --radius-sm: 8px;
-}
-body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
-
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0d47a1 100%);
-  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
-  box-shadow: 0 2px 20px rgba(0,0,0,.3);
-}
-.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.week-badge {
-  background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
-  border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; letter-spacing:.05em;
-  white-space:nowrap;
-}
-.header-text { flex:1; }
-.header-text h1 { font-size:clamp(1.2em, 3vw, 1.8em); font-weight:700; letter-spacing:-.02em; }
-.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
-.module-tag {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600;
-  white-space:nowrap;
-}
-
-/* CONTAINER */
-.container { max-width:1200px; margin:0 auto; padding:32px; }
-
-/* CARDS */
-.card {
-  background:var(--white); border-radius:var(--radius); padding:32px;
-  margin-bottom:24px; box-shadow:var(--shadow-md);
-  border:1px solid var(--gray-200);
-  transition: box-shadow .2s ease, transform .2s ease;
-}
-.card:hover { box-shadow:var(--shadow-lg); transform: translateY(-1px); }
-.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
-.card-icon { font-size:1.5em; }
-.card-title { font-size:1.3em; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
-
-/* OBJETIVOS */
-.objetivos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
-.objetivo-item {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border:1px solid #bfdbfe; border-radius:var(--radius-sm);
-  padding:16px; display:flex; align-items:flex-start; gap:10px;
-}
-.objetivo-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; margin-top:7px; flex-shrink:0; }
-.objetivo-text { font-size:.95em; font-weight:500; color:var(--navy); }
-
-/* CONTEUDO */
-.conteudo-item {
-  background:var(--gray-50); border-radius:var(--radius-sm);
-  padding:20px 24px; margin-bottom:16px;
-  border-left:4px solid var(--cyan);
-}
-.conteudo-item h3 { color:var(--navy); font-size:1.05em; font-weight:700; margin-bottom:8px; }
-.conteudo-item p { color:var(--gray-600); font-size:.95em; line-height:1.7; }
-
-/* EXERCICIOS */
-.exercise-card {
-  border:1px solid var(--gray-200); border-radius:var(--radius-sm);
-  padding:20px; margin-bottom:16px; position:relative; overflow:hidden;
-}
-.exercise-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
-  background: linear-gradient(180deg, var(--blue), var(--cyan));
-}
-.exercise-num {
-  display:inline-flex; align-items:center; justify-content:center;
-  width:32px; height:32px; background:var(--navy); color:var(--white);
-  border-radius:50%; font-size:.8em; font-weight:700; margin-bottom:8px;
-}
-.exercise-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:4px; }
-.exercise-meta { display:flex; gap:12px; margin-bottom:10px; }
-.exercise-tag {
-  background:var(--gray-100); border-radius:50px; padding:3px 10px;
-  font-size:.8em; font-weight:500; color:var(--gray-600);
-}
-.exercise-desc { color:var(--gray-600); font-size:.92em; }
-
-/* NAV */
-.nav-bar {
-  background:var(--white); border-radius:var(--radius); padding:20px 24px;
-  box-shadow:var(--shadow-md); border:1px solid var(--gray-200);
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-  margin-bottom:24px;
-}
-.nav-btn {
-  padding:10px 20px; border-radius:var(--radius-sm);
-  text-decoration:none; font-weight:600; font-size:.9em;
-  transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;
-}
-.nav-btn-primary {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  color:var(--white); box-shadow:0 2px 8px rgba(26,86,219,.3);
-}
-.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,86,219,.4); }
-.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
-.nav-btn-secondary:hover { background:var(--gray-200); }
-.nav-btn-accent { background: linear-gradient(135deg, var(--green), #059669); color:var(--white); }
-.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
-.nav-spacer { flex:1; }
-
-/* RESPONSIVE */
-@media(max-width:768px) {
-  .container { padding:16px; }
-  .card { padding:20px; }
-  .objetivos-grid { grid-template-columns:1fr; }
-  .nav-bar { gap:8px; }
-  .nav-btn { padding:8px 14px; font-size:.85em; }
-}
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0e0e14;--paper:#f5f5ff;--acc:#0d0d1a;--acc-light:#818cf8;--acc-pale:#eef2ff;--green:#15803d;--green-light:#dcfce7;--red:#b91c1c;--red-light:#fee2e2;--gray:#6b7280;--border:#c7d2fe;--shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);--r:10px}
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--acc-light)}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.week-pill{background:var(--acc);color:#fff;border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;white-space:nowrap}
+.header-title{flex:1}
+.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800}
+.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--acc-light)}
+.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--acc),var(--acc-light));border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.78em;font-weight:700;color:var(--acc-light);font-family:'DM Mono',monospace}
+.container{max-width:1100px;margin:0 auto;padding:28px}
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.nav-btn-gold{background:var(--acc);color:#fff}
+.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-spacer{flex:1}
+.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
+.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--acc-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;margin-bottom:10px}
+.quest-banner h2 span{color:var(--acc-light)}
+.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
+.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
+.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
+.badges-section{margin-bottom:24px}
+.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.badges-row{display:flex;gap:12px;flex-wrap:wrap}
+.badge-item{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s}
+.badge-item.locked{opacity:.45;filter:grayscale(.8)}
+.badge-item.unlocked{border-color:var(--acc);background:var(--acc-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
+.badge-icon{font-size:1.8em;margin-bottom:6px}
+.badge-name{font-size:.8em;font-weight:700}
+.badge-xp{font-size:.72em;font-weight:600;color:var(--acc);font-family:'DM Mono',monospace}
+.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
+.card-icon{font-size:1.5em}
+.card-title{font-size:1.15em;font-weight:800}
+.card-body{display:flex;flex-direction:column;gap:16px}
+.info-box{background:var(--acc-pale);border-radius:var(--r);padding:16px 20px;border-left:4px solid var(--acc);display:flex;gap:12px}
+.info-icon{font-size:1.3em}
+.info-text{font-size:.9em;line-height:1.7}
+.info-text strong{color:var(--acc)}
+.info-text code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--acc-light);padding:2px 6px;border-radius:4px;font-size:.9em}
+.step{display:flex;gap:16px;padding:16px;background:var(--acc-pale);border-radius:var(--r);border-left:4px solid var(--acc)}
+.step-num{width:32px;height:32px;background:var(--acc);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
+.step-body{flex:1}
+.step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
+.step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-tip{font-size:.82em;color:#1e40af;background:#dbeafe;border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+.typing-box{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
+.typing-box.correct{border-color:var(--green);background:var(--green-light)}
+.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.typing-label{font-size:.82em;font-weight:700;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:var(--acc);background:rgba(0,0,0,.06);padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px}
+.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none}
+.typing-input:focus{border-color:var(--acc)}
+.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
+.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--acc-pale);color:var(--acc);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+.quiz-q{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
+.quiz-option:hover{border-color:var(--acc);background:var(--acc-pale)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
+.drag-section{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.drag-tokens{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;background:#fff;border-radius:8px;border:2px dashed var(--border);margin-bottom:16px}
+.drag-token{background:var(--ink);color:#fff;border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;font-family:'DM Mono',monospace;transition:transform .15s}
+.drag-token:hover{transform:scale(1.05)}
+.drag-token.used{background:var(--gray);opacity:.5;cursor:default}
+.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.drag-zone{background:#fff;border:2px dashed var(--border);border-radius:8px;padding:12px 16px;min-height:52px;transition:border-color .2s;display:flex;align-items:center;gap:10px}
+.drag-zone.over{border-color:var(--acc);background:var(--acc-pale)}
+.drag-zone.correct{border-color:var(--green);background:var(--green-light)}
+.drag-zone.wrong{border-color:var(--red);background:var(--red-light)}
+.drag-zone-desc{font-size:.83em;color:var(--gray);flex:1}
+.drag-zone-slot{min-width:100px;height:32px;background:var(--acc-pale);border-radius:5px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.78em;color:var(--gray);padding:0 8px;text-align:center}
+.drag-zone-slot.filled{background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-weight:700;border-style:solid;border-color:var(--ink)}
+.drag-btn{padding:10px 22px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;border:none;margin-top:14px}
+.drag-btn-check{background:var(--ink);color:#fff}
+.drag-btn-reset{background:var(--paper);color:var(--ink);border:2px solid var(--border);margin-left:8px}
+.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:8px;display:none}
+.drag-result.show{display:block}
+.mission-list{display:flex;flex-direction:column;gap:14px}
+.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border)}
+.mission:hover{border-color:var(--acc);box-shadow:var(--shadow)}
+.mission:hover::before{background:var(--acc)}
+.mission.done{border-color:var(--green);background:var(--green-light)}
+.mission.done::before{background:var(--green)}
+.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;border:2px solid var(--border)}
+.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
+.mission-content{flex:1}
+.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
+.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap}
+.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
+.mtag-xp{background:var(--acc-pale);color:var(--acc);border-color:var(--border)}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0}
+.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
+.mission-steps{background:var(--acc-pale);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
+.mission-steps.open{display:block}
+.mstep{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.mstep-num{background:var(--acc);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0}
+.mstep-text{font-size:.87em;line-height:1.55}
+.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--acc-light);padding:2px 8px;border-radius:4px;font-size:.9em}
+.progress-bar{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.prog-icon{font-size:1.2em}
+.prog-label{font-size:.82em;font-weight:600}
+.prog-sub{font-size:.75em;color:var(--gray)}
+.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.total-xp-label{font-size:.85em;opacity:.7}
+.total-xp-num{font-size:1.4em;font-weight:800;color:var(--acc-light);font-family:'DM Mono',monospace}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.formula-card{background:var(--acc-pale);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.formula-name{font-family:'DM Mono',monospace;font-size:1em;font-weight:700;color:var(--acc);margin-bottom:6px}
+.formula-desc{font-size:.83em;color:var(--gray);margin-bottom:8px}
+.formula-ex{font-family:'DM Mono',monospace;font-size:.82em;background:var(--ink);color:var(--acc-light);padding:4px 8px;border-radius:4px;display:inline-block}
+.abnt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.abnt-rule{background:var(--acc-pale);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.abnt-rule-num{font-size:.72em;font-weight:700;color:var(--gray);letter-spacing:.05em;margin-bottom:6px;font-family:'DM Mono',monospace}
+.abnt-rule-icon{font-size:1.4em;margin-bottom:6px}
+.abnt-rule-title{font-weight:800;font-size:.9em;margin-bottom:6px}
+.abnt-rule-val{font-size:.85em;font-weight:700;color:var(--acc);font-family:'DM Mono',monospace;margin-bottom:2px}
+.abnt-rule-desc{font-size:.8em;color:var(--gray);margin-top:6px;line-height:1.5}
+@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}}
 </style>
 </head>
 <body>
-
 <header class="header">
   <div class="header-inner">
-    <span class="week-badge">📅 Semana 22 · 3º Bimestre</span>
-    <div class="header-text">
+    <span class="week-pill">📅 Semana 22 · 3º Bimestre</span>
+    <div class="header-title">
       <h1>IA Generativa</h1>
       <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
     </div>
-    <span class="module-tag">🗂 Inteligência Artificial</span>
+    <div class="xp-bar-wrap">
+      <span class="xp-label">⚡ XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0 / 300</span>
+    </div>
   </div>
 </header>
-
 <div class="container">
-
-  <!-- NAV TOPO -->
   <nav class="nav-bar">
-    <a href="semana21_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana22_guia.html" class="nav-btn nav-btn-accent">📝 Guia de Exercícios</a>
+    <a href="semana21_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <a href="semana22_guia.html" class="nav-btn nav-btn-gold">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana23_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana23_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
-
-  <!-- OBJETIVOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🎯</span>
-      <h2 class="card-title">Objetivos de Aprendizagem</h2>
-    </div>
-    <div class="objetivos-grid">
-      <div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Compreender os conceitos fundamentais de ia generativa</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Aplicar o conhecimento de inteligência artificial em situações práticas</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Desenvolver habilidades de ferramentas de IA relacionadas ao tema</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Integrar este conteúdo com os módulos anteriores do curso</span></div>
+  <div class="quest-banner">
+    <div class="quest-eyebrow">🗡 Missão da Semana 22</div>
+    <h2>IA Generativa — <span>Criar com a Máquina ao Seu Lado</span></h2>
+    <p>ChatGPT, Gemini, Midjourney, Suno — ferramentas que geram texto, imagem, música e vídeo sob comando. Quem sabe usar bem tem um superpoder. Quem não entende como funcionam pode ser enganado. Você vai aprender os dois lados.</p>
+    <div class="quest-rewards">
+      <div class="reward-chip">🏆 300 XP disponíveis</div>
+      <div class="reward-chip">📜 4 Conquistas</div>
+      <div class="reward-chip">⏱ ~90 min</div>
+      <div class="reward-chip">✨ IA Generativa</div>
     </div>
   </div>
-
-  <!-- CONTEÚDO -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">📖</span>
-      <h2 class="card-title">Conteúdo da Aula</h2>
-    </div>
-    
-        <div class="conteudo-item">
-            <h3>📌 Introdução: Como funciona</h3>
-            <p>Esta semana aprofundamos nosso estudo sobre ia generativa. Este conteúdo é fundamental para o desenvolvimento de suas competências em inteligência artificial e se conecta diretamente ao mercado de trabalho na área de tecnologia.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🔍 Conceitos Fundamentais</h3>
-            <p>Para dominar ia generativa, precisamos entender seus princípios básicos. Cada conceito aqui apresentado foi cuidadosamente selecionado para que você construa uma base sólida, capaz de sustentar aprendizados mais avançados no futuro.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>💡 Aplicações Práticas</h3>
-            <p>O conhecimento sobre ia generativa tem aplicações diretas em situações que você encontrará no mercado de trabalho. Vamos explorar casos reais onde profissionais de tecnologia utilizam esses conceitos diariamente.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🛠️ Ferramentas e Recursos</h3>
-            <p>Para praticar os conceitos de ia generativa, utilizaremos ferramentas amplamente adotadas na indústria. Familiarizar-se com elas agora é um investimento no seu futuro profissional.</p>
-        </div>
-  </div>
-
-  <!-- ATIVIDADES -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">✏️</span>
-      <h2 class="card-title">Atividades Práticas</h2>
-    </div>
-    <p style="color:var(--gray-600); margin-bottom:20px; font-size:.95em;">
-      Para cada exercício, consulte o <a href="semana22_guia.html" style="color:var(--blue); font-weight:600;">Guia de Exercícios</a> 
-      para ver a rubrica de avaliação detalhada e a resolução passo a passo.
-    </p>
-    
-        <div class="exercise-card">
-            <div class="exercise-num">1</div>
-            <div class="exercise-title">Prática: IA Generativa</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 30 min</span>
-                <span class="exercise-tag">✏️ Exercício 1</span>
-            </div>
-            <div class="exercise-desc">Aplique os conceitos de ia generativa em uma atividade prática orientada, seguindo os passos indicados pelo professor.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">2</div>
-            <div class="exercise-title">Projeto: IA Generativa na Prática</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 35 min</span>
-                <span class="exercise-tag">✏️ Exercício 2</span>
-            </div>
-            <div class="exercise-desc">Desenvolva um pequeno projeto que demonstre sua compreensão de ia generativa, com criatividade e qualidade técnica.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">3</div>
-            <div class="exercise-title">Desafio: IA Generativa</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 25 min</span>
-                <span class="exercise-tag">✏️ Exercício 3</span>
-            </div>
-            <div class="exercise-desc">Resolva um problema desafiador que exige pensamento criativo e aplicação avançada dos conceitos de ia generativa.</div>
-        </div>
-  </div>
-
-  <!-- RECURSOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🔗</span>
-      <h2 class="card-title">Recursos Complementares</h2>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">▶️</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Vídeos no YouTube</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Pesquise por: "ia generativa para iniciantes"</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">📚</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Khan Academy</div>
-        <div style="font-size:.85em; color:var(--gray-600);">pt.khanacademy.org — cursos gratuitos</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">🤖</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Pergunte à IA</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Use ChatGPT ou Gemini para tirar dúvidas</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">💬</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Professor</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Nunca tenha vergonha de perguntar!</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAV RODAPÉ -->
-  <nav class="nav-bar">
-    <a href="semana21_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana22_guia.html" class="nav-btn nav-btn-accent">📝 Guia</a>
-    <span class="nav-spacer"></span>
-    <a href="semana23_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
-  </nav>
-
+  <div class="badges-section">
+    <div class="section-label">🏅 Conquistas desta semana</div>
+    <div class="badges-row"><div class="badge-item locked" id="badge0"><div class="badge-icon">⚙️</div><div class="badge-name">Entendedor de LLMs</div><div class="badge-xp">+60 XP</div></div>
+<div class="badge-item locked" id="badge1"><div class="badge-icon">🎨</div><div class="badge-name">Artista com IA</div><div class="badge-xp">+70 XP</div></div>
+<div class="badge-item locked" id="badge2"><div class="badge-icon">📝</div><div class="badge-name">Prompt Engineer</div><div class="badge-xp">+80 XP</div></div>
+<div class="badge-item locked" id="badge3"><div class="badge-icon">🛡</div><div class="badge-name">Guardião da Verdade</div><div class="badge-xp">+90 XP</div></div>
 </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header"><span class="card-icon">⚙️</span><h2 class="card-title">Como o ChatGPT Funciona — Por Baixo dos Panos</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">⚙️</div><div class="info-text">O ChatGPT é um <strong>LLM (Large Language Model)</strong> — Modelo de Linguagem Grande.<br><br>
+<strong>Como foi treinado:</strong><br>
+1. Coletou texto de boa parte da internet (Wikipedia, livros, artigos, fóruns)<br>
+2. Aprendeu a prever qual palavra vem depois de outra<br>
+3. Foi ajustado por humanos para ser útil e seguro (RLHF)<br><br>
+<strong>Como gera respostas:</strong><br>
+→ Recebe sua pergunta → analisa os padrões aprendidos → gera palavra por palavra, cada uma sendo a mais provável no contexto<br><br>
+<strong>Por isso a IA 'alucina':</strong> ela não busca a verdade — ela gera o que é estatisticamente provável. Se os dados de treino tinham erros, ela reproduz erros!<br><br>
+<strong>Resumo:</strong> ChatGPT é um modelo de predição de texto, não uma enciclopédia.</div></div>
+      
+      <div class="typing-box" id="t1">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ LLM significa Large Language Model, em português: Modelo de Linguagem:</div>
+        <div class="typing-target">Grande</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Grande','t1','badge0',10)">
+        <div class="typing-feedback" id="t1-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📝</span><h2 class="card-title">Prompt Engineering — A Arte de Conversar com IA</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">📝</div><div class="info-text"><strong>Prompt</strong> é a instrução ou pergunta que você dá para a IA. A qualidade do prompt determina 80% da qualidade da resposta.<br><br>
+<strong>Técnicas de Prompt Engineering:</strong><br><br>
+<strong>1. Seja específico:</strong><br>
+❌ "Me ajuda com português"<br>
+✅ "Corrija os erros gramaticais neste texto mantendo meu estilo de escrita"<br><br>
+<strong>2. Dê contexto:</strong><br>
+✅ "Você é um professor de ETEC. Explique fotossíntese para alunos de 15 anos, usando analogias do cotidiano"<br><br>
+<strong>3. Defina o formato:</strong><br>
+✅ "Liste 5 vantagens em tópicos curtos, máximo 1 linha cada"<br><br>
+<strong>4. Itere:</strong> se não ficou bom, refine! "Reescreva mais formalmente" ou "Adicione um exemplo".</div></div>
+      
+      <div class="typing-box" id="t2">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ A instrução ou pergunta que você envia para a IA chama-se:</div>
+        <div class="typing-target">prompt</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'prompt','t2','badge1',10)">
+        <div class="typing-feedback" id="t2-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎨</span><h2 class="card-title">IA Generativa Além do Texto — Imagens, Música e Vídeo</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🎨</div><div class="info-text">A IA generativa vai muito além de texto:<br><br>
+<strong>🖼 Geração de Imagens:</strong><br>
+• <strong>Midjourney, DALL-E, Stable Diffusion:</strong> geram imagens foto-realistas a partir de descrições<br>
+• Exemplo: "fotografia de astronauta tocando violão na Lua, iluminação dourada, estilo cinema"<br><br>
+<strong>🎵 Geração de Música:</strong><br>
+• <strong>Suno, Udio:</strong> criam músicas completas com letra, melodia e voz a partir de um prompt<br>
+• Exemplo: "música sertaneja universitária sobre tecnologia, ritmo animado, 2 minutos"<br><br>
+<strong>🎬 Geração de Vídeo:</strong><br>
+• <strong>Sora (OpenAI), Runway:</strong> criam vídeos realistas a partir de descrições<br><br>
+<strong>⚠️ Questões éticas:</strong> propriedade intelectual (a IA treinou com arte de artistas sem permissão), deepfakes, desinformação visual.</div></div>
+      
+      <div class="typing-box" id="t3">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Ferramenta que gera músicas completas a partir de um prompt de texto chama-se:</div>
+        <div class="typing-target">Suno</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Suno','t3','badge2',10)">
+        <div class="typing-feedback" id="t3-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🛡</span><h2 class="card-title">Verificação de Fatos — Não Acredite em Tudo que a IA Diz</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🛡</div><div class="info-text">A IA <strong>alucina</strong> — inventa informações com a mesma confiança com que diz verdades.<br><br>
+<strong>Casos reais de alucinação:</strong><br>
+• Advogados citaram jurisprudências inventadas pelo ChatGPT em processos reais<br>
+• Estudantes entregaram referências bibliográficas de livros que não existem<br>
+• Médicos receberam sugestões de remédios com dosagens perigosas<br><br>
+<strong>Como usar IA com segurança:</strong><br>
+• ✅ Para rascunhos, brainstorming, aprender conceitos, corrigir textos<br>
+• ✅ Sempre verifique informações importantes em fontes confiáveis<br>
+• ❌ Não confie em datas, nomes, referências ou dados sem verificar<br>
+• ❌ Não use para decisões médicas, legais ou financeiras sem especialista<br><br>
+<strong>Regra de ouro:</strong> IA é um assistente poderoso, não uma autoridade.</div></div>
+      
+      <div class="typing-box" id="t4">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Fenômeno onde a IA inventa informações falsas com confiança chama-se:</div>
+        <div class="typing-target">alucinação</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'alucinação','t4','badge3',10)">
+        <div class="typing-feedback" id="t4-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🧠</span><h2 class="card-title">Quiz — Teste seus conhecimentos!</h2></div>
+    <div class="card-body">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="quiz-q" id="qq0">
+          <div class="quiz-question">1. ChatGPT gera respostas baseadas em:</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(0,0,1)">A) Busca em tempo real na internet</button>
+<button class="quiz-option" onclick="answerQuiz(0,1,1)">B) Predição estatística de qual texto é mais provável dado seu treinamento</button>
+<button class="quiz-option" onclick="answerQuiz(0,2,1)">C) Consulta a especialistas humanos</button>
+<button class="quiz-option" onclick="answerQuiz(0,3,1)">D) Cálculos matemáticos exatos</button></div>
+          <div class="quiz-feedback" id="qf0"></div>
+        </div>
+        <div class="quiz-q" id="qq1">
+          <div class="quiz-question">2. Qual das seguintes é uma boa prática de Prompt Engineering?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(1,0,1)">A) Fazer perguntas vagas para testar a IA</button>
+<button class="quiz-option" onclick="answerQuiz(1,1,1)">B) Ser específico, dar contexto e definir o formato desejado</button>
+<button class="quiz-option" onclick="answerQuiz(1,2,1)">C) Sempre usar palavras-chave em inglês</button>
+<button class="quiz-option" onclick="answerQuiz(1,3,1)">D) Nunca usar pontuação no prompt</button></div>
+          <div class="quiz-feedback" id="qf1"></div>
+        </div>
+        <div class="quiz-q" id="qq2">
+          <div class="quiz-question">3. Uma estudante pediu ao ChatGPT uma referência bibliográfica e a IA forneceu um livro que não existe. Isso é:</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(2,0,1)">A) Um erro de digitação da IA</button>
+<button class="quiz-option" onclick="answerQuiz(2,1,1)">B) Alucinação — a IA inventou informação falsa com confiança</button>
+<button class="quiz-option" onclick="answerQuiz(2,2,1)">C) Uma mentira intencional da IA</button>
+<button class="quiz-option" onclick="answerQuiz(2,3,1)">D) Um bug do software</button></div>
+          <div class="quiz-feedback" id="qf2"></div>
+        </div>
+        <div class="quiz-q" id="qq3">
+          <div class="quiz-question">4. Para qual uso a IA Generativa é MAIS segura?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(3,0,2)">A) Diagnóstico médico</button>
+<button class="quiz-option" onclick="answerQuiz(3,1,2)">B) Pesquisa jurídica</button>
+<button class="quiz-option" onclick="answerQuiz(3,2,2)">C) Brainstorming e geração de rascunhos para revisão humana posterior</button>
+<button class="quiz-option" onclick="answerQuiz(3,3,2)">D) Cálculo de impostos</button></div>
+          <div class="quiz-feedback" id="qf3"></div>
+        </div>
+        <div class="quiz-q" id="qq4">
+          <div class="quiz-question">5. Midjourney e DALL-E são exemplos de IA que:</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(4,0,2)">A) Geram código de programação</button>
+<button class="quiz-option" onclick="answerQuiz(4,1,2)">B) Geram texto em estilo de chat</button>
+<button class="quiz-option" onclick="answerQuiz(4,2,2)">C) Geram imagens a partir de descrições textuais</button>
+<button class="quiz-option" onclick="answerQuiz(4,3,2)">D) Geram planilhas</button></div>
+          <div class="quiz-feedback" id="qf4"></div>
+        </div>
+        <div class="quiz-q" id="qq5">
+          <div class="quiz-question">6. RLHF (usado no treinamento do ChatGPT) significa que:</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(5,0,1)">A) A IA aprendeu apenas com robôs</button>
+<button class="quiz-option" onclick="answerQuiz(5,1,1)">B) Humanos avaliaram as respostas para ensinar o modelo a ser útil e seguro</button>
+<button class="quiz-option" onclick="answerQuiz(5,2,1)">C) A IA aprende em tempo real</button>
+<button class="quiz-option" onclick="answerQuiz(5,3,1)">D) O modelo foi programado manualmente</button></div>
+          <div class="quiz-feedback" id="qf5"></div>
+        </div></div>
+      <div id="qt" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎯</span><h2 class="card-title">Arraste e Encaixe — Conecte os Conceitos!</h2></div>
+    <div class="card-body">
+      <div class="drag-section">
+        <div style="font-weight:800;font-size:.95em;margin-bottom:4px">Arraste cada termo para a descrição correta</div>
+        <div style="font-size:.85em;color:var(--gray);margin-bottom:16px">👆 Clique e arraste os termos para encaixar</div>
+        <div class="drag-tokens" id="dragTokens"><div class="drag-token" draggable="true" data-val="LLM" ondragstart="dragStart(event)">LLM</div>
+<div class="drag-token" draggable="true" data-val="Prompt" ondragstart="dragStart(event)">Prompt</div>
+<div class="drag-token" draggable="true" data-val="Alucinação" ondragstart="dragStart(event)">Alucinação</div>
+<div class="drag-token" draggable="true" data-val="RLHF" ondragstart="dragStart(event)">RLHF</div></div>
+        <div class="drag-zones">
+          <div class="drag-zone" data-answer="LLM" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Modelo de Linguagem Grande — base tecnológica do ChatGPT e similares</div>
+            <div class="drag-zone-slot" id="ds0">Base tecnológica</div>
+          </div>
+          <div class="drag-zone" data-answer="Prompt" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Instrução ou pergunta enviada para a IA — determina 80% da qualidade da resposta</div>
+            <div class="drag-zone-slot" id="ds1">Instrução para IA</div>
+          </div>
+          <div class="drag-zone" data-answer="Alucinação" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Fenômeno onde a IA inventa informações falsas com confiança de quem sabe</div>
+            <div class="drag-zone-slot" id="ds2">Inventa com confiança</div>
+          </div>
+          <div class="drag-zone" data-answer="RLHF" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Técnica de treinar IA usando avaliações humanas para alinhá-la com valores humanos</div>
+            <div class="drag-zone-slot" id="ds3">Aprende com humanos</div>
+          </div></div>
+        <button class="drag-btn drag-btn-check" onclick="checkDrag()">✅ Verificar</button>
+        <button class="drag-btn drag-btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
+        <div class="drag-result" id="dr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🗡</span><h2 class="card-title">Missões Práticas — Mão na Massa!</h2></div>
+    <div class="card-body"><div class="mission-list">
+        <div class="mission" id="m0" onclick="toggleMission(0)">
+          <div class="mission-num">1</div>
+          <div class="mission-content">
+            <div class="mission-title">📝 Prompt Engineering na prática</div>
+            <div class="mission-desc">Domine a arte de criar prompts eficazes para diferentes tarefas.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 35 min</span>
+              <span class="mtag">🤖 ChatGPT/Gemini</span>
+              <span class="mtag mtag-xp">⚡ +80 XP</span>
+            </div>
+            <div class="mission-steps" id="ms0"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">TAREFA 1 — Prompt para aprender: peça para a IA explicar um conceito difícil (ex: fotossíntese) de 3 formas: para uma criança de 6 anos, para um estudante de ETEC e para um universitário</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">TAREFA 2 — Prompt para criar: peça para criar um post de Instagram sobre o ETEC com hashtags, máximo 150 caracteres</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">TAREFA 3 — Prompt iterativo: comece com uma pergunta simples, depois peça para a IA refinar a resposta 3 vezes</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">TAREFA 4 — Prompt com persona: 'Você é um recrutador de RH. Avalie este currículo e dê 5 sugestões de melhoria'</div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Para cada tarefa: documente o prompt usado e a qualidade da resposta (nota 1-10)</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Conclusão: quais técnicas de prompt geraram melhores resultados?</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
+        </div>
+        <div class="mission" id="m1" onclick="toggleMission(1)">
+          <div class="mission-num">2</div>
+          <div class="mission-content">
+            <div class="mission-title">🛡 Detectar informações falsas da IA</div>
+            <div class="mission-desc">Treine seu senso crítico verificando afirmações geradas pela IA.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 25 min</span>
+              <span class="mtag">🔍 Verificação</span>
+              <span class="mtag mtag-xp">⚡ +70 XP</span>
+            </div>
+            <div class="mission-steps" id="ms1"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Peça ao ChatGPT: 'Me dê 5 fatos interessantes sobre [escolha um tema]'</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Para CADA fato: pesquise no Google, Wikipedia ou fonte confiável para verificar</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Classifique cada um: Verdadeiro / Falso / Parcialmente verdadeiro / Não verificável</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Se encontrar uma informação falsa ou imprecisa, documente exatamente o que a IA disse e o que é correto</div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Repita com um tema diferente (história, ciência, tecnologia, esportes)</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Conclusão: qual % das afirmações da IA foi precisa? Esse resultado te surpreendeu?</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
+        </div></div></div>
+  </div>
+  <div class="progress-bar">
+    <div class="section-label">📊 Seu Progresso</div>
+    <div class="progress-missions">
+      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Digitação</div><div class="prog-sub" id="pt">0/4 completos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="pq">0/6 respondidos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="pd">Não realizado</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="pm">0/2 concluídas</div></div></div>
+    </div>
+    <div class="total-xp"><div class="total-xp-label">⚡ XP Total</div><div class="total-xp-num" id="txp">0 / 300 XP</div></div>
+  </div>
+  <nav class="nav-bar">
+    <a href="semana21_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana23_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
+  </nav>
+</div>
+<script>
+const DRAG_ANS = {'ds0':'LLM','ds1':'Prompt','ds2':'Alucinação','ds3':'RLHF',};
+let totalXP=0,MAX_XP=300;const earned={};
+function addXP(k,v){if(earned[k])return;earned[k]=true;totalXP=Math.min(totalXP+v,MAX_XP);updateBar()}
+function updateBar(){const p=(totalXP/MAX_XP)*100;document.getElementById('xpFill').style.width=p+'%';document.getElementById('xpNum').textContent=totalXP+' / '+MAX_XP;document.getElementById('txp').textContent=totalXP+' / '+MAX_XP+' XP';checkAch()}
+function checkAch(){if(totalXP>=50)unB('badge0');if(totalXP>=120)unB('badge1');if(totalXP>=200)unB('badge2');if(totalXP>=300)unB('badge3')}
+function unB(id){const e=document.getElementById(id);if(e&&e.classList.contains('locked'))e.classList.replace('locked','unlocked')}
+let tDone={};
+function checkTyping(input,target,boxId,badge,xp){
+  const box=document.getElementById(boxId),fb=document.getElementById(boxId+'-fb'),val=input.value.trim();
+  if(val.toLowerCase()===target.toLowerCase()){box.classList.remove('wrong');box.classList.add('correct');input.disabled=true;fb.textContent='🎉 Correto! +'+xp+' XP';fb.style.color='var(--green)';
+    if(!tDone[boxId]){tDone[boxId]=true;addXP('t_'+boxId,xp);document.getElementById('pt').textContent=Object.keys(tDone).length+'/4 completos'}}
+  else if(val.length>=target.length){box.classList.add('wrong');setTimeout(()=>box.classList.remove('wrong'),500);fb.textContent='❌ Tente novamente...';fb.style.color='var(--red)'}
+  else{fb.textContent='';box.classList.remove('wrong','correct')}}
+const qA=[1,1,1,2,2,1,],qE=["Correto! LLMs geram texto palavra por palavra, prevendo a sequência mais provável baseada no treinamento. Não é busca, não são fatos verificados.","Correto! Bons prompts são específicos, fornecem contexto, definem o papel da IA e especificam o formato desejado.","Correto! Alucinação é quando a IA gera informação falsa de forma convincente. É um problema fundamental dos LLMs, não um bug.","Correto! IA é ótima como assistente para criatividade e rascunhos. Para decisões críticas (médico, legal, financeiro), sempre consulte especialistas.","Correto! Midjourney e DALL-E são IAs de geração de imagem — você descreve em texto e elas criam imagens foto-realistas ou artísticas.","Correto! RLHF (Reinforcement Learning from Human Feedback) usa avaliações humanas para ajustar o modelo a ser mais útil, seguro e alinhado com valores humanos.",];
+let qScore=0,qAns={};
+function answerQuiz(n,c,correct){if(qAns[n])return;qAns[n]=true;const btns=document.querySelectorAll('#qq'+n+' .quiz-option');btns.forEach(b=>b.disabled=true);const fb=document.getElementById('qf'+n);if(c===correct){btns[c].classList.add('correct');fb.textContent='✅ '+qE[n];fb.classList.add('show','ok');qScore++;addXP('q_'+n,15)}else{btns[c].classList.add('wrong');btns[correct].classList.add('correct');fb.textContent='❌ '+qE[n];fb.classList.add('show','bad')}const a=Object.keys(qAns).length;document.getElementById('pq').textContent=a+'/6 respondidos';if(a===6)document.getElementById('qt').textContent='🏆 Quiz finalizado! Você acertou '+qScore+'/6.'}
+let dToken=null;const dSlots={};
+function dragStart(e){dToken=e.target;e.target.classList.add('dragging')}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('over')}
+function dragLeave(e){e.currentTarget.classList.remove('over')}
+function dropItem(e){e.preventDefault();e.currentTarget.classList.remove('over');if(!dToken)return;const zone=e.currentTarget,slot=zone.querySelector('.drag-zone-slot');dSlots[slot.id]=dToken.dataset.val;slot.textContent=dToken.dataset.val;slot.classList.add('filled');dToken.classList.add('used');dToken.classList.remove('dragging');dToken=null}
+function checkDrag(){let c=0,t=Object.keys(DRAG_ANS).length;for(const[id,exp]of Object.entries(DRAG_ANS)){const slot=document.getElementById(id),zone=slot.parentElement;if(dSlots[id]===exp){zone.classList.add('correct');c++}else zone.classList.add('wrong')}const r=document.getElementById('dr');r.classList.add('show');if(c===t){r.style.background='var(--green-light)';r.style.color='var(--green)';r.textContent='🎉 Perfeito! Todas corretas! +50 XP';addXP('drag',50);document.getElementById('pd').textContent='✅ Concluído'}else{r.style.background='var(--red-light)';r.style.color='var(--red)';r.textContent='Você acertou '+c+'/'+t+'. Tente novamente!'}}
+function resetDrag(){document.querySelectorAll('.drag-token').forEach(t=>t.classList.remove('used','dragging'));document.querySelectorAll('.drag-zone').forEach(z=>z.classList.remove('correct','wrong','over'));document.querySelectorAll('.drag-zone-slot').forEach(s=>s.classList.remove('filled'));Object.keys(dSlots).forEach(k=>delete dSlots[k]);document.getElementById('dr').classList.remove('show');dToken=null}
+const mXP=[80,70];let mDone={};
+function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';addXP('m_'+id,mXP[id]);document.getElementById('pm').textContent=Object.keys(mDone).length+'/2 concluídas'}}
+document.addEventListener('touchstart',e=>{const t=e.target.closest('.drag-token');if(t&&!t.classList.contains('used'))dToken=t});
+document.addEventListener('touchend',e=>{if(!dToken)return;const touch=e.changedTouches[0],el=document.elementFromPoint(touch.clientX,touch.clientY),zone=el?el.closest('.drag-zone'):null;if(zone){const fk={preventDefault:()=>{},currentTarget:zone};dropItem(fk)}dToken=null});
+</script>
 </body>
 </html>

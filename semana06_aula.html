@@ -3,138 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semana 06 – Edição de Textos – Parte 2 | TIC 2026</title>
+<title>Semana 06 – Edição de Textos Parte 2 | TIC 2026</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-600: #475569;
-  --gray-800: #1e293b;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
-  --radius: 12px;
-  --radius-sm: 8px;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0e0e14;--paper:#f5f0e8;--cream:#faf7f2;
+  --gold:#c9882a;--gold-light:#f0c56a;--gold-pale:#fdf3dc;
+  --blue:#1d4ed8;--blue-light:#dbeafe;
+  --green:#15803d;--green-light:#dcfce7;
+  --red:#b91c1c;--red-light:#fee2e2;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --gray:#6b7280;--border:#e5ddd0;
+  --shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);
+  --r:10px;
 }
-body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;min-height:100vh}
 
 /* HEADER */
-.header {
-  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0d47a1 100%);
-  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
-  box-shadow: 0 2px 20px rgba(0,0,0,.3);
-}
-.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.week-badge {
-  background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
-  border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; letter-spacing:.05em;
-  white-space:nowrap;
-}
-.header-text { flex:1; }
-.header-text h1 { font-size:clamp(1.2em, 3vw, 1.8em); font-weight:700; letter-spacing:-.02em; }
-.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
-.module-tag {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600;
-  white-space:nowrap;
-}
+.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--gold)}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.week-pill{background:var(--gold);color:var(--ink);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.header-title{flex:1}
+.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800;letter-spacing:-.02em}
+.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--gold-light);white-space:nowrap}
+.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.78em;font-weight:700;color:var(--gold-light);font-family:'DM Mono',monospace}
 
 /* CONTAINER */
-.container { max-width:1200px; margin:0 auto; padding:32px; }
-
-/* CARDS */
-.card {
-  background:var(--white); border-radius:var(--radius); padding:32px;
-  margin-bottom:24px; box-shadow:var(--shadow-md);
-  border:1px solid var(--gray-200);
-  transition: box-shadow .2s ease, transform .2s ease;
-}
-.card:hover { box-shadow:var(--shadow-lg); transform: translateY(-1px); }
-.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
-.card-icon { font-size:1.5em; }
-.card-title { font-size:1.3em; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
-
-/* OBJETIVOS */
-.objetivos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
-.objetivo-item {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border:1px solid #bfdbfe; border-radius:var(--radius-sm);
-  padding:16px; display:flex; align-items:flex-start; gap:10px;
-}
-.objetivo-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; margin-top:7px; flex-shrink:0; }
-.objetivo-text { font-size:.95em; font-weight:500; color:var(--navy); }
-
-/* CONTEUDO */
-.conteudo-item {
-  background:var(--gray-50); border-radius:var(--radius-sm);
-  padding:20px 24px; margin-bottom:16px;
-  border-left:4px solid var(--cyan);
-}
-.conteudo-item h3 { color:var(--navy); font-size:1.05em; font-weight:700; margin-bottom:8px; }
-.conteudo-item p { color:var(--gray-600); font-size:.95em; line-height:1.7; }
-
-/* EXERCICIOS */
-.exercise-card {
-  border:1px solid var(--gray-200); border-radius:var(--radius-sm);
-  padding:20px; margin-bottom:16px; position:relative; overflow:hidden;
-}
-.exercise-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
-  background: linear-gradient(180deg, var(--blue), var(--cyan));
-}
-.exercise-num {
-  display:inline-flex; align-items:center; justify-content:center;
-  width:32px; height:32px; background:var(--navy); color:var(--white);
-  border-radius:50%; font-size:.8em; font-weight:700; margin-bottom:8px;
-}
-.exercise-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:4px; }
-.exercise-meta { display:flex; gap:12px; margin-bottom:10px; }
-.exercise-tag {
-  background:var(--gray-100); border-radius:50px; padding:3px 10px;
-  font-size:.8em; font-weight:500; color:var(--gray-600);
-}
-.exercise-desc { color:var(--gray-600); font-size:.92em; }
+.container{max-width:1100px;margin:0 auto;padding:28px}
 
 /* NAV */
-.nav-bar {
-  background:var(--white); border-radius:var(--radius); padding:20px 24px;
-  box-shadow:var(--shadow-md); border:1px solid var(--gray-200);
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-  margin-bottom:24px;
-}
-.nav-btn {
-  padding:10px 20px; border-radius:var(--radius-sm);
-  text-decoration:none; font-weight:600; font-size:.9em;
-  transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;
-}
-.nav-btn-primary {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  color:var(--white); box-shadow:0 2px 8px rgba(26,86,219,.3);
-}
-.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,86,219,.4); }
-.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
-.nav-btn-secondary:hover { background:var(--gray-200); }
-.nav-btn-accent { background: linear-gradient(135deg, var(--green), #059669); color:var(--white); }
-.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
-.nav-spacer { flex:1; }
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.nav-btn-outline:hover{border-color:var(--ink)}
+.nav-btn-gold{background:var(--gold);color:#fff}
+.nav-btn-gold:hover{background:#b5771f}
+.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-btn-dark:hover{background:#1c1c28}
+.nav-spacer{flex:1}
+
+/* QUEST BANNER */
+.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
+.quest-banner::before{content:'';position:absolute;top:0;right:0;width:300px;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(201,136,42,.15));pointer-events:none}
+.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.quest-banner h2 span{color:var(--gold-light)}
+.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
+.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
+.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
+
+/* BADGES */
+.badges-section{margin-bottom:24px}
+.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.badges-row{display:flex;gap:12px;flex-wrap:wrap}
+.badge-item{background:var(--cream);border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s;cursor:default}
+.badge-item.locked{opacity:.45;filter:grayscale(.8)}
+.badge-item.unlocked{border-color:var(--gold);background:var(--gold-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
+.badge-icon{font-size:1.8em;margin-bottom:6px}
+.badge-name{font-size:.8em;font-weight:700;color:var(--ink)}
+.badge-xp{font-size:.72em;font-weight:600;color:var(--gold);font-family:'DM Mono',monospace}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
+.card-icon{font-size:1.5em}
+.card-title{font-size:1.15em;font-weight:800;letter-spacing:-.02em}
+.card-body{display:flex;flex-direction:column;gap:16px}
+
+/* STEP */
+.drive-step{display:flex;gap:16px;padding:16px;background:var(--cream);border-radius:var(--r);border-left:4px solid var(--gold)}
+.drive-step-num{width:32px;height:32px;background:var(--gold);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
+.drive-step-body{flex:1}
+.drive-step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
+.drive-step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-tip{font-size:.82em;color:#1e40af;background:var(--blue-light);border-radius:6px;padding:6px 10px;margin-top:8px}
+
+/* SCREEN MOCK */
+.screen-mock{background:#f1f3f4;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-top:10px;max-width:400px}
+.screen-mock-bar{background:#fff;padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e8eaed}
+.screen-mock-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.screen-mock-url{flex:1;background:#f1f3f4;border-radius:50px;padding:4px 12px;font-size:.8em;font-family:'DM Mono',monospace;color:#5f6368}
+.screen-mock-body{padding:16px}
+.smb-label{font-size:.82em;font-weight:700;margin-bottom:10px;color:#202124}
+.drive-folder-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:.85em}
+.drive-folder-row.highlight{background:#e8f0fe}
+.drive-folder-name.new{color:#1967d2;font-weight:700}
+
+/* ABNT GRID */
+.abnt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.abnt-rule{background:var(--cream);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.abnt-rule-num{font-size:.72em;font-weight:700;color:var(--gray);letter-spacing:.05em;margin-bottom:6px;font-family:'DM Mono',monospace}
+.abnt-rule-icon{font-size:1.4em;margin-bottom:6px}
+.abnt-rule-title{font-weight:800;font-size:.9em;margin-bottom:6px}
+.abnt-rule-val{font-size:.85em;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace;margin-bottom:2px}
+.abnt-rule-desc{font-size:.8em;color:var(--gray);margin-top:6px;line-height:1.5}
+
+/* COMPARISON TABLE */
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.compare-col{border-radius:var(--r);overflow:hidden;border:2px solid var(--border)}
+.compare-head{padding:14px 18px;font-weight:800;font-size:.95em;display:flex;align-items:center;gap:8px}
+.compare-head.docs{background:#34a853;color:#fff}
+.compare-head.word{background:#2b579a;color:#fff}
+.compare-body{padding:16px;display:flex;flex-direction:column;gap:8px}
+.compare-item{display:flex;align-items:flex-start;gap:8px;font-size:.87em;padding:8px;background:var(--cream);border-radius:6px}
+.compare-check{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7em;flex-shrink:0;margin-top:1px}
+.compare-check.green{background:var(--green);color:#fff}
+.compare-check.blue{background:#2b579a;color:#fff}
+
+/* TYPING EXERCISE */
+.typing-box{background:var(--cream);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
+.typing-box.correct{border-color:var(--green);background:var(--green-light)}
+.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.typing-label{font-size:.82em;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:var(--blue);background:var(--blue-light);padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px;letter-spacing:.03em}
+.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none;transition:border-color .2s}
+.typing-input:focus{border-color:var(--blue)}
+.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
+.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--gold-pale);color:var(--gold);border:1px solid #fcd975;border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+
+/* QUIZ */
+.quiz-wrap{display:flex;flex-direction:column;gap:16px}
+.quiz-q{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
+.quiz-option:hover{border-color:var(--blue);background:var(--blue-light)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-option:disabled{cursor:default}
+.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
+
+/* DRAG & DROP */
+.drag-section{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.drag-title{font-weight:800;font-size:.95em;margin-bottom:4px}
+.drag-sub{font-size:.85em;color:var(--gray);margin-bottom:16px}
+.drag-tokens{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;min-height:44px;padding:10px;background:#fff;border-radius:8px;border:2px dashed var(--border)}
+.drag-token{background:var(--ink);color:#fff;border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;transition:transform .15s,opacity .15s;font-family:'DM Mono',monospace}
+.drag-token:hover{transform:scale(1.05)}
+.drag-token.dragging{opacity:.4}
+.drag-token.used{background:var(--gray);opacity:.5;cursor:default}
+.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.drag-zone{background:#fff;border:2px dashed var(--border);border-radius:8px;padding:12px 16px;min-height:52px;transition:border-color .2s;display:flex;align-items:center;gap:10px}
+.drag-zone.over{border-color:var(--gold);background:var(--gold-pale)}
+.drag-zone.correct{border-color:var(--green);background:var(--green-light)}
+.drag-zone.wrong{border-color:var(--red);background:var(--red-light)}
+.drag-zone-desc{font-size:.83em;color:var(--gray);flex:1}
+.drag-zone-slot{min-width:90px;height:32px;background:var(--cream);border-radius:5px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.8em;color:var(--gray);transition:all .2s}
+.drag-zone-slot.filled{background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-weight:700;border-style:solid;border-color:var(--ink)}
+.drag-btn{padding:10px 22px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;border:none;transition:all .2s;margin-top:14px}
+.drag-btn-check{background:var(--ink);color:#fff}
+.drag-btn-check:hover{background:#1c1c28}
+.drag-btn-reset{background:var(--paper);color:var(--ink);border:2px solid var(--border);margin-left:8px}
+.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:8px;display:none}
+.drag-result.show{display:block}
+
+/* MISSIONS */
+.mission-list{display:flex;flex-direction:column;gap:14px}
+.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);transition:background .2s}
+.mission:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.mission:hover::before{background:var(--gold)}
+.mission.done{border-color:var(--green);background:var(--green-light)}
+.mission.done::before{background:var(--green)}
+.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95em;flex-shrink:0;border:2px solid var(--border);transition:all .2s}
+.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
+.mission-content{flex:1}
+.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
+.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px;line-height:1.5}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap}
+.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
+.mtag-xp{background:var(--gold-pale);color:var(--gold);border-color:#fcd975}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0;transition:all .2s}
+.mission:hover .mission-check{border-color:var(--gold)}
+.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
+
+/* MISSION STEPS */
+.mission-steps{background:var(--cream);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
+.mission-steps.open{display:block}
+.mstep{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.mstep-num{background:var(--gold);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0}
+.mstep-text{font-size:.87em;line-height:1.55;color:var(--ink)}
+.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--gold-light);padding:2px 8px;border-radius:4px;font-size:.9em}
+
+/* PROGRESS */
+.progress-bar{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.prog-icon{font-size:1.2em}
+.prog-label{font-size:.82em;font-weight:600}
+.prog-sub{font-size:.75em;color:var(--gray)}
+.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.total-xp-label{font-size:.85em;opacity:.7}
+.total-xp-num{font-size:1.4em;font-weight:800;color:var(--gold-light);font-family:'DM Mono',monospace}
+
+/* TOOLTIP */
+.tooltip-wrap{position:relative;display:inline-block}
+.tooltip-trigger{cursor:help;border-bottom:2px dotted var(--gold);font-weight:700}
+.tooltip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 12px;border-radius:8px;font-size:.82em;white-space:nowrap;z-index:100;pointer-events:none;line-height:1.4;max-width:220px;white-space:normal;text-align:center}
+.tooltip-wrap:hover .tooltip-box{display:block}
+
+/* WORD MOCK */
+.word-mock{background:#fff;border-radius:var(--r);border:2px solid #2b579a;overflow:hidden;max-width:480px}
+.word-ribbon{background:#2b579a;padding:6px 12px;display:flex;gap:8px;align-items:center}
+.word-rib-btn{background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:.75em;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif}
+.word-rib-btn.active{background:rgba(255,255,255,.4)}
+.word-toolbar{background:#e8f0fb;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #c8d8f0}
+.word-tool-btn{background:#fff;border:1px solid #c8d8f0;border-radius:4px;padding:3px 8px;font-size:.8em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;transition:background .15s}
+.word-tool-btn:hover{background:#dbeafe}
+.word-body{padding:20px;min-height:120px;font-size:.88em;line-height:1.8;font-family:'Times New Roman',serif;color:#333}
+.word-statusbar{background:#f0f4fb;border-top:1px solid #c8d8f0;padding:4px 12px;font-size:.75em;color:#5f6368;display:flex;gap:16px}
+
+/* DOCS MOCK */
+.docs-mock{background:#fff;border-radius:var(--r);border:2px solid #34a853;overflow:hidden;max-width:480px}
+.docs-topbar{background:#fff;border-bottom:1px solid #e0e0e0;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.docs-icon{font-size:1.2em}
+.docs-filename{font-size:.88em;font-weight:700;color:#202124}
+.docs-autosave{font-size:.75em;color:#5f6368;display:flex;align-items:center;gap:4px}
+.autosave-dot{width:6px;height:6px;border-radius:50%;background:#34a853;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.docs-toolbar{background:#f8f9fa;padding:6px 12px;border-bottom:1px solid #e0e0e0;display:flex;gap:6px;flex-wrap:wrap}
+.docs-tool-btn{background:#fff;border:1px solid #dadce0;border-radius:4px;padding:3px 8px;font-size:.8em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;transition:background .15s;color:#202124}
+.docs-tool-btn:hover{background:#e8f0fe;border-color:#1967d2}
+.docs-body{padding:20px;min-height:120px;font-size:.88em;line-height:1.8;font-family:'Times New Roman',serif;color:#333;outline:none}
+.docs-collab{display:flex;align-items:center;gap:4px;padding:4px 12px;background:#f8f9fa;border-top:1px solid #e0e0e0;font-size:.75em;color:#5f6368}
+.avatar{width:20px;height:20px;border-radius:50%;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.65em;font-weight:700}
 
 /* RESPONSIVE */
-@media(max-width:768px) {
-  .container { padding:16px; }
-  .card { padding:20px; }
-  .objetivos-grid { grid-template-columns:1fr; }
-  .nav-bar { gap:8px; }
-  .nav-btn { padding:8px 14px; font-size:.85em; }
+@media(max-width:768px){
+  .container{padding:16px}
+  .card{padding:18px}
+  .compare-wrap{grid-template-columns:1fr}
+  .xp-track{width:60px}
+  .badges-row{gap:8px}
+  .badge-item{min-width:90px}
 }
 </style>
 </head>
@@ -142,144 +255,773 @@ body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:
 
 <header class="header">
   <div class="header-inner">
-    <span class="week-badge">📅 Semana 06 · 1º Bimestre</span>
-    <div class="header-text">
-      <h1>Edição de Textos – Parte 2</h1>
+    <span class="week-pill">📅 Semana 06</span>
+    <div class="header-title">
+      <h1>Edição de Textos — Parte 2</h1>
       <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
     </div>
-    <span class="module-tag">🗂 Gerenciamento de Arquivos</span>
+    <div class="xp-bar-wrap">
+      <span class="xp-label">⚡ XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0 / 320</span>
+    </div>
   </div>
 </header>
 
 <div class="container">
 
-  <!-- NAV TOPO -->
   <nav class="nav-bar">
-    <a href="semana05_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana06_guia.html" class="nav-btn nav-btn-accent">📝 Guia de Exercícios</a>
+    <a href="semana05_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <a href="semana06_guia.html" class="nav-btn nav-btn-gold">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana07_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana07_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
 
-  <!-- OBJETIVOS -->
+  <!-- QUEST BANNER -->
+  <div class="quest-banner">
+    <div class="quest-eyebrow">🗡 Missão da Semana 06</div>
+    <h2>Formatação Avançada no <span>Word & Google Docs</span></h2>
+    <p>Você vai dominar a formatação de parágrafos, estilos, sumário automático, cabeçalho/rodapé e muito mais — tanto no Microsoft Word instalado no computador quanto no Google Docs na nuvem.</p>
+    <div class="quest-rewards">
+      <div class="reward-chip">🏆 320 XP disponíveis</div>
+      <div class="reward-chip">📜 4 Conquistas</div>
+      <div class="reward-chip">⏱ ~90 min</div>
+      <div class="reward-chip">💻 Microsoft Word</div>
+      <div class="reward-chip">☁️ Google Docs</div>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges-section">
+    <div class="section-label">🏅 Conquistas desta semana</div>
+    <div class="badges-row">
+      <div class="badge-item locked" id="badge0"><div class="badge-icon">🔤</div><div class="badge-name">Mestre dos Estilos</div><div class="badge-xp">+60 XP</div></div>
+      <div class="badge-item locked" id="badge1"><div class="badge-icon">📑</div><div class="badge-name">Sumário Ninja</div><div class="badge-xp">+80 XP</div></div>
+      <div class="badge-item locked" id="badge2"><div class="badge-icon">🖨</div><div class="badge-name">Formatação Pro</div><div class="badge-xp">+90 XP</div></div>
+      <div class="badge-item locked" id="badge3"><div class="badge-icon">☁️</div><div class="badge-name">Cloud Expert</div><div class="badge-xp">+90 XP</div></div>
+    </div>
+  </div>
+
+  <!-- TEORIA: Word vs Google Docs -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">⚔️</span>
+      <h2 class="card-title">Word vs Google Docs — Qual usar e quando?</h2>
+    </div>
+    <div class="card-body">
+      <p style="font-size:.9em;color:var(--gray)">Ambos servem para criar documentos de texto, mas têm diferenças importantes. Veja abaixo:</p>
+      <div class="compare-wrap">
+        <div class="compare-col">
+          <div class="compare-head docs">📄 Google Docs (na nuvem)</div>
+          <div class="compare-body">
+            <div class="compare-item"><div class="compare-check green">✓</div><div>Salva automaticamente a cada mudança — nunca perde o trabalho</div></div>
+            <div class="compare-item"><div class="compare-check green">✓</div><div>Acesse de qualquer computador com internet</div></div>
+            <div class="compare-item"><div class="compare-check green">✓</div><div>Colaboração em tempo real: vários editando ao mesmo tempo</div></div>
+            <div class="compare-item"><div class="compare-check green">✓</div><div>Gratuito com conta Google</div></div>
+            <div class="compare-item"><div class="compare-check green">✓</div><div>Histórico de versões: volta ao estado anterior a qualquer hora</div></div>
+          </div>
+        </div>
+        <div class="compare-col">
+          <div class="compare-head word">📘 Microsoft Word (instalado)</div>
+          <div class="compare-body">
+            <div class="compare-item"><div class="compare-check blue">✓</div><div>Funciona sem internet — ótimo para locais sem conexão</div></div>
+            <div class="compare-item"><div class="compare-check blue">✓</div><div>Mais recursos avançados de formatação e macros</div></div>
+            <div class="compare-item"><div class="compare-check blue">✓</div><div>Padrão em empresas e repartições públicas</div></div>
+            <div class="compare-item"><div class="compare-check blue">✓</div><div>Arquivos .docx são amplamente aceitos</div></div>
+            <div class="compare-item"><div class="compare-check blue">✓</div><div>Ferramentas de revisão de texto robustas</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digitação 1 -->
+      <div class="typing-box" id="type1">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Exercício de Fixação — Digite a resposta correta:</div>
+        <p style="font-size:.88em;color:var(--gray);margin-bottom:8px">Qual ferramenta salva automaticamente o documento na nuvem sem precisar pressionar Ctrl+S?</p>
+        <div class="typing-target">Google Docs</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Google Docs','type1','badge0',10)">
+        <div class="typing-feedback" id="type1-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA: Estilos e Títulos -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔤</span>
+      <h2 class="card-title">Estilos de Texto — Por que usar em vez de formatar na mão?</h2>
+    </div>
+    <div class="card-body">
+      <div class="drive-step">
+        <div class="drive-step-num">💡</div>
+        <div class="drive-step-body">
+          <div class="drive-step-title">Estilo = regra de formatação guardada com um nome</div>
+          <div class="drive-step-desc">Em vez de selecionar o título, mudar a fonte para 14pt, deixar negrito e alterar a cor — você aplica o estilo "Título 1" e pronto! Se precisar mudar depois, altera o estilo uma vez e todos os títulos atualizam sozinhos.</div>
+          <div class="step-tip">💡 O uso correto de estilos é o que permite criar um Sumário Automático!</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95em;font-weight:800;margin-bottom:12px">📘 Como aplicar Estilos no Microsoft Word:</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Abra o Word e crie um novo documento</div>
+            <div class="drive-step-desc">Pressione <strong>Ctrl + N</strong> para criar um documento novo, ou clique em <strong>Arquivo → Novo → Documento em Branco</strong>.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Encontre o painel de Estilos na aba Início</div>
+            <div class="drive-step-desc">Na faixa de opções superior, clique na aba <strong>"Início"</strong>. Você verá uma galeria de estilos à direita (Título, Subtítulo, Título 1, Normal etc.). Se não aparecer, clique no pequeno ícone ⇒ no canto do grupo "Estilos".</div>
+            <div class="word-mock">
+              <div class="word-ribbon">
+                <button class="word-rib-btn active">Início</button>
+                <button class="word-rib-btn">Inserir</button>
+                <button class="word-rib-btn">Layout</button>
+              </div>
+              <div class="word-toolbar">
+                <button class="word-tool-btn">Normal</button>
+                <button class="word-tool-btn" style="font-size:1em;font-weight:800">Título 1</button>
+                <button class="word-tool-btn" style="font-size:.9em;font-weight:700">Título 2</button>
+                <button class="word-tool-btn" style="font-size:.85em">Título 3</button>
+                <button class="word-tool-btn" style="font-style:italic">Subtítulo</button>
+              </div>
+              <div class="word-body">Clique aqui e aplique um estilo acima...</div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Aplique "Título 1" ao seu primeiro título</div>
+            <div class="drive-step-desc">Clique na linha do seu título principal (ex: <em>"Introdução"</em>). Então clique em <strong>"Título 1"</strong> na galeria de estilos. O texto vai mudar de aparência automaticamente!</div>
+            <div class="step-ok">✅ Cada seção principal do documento deve usar Título 1. Subseções usam Título 2, etc.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">4</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Mesmo processo no Google Docs</div>
+            <div class="drive-step-desc">No Google Docs, o menu de estilos fica no lugar onde mostra <strong>"Texto normal"</strong> na barra de ferramentas. Clique nele e escolha o estilo desejado.</div>
+            <div class="docs-mock">
+              <div class="docs-topbar">
+                <span class="docs-icon">📄</span>
+                <span class="docs-filename">Meu Documento</span>
+                <span class="docs-autosave"><span class="autosave-dot"></span>Salvando...</span>
+              </div>
+              <div class="docs-toolbar">
+                <button class="docs-tool-btn" style="font-weight:700;color:#1967d2">Texto normal ▾</button>
+                <button class="docs-tool-btn" style="font-size:1.1em;font-weight:800">Título 1</button>
+                <button class="docs-tool-btn" style="font-size:.95em;font-weight:700">Título 2</button>
+                <button class="docs-tool-btn">Normal</button>
+              </div>
+              <div class="docs-body" contenteditable="true" spellcheck="false">Clique aqui e experimente aplicar um estilo...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digitação 2 -->
+      <div class="typing-box" id="type2">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Complete o atalho de teclado:</div>
+        <p style="font-size:.88em;color:var(--gray);margin-bottom:8px">Qual atalho no Word cria um novo documento em branco?</p>
+        <div class="typing-target">Ctrl + N</div><br>
+        <input class="typing-input" type="text" placeholder="Digite o atalho..." oninput="checkTyping(this,'Ctrl + N','type2','badge0',10)">
+        <div class="typing-feedback" id="type2-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA: Sumário Automático -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📑</span>
+      <h2 class="card-title">Sumário Automático — Nunca mais escreva manualmente!</h2>
+    </div>
+    <div class="card-body">
+      <div class="drive-step">
+        <div class="drive-step-num">💡</div>
+        <div class="drive-step-body">
+          <div class="drive-step-title">O que é um Sumário Automático?</div>
+          <div class="drive-step-desc">É uma lista gerada automaticamente com os títulos do seu documento e as páginas onde estão. Basta aplicar estilos (Título 1, Título 2...) corretamente e o Word/Docs cria e atualiza o sumário sozinho!</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95em;font-weight:800;margin-bottom:12px">📘 Como criar no Microsoft Word:</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Certifique-se de ter aplicado estilos de Título</div>
+            <div class="drive-step-desc">O sumário só funciona se você usar os estilos Título 1, Título 2... corretamente. Se ainda não fez isso, volte ao passo anterior!</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Posicione o cursor onde quer o sumário</div>
+            <div class="drive-step-desc">Normalmente o sumário fica no início do documento, logo depois da capa. Clique no início da segunda página.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir → Sumário Automático</div>
+            <div class="drive-step-desc">Clique na aba <strong>"Referências"</strong> na faixa de opções. Depois clique em <strong>"Sumário"</strong> (fica no canto esquerdo). Escolha um dos modelos automáticos.</div>
+            <div class="word-mock">
+              <div class="word-ribbon">
+                <button class="word-rib-btn">Início</button>
+                <button class="word-rib-btn">Inserir</button>
+                <button class="word-rib-btn">Layout</button>
+                <button class="word-rib-btn active" style="background:rgba(255,255,255,.5);color:#2b579a">Referências</button>
+              </div>
+              <div class="word-toolbar">
+                <button class="word-tool-btn" style="color:#2b579a;font-weight:800">📋 Sumário ▾</button>
+                <button class="word-tool-btn">Inserir Nota de Rodapé</button>
+                <button class="word-tool-btn">Índice</button>
+              </div>
+              <div class="word-body" style="font-size:.82em">
+                <strong>Sumário</strong><br>
+                1. Introdução ........................ 2<br>
+                2. Desenvolvimento ............... 4<br>
+                3. Conclusão ....................... 8<br>
+                <span style="font-size:.8em;color:#888">(Clique e pressione F9 para atualizar)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">4</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Como atualizar o Sumário depois</div>
+            <div class="drive-step-desc">Adicionou mais texto e as páginas mudaram? Clique dentro do sumário e pressione <strong>F9</strong>, ou clique com botão direito → <strong>"Atualizar Campo"</strong>.</div>
+            <div class="step-ok">✅ Selecione "Atualizar o índice inteiro" para atualizar títulos e páginas.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95em;font-weight:800;margin:16px 0 12px">☁️ Como criar no Google Docs:</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir → Índice</div>
+            <div class="drive-step-desc">No menu superior, clique em <strong>"Inserir"</strong>. Role o menu e clique em <strong>"Índice"</strong> (ou "Sumário"). Escolha um dos estilos disponíveis.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Atualizar clicando no ícone ↻</div>
+            <div class="drive-step-desc">Quando você adicionar novos títulos, clique no sumário e em seguida no ícone de atualização (seta circular) que aparecer no canto.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digitação 3 -->
+      <div class="typing-box" id="type3">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Qual aba do Word tem o botão de Sumário?</div>
+        <div class="typing-target">Referências</div><br>
+        <input class="typing-input" type="text" placeholder="Nome da aba..." oninput="checkTyping(this,'Referências','type3','badge1',10)">
+        <div class="typing-feedback" id="type3-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA: Cabeçalho, Rodapé, Numeração -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📄</span>
+      <h2 class="card-title">Cabeçalho, Rodapé e Numeração de Páginas</h2>
+    </div>
+    <div class="card-body">
+      <div class="drive-step">
+        <div class="drive-step-num">💡</div>
+        <div class="drive-step-body">
+          <div class="drive-step-title">Para que servem?</div>
+          <div class="drive-step-desc">O <strong>cabeçalho</strong> aparece no topo de todas as páginas (título do trabalho, nome do aluno). O <strong>rodapé</strong> fica na parte de baixo (número de página, data). São exigidos em documentos acadêmicos e corporativos.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Ativar Cabeçalho no Word</div>
+            <div class="drive-step-desc">Clique na aba <strong>"Inserir"</strong> → botão <strong>"Cabeçalho"</strong> → escolha um modelo simples. Uma área tracejada abrirá no topo da página. Digite seu nome ou título do trabalho lá.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Adicionar número de página no Rodapé</div>
+            <div class="drive-step-desc">Ainda na aba <strong>"Inserir"</strong>, clique em <strong>"Número de Página"</strong> → <strong>"Fim da Página"</strong> → escolha o alinhamento (normalmente central ou direita).</div>
+            <div class="step-tip">💡 Atalho rápido: dê <strong>duplo clique</strong> na área inferior (rodapé) ou superior (cabeçalho) da página para editá-los diretamente!</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Mesma função no Google Docs</div>
+            <div class="drive-step-desc">Menu <strong>"Inserir"</strong> → <strong>"Cabeçalho e número de página"</strong>. Para numeração: <strong>"Inserir"</strong> → <strong>"Número de página"</strong> → escolha a posição.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digitação 4 -->
+      <div class="typing-box" id="type4">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Como abrir o cabeçalho rapidamente no Word?</div>
+        <div class="typing-target">duplo clique</div><br>
+        <input class="typing-input" type="text" placeholder="Dica de ação do mouse..." oninput="checkTyping(this,'duplo clique','type4','badge2',10)">
+        <div class="typing-feedback" id="type4-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🧠</span>
+      <h2 class="card-title">Quiz — Teste seus conhecimentos!</h2>
+    </div>
+    <div class="card-body">
+      <div class="quiz-wrap" id="quizWrap">
+
+        <div class="quiz-q" id="qq0">
+          <div class="quiz-question">1. Você tem um trabalho com 15 páginas e precisa criar um sumário. O que deve fazer PRIMEIRO?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(0,0,1)">A) Ir em Referências → Sumário imediatamente</button>
+            <button class="quiz-option" onclick="answerQuiz(0,1,1)">B) Aplicar os estilos Título 1, Título 2... em todos os títulos</button>
+            <button class="quiz-option" onclick="answerQuiz(0,2,1)">C) Escrever o sumário manualmente na primeira página</button>
+            <button class="quiz-option" onclick="answerQuiz(0,3,1)">D) Salvar o documento no Google Drive</button>
+          </div>
+          <div class="quiz-feedback" id="qf0"></div>
+        </div>
+
+        <div class="quiz-q" id="qq1">
+          <div class="quiz-question">2. Seu professor pediu para trabalhar em grupo no mesmo documento ao mesmo tempo. Qual ferramenta é ideal?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(1,0,2)">A) Microsoft Word no computador de casa</button>
+            <button class="quiz-option" onclick="answerQuiz(1,1,2)">B) Google Docs na nuvem</button>
+            <button class="quiz-option" onclick="answerQuiz(1,2,2)">C) Bloco de Notas do Windows</button>
+            <button class="quiz-option" onclick="answerQuiz(1,3,2)">D) PowerPoint</button>
+          </div>
+          <div class="quiz-feedback" id="qf1"></div>
+        </div>
+
+        <div class="quiz-q" id="qq2">
+          <div class="quiz-question">3. Qual atalho de teclado é usado para salvar um documento no Word?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(2,0,0)">A) Ctrl + S</button>
+            <button class="quiz-option" onclick="answerQuiz(2,1,0)">B) Ctrl + P</button>
+            <button class="quiz-option" onclick="answerQuiz(2,2,0)">C) Ctrl + Z</button>
+            <button class="quiz-option" onclick="answerQuiz(2,3,0)">D) Alt + F4</button>
+          </div>
+          <div class="quiz-feedback" id="qf2"></div>
+        </div>
+
+        <div class="quiz-q" id="qq3">
+          <div class="quiz-question">4. O que acontece quando você MODIFICA o estilo "Título 1" no Word?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(3,0,1)">A) Apenas o título selecionado muda</button>
+            <button class="quiz-option" onclick="answerQuiz(3,1,1)">B) Todos os textos com estilo Título 1 atualizam automaticamente</button>
+            <button class="quiz-option" onclick="answerQuiz(3,2,1)">C) O documento inteiro muda de formatação</button>
+            <button class="quiz-option" onclick="answerQuiz(3,3,1)">D) Nada acontece, precisa atualizar manualmente</button>
+          </div>
+          <div class="quiz-feedback" id="qf3"></div>
+        </div>
+
+        <div class="quiz-q" id="qq4">
+          <div class="quiz-question">5. Onde fica o botão de Sumário no Microsoft Word?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(4,0,2)">A) Aba Início</button>
+            <button class="quiz-option" onclick="answerQuiz(4,1,2)">B) Aba Inserir</button>
+            <button class="quiz-option" onclick="answerQuiz(4,2,2)">C) Aba Referências</button>
+            <button class="quiz-option" onclick="answerQuiz(4,3,2)">D) Aba Layout</button>
+          </div>
+          <div class="quiz-feedback" id="qf4"></div>
+        </div>
+
+        <div class="quiz-q" id="qq5">
+          <div class="quiz-question">6. Qual é a vantagem do Google Docs sobre o Word para quem não tem computador em casa?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(5,0,0)">A) Pode ser acessado de qualquer computador com internet</button>
+            <button class="quiz-option" onclick="answerQuiz(5,1,0)">B) Tem mais recursos de formatação</button>
+            <button class="quiz-option" onclick="answerQuiz(5,2,0)">C) Funciona sem internet</button>
+            <button class="quiz-option" onclick="answerQuiz(5,3,0)">D) É pago e tem suporte premium</button>
+          </div>
+          <div class="quiz-feedback" id="qf5"></div>
+        </div>
+
+      </div>
+      <div id="quiz-total" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
+    </div>
+  </div>
+
+  <!-- DRAG & DROP -->
   <div class="card">
     <div class="card-header">
       <span class="card-icon">🎯</span>
-      <h2 class="card-title">Objetivos de Aprendizagem</h2>
+      <h2 class="card-title">Arraste e Encaixe — Onde fica cada função?</h2>
     </div>
-    <div class="objetivos-grid">
-      <div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Compreender os conceitos fundamentais de edição de textos – parte 2</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Aplicar o conhecimento de arquivos e pastas em situações práticas</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Desenvolver habilidades de organização digital relacionadas ao tema</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Integrar este conteúdo com os módulos anteriores do curso</span></div>
+    <div class="card-body">
+      <div class="drag-section" id="dragSection">
+        <div class="drag-title">Arraste cada função para a aba correta do Word onde ela está localizada</div>
+        <div class="drag-sub">👆 Clique e arraste os termos abaixo para as zonas corretas</div>
+        <div class="drag-tokens" id="dragTokens">
+          <div class="drag-token" draggable="true" data-val="Sumário" ondragstart="dragStart(event)">📋 Sumário</div>
+          <div class="drag-token" draggable="true" data-val="Cabeçalho" ondragstart="dragStart(event)">🗂 Cabeçalho</div>
+          <div class="drag-token" draggable="true" data-val="Número de Página" ondragstart="dragStart(event)">🔢 Nº Página</div>
+          <div class="drag-token" draggable="true" data-val="Negrito" ondragstart="dragStart(event)">B Negrito</div>
+          <div class="drag-token" draggable="true" data-val="Estilos" ondragstart="dragStart(event)">🎨 Estilos</div>
+          <div class="drag-token" draggable="true" data-val="Imagem" ondragstart="dragStart(event)">🖼 Imagem</div>
+        </div>
+        <div class="drag-zones">
+          <div class="drag-zone" data-answer="Negrito" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Negrito, Itálico, Fonte, Cor de texto, Parágrafo</div>
+            <div class="drag-zone-slot" id="slot-inicio">Aba: Início</div>
+          </div>
+          <div class="drag-zone" data-answer="Imagem" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Imagens, Tabelas, Cabeçalho, Rodapé, Número de Página</div>
+            <div class="drag-zone-slot" id="slot-inserir">Aba: Inserir</div>
+          </div>
+          <div class="drag-zone" data-answer="Sumário" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Sumário, Notas de Rodapé, Citações, Índice</div>
+            <div class="drag-zone-slot" id="slot-ref">Aba: Referências</div>
+          </div>
+          <div class="drag-zone" data-answer="Estilos" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Estilos de Texto, Temas de Documento</div>
+            <div class="drag-zone-slot" id="slot-design">Aba: Design/Início</div>
+          </div>
+        </div>
+        <button class="drag-btn drag-btn-check" onclick="checkDrag()">✅ Verificar</button>
+        <button class="drag-btn drag-btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
+        <div class="drag-result" id="dragResult"></div>
+      </div>
     </div>
   </div>
 
-  <!-- CONTEÚDO -->
+  <!-- MISSÕES -->
   <div class="card">
     <div class="card-header">
-      <span class="card-icon">📖</span>
-      <h2 class="card-title">Conteúdo da Aula</h2>
+      <span class="card-icon">🗡</span>
+      <h2 class="card-title">Missões Práticas — Mão na massa!</h2>
     </div>
-    
-        <div class="conteudo-item">
-            <h3>📌 Introdução: Formatação avançada</h3>
-            <p>Esta semana aprofundamos nosso estudo sobre edição de textos – parte 2. Este conteúdo é fundamental para o desenvolvimento de suas competências em gerenciamento de arquivos e se conecta diretamente ao mercado de trabalho na área de tecnologia.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🔍 Conceitos Fundamentais</h3>
-            <p>Para dominar edição de textos – parte 2, precisamos entender seus princípios básicos. Cada conceito aqui apresentado foi cuidadosamente selecionado para que você construa uma base sólida, capaz de sustentar aprendizados mais avançados no futuro.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>💡 Aplicações Práticas</h3>
-            <p>O conhecimento sobre edição de textos – parte 2 tem aplicações diretas em situações que você encontrará no mercado de trabalho. Vamos explorar casos reais onde profissionais de tecnologia utilizam esses conceitos diariamente.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🛠️ Ferramentas e Recursos</h3>
-            <p>Para praticar os conceitos de edição de textos – parte 2, utilizaremos ferramentas amplamente adotadas na indústria. Familiarizar-se com elas agora é um investimento no seu futuro profissional.</p>
-        </div>
-  </div>
+    <div class="card-body">
+      <div class="mission-list">
 
-  <!-- ATIVIDADES -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">✏️</span>
-      <h2 class="card-title">Atividades Práticas</h2>
-    </div>
-    <p style="color:var(--gray-600); margin-bottom:20px; font-size:.95em;">
-      Para cada exercício, consulte o <a href="semana06_guia.html" style="color:var(--blue); font-weight:600;">Guia de Exercícios</a> 
-      para ver a rubrica de avaliação detalhada e a resolução passo a passo.
-    </p>
-    
-        <div class="exercise-card">
-            <div class="exercise-num">1</div>
-            <div class="exercise-title">Prática: Edição de Textos – Parte 2</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 30 min</span>
-                <span class="exercise-tag">✏️ Exercício 1</span>
+        <div class="mission" id="m0" onclick="toggleMission(0)">
+          <div class="mission-num">1</div>
+          <div class="mission-content">
+            <div class="mission-title">🔤 Formatar um documento com Estilos no Word</div>
+            <div class="mission-desc">Crie um documento com 3 seções, aplique estilos Título 1, Título 2 e Normal, e gere um sumário automático.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 30 min</span>
+              <span class="mtag">💻 Word</span>
+              <span class="mtag mtag-xp">⚡ +80 XP</span>
             </div>
-            <div class="exercise-desc">Aplique os conceitos de edição de textos – parte 2 em uma atividade prática orientada, seguindo os passos indicados pelo professor.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">2</div>
-            <div class="exercise-title">Projeto: Edição de Textos – Parte 2 na Prática</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 35 min</span>
-                <span class="exercise-tag">✏️ Exercício 2</span>
+            <div class="mission-steps" id="ms0">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Abra o Word. Pressione <span class="mstep-code">Ctrl + N</span> para criar um documento novo.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Digite o título: <strong>Tecnologia da Informação</strong>. Selecione o texto e aplique o estilo <strong>Título 1</strong> na aba Início.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Pressione Enter, escreva um parágrafo de texto normal. Aplique o estilo <strong>Normal</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Adicione mais 2 seções com os títulos: <strong>Hardware</strong> e <strong>Software</strong>, cada um com o estilo <strong>Título 1</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Clique no início do documento. Vá em <strong>Referências → Sumário → Sumário Automático 1</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Salve com <span class="mstep-code">Ctrl + S</span>. Dê o nome <strong>Atividade_Estilos_SeuNome.docx</strong></div></div>
+              <div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">✅ Confira: o sumário mostra os 3 títulos com número de página? Se sim, missão cumprida!</div></div>
             </div>
-            <div class="exercise-desc">Desenvolva um pequeno projeto que demonstre sua compreensão de edição de textos – parte 2, com criatividade e qualidade técnica.</div>
+          </div>
+          <div class="mission-check">○</div>
         </div>
-        <div class="exercise-card">
-            <div class="exercise-num">3</div>
-            <div class="exercise-title">Desafio: Edição de Textos – Parte 2</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 25 min</span>
-                <span class="exercise-tag">✏️ Exercício 3</span>
-            </div>
-            <div class="exercise-desc">Resolva um problema desafiador que exige pensamento criativo e aplicação avançada dos conceitos de edição de textos – parte 2.</div>
-        </div>
-  </div>
 
-  <!-- RECURSOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🔗</span>
-      <h2 class="card-title">Recursos Complementares</h2>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">▶️</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Vídeos no YouTube</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Pesquise por: "edição de textos – parte 2 para iniciantes"</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">📚</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Khan Academy</div>
-        <div style="font-size:.85em; color:var(--gray-600);">pt.khanacademy.org — cursos gratuitos</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">🤖</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Pergunte à IA</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Use ChatGPT ou Gemini para tirar dúvidas</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">💬</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Professor</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Nunca tenha vergonha de perguntar!</div>
+        <div class="mission" id="m1" onclick="toggleMission(1)">
+          <div class="mission-num">2</div>
+          <div class="mission-content">
+            <div class="mission-title">☁️ Criar e compartilhar documento no Google Docs</div>
+            <div class="mission-desc">Crie um documento no Google Docs com cabeçalho, rodapé e número de página. Compartilhe com o professor.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 25 min</span>
+              <span class="mtag">☁️ Google Docs</span>
+              <span class="mtag mtag-xp">⚡ +70 XP</span>
+            </div>
+            <div class="mission-steps" id="ms1">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Acesse <span class="mstep-code">docs.google.com</span> no navegador e clique em <strong>"+ Novo documento"</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Nomeie o documento: clique em "Documento sem título" no topo e escreva <strong>Atividade_Docs_SeuNome</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Vá em <strong>Inserir → Cabeçalho e número de página → Cabeçalho</strong>. Digite seu nome e turma.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Vá em <strong>Inserir → Número de página</strong> → escolha a opção que coloca no rodapé da página.</div></div>
+              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Escreva um pequeno texto sobre o que aprendeu hoje (mínimo 3 parágrafos com estilos aplicados).</div></div>
+              <div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Clique em <strong>"Compartilhar"</strong> (botão azul no canto superior direito). Adicione o e-mail do professor com permissão de <strong>Comentarista</strong>.</div></div>
+            </div>
+          </div>
+          <div class="mission-check">○</div>
+        </div>
+
+        <div class="mission" id="m2" onclick="toggleMission(2)">
+          <div class="mission-num">3</div>
+          <div class="mission-content">
+            <div class="mission-title">🔄 Converter Word para Google Docs e vice-versa</div>
+            <div class="mission-desc">Faça o arquivo da Missão 1 subir para o Drive e abrí-lo no Google Docs. Depois baixe um Docs como .docx.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 20 min</span>
+              <span class="mtag">🔄 Conversão</span>
+              <span class="mtag mtag-xp">⚡ +60 XP</span>
+            </div>
+            <div class="mission-steps" id="ms2">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Acesse <span class="mstep-code">drive.google.com</span> e entre na pasta PTIC.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Arraste o arquivo .docx salvo na missão 1 para dentro da pasta PTIC no Drive.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Clique com o <strong>botão direito</strong> no arquivo → <strong>"Abrir com" → "Google Docs"</strong>. O arquivo abre no Docs!</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Agora, com o arquivo aberto no Docs, vá em <strong>Arquivo → Fazer download → Microsoft Word (.docx)</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">✅ Você acabou de fazer a conversão nos dois sentidos! Isso é muito útil no mundo profissional.</div></div>
+            </div>
+          </div>
+          <div class="mission-check">○</div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- NAV RODAPÉ -->
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="section-label">📊 Seu progresso</div>
+    <div class="progress-missions">
+      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Exercícios Digitação</div><div class="prog-sub" id="prog-type">0/4 completos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="prog-quiz">0/6 respondidos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="prog-drag">Não realizado</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="prog-miss">0/3 concluídas</div></div></div>
+    </div>
+    <div class="total-xp">
+      <div class="total-xp-label">⚡ XP Total Acumulado</div>
+      <div class="total-xp-num" id="totalXpDisp">0 / 320 XP</div>
+    </div>
+  </div>
+
   <nav class="nav-bar">
-    <a href="semana05_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana06_guia.html" class="nav-btn nav-btn-accent">📝 Guia</a>
+    <a href="semana05_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
     <span class="nav-spacer"></span>
-    <a href="semana07_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana07_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
 
 </div>
+
+<script>
+// ===== XP SYSTEM =====
+let totalXP = 0;
+const MAX_XP = 320;
+const earned = {};
+
+function addXP(key, amount) {
+  if (earned[key]) return;
+  earned[key] = true;
+  totalXP = Math.min(totalXP + amount, MAX_XP);
+  updateXPBar();
+}
+
+function updateXPBar() {
+  const pct = (totalXP / MAX_XP) * 100;
+  document.getElementById('xpFill').style.width = pct + '%';
+  document.getElementById('xpNum').textContent = totalXP + ' / ' + MAX_XP;
+  document.getElementById('totalXpDisp').textContent = totalXP + ' / ' + MAX_XP + ' XP';
+  checkAchievements();
+}
+
+function checkAchievements() {
+  if (totalXP >= 60) unlockBadge('badge0');
+  if (totalXP >= 140) unlockBadge('badge1');
+  if (totalXP >= 230) unlockBadge('badge2');
+  if (totalXP >= 320) unlockBadge('badge3');
+}
+
+function unlockBadge(id) {
+  const el = document.getElementById(id);
+  if (el && el.classList.contains('locked')) el.classList.replace('locked','unlocked');
+}
+
+// ===== TYPING =====
+let typingDone = {};
+function checkTyping(input, target, boxId, badgeId, xp) {
+  const box = document.getElementById(boxId);
+  const fb = document.getElementById(boxId + '-fb');
+  const val = input.value.trim();
+  if (val.toLowerCase() === target.toLowerCase()) {
+    box.classList.remove('wrong');
+    box.classList.add('correct');
+    input.disabled = true;
+    fb.textContent = '🎉 Correto! +' + xp + ' XP';
+    fb.style.color = 'var(--green)';
+    if (!typingDone[boxId]) {
+      typingDone[boxId] = true;
+      addXP('typing_' + boxId, xp);
+      const done = Object.keys(typingDone).length;
+      document.getElementById('prog-type').textContent = done + '/4 completos';
+    }
+  } else if (val.length >= target.length) {
+    box.classList.add('wrong');
+    setTimeout(() => box.classList.remove('wrong'), 500);
+    fb.textContent = '❌ Tente novamente...';
+    fb.style.color = 'var(--red)';
+  } else {
+    fb.textContent = '';
+    box.classList.remove('wrong','correct');
+  }
+}
+
+// ===== QUIZ =====
+const quizAnswers = [1, 1, 0, 1, 2, 0];
+const quizExplain = [
+  'Correto! Os estilos de título são pré-requisito para o sumário automático funcionar.',
+  'Correto! O Google Docs permite colaboração em tempo real com múltiplos editores.',
+  'Correto! Ctrl + S salva o documento. Ctrl + P imprime, Ctrl + Z desfaz.',
+  'Correto! Ao modificar um estilo, todos os textos com aquele estilo são atualizados.',
+  'Correto! O botão Sumário fica na aba Referências, junto com citações e notas.',
+  'Correto! Por ser na nuvem, o Google Docs pode ser acessado de qualquer dispositivo.'
+];
+let quizScore = 0;
+let quizAnswered = {};
+
+function answerQuiz(qNum, choice, correct) {
+  if (quizAnswered[qNum]) return;
+  quizAnswered[qNum] = true;
+  const btns = document.querySelectorAll(`#qq${qNum} .quiz-option`);
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qf' + qNum);
+  if (choice === correct) {
+    btns[choice].classList.add('correct');
+    fb.textContent = '✅ ' + quizExplain[qNum];
+    fb.classList.add('show', 'ok');
+    quizScore++;
+    addXP('quiz_' + qNum, 15);
+  } else {
+    btns[choice].classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.textContent = '❌ ' + quizExplain[qNum];
+    fb.classList.add('show', 'bad');
+  }
+  const answered = Object.keys(quizAnswered).length;
+  document.getElementById('prog-quiz').textContent = answered + '/6 respondidos';
+  if (answered === 6) {
+    document.getElementById('quiz-total').textContent = `🏆 Quiz finalizado! Você acertou ${quizScore}/6 questões.`;
+  }
+}
+
+// ===== DRAG & DROP =====
+let draggedToken = null;
+const dragSlots = {};
+
+function dragStart(e) {
+  draggedToken = e.target;
+  e.target.classList.add('dragging');
+}
+function dragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('over');
+}
+function dragLeave(e) {
+  e.currentTarget.classList.remove('over');
+}
+function dropItem(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  if (!draggedToken) return;
+  const zone = e.currentTarget;
+  const slotId = zone.querySelector('.drag-zone-slot').id;
+  const val = draggedToken.dataset.val;
+  dragSlots[slotId] = val;
+  zone.querySelector('.drag-zone-slot').textContent = val;
+  zone.querySelector('.drag-zone-slot').classList.add('filled');
+  draggedToken.classList.add('used');
+  draggedToken.classList.remove('dragging');
+  draggedToken = null;
+}
+
+function checkDrag() {
+  const answers = {
+    'slot-inicio': 'Negrito',
+    'slot-inserir': 'Imagem',
+    'slot-ref': 'Sumário',
+    'slot-design': 'Estilos'
+  };
+  let correct = 0;
+  for (const [slotId, expected] of Object.entries(answers)) {
+    const slot = document.getElementById(slotId);
+    const zone = slot.parentElement;
+    if (dragSlots[slotId] === expected) {
+      zone.classList.add('correct');
+      correct++;
+    } else {
+      zone.classList.add('wrong');
+    }
+  }
+  const result = document.getElementById('dragResult');
+  result.classList.add('show');
+  if (correct === 4) {
+    result.style.background = 'var(--green-light)';
+    result.style.color = 'var(--green)';
+    result.textContent = '🎉 Perfeito! Você acertou todos! +50 XP';
+    addXP('drag_done', 50);
+    document.getElementById('prog-drag').textContent = '✅ Concluído';
+  } else {
+    result.style.background = 'var(--red-light)';
+    result.style.color = 'var(--red)';
+    result.textContent = `Você acertou ${correct}/4. Tente novamente!`;
+  }
+}
+
+function resetDrag() {
+  document.querySelectorAll('.drag-token').forEach(t => { t.classList.remove('used','dragging'); });
+  document.querySelectorAll('.drag-zone').forEach(z => { z.classList.remove('correct','wrong','over'); });
+  document.querySelectorAll('.drag-zone-slot').forEach(s => {
+    s.classList.remove('filled');
+    const labels = {'slot-inicio':'Aba: Início','slot-inserir':'Aba: Inserir','slot-ref':'Aba: Referências','slot-design':'Aba: Design/Início'};
+    s.textContent = labels[s.id] || '?';
+  });
+  Object.keys(dragSlots).forEach(k => delete dragSlots[k]);
+  const r = document.getElementById('dragResult');
+  r.classList.remove('show');
+  draggedToken = null;
+}
+
+// ===== MISSIONS =====
+let missionsDone = {};
+function toggleMission(id) {
+  const steps = document.getElementById('ms' + id);
+  steps.classList.toggle('open');
+  const mission = document.getElementById('m' + id);
+  if (!missionsDone[id]) {
+    missionsDone[id] = true;
+    mission.classList.add('done');
+    mission.querySelector('.mission-check').textContent = '✓';
+    const xpMap = [80, 70, 60];
+    addXP('mission_' + id, xpMap[id]);
+    const done = Object.keys(missionsDone).length;
+    document.getElementById('prog-miss').textContent = done + '/3 concluídas';
+  }
+}
+
+// Touch support for drag
+let touchToken = null;
+document.addEventListener('touchstart', e => {
+  const token = e.target.closest('.drag-token');
+  if (token && !token.classList.contains('used')) { touchToken = token; }
+});
+document.addEventListener('touchend', e => {
+  if (!touchToken) return;
+  const touch = e.changedTouches[0];
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const zone = el ? el.closest('.drag-zone') : null;
+  if (zone) {
+    const fakeEvent = { preventDefault: ()=>{}, currentTarget: zone };
+    draggedToken = touchToken;
+    dropItem(fakeEvent);
+  }
+  touchToken = null;
+});
+</script>
 </body>
 </html>

@@ -5,281 +5,463 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Semana 23 – Ferramentas de IA | TIC 2026</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-600: #475569;
-  --gray-800: #1e293b;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
-  --radius: 12px;
-  --radius-sm: 8px;
-}
-body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
-
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0d47a1 100%);
-  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
-  box-shadow: 0 2px 20px rgba(0,0,0,.3);
-}
-.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.week-badge {
-  background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
-  border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; letter-spacing:.05em;
-  white-space:nowrap;
-}
-.header-text { flex:1; }
-.header-text h1 { font-size:clamp(1.2em, 3vw, 1.8em); font-weight:700; letter-spacing:-.02em; }
-.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
-.module-tag {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600;
-  white-space:nowrap;
-}
-
-/* CONTAINER */
-.container { max-width:1200px; margin:0 auto; padding:32px; }
-
-/* CARDS */
-.card {
-  background:var(--white); border-radius:var(--radius); padding:32px;
-  margin-bottom:24px; box-shadow:var(--shadow-md);
-  border:1px solid var(--gray-200);
-  transition: box-shadow .2s ease, transform .2s ease;
-}
-.card:hover { box-shadow:var(--shadow-lg); transform: translateY(-1px); }
-.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
-.card-icon { font-size:1.5em; }
-.card-title { font-size:1.3em; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
-
-/* OBJETIVOS */
-.objetivos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
-.objetivo-item {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border:1px solid #bfdbfe; border-radius:var(--radius-sm);
-  padding:16px; display:flex; align-items:flex-start; gap:10px;
-}
-.objetivo-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; margin-top:7px; flex-shrink:0; }
-.objetivo-text { font-size:.95em; font-weight:500; color:var(--navy); }
-
-/* CONTEUDO */
-.conteudo-item {
-  background:var(--gray-50); border-radius:var(--radius-sm);
-  padding:20px 24px; margin-bottom:16px;
-  border-left:4px solid var(--cyan);
-}
-.conteudo-item h3 { color:var(--navy); font-size:1.05em; font-weight:700; margin-bottom:8px; }
-.conteudo-item p { color:var(--gray-600); font-size:.95em; line-height:1.7; }
-
-/* EXERCICIOS */
-.exercise-card {
-  border:1px solid var(--gray-200); border-radius:var(--radius-sm);
-  padding:20px; margin-bottom:16px; position:relative; overflow:hidden;
-}
-.exercise-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
-  background: linear-gradient(180deg, var(--blue), var(--cyan));
-}
-.exercise-num {
-  display:inline-flex; align-items:center; justify-content:center;
-  width:32px; height:32px; background:var(--navy); color:var(--white);
-  border-radius:50%; font-size:.8em; font-weight:700; margin-bottom:8px;
-}
-.exercise-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:4px; }
-.exercise-meta { display:flex; gap:12px; margin-bottom:10px; }
-.exercise-tag {
-  background:var(--gray-100); border-radius:50px; padding:3px 10px;
-  font-size:.8em; font-weight:500; color:var(--gray-600);
-}
-.exercise-desc { color:var(--gray-600); font-size:.92em; }
-
-/* NAV */
-.nav-bar {
-  background:var(--white); border-radius:var(--radius); padding:20px 24px;
-  box-shadow:var(--shadow-md); border:1px solid var(--gray-200);
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-  margin-bottom:24px;
-}
-.nav-btn {
-  padding:10px 20px; border-radius:var(--radius-sm);
-  text-decoration:none; font-weight:600; font-size:.9em;
-  transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;
-}
-.nav-btn-primary {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  color:var(--white); box-shadow:0 2px 8px rgba(26,86,219,.3);
-}
-.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,86,219,.4); }
-.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
-.nav-btn-secondary:hover { background:var(--gray-200); }
-.nav-btn-accent { background: linear-gradient(135deg, var(--green), #059669); color:var(--white); }
-.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
-.nav-spacer { flex:1; }
-
-/* RESPONSIVE */
-@media(max-width:768px) {
-  .container { padding:16px; }
-  .card { padding:20px; }
-  .objetivos-grid { grid-template-columns:1fr; }
-  .nav-bar { gap:8px; }
-  .nav-btn { padding:8px 14px; font-size:.85em; }
-}
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0e0e14;--paper:#f0fff8;--acc:#0a192f;--acc-light:#64ffda;--acc-pale:#e6fffa;--green:#15803d;--green-light:#dcfce7;--red:#b91c1c;--red-light:#fee2e2;--gray:#6b7280;--border:#b2f5ea;--shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);--r:10px}
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--acc-light)}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.week-pill{background:var(--acc);color:#fff;border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;white-space:nowrap}
+.header-title{flex:1}
+.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800}
+.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--acc-light)}
+.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--acc),var(--acc-light));border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.78em;font-weight:700;color:var(--acc-light);font-family:'DM Mono',monospace}
+.container{max-width:1100px;margin:0 auto;padding:28px}
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.nav-btn-gold{background:var(--acc);color:#fff}
+.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-spacer{flex:1}
+.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
+.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--acc-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;margin-bottom:10px}
+.quest-banner h2 span{color:var(--acc-light)}
+.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
+.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
+.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
+.badges-section{margin-bottom:24px}
+.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.badges-row{display:flex;gap:12px;flex-wrap:wrap}
+.badge-item{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s}
+.badge-item.locked{opacity:.45;filter:grayscale(.8)}
+.badge-item.unlocked{border-color:var(--acc);background:var(--acc-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
+.badge-icon{font-size:1.8em;margin-bottom:6px}
+.badge-name{font-size:.8em;font-weight:700}
+.badge-xp{font-size:.72em;font-weight:600;color:var(--acc);font-family:'DM Mono',monospace}
+.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
+.card-icon{font-size:1.5em}
+.card-title{font-size:1.15em;font-weight:800}
+.card-body{display:flex;flex-direction:column;gap:16px}
+.info-box{background:var(--acc-pale);border-radius:var(--r);padding:16px 20px;border-left:4px solid var(--acc);display:flex;gap:12px}
+.info-icon{font-size:1.3em}
+.info-text{font-size:.9em;line-height:1.7}
+.info-text strong{color:var(--acc)}
+.info-text code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--acc-light);padding:2px 6px;border-radius:4px;font-size:.9em}
+.step{display:flex;gap:16px;padding:16px;background:var(--acc-pale);border-radius:var(--r);border-left:4px solid var(--acc)}
+.step-num{width:32px;height:32px;background:var(--acc);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
+.step-body{flex:1}
+.step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
+.step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-tip{font-size:.82em;color:#1e40af;background:#dbeafe;border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+.typing-box{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
+.typing-box.correct{border-color:var(--green);background:var(--green-light)}
+.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.typing-label{font-size:.82em;font-weight:700;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:var(--acc);background:rgba(0,0,0,.06);padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px}
+.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none}
+.typing-input:focus{border-color:var(--acc)}
+.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
+.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--acc-pale);color:var(--acc);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+.quiz-q{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
+.quiz-option:hover{border-color:var(--acc);background:var(--acc-pale)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
+.drag-section{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.drag-tokens{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;background:#fff;border-radius:8px;border:2px dashed var(--border);margin-bottom:16px}
+.drag-token{background:var(--ink);color:#fff;border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;font-family:'DM Mono',monospace;transition:transform .15s}
+.drag-token:hover{transform:scale(1.05)}
+.drag-token.used{background:var(--gray);opacity:.5;cursor:default}
+.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.drag-zone{background:#fff;border:2px dashed var(--border);border-radius:8px;padding:12px 16px;min-height:52px;transition:border-color .2s;display:flex;align-items:center;gap:10px}
+.drag-zone.over{border-color:var(--acc);background:var(--acc-pale)}
+.drag-zone.correct{border-color:var(--green);background:var(--green-light)}
+.drag-zone.wrong{border-color:var(--red);background:var(--red-light)}
+.drag-zone-desc{font-size:.83em;color:var(--gray);flex:1}
+.drag-zone-slot{min-width:100px;height:32px;background:var(--acc-pale);border-radius:5px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.78em;color:var(--gray);padding:0 8px;text-align:center}
+.drag-zone-slot.filled{background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-weight:700;border-style:solid;border-color:var(--ink)}
+.drag-btn{padding:10px 22px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;border:none;margin-top:14px}
+.drag-btn-check{background:var(--ink);color:#fff}
+.drag-btn-reset{background:var(--paper);color:var(--ink);border:2px solid var(--border);margin-left:8px}
+.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:8px;display:none}
+.drag-result.show{display:block}
+.mission-list{display:flex;flex-direction:column;gap:14px}
+.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border)}
+.mission:hover{border-color:var(--acc);box-shadow:var(--shadow)}
+.mission:hover::before{background:var(--acc)}
+.mission.done{border-color:var(--green);background:var(--green-light)}
+.mission.done::before{background:var(--green)}
+.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;border:2px solid var(--border)}
+.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
+.mission-content{flex:1}
+.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
+.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap}
+.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
+.mtag-xp{background:var(--acc-pale);color:var(--acc);border-color:var(--border)}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0}
+.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
+.mission-steps{background:var(--acc-pale);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
+.mission-steps.open{display:block}
+.mstep{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.mstep-num{background:var(--acc);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0}
+.mstep-text{font-size:.87em;line-height:1.55}
+.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--acc-light);padding:2px 8px;border-radius:4px;font-size:.9em}
+.progress-bar{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.prog-icon{font-size:1.2em}
+.prog-label{font-size:.82em;font-weight:600}
+.prog-sub{font-size:.75em;color:var(--gray)}
+.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.total-xp-label{font-size:.85em;opacity:.7}
+.total-xp-num{font-size:1.4em;font-weight:800;color:var(--acc-light);font-family:'DM Mono',monospace}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.formula-card{background:var(--acc-pale);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.formula-name{font-family:'DM Mono',monospace;font-size:1em;font-weight:700;color:var(--acc);margin-bottom:6px}
+.formula-desc{font-size:.83em;color:var(--gray);margin-bottom:8px}
+.formula-ex{font-family:'DM Mono',monospace;font-size:.82em;background:var(--ink);color:var(--acc-light);padding:4px 8px;border-radius:4px;display:inline-block}
+.abnt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.abnt-rule{background:var(--acc-pale);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.abnt-rule-num{font-size:.72em;font-weight:700;color:var(--gray);letter-spacing:.05em;margin-bottom:6px;font-family:'DM Mono',monospace}
+.abnt-rule-icon{font-size:1.4em;margin-bottom:6px}
+.abnt-rule-title{font-weight:800;font-size:.9em;margin-bottom:6px}
+.abnt-rule-val{font-size:.85em;font-weight:700;color:var(--acc);font-family:'DM Mono',monospace;margin-bottom:2px}
+.abnt-rule-desc{font-size:.8em;color:var(--gray);margin-top:6px;line-height:1.5}
+@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}}
 </style>
 </head>
 <body>
-
 <header class="header">
   <div class="header-inner">
-    <span class="week-badge">📅 Semana 23 · 3º Bimestre</span>
-    <div class="header-text">
+    <span class="week-pill">📅 Semana 23 · 3º Bimestre</span>
+    <div class="header-title">
       <h1>Ferramentas de IA</h1>
       <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
     </div>
-    <span class="module-tag">🗂 Inteligência Artificial</span>
+    <div class="xp-bar-wrap">
+      <span class="xp-label">⚡ XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0 / 300</span>
+    </div>
   </div>
 </header>
-
 <div class="container">
-
-  <!-- NAV TOPO -->
   <nav class="nav-bar">
-    <a href="semana22_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana23_guia.html" class="nav-btn nav-btn-accent">📝 Guia de Exercícios</a>
+    <a href="semana22_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <a href="semana23_guia.html" class="nav-btn nav-btn-gold">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana24_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana24_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
-
-  <!-- OBJETIVOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🎯</span>
-      <h2 class="card-title">Objetivos de Aprendizagem</h2>
-    </div>
-    <div class="objetivos-grid">
-      <div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Compreender os conceitos fundamentais de ferramentas de ia</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Aplicar o conhecimento de inteligência artificial em situações práticas</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Desenvolver habilidades de ferramentas de IA relacionadas ao tema</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Integrar este conteúdo com os módulos anteriores do curso</span></div>
+  <div class="quest-banner">
+    <div class="quest-eyebrow">🗡 Missão da Semana 23</div>
+    <h2>Ferramentas de IA — <span>ChatGPT, Gemini e Copilot Dominados</span></h2>
+    <p>Existem dezenas de ferramentas de IA, mas algumas se tornaram essenciais no mercado de trabalho. Aprenda a usar ChatGPT, Gemini e Microsoft Copilot para estudar, trabalhar e criar de forma mais inteligente.</p>
+    <div class="quest-rewards">
+      <div class="reward-chip">🏆 300 XP disponíveis</div>
+      <div class="reward-chip">📜 4 Conquistas</div>
+      <div class="reward-chip">⏱ ~90 min</div>
+      <div class="reward-chip">🛠 Ferramentas IA</div>
     </div>
   </div>
-
-  <!-- CONTEÚDO -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">📖</span>
-      <h2 class="card-title">Conteúdo da Aula</h2>
-    </div>
-    
-        <div class="conteudo-item">
-            <h3>📌 Introdução: ChatGPT, Gemini, Copilot</h3>
-            <p>Esta semana aprofundamos nosso estudo sobre ferramentas de ia. Este conteúdo é fundamental para o desenvolvimento de suas competências em inteligência artificial e se conecta diretamente ao mercado de trabalho na área de tecnologia.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🔍 Conceitos Fundamentais</h3>
-            <p>Para dominar ferramentas de ia, precisamos entender seus princípios básicos. Cada conceito aqui apresentado foi cuidadosamente selecionado para que você construa uma base sólida, capaz de sustentar aprendizados mais avançados no futuro.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>💡 Aplicações Práticas</h3>
-            <p>O conhecimento sobre ferramentas de ia tem aplicações diretas em situações que você encontrará no mercado de trabalho. Vamos explorar casos reais onde profissionais de tecnologia utilizam esses conceitos diariamente.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🛠️ Ferramentas e Recursos</h3>
-            <p>Para praticar os conceitos de ferramentas de ia, utilizaremos ferramentas amplamente adotadas na indústria. Familiarizar-se com elas agora é um investimento no seu futuro profissional.</p>
-        </div>
-  </div>
-
-  <!-- ATIVIDADES -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">✏️</span>
-      <h2 class="card-title">Atividades Práticas</h2>
-    </div>
-    <p style="color:var(--gray-600); margin-bottom:20px; font-size:.95em;">
-      Para cada exercício, consulte o <a href="semana23_guia.html" style="color:var(--blue); font-weight:600;">Guia de Exercícios</a> 
-      para ver a rubrica de avaliação detalhada e a resolução passo a passo.
-    </p>
-    
-        <div class="exercise-card">
-            <div class="exercise-num">1</div>
-            <div class="exercise-title">Prática: Ferramentas de IA</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 30 min</span>
-                <span class="exercise-tag">✏️ Exercício 1</span>
-            </div>
-            <div class="exercise-desc">Aplique os conceitos de ferramentas de ia em uma atividade prática orientada, seguindo os passos indicados pelo professor.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">2</div>
-            <div class="exercise-title">Projeto: Ferramentas de IA na Prática</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 35 min</span>
-                <span class="exercise-tag">✏️ Exercício 2</span>
-            </div>
-            <div class="exercise-desc">Desenvolva um pequeno projeto que demonstre sua compreensão de ferramentas de ia, com criatividade e qualidade técnica.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">3</div>
-            <div class="exercise-title">Desafio: Ferramentas de IA</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 25 min</span>
-                <span class="exercise-tag">✏️ Exercício 3</span>
-            </div>
-            <div class="exercise-desc">Resolva um problema desafiador que exige pensamento criativo e aplicação avançada dos conceitos de ferramentas de ia.</div>
-        </div>
-  </div>
-
-  <!-- RECURSOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🔗</span>
-      <h2 class="card-title">Recursos Complementares</h2>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">▶️</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Vídeos no YouTube</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Pesquise por: "ferramentas de ia para iniciantes"</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">📚</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Khan Academy</div>
-        <div style="font-size:.85em; color:var(--gray-600);">pt.khanacademy.org — cursos gratuitos</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">🤖</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Pergunte à IA</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Use ChatGPT ou Gemini para tirar dúvidas</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">💬</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Professor</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Nunca tenha vergonha de perguntar!</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAV RODAPÉ -->
-  <nav class="nav-bar">
-    <a href="semana22_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana23_guia.html" class="nav-btn nav-btn-accent">📝 Guia</a>
-    <span class="nav-spacer"></span>
-    <a href="semana24_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
-  </nav>
-
+  <div class="badges-section">
+    <div class="section-label">🏅 Conquistas desta semana</div>
+    <div class="badges-row"><div class="badge-item locked" id="badge0"><div class="badge-icon">💬</div><div class="badge-name">Usuário ChatGPT</div><div class="badge-xp">+60 XP</div></div>
+<div class="badge-item locked" id="badge1"><div class="badge-icon">🔮</div><div class="badge-name">Usuário Gemini</div><div class="badge-xp">+70 XP</div></div>
+<div class="badge-item locked" id="badge2"><div class="badge-icon">📎</div><div class="badge-name">Usuário Copilot</div><div class="badge-xp">+80 XP</div></div>
+<div class="badge-item locked" id="badge3"><div class="badge-icon">🚀</div><div class="badge-name">Power User IA</div><div class="badge-xp">+90 XP</div></div>
 </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header"><span class="card-icon">💬</span><h2 class="card-title">ChatGPT — O Assistente de IA Mais Famoso do Mundo</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">💬</div><div class="info-text"><strong>ChatGPT</strong> (OpenAI) é o modelo que popularizou a IA generativa em 2022.<br><br>
+<strong>Como acessar:</strong> chatgpt.com (versão grátis disponível)<br><br>
+<strong>O que faz muito bem:</strong><br>
+• ✅ Explicar conceitos complexos com exemplos<br>
+• ✅ Corrigir e melhorar textos<br>
+• ✅ Gerar código de programação<br>
+• ✅ Brainstorming e ideias criativas<br>
+• ✅ Resumir documentos longos<br>
+• ✅ Traduzir idiomas<br><br>
+<strong>Limitações importantes:</strong><br>
+• ❌ Conhecimento até data de corte (não sabe eventos recentes)<br>
+• ❌ Pode alucinar (inventar fatos com confiança)<br>
+• ❌ Versão gratuita não tem acesso à internet<br><br>
+<strong>Dica de ouro:</strong> use o ChatGPT como um professor paciente que explica quantas vezes você pedir!</div></div>
+      
+      <div class="typing-box" id="t1">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ ChatGPT foi desenvolvido pela empresa:</div>
+        <div class="typing-target">OpenAI</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'OpenAI','t1','badge0',10)">
+        <div class="typing-feedback" id="t1-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🔮</span><h2 class="card-title">Gemini — A IA do Google com Acesso à Internet</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🔮</div><div class="info-text"><strong>Gemini</strong> (Google DeepMind) é a resposta do Google ao ChatGPT, com uma vantagem chave: acesso à internet em tempo real.<br><br>
+<strong>Como acessar:</strong> gemini.google.com (gratuito com conta Google)<br><br>
+<strong>O que faz muito bem:</strong><br>
+• ✅ Pesquisar informações atuais (tem acesso à internet!)<br>
+• ✅ Integração com Google Workspace (Docs, Sheets, Gmail)<br>
+• ✅ Analisar imagens (descreve o que vê em fotos)<br>
+• ✅ Criar conteúdo multimídia<br>
+• ✅ Respostas com fontes e links para verificação<br><br>
+<strong>Vantagem sobre ChatGPT:</strong> porque busca na internet, tem menos risco de dar informações desatualizadas.<br><br>
+<strong>Integração com Google:</strong> no Google Docs, você pode pedir "Ajuda-me a escrever" e o Gemini aparece direto!</div></div>
+      
+      <div class="typing-box" id="t2">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ IA do Google que tem acesso à internet em tempo real chama-se:</div>
+        <div class="typing-target">Gemini</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Gemini','t2','badge1',10)">
+        <div class="typing-feedback" id="t2-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📎</span><h2 class="card-title">Microsoft Copilot — IA Integrada ao Windows e Office</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">📎</div><div class="info-text">O <strong>Microsoft Copilot</strong> é a IA da Microsoft, integrada ao Windows 11, Word, Excel, PowerPoint e Outlook.<br><br>
+<strong>Como acessar:</strong> copilot.microsoft.com (gratuito) ou tecla Windows + C no Windows 11<br><br>
+<strong>No Word:</strong> "Rascunhe um e-mail de apresentação profissional" → Copilot escreve<br>
+<strong>No Excel:</strong> "Analise esses dados e crie um gráfico de tendências" → Copilot faz<br>
+<strong>No PowerPoint:</strong> "Crie uma apresentação de 5 slides sobre sustentabilidade" → Copilot cria<br>
+<strong>No Outlook:</strong> "Resuma os e-mails importantes de hoje" → Copilot resume<br><br>
+<strong>Para estudantes ETEC:</strong> o Copilot no Word pode ajudar com redações. No Excel com planilhas. No PowerPoint com apresentações de trabalho!<br>
+<strong>Lembre-se:</strong> sempre revise e personalize o conteúdo gerado!</div></div>
+      
+      <div class="typing-box" id="t3">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Tecla de atalho para abrir o Copilot no Windows 11:</div>
+        <div class="typing-target">Windows + C</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Windows + C','t3','badge2',10)">
+        <div class="typing-feedback" id="t3-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🚀</span><h2 class="card-title">Comparando as IAs — Qual Usar em Cada Situação?</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🚀</div><div class="info-text"><table style='width:100%;border-collapse:collapse;font-size:.85em'>
+<tr style='background:var(--acc-pale)'><th style='padding:6px;text-align:left'>Situação</th><th style='padding:6px'>Melhor Opção</th><th style='padding:6px'>Por quê</th></tr>
+<tr><td style='padding:6px'>Pesquisar evento recente</td><td style='padding:6px;text-align:center'>Gemini</td><td style='padding:6px'>Tem acesso à internet</td></tr>
+<tr style='background:var(--acc-pale)'><td style='padding:6px'>Escrever e revisar texto longo</td><td style='padding:6px;text-align:center'>ChatGPT</td><td style='padding:6px'>Melhor em contexto longo</td></tr>
+<tr><td style='padding:6px'>Criar apresentação PowerPoint</td><td style='padding:6px;text-align:center'>Copilot</td><td style='padding:6px'>Integrado ao Office</td></tr>
+<tr style='background:var(--acc-pale)'><td style='padding:6px'>Analisar uma foto/imagem</td><td style='padding:6px;text-align:center'>Gemini</td><td style='padding:6px'>Melhor visão computacional</td></tr>
+<tr><td style='padding:6px'>Gerar código de programação</td><td style='padding:6px;text-align:center'>ChatGPT/Copilot</td><td style='padding:6px'>Ambos excelentes</td></tr>
+<tr style='background:var(--acc-pale)'><td style='padding:6px'>Resumir e-mail no Outlook</td><td style='padding:6px;text-align:center'>Copilot</td><td style='padding:6px'>Integrado ao Outlook</td></tr>
+</table>
+<br><strong>Dica:</strong> não tenha lealdade a uma ferramenta. Use a melhor para cada tarefa!</div></div>
+      
+      <div class="typing-box" id="t4">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Para pesquisar um evento que aconteceu esta semana, a melhor IA é o:</div>
+        <div class="typing-target">Gemini</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Gemini','t4','badge3',10)">
+        <div class="typing-feedback" id="t4-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🧠</span><h2 class="card-title">Quiz — Teste seus conhecimentos!</h2></div>
+    <div class="card-body">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="quiz-q" id="qq0">
+          <div class="quiz-question">1. ChatGPT foi desenvolvido pela:</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(0,0,2)">A) Google</button>
+<button class="quiz-option" onclick="answerQuiz(0,1,2)">B) Microsoft</button>
+<button class="quiz-option" onclick="answerQuiz(0,2,2)">C) OpenAI</button>
+<button class="quiz-option" onclick="answerQuiz(0,3,2)">D) Amazon</button></div>
+          <div class="quiz-feedback" id="qf0"></div>
+        </div>
+        <div class="quiz-q" id="qq1">
+          <div class="quiz-question">2. Qual a principal vantagem do Gemini sobre o ChatGPT gratuito?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(1,0,1)">A) É mais inteligente</button>
+<button class="quiz-option" onclick="answerQuiz(1,1,1)">B) Tem acesso à internet em tempo real — pode pesquisar informações atuais</button>
+<button class="quiz-option" onclick="answerQuiz(1,2,1)">C) É mais barato</button>
+<button class="quiz-option" onclick="answerQuiz(1,3,1)">D) Tem mais idiomas</button></div>
+          <div class="quiz-feedback" id="qf1"></div>
+        </div>
+        <div class="quiz-q" id="qq2">
+          <div class="quiz-question">3. Você precisa criar uma apresentação de trabalho no PowerPoint com ajuda de IA. Qual ferramenta usar?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(2,0,2)">A) ChatGPT — é o mais famoso</button>
+<button class="quiz-option" onclick="answerQuiz(2,1,2)">B) Gemini — tem internet</button>
+<button class="quiz-option" onclick="answerQuiz(2,2,2)">C) Microsoft Copilot — integrado ao PowerPoint</button>
+<button class="quiz-option" onclick="answerQuiz(2,3,2)">D) Qualquer uma serve igual</button></div>
+          <div class="quiz-feedback" id="qf2"></div>
+        </div>
+        <div class="quiz-q" id="qq3">
+          <div class="quiz-question">4. Você quer verificar uma notícia de hoje. Qual IA não serve para isso?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(3,0,2)">A) Gemini</button>
+<button class="quiz-option" onclick="answerQuiz(3,1,2)">B) Copilot com Bing</button>
+<button class="quiz-option" onclick="answerQuiz(3,2,2)">C) ChatGPT versão gratuita (sem internet)</button>
+<button class="quiz-option" onclick="answerQuiz(3,3,2)">D) Perplexity AI</button></div>
+          <div class="quiz-feedback" id="qf3"></div>
+        </div>
+        <div class="quiz-q" id="qq4">
+          <div class="quiz-question">5. Como o Copilot aparece no Windows 11?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(4,0,1)">A) Ctrl + Alt + Del</button>
+<button class="quiz-option" onclick="answerQuiz(4,1,1)">B) Windows + C</button>
+<button class="quiz-option" onclick="answerQuiz(4,2,1)">C) F12</button>
+<button class="quiz-option" onclick="answerQuiz(4,3,1)">D) Alt + Tab</button></div>
+          <div class="quiz-feedback" id="qf4"></div>
+        </div>
+        <div class="quiz-q" id="qq5">
+          <div class="quiz-question">6. Para qual tarefa NENHUMA das IAs deve ser usada sem verificação especializada?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(5,0,2)">A) Corrigir uma redação</button>
+<button class="quiz-option" onclick="answerQuiz(5,1,2)">B) Criar um post de Instagram</button>
+<button class="quiz-option" onclick="answerQuiz(5,2,2)">C) Diagnóstico médico ou aconselhamento legal</button>
+<button class="quiz-option" onclick="answerQuiz(5,3,2)">D) Traduzir um texto</button></div>
+          <div class="quiz-feedback" id="qf5"></div>
+        </div></div>
+      <div id="qt" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎯</span><h2 class="card-title">Arraste e Encaixe — Conecte os Conceitos!</h2></div>
+    <div class="card-body">
+      <div class="drag-section">
+        <div style="font-weight:800;font-size:.95em;margin-bottom:4px">Arraste cada termo para a descrição correta</div>
+        <div style="font-size:.85em;color:var(--gray);margin-bottom:16px">👆 Clique e arraste os termos para encaixar</div>
+        <div class="drag-tokens" id="dragTokens"><div class="drag-token" draggable="true" data-val="ChatGPT" ondragstart="dragStart(event)">ChatGPT</div>
+<div class="drag-token" draggable="true" data-val="Gemini" ondragstart="dragStart(event)">Gemini</div>
+<div class="drag-token" draggable="true" data-val="Copilot" ondragstart="dragStart(event)">Copilot</div>
+<div class="drag-token" draggable="true" data-val="Prompt" ondragstart="dragStart(event)">Prompt</div></div>
+        <div class="drag-zones">
+          <div class="drag-zone" data-answer="ChatGPT" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">IA da OpenAI, melhor para textos longos, código e brainstorming</div>
+            <div class="drag-zone-slot" id="ds0">OpenAI</div>
+          </div>
+          <div class="drag-zone" data-answer="Gemini" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">IA do Google com acesso à internet em tempo real e integração com Google Workspace</div>
+            <div class="drag-zone-slot" id="ds1">Google + Internet</div>
+          </div>
+          <div class="drag-zone" data-answer="Copilot" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">IA da Microsoft integrada ao Windows, Word, Excel e PowerPoint</div>
+            <div class="drag-zone-slot" id="ds2">Microsoft Office</div>
+          </div>
+          <div class="drag-zone" data-answer="Prompt" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Instrução enviada para a IA — qualidade do prompt = qualidade da resposta</div>
+            <div class="drag-zone-slot" id="ds3">Instrução</div>
+          </div></div>
+        <button class="drag-btn drag-btn-check" onclick="checkDrag()">✅ Verificar</button>
+        <button class="drag-btn drag-btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
+        <div class="drag-result" id="dr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🗡</span><h2 class="card-title">Missões Práticas — Mão na Massa!</h2></div>
+    <div class="card-body"><div class="mission-list">
+        <div class="mission" id="m0" onclick="toggleMission(0)">
+          <div class="mission-num">1</div>
+          <div class="mission-content">
+            <div class="mission-title">🛠 Comparar as 3 ferramentas na prática</div>
+            <div class="mission-desc">Faça a mesma tarefa nas 3 IAs e compare os resultados.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 35 min</span>
+              <span class="mtag">🤖 ChatGPT+Gemini+Copilot</span>
+              <span class="mtag mtag-xp">⚡ +80 XP</span>
+            </div>
+            <div class="mission-steps" id="ms0"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">TAREFA: pedir para cada IA criar um plano de estudo personalizado para a semana</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Prompt para usar em todas: 'Crie um plano de estudo para esta semana. Tenho provas de: Matemática, Português e TIC. Disponível das 18h às 22h nos dias úteis.'</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Use este MESMO prompt no ChatGPT, no Gemini e no Copilot</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Compare: qual ficou mais organizado? Mais prático? Mais criativo?</div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Avalie cada um de 1-10 em: Clareza / Utilidade / Criatividade</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Conclusão: qual você escolheria usar? Por quê?</div></div>
+<div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Documente tudo no Google Docs com as respostas de cada IA lado a lado</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
+        </div>
+        <div class="mission" id="m1" onclick="toggleMission(1)">
+          <div class="mission-num">2</div>
+          <div class="mission-content">
+            <div class="mission-title">📎 Usar Copilot no Word e Excel</div>
+            <div class="mission-desc">Pratique o uso do Copilot dentro do Microsoft Office.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 25 min</span>
+              <span class="mtag">📎 Microsoft Copilot</span>
+              <span class="mtag mtag-xp">⚡ +70 XP</span>
+            </div>
+            <div class="mission-steps" id="ms1"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Abra o Microsoft Word no computador do laboratório</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Clique no ícone do Copilot na barra de ferramentas (ou Início → Copilot)</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Peça: 'Escreva uma introdução de 2 parágrafos para um trabalho sobre Inteligência Artificial'</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Leia o resultado, faça ajustes e salve</div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Abra o Excel. Crie uma tabela simples de gastos mensais (5 linhas)</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Selecione a tabela e peça ao Copilot: 'Crie um gráfico de pizza para estes dados'</div></div>
+<div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Compare usar o Copilot com fazer manualmente. O que foi mais rápido?</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
+        </div></div></div>
+  </div>
+  <div class="progress-bar">
+    <div class="section-label">📊 Seu Progresso</div>
+    <div class="progress-missions">
+      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Digitação</div><div class="prog-sub" id="pt">0/4 completos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="pq">0/6 respondidos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="pd">Não realizado</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="pm">0/2 concluídas</div></div></div>
+    </div>
+    <div class="total-xp"><div class="total-xp-label">⚡ XP Total</div><div class="total-xp-num" id="txp">0 / 300 XP</div></div>
+  </div>
+  <nav class="nav-bar">
+    <a href="semana22_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana24_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
+  </nav>
+</div>
+<script>
+const DRAG_ANS = {'ds0':'ChatGPT','ds1':'Gemini','ds2':'Copilot','ds3':'Prompt',};
+let totalXP=0,MAX_XP=300;const earned={};
+function addXP(k,v){if(earned[k])return;earned[k]=true;totalXP=Math.min(totalXP+v,MAX_XP);updateBar()}
+function updateBar(){const p=(totalXP/MAX_XP)*100;document.getElementById('xpFill').style.width=p+'%';document.getElementById('xpNum').textContent=totalXP+' / '+MAX_XP;document.getElementById('txp').textContent=totalXP+' / '+MAX_XP+' XP';checkAch()}
+function checkAch(){if(totalXP>=50)unB('badge0');if(totalXP>=120)unB('badge1');if(totalXP>=200)unB('badge2');if(totalXP>=300)unB('badge3')}
+function unB(id){const e=document.getElementById(id);if(e&&e.classList.contains('locked'))e.classList.replace('locked','unlocked')}
+let tDone={};
+function checkTyping(input,target,boxId,badge,xp){
+  const box=document.getElementById(boxId),fb=document.getElementById(boxId+'-fb'),val=input.value.trim();
+  if(val.toLowerCase()===target.toLowerCase()){box.classList.remove('wrong');box.classList.add('correct');input.disabled=true;fb.textContent='🎉 Correto! +'+xp+' XP';fb.style.color='var(--green)';
+    if(!tDone[boxId]){tDone[boxId]=true;addXP('t_'+boxId,xp);document.getElementById('pt').textContent=Object.keys(tDone).length+'/4 completos'}}
+  else if(val.length>=target.length){box.classList.add('wrong');setTimeout(()=>box.classList.remove('wrong'),500);fb.textContent='❌ Tente novamente...';fb.style.color='var(--red)'}
+  else{fb.textContent='';box.classList.remove('wrong','correct')}}
+const qA=[2,1,2,2,1,2,],qE=["Correto! ChatGPT é desenvolvido pela OpenAI, empresa fundada em 2015. Microsoft é investidora e usa a tecnologia no Copilot.","Correto! O Gemini tem acesso à internet, permitindo dar informações atualizadas e incluir links de fontes para verificação.","Correto! O Copilot está integrado ao Office, incluindo PowerPoint. Você pode pedir para ele criar, formatar e ajustar apresentações diretamente.","Correto! ChatGPT versão gratuita não tem acesso à internet e tem data de corte de conhecimento. Para notícias atuais, use Gemini ou Copilot.","Correto! A tecla Windows + C abre o Copilot diretamente no Windows 11, permitindo acesso rápido ao assistente de IA.","Correto! Para decisões médicas, legais ou financeiras, SEMPRE consulte profissionais especializados. A IA pode alucinar informações críticas.",];
+let qScore=0,qAns={};
+function answerQuiz(n,c,correct){if(qAns[n])return;qAns[n]=true;const btns=document.querySelectorAll('#qq'+n+' .quiz-option');btns.forEach(b=>b.disabled=true);const fb=document.getElementById('qf'+n);if(c===correct){btns[c].classList.add('correct');fb.textContent='✅ '+qE[n];fb.classList.add('show','ok');qScore++;addXP('q_'+n,15)}else{btns[c].classList.add('wrong');btns[correct].classList.add('correct');fb.textContent='❌ '+qE[n];fb.classList.add('show','bad')}const a=Object.keys(qAns).length;document.getElementById('pq').textContent=a+'/6 respondidos';if(a===6)document.getElementById('qt').textContent='🏆 Quiz finalizado! Você acertou '+qScore+'/6.'}
+let dToken=null;const dSlots={};
+function dragStart(e){dToken=e.target;e.target.classList.add('dragging')}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('over')}
+function dragLeave(e){e.currentTarget.classList.remove('over')}
+function dropItem(e){e.preventDefault();e.currentTarget.classList.remove('over');if(!dToken)return;const zone=e.currentTarget,slot=zone.querySelector('.drag-zone-slot');dSlots[slot.id]=dToken.dataset.val;slot.textContent=dToken.dataset.val;slot.classList.add('filled');dToken.classList.add('used');dToken.classList.remove('dragging');dToken=null}
+function checkDrag(){let c=0,t=Object.keys(DRAG_ANS).length;for(const[id,exp]of Object.entries(DRAG_ANS)){const slot=document.getElementById(id),zone=slot.parentElement;if(dSlots[id]===exp){zone.classList.add('correct');c++}else zone.classList.add('wrong')}const r=document.getElementById('dr');r.classList.add('show');if(c===t){r.style.background='var(--green-light)';r.style.color='var(--green)';r.textContent='🎉 Perfeito! Todas corretas! +50 XP';addXP('drag',50);document.getElementById('pd').textContent='✅ Concluído'}else{r.style.background='var(--red-light)';r.style.color='var(--red)';r.textContent='Você acertou '+c+'/'+t+'. Tente novamente!'}}
+function resetDrag(){document.querySelectorAll('.drag-token').forEach(t=>t.classList.remove('used','dragging'));document.querySelectorAll('.drag-zone').forEach(z=>z.classList.remove('correct','wrong','over'));document.querySelectorAll('.drag-zone-slot').forEach(s=>s.classList.remove('filled'));Object.keys(dSlots).forEach(k=>delete dSlots[k]);document.getElementById('dr').classList.remove('show');dToken=null}
+const mXP=[80,70];let mDone={};
+function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';addXP('m_'+id,mXP[id]);document.getElementById('pm').textContent=Object.keys(mDone).length+'/2 concluídas'}}
+document.addEventListener('touchstart',e=>{const t=e.target.closest('.drag-token');if(t&&!t.classList.contains('used'))dToken=t});
+document.addEventListener('touchend',e=>{if(!dToken)return;const touch=e.changedTouches[0],el=document.elementFromPoint(touch.clientX,touch.clientY),zone=el?el.closest('.drag-zone'):null;if(zone){const fk={preventDefault:()=>{},currentTarget:zone};dropItem(fk)}dToken=null});
+</script>
 </body>
 </html>

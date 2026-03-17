@@ -5,281 +5,449 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Semana 09 – Apresentações | TIC 2026</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-600: #475569;
-  --gray-800: #1e293b;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
-  --radius: 12px;
-  --radius-sm: 8px;
-}
-body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
-
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0d47a1 100%);
-  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
-  box-shadow: 0 2px 20px rgba(0,0,0,.3);
-}
-.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.week-badge {
-  background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
-  border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; letter-spacing:.05em;
-  white-space:nowrap;
-}
-.header-text { flex:1; }
-.header-text h1 { font-size:clamp(1.2em, 3vw, 1.8em); font-weight:700; letter-spacing:-.02em; }
-.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
-.module-tag {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600;
-  white-space:nowrap;
-}
-
-/* CONTAINER */
-.container { max-width:1200px; margin:0 auto; padding:32px; }
-
-/* CARDS */
-.card {
-  background:var(--white); border-radius:var(--radius); padding:32px;
-  margin-bottom:24px; box-shadow:var(--shadow-md);
-  border:1px solid var(--gray-200);
-  transition: box-shadow .2s ease, transform .2s ease;
-}
-.card:hover { box-shadow:var(--shadow-lg); transform: translateY(-1px); }
-.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
-.card-icon { font-size:1.5em; }
-.card-title { font-size:1.3em; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
-
-/* OBJETIVOS */
-.objetivos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
-.objetivo-item {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border:1px solid #bfdbfe; border-radius:var(--radius-sm);
-  padding:16px; display:flex; align-items:flex-start; gap:10px;
-}
-.objetivo-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; margin-top:7px; flex-shrink:0; }
-.objetivo-text { font-size:.95em; font-weight:500; color:var(--navy); }
-
-/* CONTEUDO */
-.conteudo-item {
-  background:var(--gray-50); border-radius:var(--radius-sm);
-  padding:20px 24px; margin-bottom:16px;
-  border-left:4px solid var(--cyan);
-}
-.conteudo-item h3 { color:var(--navy); font-size:1.05em; font-weight:700; margin-bottom:8px; }
-.conteudo-item p { color:var(--gray-600); font-size:.95em; line-height:1.7; }
-
-/* EXERCICIOS */
-.exercise-card {
-  border:1px solid var(--gray-200); border-radius:var(--radius-sm);
-  padding:20px; margin-bottom:16px; position:relative; overflow:hidden;
-}
-.exercise-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
-  background: linear-gradient(180deg, var(--blue), var(--cyan));
-}
-.exercise-num {
-  display:inline-flex; align-items:center; justify-content:center;
-  width:32px; height:32px; background:var(--navy); color:var(--white);
-  border-radius:50%; font-size:.8em; font-weight:700; margin-bottom:8px;
-}
-.exercise-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:4px; }
-.exercise-meta { display:flex; gap:12px; margin-bottom:10px; }
-.exercise-tag {
-  background:var(--gray-100); border-radius:50px; padding:3px 10px;
-  font-size:.8em; font-weight:500; color:var(--gray-600);
-}
-.exercise-desc { color:var(--gray-600); font-size:.92em; }
-
-/* NAV */
-.nav-bar {
-  background:var(--white); border-radius:var(--radius); padding:20px 24px;
-  box-shadow:var(--shadow-md); border:1px solid var(--gray-200);
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-  margin-bottom:24px;
-}
-.nav-btn {
-  padding:10px 20px; border-radius:var(--radius-sm);
-  text-decoration:none; font-weight:600; font-size:.9em;
-  transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;
-}
-.nav-btn-primary {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  color:var(--white); box-shadow:0 2px 8px rgba(26,86,219,.3);
-}
-.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,86,219,.4); }
-.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
-.nav-btn-secondary:hover { background:var(--gray-200); }
-.nav-btn-accent { background: linear-gradient(135deg, var(--green), #059669); color:var(--white); }
-.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
-.nav-spacer { flex:1; }
-
-/* RESPONSIVE */
-@media(max-width:768px) {
-  .container { padding:16px; }
-  .card { padding:20px; }
-  .objetivos-grid { grid-template-columns:1fr; }
-  .nav-bar { gap:8px; }
-  .nav-btn { padding:8px 14px; font-size:.85em; }
-}
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0e0e14;--paper:#fffbf5;--acc:#c2410c;--acc-light:#fb923c;--acc-pale:#fff7ed;--green:#15803d;--green-light:#dcfce7;--red:#b91c1c;--red-light:#fee2e2;--gray:#6b7280;--border:#fed7aa;--shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);--r:10px}
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--acc-light)}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.week-pill{background:var(--acc);color:#fff;border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;white-space:nowrap}
+.header-title{flex:1}
+.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800}
+.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--acc-light)}
+.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--acc),var(--acc-light));border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.78em;font-weight:700;color:var(--acc-light);font-family:'DM Mono',monospace}
+.container{max-width:1100px;margin:0 auto;padding:28px}
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.nav-btn-gold{background:var(--acc);color:#fff}
+.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-spacer{flex:1}
+.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
+.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--acc-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;margin-bottom:10px}
+.quest-banner h2 span{color:var(--acc-light)}
+.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
+.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
+.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
+.badges-section{margin-bottom:24px}
+.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.badges-row{display:flex;gap:12px;flex-wrap:wrap}
+.badge-item{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s}
+.badge-item.locked{opacity:.45;filter:grayscale(.8)}
+.badge-item.unlocked{border-color:var(--acc);background:var(--acc-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
+.badge-icon{font-size:1.8em;margin-bottom:6px}
+.badge-name{font-size:.8em;font-weight:700}
+.badge-xp{font-size:.72em;font-weight:600;color:var(--acc);font-family:'DM Mono',monospace}
+.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
+.card-icon{font-size:1.5em}
+.card-title{font-size:1.15em;font-weight:800}
+.card-body{display:flex;flex-direction:column;gap:16px}
+.info-box{background:var(--acc-pale);border-radius:var(--r);padding:16px 20px;border-left:4px solid var(--acc);display:flex;gap:12px}
+.info-icon{font-size:1.3em}
+.info-text{font-size:.9em;line-height:1.7}
+.info-text strong{color:var(--acc)}
+.info-text code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--acc-light);padding:2px 6px;border-radius:4px;font-size:.9em}
+.step{display:flex;gap:16px;padding:16px;background:var(--acc-pale);border-radius:var(--r);border-left:4px solid var(--acc)}
+.step-num{width:32px;height:32px;background:var(--acc);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
+.step-body{flex:1}
+.step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
+.step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-tip{font-size:.82em;color:#1e40af;background:#dbeafe;border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+.typing-box{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
+.typing-box.correct{border-color:var(--green);background:var(--green-light)}
+.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.typing-label{font-size:.82em;font-weight:700;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:var(--acc);background:rgba(0,0,0,.06);padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px}
+.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none}
+.typing-input:focus{border-color:var(--acc)}
+.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
+.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--acc-pale);color:var(--acc);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+.quiz-q{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
+.quiz-option:hover{border-color:var(--acc);background:var(--acc-pale)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
+.drag-section{background:var(--acc-pale);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.drag-tokens{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;background:#fff;border-radius:8px;border:2px dashed var(--border);margin-bottom:16px}
+.drag-token{background:var(--ink);color:#fff;border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;font-family:'DM Mono',monospace;transition:transform .15s}
+.drag-token:hover{transform:scale(1.05)}
+.drag-token.used{background:var(--gray);opacity:.5;cursor:default}
+.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.drag-zone{background:#fff;border:2px dashed var(--border);border-radius:8px;padding:12px 16px;min-height:52px;transition:border-color .2s;display:flex;align-items:center;gap:10px}
+.drag-zone.over{border-color:var(--acc);background:var(--acc-pale)}
+.drag-zone.correct{border-color:var(--green);background:var(--green-light)}
+.drag-zone.wrong{border-color:var(--red);background:var(--red-light)}
+.drag-zone-desc{font-size:.83em;color:var(--gray);flex:1}
+.drag-zone-slot{min-width:100px;height:32px;background:var(--acc-pale);border-radius:5px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.78em;color:var(--gray);padding:0 8px;text-align:center}
+.drag-zone-slot.filled{background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-weight:700;border-style:solid;border-color:var(--ink)}
+.drag-btn{padding:10px 22px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;border:none;margin-top:14px}
+.drag-btn-check{background:var(--ink);color:#fff}
+.drag-btn-reset{background:var(--paper);color:var(--ink);border:2px solid var(--border);margin-left:8px}
+.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:8px;display:none}
+.drag-result.show{display:block}
+.mission-list{display:flex;flex-direction:column;gap:14px}
+.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border)}
+.mission:hover{border-color:var(--acc);box-shadow:var(--shadow)}
+.mission:hover::before{background:var(--acc)}
+.mission.done{border-color:var(--green);background:var(--green-light)}
+.mission.done::before{background:var(--green)}
+.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;border:2px solid var(--border)}
+.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
+.mission-content{flex:1}
+.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
+.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap}
+.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
+.mtag-xp{background:var(--acc-pale);color:var(--acc);border-color:var(--border)}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0}
+.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
+.mission-steps{background:var(--acc-pale);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
+.mission-steps.open{display:block}
+.mstep{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.mstep-num{background:var(--acc);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0}
+.mstep-text{font-size:.87em;line-height:1.55}
+.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--acc-light);padding:2px 8px;border-radius:4px;font-size:.9em}
+.progress-bar{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.prog-icon{font-size:1.2em}
+.prog-label{font-size:.82em;font-weight:600}
+.prog-sub{font-size:.75em;color:var(--gray)}
+.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.total-xp-label{font-size:.85em;opacity:.7}
+.total-xp-num{font-size:1.4em;font-weight:800;color:var(--acc-light);font-family:'DM Mono',monospace}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.formula-card{background:var(--acc-pale);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.formula-name{font-family:'DM Mono',monospace;font-size:1em;font-weight:700;color:var(--acc);margin-bottom:6px}
+.formula-desc{font-size:.83em;color:var(--gray);margin-bottom:8px}
+.formula-ex{font-family:'DM Mono',monospace;font-size:.82em;background:var(--ink);color:var(--acc-light);padding:4px 8px;border-radius:4px;display:inline-block}
+.abnt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.abnt-rule{background:var(--acc-pale);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.abnt-rule-num{font-size:.72em;font-weight:700;color:var(--gray);letter-spacing:.05em;margin-bottom:6px;font-family:'DM Mono',monospace}
+.abnt-rule-icon{font-size:1.4em;margin-bottom:6px}
+.abnt-rule-title{font-weight:800;font-size:.9em;margin-bottom:6px}
+.abnt-rule-val{font-size:.85em;font-weight:700;color:var(--acc);font-family:'DM Mono',monospace;margin-bottom:2px}
+.abnt-rule-desc{font-size:.8em;color:var(--gray);margin-top:6px;line-height:1.5}
+@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}}
 </style>
 </head>
 <body>
-
 <header class="header">
   <div class="header-inner">
-    <span class="week-badge">📅 Semana 09 · 1º Bimestre</span>
-    <div class="header-text">
+    <span class="week-pill">📅 Semana 09 · 1º Bimestre</span>
+    <div class="header-title">
       <h1>Apresentações</h1>
       <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
     </div>
-    <span class="module-tag">🗂 Gerenciamento de Arquivos</span>
+    <div class="xp-bar-wrap">
+      <span class="xp-label">⚡ XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0 / 300</span>
+    </div>
   </div>
 </header>
-
 <div class="container">
-
-  <!-- NAV TOPO -->
   <nav class="nav-bar">
-    <a href="semana08_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana09_guia.html" class="nav-btn nav-btn-accent">📝 Guia de Exercícios</a>
+    <a href="semana08_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <a href="semana09_guia.html" class="nav-btn nav-btn-gold">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana10_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana10_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
-
-  <!-- OBJETIVOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🎯</span>
-      <h2 class="card-title">Objetivos de Aprendizagem</h2>
-    </div>
-    <div class="objetivos-grid">
-      <div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Compreender os conceitos fundamentais de apresentações</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Aplicar o conhecimento de arquivos e pastas em situações práticas</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Desenvolver habilidades de organização digital relacionadas ao tema</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Integrar este conteúdo com os módulos anteriores do curso</span></div>
+  <div class="quest-banner">
+    <div class="quest-eyebrow">🗡 Missão da Semana 09</div>
+    <h2>Crie Apresentações que <span>Impressionam</span></h2>
+    <p>Aprenda design de slides, animações e transições no PowerPoint e Google Slides. Regras de ouro para nunca mais fazer slides chatos!</p>
+    <div class="quest-rewards">
+      <div class="reward-chip">🏆 300 XP disponíveis</div>
+      <div class="reward-chip">📜 4 Conquistas</div>
+      <div class="reward-chip">⏱ ~90 min</div>
+      <div class="reward-chip">🖥 Apresentações</div>
     </div>
   </div>
-
-  <!-- CONTEÚDO -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">📖</span>
-      <h2 class="card-title">Conteúdo da Aula</h2>
-    </div>
-    
-        <div class="conteudo-item">
-            <h3>📌 Introdução: PowerPoint e Slides</h3>
-            <p>Esta semana aprofundamos nosso estudo sobre apresentações. Este conteúdo é fundamental para o desenvolvimento de suas competências em gerenciamento de arquivos e se conecta diretamente ao mercado de trabalho na área de tecnologia.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🔍 Conceitos Fundamentais</h3>
-            <p>Para dominar apresentações, precisamos entender seus princípios básicos. Cada conceito aqui apresentado foi cuidadosamente selecionado para que você construa uma base sólida, capaz de sustentar aprendizados mais avançados no futuro.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>💡 Aplicações Práticas</h3>
-            <p>O conhecimento sobre apresentações tem aplicações diretas em situações que você encontrará no mercado de trabalho. Vamos explorar casos reais onde profissionais de tecnologia utilizam esses conceitos diariamente.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🛠️ Ferramentas e Recursos</h3>
-            <p>Para praticar os conceitos de apresentações, utilizaremos ferramentas amplamente adotadas na indústria. Familiarizar-se com elas agora é um investimento no seu futuro profissional.</p>
-        </div>
-  </div>
-
-  <!-- ATIVIDADES -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">✏️</span>
-      <h2 class="card-title">Atividades Práticas</h2>
-    </div>
-    <p style="color:var(--gray-600); margin-bottom:20px; font-size:.95em;">
-      Para cada exercício, consulte o <a href="semana09_guia.html" style="color:var(--blue); font-weight:600;">Guia de Exercícios</a> 
-      para ver a rubrica de avaliação detalhada e a resolução passo a passo.
-    </p>
-    
-        <div class="exercise-card">
-            <div class="exercise-num">1</div>
-            <div class="exercise-title">Prática: Apresentações</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 30 min</span>
-                <span class="exercise-tag">✏️ Exercício 1</span>
-            </div>
-            <div class="exercise-desc">Aplique os conceitos de apresentações em uma atividade prática orientada, seguindo os passos indicados pelo professor.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">2</div>
-            <div class="exercise-title">Projeto: Apresentações na Prática</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 35 min</span>
-                <span class="exercise-tag">✏️ Exercício 2</span>
-            </div>
-            <div class="exercise-desc">Desenvolva um pequeno projeto que demonstre sua compreensão de apresentações, com criatividade e qualidade técnica.</div>
-        </div>
-        <div class="exercise-card">
-            <div class="exercise-num">3</div>
-            <div class="exercise-title">Desafio: Apresentações</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 25 min</span>
-                <span class="exercise-tag">✏️ Exercício 3</span>
-            </div>
-            <div class="exercise-desc">Resolva um problema desafiador que exige pensamento criativo e aplicação avançada dos conceitos de apresentações.</div>
-        </div>
-  </div>
-
-  <!-- RECURSOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🔗</span>
-      <h2 class="card-title">Recursos Complementares</h2>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">▶️</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Vídeos no YouTube</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Pesquise por: "apresentações para iniciantes"</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">📚</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Khan Academy</div>
-        <div style="font-size:.85em; color:var(--gray-600);">pt.khanacademy.org — cursos gratuitos</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">🤖</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Pergunte à IA</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Use ChatGPT ou Gemini para tirar dúvidas</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">💬</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Professor</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Nunca tenha vergonha de perguntar!</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAV RODAPÉ -->
-  <nav class="nav-bar">
-    <a href="semana08_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana09_guia.html" class="nav-btn nav-btn-accent">📝 Guia</a>
-    <span class="nav-spacer"></span>
-    <a href="semana10_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
-  </nav>
-
+  <div class="badges-section">
+    <div class="section-label">🏅 Conquistas desta semana</div>
+    <div class="badges-row"><div class="badge-item locked" id="badge0"><div class="badge-icon">🎨</div><div class="badge-name">Designer de Slides</div><div class="badge-xp">+60 XP</div></div>
+<div class="badge-item locked" id="badge1"><div class="badge-icon">⚡</div><div class="badge-name">Mestre das Animações</div><div class="badge-xp">+70 XP</div></div>
+<div class="badge-item locked" id="badge2"><div class="badge-icon">🎯</div><div class="badge-name">Apresentador Pro</div><div class="badge-xp">+90 XP</div></div>
+<div class="badge-item locked" id="badge3"><div class="badge-icon">☁️</div><div class="badge-name">Slides na Nuvem</div><div class="badge-xp">+80 XP</div></div>
 </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎨</span><h2 class="card-title">Regras de Ouro do Design de Slides</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🎨</div><div class="info-text"><strong>Regra 1 — Menos é mais:</strong> Nunca coloque paredes de texto. Use bullet points curtos — você fala, o slide apoia visualmente.<br><br>
+<strong>Regra 2 — Uma ideia por slide:</strong> Cada slide deve ter exatamente UM ponto principal. Se tiver dois pontos, use dois slides.<br><br>
+<strong>Regra 3 — Fonte mínima 24pt:</strong> Se não cabe com fonte 24, o slide tem texto demais. Remova ou distribua em mais slides.<br><br>
+<strong>Regra 4 — Contraste:</strong> Texto claro em fundo escuro OU texto escuro em fundo claro. Nunca fundo branco com fonte amarela!<br><br>
+<strong>Regra 5 — Imagens de qualidade:</strong> Use imagens grandes e relevantes. Imagens pixeladas prejudicam a apresentação.</div></div>
+      
+      <div class="typing-box" id="t1">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Qual é o tamanho MÍNIMO de fonte recomendado em slides profissionais?</div>
+        <div class="typing-target">24pt</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'24pt','t1','badge0',10)">
+        <div class="typing-feedback" id="t1-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📐</span><h2 class="card-title">Layouts, Temas e Hierarquia Visual</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">📐</div><div class="info-text"><strong>Tema:</strong> Conjunto de cores, fontes e estilos que deixa a apresentação visualmente coerente. Nunca misture temas!<br><br>
+<strong>No PowerPoint:</strong><br>
+• Clique em <strong>Design</strong> na faixa de opções → escolha um tema<br>
+• Para mudar o layout do slide atual: aba <strong>Início → Layout</strong> ou botão direito no slide<br><br>
+<strong>No Google Slides:</strong><br>
+• Menu <strong>Slide → Mudar tema</strong><br>
+• Para layout: <strong>Slide → Aplicar layout</strong><br><br>
+<strong>Layouts mais usados:</strong> Título, Título e Conteúdo, Duas Colunas, Somente Título, Em branco.</div></div>
+      
+      <div class="typing-box" id="t2">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Para escolher um tema no PowerPoint, vá em qual aba?</div>
+        <div class="typing-target">Design</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Design','t2','badge1',10)">
+        <div class="typing-feedback" id="t2-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">⚡</span><h2 class="card-title">Animações e Transições — Efeitos com moderação</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">⚡</div><div class="info-text"><strong>Transição:</strong> efeito ao MUDAR de um slide para outro (ex: Dissolver, Empurrar, Revelar).<br>
+<strong>Animação:</strong> efeito ao fazer ELEMENTOS aparecerem dentro de um slide (ex: Aparecer, Voar, Girar).<br><br>
+<strong>No PowerPoint:</strong><br>
+• Transições: aba <strong>Transições</strong> → escolha o efeito → aplique a todos<br>
+• Animações: selecione um elemento → aba <strong>Animações</strong> → adicione efeito<br><br>
+<strong>No Google Slides:</strong> Menu <strong>Slide → Animação e Transição</strong><br><br>
+⚠️ <strong>Atenção:</strong> Use animações com MODERAÇÃO! Excesso de efeitos distrai e parece amador. Prefira efeitos simples como "Aparecer".</div></div>
+      
+      <div class="typing-box" id="t3">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ No PowerPoint, qual aba controla os efeitos de entrada dos ELEMENTOS do slide?</div>
+        <div class="typing-target">Animações</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Animações','t3','badge2',10)">
+        <div class="typing-feedback" id="t3-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☁️</span><h2 class="card-title">Google Slides — Apresentações em Qualquer Lugar</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">☁️</div><div class="info-text">O <strong>Google Slides</strong> é gratuito, salva automaticamente e funciona em qualquer computador com internet.<br><br>
+<strong>Como acessar:</strong> Digite <code>slides.google.com</code> no navegador ou pelo Drive → + Novo → Apresentações Google.<br><br>
+<strong>Vantagens:</strong><br>
+• Acesse de qualquer computador sem instalar nada<br>
+• Colaboração em tempo real (professor e aluno editando juntos)<br>
+• Compartilhe como link — sem precisar enviar arquivo<br><br>
+<strong>Apresentar:</strong> Pressione <strong>Ctrl+Shift+F5</strong> (tela cheia) ou clique no botão ▶ no canto superior direito. Avance com Espaço ou →.</div></div>
+      
+      <div class="typing-box" id="t4">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Qual atalho inicia a apresentação em tela cheia no Google Slides?</div>
+        <div class="typing-target">Ctrl+Shift+F5</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'Ctrl+Shift+F5','t4','badge3',10)">
+        <div class="typing-feedback" id="t4-fb"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🧠</span><h2 class="card-title">Quiz — Teste seus conhecimentos!</h2></div>
+    <div class="card-body">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="quiz-q" id="qq0">
+          <div class="quiz-question">1. Você tem um slide com 200 palavras. O que deve fazer?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(0,0,2)">A) Diminuir a fonte para 10pt</button>
+<button class="quiz-option" onclick="answerQuiz(0,1,2)">B) Deixar como está</button>
+<button class="quiz-option" onclick="answerQuiz(0,2,2)">C) Dividir em vários slides com bullet points curtos</button>
+<button class="quiz-option" onclick="answerQuiz(0,3,2)">D) Usar fundo colorido para compensar</button></div>
+          <div class="quiz-feedback" id="qf0"></div>
+        </div>
+        <div class="quiz-q" id="qq1">
+          <div class="quiz-question">2. Qual é a diferença entre Animação e Transição?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(1,0,1)">A) São sinônimos</button>
+<button class="quiz-option" onclick="answerQuiz(1,1,1)">B) Animação = elementos no slide, Transição = mudança entre slides</button>
+<button class="quiz-option" onclick="answerQuiz(1,2,1)">C) Transição = elementos no slide, Animação = mudança entre slides</button>
+<button class="quiz-option" onclick="answerQuiz(1,3,1)">D) Animação só existe no PowerPoint</button></div>
+          <div class="quiz-feedback" id="qf1"></div>
+        </div>
+        <div class="quiz-q" id="qq2">
+          <div class="quiz-question">3. Qual atalho inicia a apresentação do PRIMEIRO slide no PowerPoint?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(2,0,0)">A) F5</button>
+<button class="quiz-option" onclick="answerQuiz(2,1,0)">B) F1</button>
+<button class="quiz-option" onclick="answerQuiz(2,2,0)">C) Ctrl+P</button>
+<button class="quiz-option" onclick="answerQuiz(2,3,0)">D) Shift+F5</button></div>
+          <div class="quiz-feedback" id="qf2"></div>
+        </div>
+        <div class="quiz-q" id="qq3">
+          <div class="quiz-question">4. Por que o Google Slides é vantajoso para quem não tem computador em casa?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(3,0,1)">A) Tem mais recursos que o PowerPoint</button>
+<button class="quiz-option" onclick="answerQuiz(3,1,1)">B) Pode ser acessado de qualquer computador com internet, sem instalação</button>
+<button class="quiz-option" onclick="answerQuiz(3,2,1)">C) Funciona sem internet</button>
+<button class="quiz-option" onclick="answerQuiz(3,3,1)">D) Exporta em resolução maior</button></div>
+          <div class="quiz-feedback" id="qf3"></div>
+        </div>
+        <div class="quiz-q" id="qq4">
+          <div class="quiz-question">5. Como converter um arquivo .pptx do PowerPoint para Google Slides?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(4,0,2)">A) Não é possível converter</button>
+<button class="quiz-option" onclick="answerQuiz(4,1,2)">B) Arquivo → Fazer download no Slides</button>
+<button class="quiz-option" onclick="answerQuiz(4,2,2)">C) Abrir o .pptx no Google Drive → Abrir com Google Slides</button>
+<button class="quiz-option" onclick="answerQuiz(4,3,2)">D) Precisa de software especial</button></div>
+          <div class="quiz-feedback" id="qf4"></div>
+        </div>
+        <div class="quiz-q" id="qq5">
+          <div class="quiz-question">6. Qual tipo de transição é mais profissional para uma apresentação de trabalho escolar?</div>
+          <div class="quiz-options"><button class="quiz-option" onclick="answerQuiz(5,0,2)">A) Girar 3D</button>
+<button class="quiz-option" onclick="answerQuiz(5,1,2)">B) Origami</button>
+<button class="quiz-option" onclick="answerQuiz(5,2,2)">C) Dissolver ou Fade (suave e discreta)</button>
+<button class="quiz-option" onclick="answerQuiz(5,3,2)">D) Voar do lado</button></div>
+          <div class="quiz-feedback" id="qf5"></div>
+        </div></div>
+      <div id="qt" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎯</span><h2 class="card-title">Arraste e Encaixe — Conecte os Conceitos!</h2></div>
+    <div class="card-body">
+      <div class="drag-section">
+        <div style="font-weight:800;font-size:.95em;margin-bottom:4px">Arraste cada termo para a descrição correta</div>
+        <div style="font-size:.85em;color:var(--gray);margin-bottom:16px">👆 Clique e arraste os termos para encaixar</div>
+        <div class="drag-tokens" id="dragTokens"><div class="drag-token" draggable="true" data-val="Transição" ondragstart="dragStart(event)">Transição</div>
+<div class="drag-token" draggable="true" data-val="Animação" ondragstart="dragStart(event)">Animação</div>
+<div class="drag-token" draggable="true" data-val="Tema" ondragstart="dragStart(event)">Tema</div>
+<div class="drag-token" draggable="true" data-val="Layout" ondragstart="dragStart(event)">Layout</div></div>
+        <div class="drag-zones">
+          <div class="drag-zone" data-answer="Transição" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Efeito visual ao MUDAR de um slide para o próximo</div>
+            <div class="drag-zone-slot" id="ds0">Entre slides</div>
+          </div>
+          <div class="drag-zone" data-answer="Animação" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Efeito de entrada/saída de ELEMENTOS dentro do slide</div>
+            <div class="drag-zone-slot" id="ds1">Nos elementos</div>
+          </div>
+          <div class="drag-zone" data-answer="Tema" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Conjunto de cores, fontes e estilos da apresentação inteira</div>
+            <div class="drag-zone-slot" id="ds2">Aparência geral</div>
+          </div>
+          <div class="drag-zone" data-answer="Layout" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Define a disposição dos elementos em cada slide</div>
+            <div class="drag-zone-slot" id="ds3">Estrutura do slide</div>
+          </div></div>
+        <button class="drag-btn drag-btn-check" onclick="checkDrag()">✅ Verificar</button>
+        <button class="drag-btn drag-btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
+        <div class="drag-result" id="dr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🗡</span><h2 class="card-title">Missões Práticas — Mão na Massa!</h2></div>
+    <div class="card-body"><div class="mission-list">
+        <div class="mission" id="m0" onclick="toggleMission(0)">
+          <div class="mission-num">1</div>
+          <div class="mission-content">
+            <div class="mission-title">🎨 Criar apresentação sobre você mesmo</div>
+            <div class="mission-desc">5 slides se apresentando: quem você é, hobbies, sonhos, habilidades e mensagem final.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 35 min</span>
+              <span class="mtag">💻 PowerPoint</span>
+              <span class="mtag mtag-xp">⚡ +80 XP</span>
+            </div>
+            <div class="mission-steps" id="ms0"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Abra o PowerPoint. Vá em Design e escolha um tema que combine com você</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Slide 1 (Título): Seu nome em destaque + uma foto ou imagem que te representa</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Slide 2 (Sobre mim): 3 a 5 bullet points CURTOS sobre quem você é</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Slide 3 (Meus hobbies): Use emojis ou ícones para ilustrar cada hobby</div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Slide 4 (Meus sonhos): O que você quer fazer na vida profissional?</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Slide 5 (Mensagem final): Uma frase que te representa ou inspira você</div></div>
+<div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Aplique animação 'Aparecer' em todos os textos e uma transição suave entre slides</div></div>
+<div class="mstep"><div class="mstep-num">8</div><div class="mstep-text">Salve como Apresentacao_SeuNome.pptx e mostre para a turma!</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
+        </div>
+        <div class="mission" id="m1" onclick="toggleMission(1)">
+          <div class="mission-num">2</div>
+          <div class="mission-content">
+            <div class="mission-title">☁️ Subir e compartilhar no Google Slides</div>
+            <div class="mission-desc">Converta sua apresentação para Google Slides e compartilhe o link com o professor.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 20 min</span>
+              <span class="mtag">☁️ Google Slides</span>
+              <span class="mtag mtag-xp">⚡ +70 XP</span>
+            </div>
+            <div class="mission-steps" id="ms1"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Acesse drive.google.com e entre na pasta PTIC</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Arraste o arquivo .pptx para dentro da pasta</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Clique com botão direito no arquivo → Abrir com → Google Apresentações</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Verifique se os layouts foram preservados (ajuste se necessário)</div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Clique em Compartilhar (botão azul, canto superior direito)</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Mude para 'Qualquer pessoa com o link pode ver' → Copiar link</div></div>
+<div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Envie o link para o professor pelo canal combinado em aula</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
+        </div></div></div>
+  </div>
+  <div class="progress-bar">
+    <div class="section-label">📊 Seu Progresso</div>
+    <div class="progress-missions">
+      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Digitação</div><div class="prog-sub" id="pt">0/4 completos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="pq">0/6 respondidos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="pd">Não realizado</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="pm">0/2 concluídas</div></div></div>
+    </div>
+    <div class="total-xp"><div class="total-xp-label">⚡ XP Total</div><div class="total-xp-num" id="txp">0 / 300 XP</div></div>
+  </div>
+  <nav class="nav-bar">
+    <a href="semana08_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana10_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
+  </nav>
+</div>
+<script>
+const DRAG_ANS = {'ds0':'Transição','ds1':'Animação','ds2':'Tema','ds3':'Layout',};
+let totalXP=0,MAX_XP=300;const earned={};
+function addXP(k,v){if(earned[k])return;earned[k]=true;totalXP=Math.min(totalXP+v,MAX_XP);updateBar()}
+function updateBar(){const p=(totalXP/MAX_XP)*100;document.getElementById('xpFill').style.width=p+'%';document.getElementById('xpNum').textContent=totalXP+' / '+MAX_XP;document.getElementById('txp').textContent=totalXP+' / '+MAX_XP+' XP';checkAch()}
+function checkAch(){if(totalXP>=50)unB('badge0');if(totalXP>=120)unB('badge1');if(totalXP>=200)unB('badge2');if(totalXP>=300)unB('badge3')}
+function unB(id){const e=document.getElementById(id);if(e&&e.classList.contains('locked'))e.classList.replace('locked','unlocked')}
+let tDone={};
+function checkTyping(input,target,boxId,badge,xp){
+  const box=document.getElementById(boxId),fb=document.getElementById(boxId+'-fb'),val=input.value.trim();
+  if(val.toLowerCase()===target.toLowerCase()){box.classList.remove('wrong');box.classList.add('correct');input.disabled=true;fb.textContent='🎉 Correto! +'+xp+' XP';fb.style.color='var(--green)';
+    if(!tDone[boxId]){tDone[boxId]=true;addXP('t_'+boxId,xp);document.getElementById('pt').textContent=Object.keys(tDone).length+'/4 completos'}}
+  else if(val.length>=target.length){box.classList.add('wrong');setTimeout(()=>box.classList.remove('wrong'),500);fb.textContent='❌ Tente novamente...';fb.style.color='var(--red)'}
+  else{fb.textContent='';box.classList.remove('wrong','correct')}}
+const qA=[2,1,0,1,2,2,],qE=["Correto! Paredes de texto são o erro mais comum em apresentações. Distribua em slides com pontos-chave curtos.","Correto! Animação afeta elementos dentro do slide. Transição afeta o efeito ao passar de um slide para outro.","Correto! F5 inicia do primeiro slide. Shift+F5 inicia do slide atual. Ambos colocam em tela cheia.","Correto! Por rodar no navegador, o Google Slides funciona em qualquer computador ou celular com internet.","Correto! O Google Drive abre arquivos .pptx diretamente no Slides. Também é possível importar pelo menu Arquivo.","Correto! Transições simples e sutis (Dissolver, Fade) são mais profissionais. Efeitos exagerados distraem a audiência.",];
+let qScore=0,qAns={};
+function answerQuiz(n,c,correct){if(qAns[n])return;qAns[n]=true;const btns=document.querySelectorAll('#qq'+n+' .quiz-option');btns.forEach(b=>b.disabled=true);const fb=document.getElementById('qf'+n);if(c===correct){btns[c].classList.add('correct');fb.textContent='✅ '+qE[n];fb.classList.add('show','ok');qScore++;addXP('q_'+n,15)}else{btns[c].classList.add('wrong');btns[correct].classList.add('correct');fb.textContent='❌ '+qE[n];fb.classList.add('show','bad')}const a=Object.keys(qAns).length;document.getElementById('pq').textContent=a+'/6 respondidos';if(a===6)document.getElementById('qt').textContent='🏆 Quiz finalizado! Você acertou '+qScore+'/6.'}
+let dToken=null;const dSlots={};
+function dragStart(e){dToken=e.target;e.target.classList.add('dragging')}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('over')}
+function dragLeave(e){e.currentTarget.classList.remove('over')}
+function dropItem(e){e.preventDefault();e.currentTarget.classList.remove('over');if(!dToken)return;const zone=e.currentTarget,slot=zone.querySelector('.drag-zone-slot');dSlots[slot.id]=dToken.dataset.val;slot.textContent=dToken.dataset.val;slot.classList.add('filled');dToken.classList.add('used');dToken.classList.remove('dragging');dToken=null}
+function checkDrag(){let c=0,t=Object.keys(DRAG_ANS).length;for(const[id,exp]of Object.entries(DRAG_ANS)){const slot=document.getElementById(id),zone=slot.parentElement;if(dSlots[id]===exp){zone.classList.add('correct');c++}else zone.classList.add('wrong')}const r=document.getElementById('dr');r.classList.add('show');if(c===t){r.style.background='var(--green-light)';r.style.color='var(--green)';r.textContent='🎉 Perfeito! Todas corretas! +50 XP';addXP('drag',50);document.getElementById('pd').textContent='✅ Concluído'}else{r.style.background='var(--red-light)';r.style.color='var(--red)';r.textContent='Você acertou '+c+'/'+t+'. Tente novamente!'}}
+function resetDrag(){document.querySelectorAll('.drag-token').forEach(t=>t.classList.remove('used','dragging'));document.querySelectorAll('.drag-zone').forEach(z=>z.classList.remove('correct','wrong','over'));document.querySelectorAll('.drag-zone-slot').forEach(s=>s.classList.remove('filled'));Object.keys(dSlots).forEach(k=>delete dSlots[k]);document.getElementById('dr').classList.remove('show');dToken=null}
+const mXP=[80,70];let mDone={};
+function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';addXP('m_'+id,mXP[id]);document.getElementById('pm').textContent=Object.keys(mDone).length+'/2 concluídas'}}
+document.addEventListener('touchstart',e=>{const t=e.target.closest('.drag-token');if(t&&!t.classList.contains('used'))dToken=t});
+document.addEventListener('touchend',e=>{if(!dToken)return;const touch=e.changedTouches[0],el=document.elementFromPoint(touch.clientX,touch.clientY),zone=el?el.closest('.drag-zone'):null;if(zone){const fk={preventDefault:()=>{},currentTarget:zone};dropItem(fk)}dToken=null});
+</script>
 </body>
 </html>

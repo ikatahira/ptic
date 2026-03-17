@@ -3,283 +3,598 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semana 07 – Planilhas – Parte 1 | TIC 2026</title>
+<title>Semana 07 – Planilhas Parte 1 | TIC 2026</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-600: #475569;
-  --gray-800: #1e293b;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.15);
-  --radius: 12px;
-  --radius-sm: 8px;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0e0e14;--paper:#f0f5ee;--cream:#f7faf5;
+  --gold:#2d8a4e;--gold-light:#6fcf97;--gold-pale:#d4f0dc;
+  --blue:#1d4ed8;--blue-light:#dbeafe;
+  --green:#15803d;--green-light:#dcfce7;
+  --red:#b91c1c;--red-light:#fee2e2;
+  --gray:#6b7280;--border:#d4e8d4;
+  --shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);
+  --r:10px;
 }
-body { font-family:'Space Grotesk',sans-serif; background:var(--gray-50); color:var(--gray-800); line-height:1.7; }
-
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0d47a1 100%);
-  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
-  box-shadow: 0 2px 20px rgba(0,0,0,.3);
-}
-.header-inner { max-width:1200px; margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.week-badge {
-  background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
-  border-radius:50px; padding:6px 16px; font-size:.8em; font-weight:600; letter-spacing:.05em;
-  white-space:nowrap;
-}
-.header-text { flex:1; }
-.header-text h1 { font-size:clamp(1.2em, 3vw, 1.8em); font-weight:700; letter-spacing:-.02em; }
-.header-text p { opacity:.75; font-size:.9em; margin-top:4px; }
-.module-tag {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  border-radius:50px; padding:6px 14px; font-size:.75em; font-weight:600;
-  white-space:nowrap;
-}
-
-/* CONTAINER */
-.container { max-width:1200px; margin:0 auto; padding:32px; }
-
-/* CARDS */
-.card {
-  background:var(--white); border-radius:var(--radius); padding:32px;
-  margin-bottom:24px; box-shadow:var(--shadow-md);
-  border:1px solid var(--gray-200);
-  transition: box-shadow .2s ease, transform .2s ease;
-}
-.card:hover { box-shadow:var(--shadow-lg); transform: translateY(-1px); }
-.card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-100); }
-.card-icon { font-size:1.5em; }
-.card-title { font-size:1.3em; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
-
-/* OBJETIVOS */
-.objetivos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
-.objetivo-item {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border:1px solid #bfdbfe; border-radius:var(--radius-sm);
-  padding:16px; display:flex; align-items:flex-start; gap:10px;
-}
-.objetivo-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; margin-top:7px; flex-shrink:0; }
-.objetivo-text { font-size:.95em; font-weight:500; color:var(--navy); }
-
-/* CONTEUDO */
-.conteudo-item {
-  background:var(--gray-50); border-radius:var(--radius-sm);
-  padding:20px 24px; margin-bottom:16px;
-  border-left:4px solid var(--cyan);
-}
-.conteudo-item h3 { color:var(--navy); font-size:1.05em; font-weight:700; margin-bottom:8px; }
-.conteudo-item p { color:var(--gray-600); font-size:.95em; line-height:1.7; }
-
-/* EXERCICIOS */
-.exercise-card {
-  border:1px solid var(--gray-200); border-radius:var(--radius-sm);
-  padding:20px; margin-bottom:16px; position:relative; overflow:hidden;
-}
-.exercise-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
-  background: linear-gradient(180deg, var(--blue), var(--cyan));
-}
-.exercise-num {
-  display:inline-flex; align-items:center; justify-content:center;
-  width:32px; height:32px; background:var(--navy); color:var(--white);
-  border-radius:50%; font-size:.8em; font-weight:700; margin-bottom:8px;
-}
-.exercise-title { font-size:1.05em; font-weight:700; color:var(--navy); margin-bottom:4px; }
-.exercise-meta { display:flex; gap:12px; margin-bottom:10px; }
-.exercise-tag {
-  background:var(--gray-100); border-radius:50px; padding:3px 10px;
-  font-size:.8em; font-weight:500; color:var(--gray-600);
-}
-.exercise-desc { color:var(--gray-600); font-size:.92em; }
-
-/* NAV */
-.nav-bar {
-  background:var(--white); border-radius:var(--radius); padding:20px 24px;
-  box-shadow:var(--shadow-md); border:1px solid var(--gray-200);
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-  margin-bottom:24px;
-}
-.nav-btn {
-  padding:10px 20px; border-radius:var(--radius-sm);
-  text-decoration:none; font-weight:600; font-size:.9em;
-  transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;
-}
-.nav-btn-primary {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  color:var(--white); box-shadow:0 2px 8px rgba(26,86,219,.3);
-}
-.nav-btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,86,219,.4); }
-.nav-btn-secondary { background:var(--gray-100); color:var(--gray-800); border:1px solid var(--gray-200); }
-.nav-btn-secondary:hover { background:var(--gray-200); }
-.nav-btn-accent { background: linear-gradient(135deg, var(--green), #059669); color:var(--white); }
-.nav-btn-disabled { opacity:.4; pointer-events:none; background:var(--gray-100); color:var(--gray-600); }
-.nav-spacer { flex:1; }
-
-/* RESPONSIVE */
-@media(max-width:768px) {
-  .container { padding:16px; }
-  .card { padding:20px; }
-  .objetivos-grid { grid-template-columns:1fr; }
-  .nav-bar { gap:8px; }
-  .nav-btn { padding:8px 14px; font-size:.85em; }
-}
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--gold-light)}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.week-pill{background:#2d8a4e;color:#fff;border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;white-space:nowrap}
+.header-title{flex:1}
+.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800}
+.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--gold-light)}
+.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,#2d8a4e,#6fcf97);border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.78em;font-weight:700;color:var(--gold-light);font-family:'DM Mono',monospace}
+.container{max-width:1100px;margin:0 auto;padding:28px}
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.nav-btn-outline:hover{border-color:var(--ink)}
+.nav-btn-gold{background:#2d8a4e;color:#fff}
+.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-spacer{flex:1}
+.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
+.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;margin-bottom:10px}
+.quest-banner h2 span{color:var(--gold-light)}
+.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
+.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
+.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
+.badges-section{margin-bottom:24px}
+.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.badges-row{display:flex;gap:12px;flex-wrap:wrap}
+.badge-item{background:var(--cream);border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s}
+.badge-item.locked{opacity:.45;filter:grayscale(.8)}
+.badge-item.unlocked{border-color:#2d8a4e;background:var(--gold-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
+.badge-icon{font-size:1.8em;margin-bottom:6px}
+.badge-name{font-size:.8em;font-weight:700}
+.badge-xp{font-size:.72em;font-weight:600;color:#2d8a4e;font-family:'DM Mono',monospace}
+.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
+.card-icon{font-size:1.5em}
+.card-title{font-size:1.15em;font-weight:800}
+.card-body{display:flex;flex-direction:column;gap:16px}
+.info-box{background:var(--cream);border-radius:var(--r);padding:16px 20px;border-left:4px solid #2d8a4e;display:flex;gap:12px}
+.info-icon{font-size:1.3em}
+.info-text{font-size:.9em;line-height:1.6}
+.info-text strong{color:#1a6635}
+.step{display:flex;gap:16px;padding:16px;background:var(--cream);border-radius:var(--r);border-left:4px solid #2d8a4e}
+.step-num{width:32px;height:32px;background:#2d8a4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
+.step-body{flex:1}
+.step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
+.step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-tip{font-size:.82em;color:#1e40af;background:var(--blue-light);border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+/* SPREADSHEET MOCK */
+.sheet-mock{background:#fff;border:2px solid #34a853;border-radius:var(--r);overflow:hidden;max-width:560px}
+.sheet-topbar{background:#0f9d58;padding:6px 12px;display:flex;align-items:center;gap:8px}
+.sheet-icon{font-size:1.1em}
+.sheet-filename{font-size:.85em;font-weight:700;color:#fff}
+.sheet-toolbar{background:#f0faf4;padding:6px 12px;border-bottom:1px solid #c5e8ce;display:flex;gap:6px;flex-wrap:wrap}
+.sheet-tool-btn{background:#fff;border:1px solid #c5e8ce;border-radius:4px;padding:3px 8px;font-size:.8em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600}
+.sheet-table{width:100%;border-collapse:collapse;font-size:.82em;font-family:'DM Mono',monospace}
+.sheet-table th{background:#e8f5e9;padding:5px 10px;text-align:center;border:1px solid #c5e8ce;font-weight:700;color:#2d8a4e}
+.sheet-table td{padding:5px 10px;border:1px solid #e0e0e0;text-align:center}
+.sheet-table td.formula{color:#0f9d58;font-weight:700}
+.sheet-table td.header-row{background:#f5f5f5;font-weight:700;text-align:left;color:#333}
+.sheet-table td.selected{background:#e3f2fd;border:2px solid #1976d2}
+/* EXCEL MOCK */
+.excel-mock{background:#fff;border:2px solid #217346;border-radius:var(--r);overflow:hidden;max-width:560px}
+.excel-topbar{background:#217346;padding:6px 12px;display:flex;align-items:center;gap:8px}
+.excel-filename{font-size:.85em;font-weight:700;color:#fff}
+.excel-ribbon{background:#e8f5e9;padding:4px 12px;border-bottom:1px solid #c5e8ce;display:flex;gap:6px;flex-wrap:wrap}
+.excel-rib-btn{background:#fff;border:1px solid #c5e8ce;border-radius:4px;padding:3px 8px;font-size:.78em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600}
+.excel-rib-btn.active{background:#217346;color:#fff;border-color:#217346}
+/* FORMULA BAR */
+.formula-bar{background:#f5f5f5;border-bottom:1px solid #e0e0e0;padding:4px 12px;display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:.8em}
+.cell-ref{background:#fff;border:1px solid #dadce0;border-radius:3px;padding:2px 8px;min-width:50px;text-align:center;color:#333;font-weight:700}
+.formula-content{flex:1;color:#0f9d58;font-weight:700}
+/* TYPING */
+.typing-box{background:var(--cream);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
+.typing-box.correct{border-color:var(--green);background:var(--green-light)}
+.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.typing-label{font-size:.82em;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:#0f9d58;background:#e8f5e9;padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px}
+.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none;transition:border-color .2s}
+.typing-input:focus{border-color:#2d8a4e}
+.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
+.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--gold-pale);color:#2d8a4e;border:1px solid #a8d5b5;border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+/* QUIZ */
+.quiz-q{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
+.quiz-option:hover{border-color:#2d8a4e;background:var(--gold-pale)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
+/* DRAG */
+.drag-section{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.drag-tokens{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;background:#fff;border-radius:8px;border:2px dashed var(--border);margin-bottom:16px}
+.drag-token{background:var(--ink);color:#fff;border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;font-family:'DM Mono',monospace}
+.drag-token.used{background:var(--gray);opacity:.5;cursor:default}
+.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.drag-zone{background:#fff;border:2px dashed var(--border);border-radius:8px;padding:12px 16px;min-height:52px;transition:border-color .2s;display:flex;align-items:center;gap:10px}
+.drag-zone.over{border-color:#2d8a4e;background:var(--gold-pale)}
+.drag-zone.correct{border-color:var(--green);background:var(--green-light)}
+.drag-zone.wrong{border-color:var(--red);background:var(--red-light)}
+.drag-zone-desc{font-size:.83em;color:var(--gray);flex:1}
+.drag-zone-slot{min-width:100px;height:32px;background:var(--cream);border-radius:5px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.78em;color:var(--gray)}
+.drag-zone-slot.filled{background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-weight:700;border-style:solid;border-color:var(--ink)}
+.drag-btn{padding:10px 22px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;border:none;margin-top:14px}
+.drag-btn-check{background:var(--ink);color:#fff}
+.drag-btn-reset{background:var(--paper);color:var(--ink);border:2px solid var(--border);margin-left:8px}
+.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:8px;display:none}
+.drag-result.show{display:block}
+/* MISSIONS */
+.mission-list{display:flex;flex-direction:column;gap:14px}
+.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);transition:background .2s}
+.mission:hover{border-color:#2d8a4e;box-shadow:var(--shadow)}
+.mission:hover::before{background:#2d8a4e}
+.mission.done{border-color:var(--green);background:var(--green-light)}
+.mission.done::before{background:var(--green)}
+.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;border:2px solid var(--border)}
+.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
+.mission-content{flex:1}
+.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
+.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap}
+.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
+.mtag-xp{background:var(--gold-pale);color:#2d8a4e;border-color:#a8d5b5}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0}
+.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
+.mission-steps{background:var(--cream);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
+.mission-steps.open{display:block}
+.mstep{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.mstep-num{background:#2d8a4e;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0}
+.mstep-text{font-size:.87em;line-height:1.55}
+.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--gold-light);padding:2px 8px;border-radius:4px;font-size:.9em}
+.progress-bar{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.prog-icon{font-size:1.2em}
+.prog-label{font-size:.82em;font-weight:600}
+.prog-sub{font-size:.75em;color:var(--gray)}
+.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.total-xp-label{font-size:.85em;opacity:.7}
+.total-xp-num{font-size:1.4em;font-weight:800;color:var(--gold-light);font-family:'DM Mono',monospace}
+/* FORMULA CARDS */
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.formula-card{background:var(--cream);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
+.formula-name{font-family:'DM Mono',monospace;font-size:1em;font-weight:700;color:#0f9d58;margin-bottom:6px}
+.formula-desc{font-size:.83em;color:var(--gray);margin-bottom:8px}
+.formula-ex{font-family:'DM Mono',monospace;font-size:.82em;background:var(--ink);color:var(--gold-light);padding:4px 8px;border-radius:4px;display:inline-block}
+@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}}
 </style>
 </head>
 <body>
-
 <header class="header">
   <div class="header-inner">
-    <span class="week-badge">📅 Semana 07 · 1º Bimestre</span>
-    <div class="header-text">
-      <h1>Planilhas – Parte 1</h1>
+    <span class="week-pill">📅 Semana 07</span>
+    <div class="header-title">
+      <h1>Planilhas — Parte 1</h1>
       <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
     </div>
-    <span class="module-tag">🗂 Gerenciamento de Arquivos</span>
+    <div class="xp-bar-wrap">
+      <span class="xp-label">⚡ XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0 / 300</span>
+    </div>
   </div>
 </header>
 
 <div class="container">
-
-  <!-- NAV TOPO -->
   <nav class="nav-bar">
-    <a href="semana06_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana07_guia.html" class="nav-btn nav-btn-accent">📝 Guia de Exercícios</a>
+    <a href="semana06_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <a href="semana07_guia.html" class="nav-btn nav-btn-gold">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana08_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana08_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
 
-  <!-- OBJETIVOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🎯</span>
-      <h2 class="card-title">Objetivos de Aprendizagem</h2>
-    </div>
-    <div class="objetivos-grid">
-      <div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Compreender os conceitos fundamentais de planilhas – parte 1</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Aplicar o conhecimento de arquivos e pastas em situações práticas</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Desenvolver habilidades de organização digital relacionadas ao tema</span></div>
-<div class="objetivo-item"><div class="objetivo-dot"></div><span class="objetivo-text">Integrar este conteúdo com os módulos anteriores do curso</span></div>
+  <div class="quest-banner">
+    <div class="quest-eyebrow">🗡 Missão da Semana 07</div>
+    <h2>Descubra o poder das <span>Planilhas</span></h2>
+    <p>Aprenda a criar e navegar em planilhas no Excel e Google Sheets. Você vai entender células, colunas, linhas e criar suas primeiras fórmulas matemáticas!</p>
+    <div class="quest-rewards">
+      <div class="reward-chip">🏆 300 XP disponíveis</div>
+      <div class="reward-chip">📜 4 Conquistas</div>
+      <div class="reward-chip">⏱ ~90 min</div>
+      <div class="reward-chip">📊 Excel</div>
+      <div class="reward-chip">📈 Google Sheets</div>
     </div>
   </div>
 
-  <!-- CONTEÚDO -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">📖</span>
-      <h2 class="card-title">Conteúdo da Aula</h2>
+  <div class="badges-section">
+    <div class="section-label">🏅 Conquistas desta semana</div>
+    <div class="badges-row">
+      <div class="badge-item locked" id="badge0"><div class="badge-icon">🏗</div><div class="badge-name">Construtor de Tabelas</div><div class="badge-xp">+50 XP</div></div>
+      <div class="badge-item locked" id="badge1"><div class="badge-icon">🔢</div><div class="badge-name">Mestre das Fórmulas</div><div class="badge-xp">+80 XP</div></div>
+      <div class="badge-item locked" id="badge2"><div class="badge-icon">📊</div><div class="badge-name">Analista Iniciante</div><div class="badge-xp">+90 XP</div></div>
+      <div class="badge-item locked" id="badge3"><div class="badge-icon">☁️</div><div class="badge-name">Sheets Pro</div><div class="badge-xp">+80 XP</div></div>
     </div>
-    
-        <div class="conteudo-item">
-            <h3>📌 Introdução: Excel e Sheets básico</h3>
-            <p>Esta semana aprofundamos nosso estudo sobre planilhas – parte 1. Este conteúdo é fundamental para o desenvolvimento de suas competências em gerenciamento de arquivos e se conecta diretamente ao mercado de trabalho na área de tecnologia.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🔍 Conceitos Fundamentais</h3>
-            <p>Para dominar planilhas – parte 1, precisamos entender seus princípios básicos. Cada conceito aqui apresentado foi cuidadosamente selecionado para que você construa uma base sólida, capaz de sustentar aprendizados mais avançados no futuro.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>💡 Aplicações Práticas</h3>
-            <p>O conhecimento sobre planilhas – parte 1 tem aplicações diretas em situações que você encontrará no mercado de trabalho. Vamos explorar casos reais onde profissionais de tecnologia utilizam esses conceitos diariamente.</p>
-        </div>
-        <div class="conteudo-item">
-            <h3>🛠️ Ferramentas e Recursos</h3>
-            <p>Para praticar os conceitos de planilhas – parte 1, utilizaremos ferramentas amplamente adotadas na indústria. Familiarizar-se com elas agora é um investimento no seu futuro profissional.</p>
-        </div>
   </div>
 
-  <!-- ATIVIDADES -->
+  <!-- TEORIA: Anatomia da Planilha -->
   <div class="card">
-    <div class="card-header">
-      <span class="card-icon">✏️</span>
-      <h2 class="card-title">Atividades Práticas</h2>
+    <div class="card-header"><span class="card-icon">🗂</span><h2 class="card-title">Anatomia de uma Planilha — Aprenda o vocabulário</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">💡</div><div class="info-text"><strong>O que é uma planilha?</strong> Uma planilha é uma grade de células organizadas em linhas (numeradas: 1, 2, 3...) e colunas (letras: A, B, C...). Cada célula tem um endereço único, como <strong>A1</strong>, <strong>B3</strong>, <strong>C5</strong>. Você pode colocar textos, números e fórmulas nas células.</div></div>
+
+      <div class="excel-mock">
+        <div class="excel-topbar"><span style="font-size:1.2em">📊</span><span class="excel-filename">Planilha1.xlsx — Microsoft Excel</span></div>
+        <div class="excel-ribbon">
+          <button class="excel-rib-btn active">Início</button>
+          <button class="excel-rib-btn">Inserir</button>
+          <button class="excel-rib-btn">Fórmulas</button>
+          <button class="excel-rib-btn">Dados</button>
+        </div>
+        <div class="formula-bar"><span class="cell-ref">B2</span><span style="color:#666">fx</span><span class="formula-content">=SOMA(B2:B5)</span></div>
+        <table class="sheet-table">
+          <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
+          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">1</td><td class="header-row">Produto</td><td class="header-row">Preço</td><td class="header-row">Qtde</td><td class="header-row">Total</td></tr>
+          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">2</td><td>Notebook</td><td class="selected">R$ 2.500</td><td>3</td><td class="formula">=B2*C2</td></tr>
+          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">3</td><td>Mouse</td><td>R$ 80</td><td>10</td><td class="formula">=B3*C3</td></tr>
+          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">4</td><td>Teclado</td><td>R$ 150</td><td>5</td><td class="formula">=B4*C4</td></tr>
+          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">5</td><td><strong>TOTAL</strong></td><td colspan="2"></td><td class="formula">=SOMA(D2:D4)</td></tr>
+        </table>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+        <div class="info-box"><div class="info-icon">📍</div><div class="info-text"><strong>Célula:</strong> A intersecção de uma linha e uma coluna. Ex: A1 = coluna A, linha 1</div></div>
+        <div class="info-box"><div class="info-icon">↔️</div><div class="info-text"><strong>Coluna:</strong> Série vertical identificada por letras (A, B, C...)</div></div>
+        <div class="info-box"><div class="info-icon">↕️</div><div class="info-text"><strong>Linha:</strong> Série horizontal identificada por números (1, 2, 3...)</div></div>
+        <div class="info-box"><div class="info-icon">🔢</div><div class="info-text"><strong>Intervalo:</strong> Um conjunto de células. Ex: A1:A10 = células A1 até A10</div></div>
+      </div>
+
+      <div class="typing-box" id="type1">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Qual é o endereço da célula na coluna C, linha 5?</div>
+        <div class="typing-target">C5</div><br>
+        <input class="typing-input" type="text" placeholder="Digite o endereço..." oninput="checkTyping(this,'C5','type1','badge0',10)">
+        <div class="typing-feedback" id="type1-fb"></div>
+      </div>
     </div>
-    <p style="color:var(--gray-600); margin-bottom:20px; font-size:.95em;">
-      Para cada exercício, consulte o <a href="semana07_guia.html" style="color:var(--blue); font-weight:600;">Guia de Exercícios</a> 
-      para ver a rubrica de avaliação detalhada e a resolução passo a passo.
-    </p>
-    
-        <div class="exercise-card">
-            <div class="exercise-num">1</div>
-            <div class="exercise-title">Prática: Planilhas – Parte 1</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 30 min</span>
-                <span class="exercise-tag">✏️ Exercício 1</span>
+  </div>
+
+  <!-- TEORIA: Primeiras Fórmulas -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🔢</span><h2 class="card-title">Suas Primeiras Fórmulas — Toda fórmula começa com =</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">⚡</div><div class="info-text"><strong>Regra de ouro:</strong> No Excel e Google Sheets, TODA fórmula começa com o sinal de igual <strong>=</strong>. Sem ele, o programa entende como texto normal.</div></div>
+
+      <div class="formula-grid">
+        <div class="formula-card">
+          <div class="formula-name">=SOMA()</div>
+          <div class="formula-desc">Soma um conjunto de células ou números</div>
+          <div class="formula-ex">=SOMA(A1:A10)</div>
+        </div>
+        <div class="formula-card">
+          <div class="formula-name">=MÉDIA()</div>
+          <div class="formula-desc">Calcula a média de um conjunto</div>
+          <div class="formula-ex">=MÉDIA(B1:B5)</div>
+        </div>
+        <div class="formula-card">
+          <div class="formula-name">=MÁXIMO()</div>
+          <div class="formula-desc">Retorna o maior valor do intervalo</div>
+          <div class="formula-ex">=MÁXIMO(C1:C20)</div>
+        </div>
+        <div class="formula-card">
+          <div class="formula-name">=MÍNIMO()</div>
+          <div class="formula-desc">Retorna o menor valor do intervalo</div>
+          <div class="formula-ex">=MÍNIMO(D1:D20)</div>
+        </div>
+        <div class="formula-card">
+          <div class="formula-name">=CONT.NÚM()</div>
+          <div class="formula-desc">Conta quantas células têm números</div>
+          <div class="formula-ex">=CONT.NÚM(A1:A50)</div>
+        </div>
+        <div class="formula-card">
+          <div class="formula-name">=AGORA()</div>
+          <div class="formula-desc">Retorna data e hora atual</div>
+          <div class="formula-ex">=AGORA()</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Como digitar uma fórmula no Excel:</div>
+            <div class="step-desc">Clique na célula onde quer o resultado. Digite <strong>=SOMA(</strong>. Selecione o intervalo de células que quer somar (ex: clique em A1 e arraste até A5). Feche o parêntese <strong>)</strong> e pressione <strong>Enter</strong>.</div>
+            <div class="step-tip">💡 O Excel mostra uma dica de autocomplete enquanto você digita. Muito útil!</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Operadores matemáticos básicos:</div>
+            <div class="step-desc">Você também pode usar: <strong>+</strong> (soma), <strong>-</strong> (subtração), <strong>*</strong> (multiplicação), <strong>/</strong> (divisão), <strong>^</strong> (potência). Ex: <strong>=B2*C2</strong> multiplica B2 por C2.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-box" id="type2">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Como começar qualquer fórmula no Excel?</div>
+        <div class="typing-target">=</div><br>
+        <input class="typing-input" type="text" placeholder="Digite o símbolo..." oninput="checkTyping(this,'=','type2','badge1',10)">
+        <div class="typing-feedback" id="type2-fb"></div>
+      </div>
+
+      <div class="typing-box" id="type3">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Digite a fórmula para somar o intervalo A1 até A10:</div>
+        <div class="typing-target">=SOMA(A1:A10)</div><br>
+        <input class="typing-input" type="text" placeholder="Digite a fórmula completa..." oninput="checkTyping(this,'=SOMA(A1:A10)','type3','badge1',10)">
+        <div class="typing-feedback" id="type3-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA: Google Sheets -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☁️</span><h2 class="card-title">Google Sheets — Planilhas na Nuvem</h2></div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Acessar o Google Sheets</div>
+          <div class="step-desc">Acesse <strong>sheets.google.com</strong> ou abra o Google Drive → <strong>+ Novo → Planilhas Google</strong>. As fórmulas são idênticas ao Excel!</div>
+        </div>
+      </div>
+      <div class="sheet-mock">
+        <div class="sheet-topbar"><span class="sheet-icon">📊</span><span class="sheet-filename">Planilha sem título</span></div>
+        <div class="sheet-toolbar">
+          <button class="sheet-tool-btn">Normal ▾</button>
+          <button class="sheet-tool-btn"><strong>N</strong></button>
+          <button class="sheet-tool-btn"><em>I</em></button>
+          <button class="sheet-tool-btn"><u>S</u></button>
+          <button class="sheet-tool-btn">$ %</button>
+          <button class="sheet-tool-btn">∑ Funções</button>
+        </div>
+        <div class="formula-bar"><span class="cell-ref">A1</span><span style="color:#666">fx</span><span class="formula-content">=SOMA(B2:B10)</span></div>
+        <table class="sheet-table">
+          <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">1</td><td class="header-row">Aluno</td><td class="header-row">Nota 1</td><td class="header-row">Nota 2</td></tr>
+          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">2</td><td>Ana</td><td>8.5</td><td>9.0</td></tr>
+          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">3</td><td>Bruno</td><td>7.0</td><td>6.5</td></tr>
+          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">4</td><td>Carla</td><td>9.5</td><td>8.0</td></tr>
+          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">5</td><td>Média</td><td class="formula">=MÉDIA(B2:B4)</td><td class="formula">=MÉDIA(C2:C4)</td></tr>
+        </table>
+      </div>
+      <div class="typing-box" id="type4">
+        <div class="typing-xp-chip">⚡ +10 XP</div>
+        <div class="typing-label">✏️ Digite a fórmula para calcular a média das células B2 até B4:</div>
+        <div class="typing-target">=MÉDIA(B2:B4)</div><br>
+        <input class="typing-input" type="text" placeholder="Digite a fórmula..." oninput="checkTyping(this,'=MÉDIA(B2:B4)','type4','badge2',10)">
+        <div class="typing-feedback" id="type4-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🧠</span><h2 class="card-title">Quiz — Teste seus conhecimentos!</h2></div>
+    <div class="card-body">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="quiz-q" id="qq0">
+          <div class="quiz-question">1. Qual é o endereço da célula na 3ª coluna e 2ª linha?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(0,0,2)">A) 3B</button>
+            <button class="quiz-option" onclick="answerQuiz(0,1,2)">B) B3</button>
+            <button class="quiz-option" onclick="answerQuiz(0,2,2)">C) C2</button>
+            <button class="quiz-option" onclick="answerQuiz(0,3,2)">D) 2C</button>
+          </div>
+          <div class="quiz-feedback" id="qf0"></div>
+        </div>
+        <div class="quiz-q" id="qq1">
+          <div class="quiz-question">2. Você quer somar as notas de A1 até A20. Qual fórmula usar?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(1,0,1)">A) SOMA(A1-A20)</button>
+            <button class="quiz-option" onclick="answerQuiz(1,1,1)">B) =SOMA(A1:A20)</button>
+            <button class="quiz-option" onclick="answerQuiz(1,2,1)">C) +A1+A20</button>
+            <button class="quiz-option" onclick="answerQuiz(1,3,1)">D) =TOTAL(A1:A20)</button>
+          </div>
+          <div class="quiz-feedback" id="qf1"></div>
+        </div>
+        <div class="quiz-q" id="qq2">
+          <div class="quiz-question">3. Qual operador usa-se para MULTIPLICAR no Excel?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(2,0,2)">A) x</button>
+            <button class="quiz-option" onclick="answerQuiz(2,1,2)">B) ×</button>
+            <button class="quiz-option" onclick="answerQuiz(2,2,2)">C) *</button>
+            <button class="quiz-option" onclick="answerQuiz(2,3,2)">D) ^</button>
+          </div>
+          <div class="quiz-feedback" id="qf2"></div>
+        </div>
+        <div class="quiz-q" id="qq3">
+          <div class="quiz-question">4. Você digitou "SOMA(A1:A5)" em uma célula e apareceu o texto, não o resultado. O que faltou?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(3,0,0)">A) O sinal de = no início</button>
+            <button class="quiz-option" onclick="answerQuiz(3,1,0)">B) Selecionar as células antes</button>
+            <button class="quiz-option" onclick="answerQuiz(3,2,0)">C) Salvar o arquivo</button>
+            <button class="quiz-option" onclick="answerQuiz(3,3,0)">D) Fechar o parêntese</button>
+          </div>
+          <div class="quiz-feedback" id="qf3"></div>
+        </div>
+        <div class="quiz-q" id="qq4">
+          <div class="quiz-question">5. O Google Sheets e o Excel usam as mesmas fórmulas?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(4,0,0)">A) Sim, a maioria das fórmulas básicas é idêntica</button>
+            <button class="quiz-option" onclick="answerQuiz(4,1,0)">B) Não, são completamente diferentes</button>
+            <button class="quiz-option" onclick="answerQuiz(4,2,0)">C) Só o Excel tem fórmulas</button>
+            <button class="quiz-option" onclick="answerQuiz(4,3,0)">D) Só o Google Sheets tem fórmulas</button>
+          </div>
+          <div class="quiz-feedback" id="qf4"></div>
+        </div>
+        <div class="quiz-q" id="qq5">
+          <div class="quiz-question">6. Qual fórmula retorna o MAIOR valor de um intervalo?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(5,0,2)">A) =SOMA()</button>
+            <button class="quiz-option" onclick="answerQuiz(5,1,2)">B) =MÉDIA()</button>
+            <button class="quiz-option" onclick="answerQuiz(5,2,2)">C) =MÁXIMO()</button>
+            <button class="quiz-option" onclick="answerQuiz(5,3,2)">D) =CONT.NÚM()</button>
+          </div>
+          <div class="quiz-feedback" id="qf5"></div>
+        </div>
+      </div>
+      <div id="quiz-total" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
+    </div>
+  </div>
+
+  <!-- DRAG & DROP -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎯</span><h2 class="card-title">Conecte a Fórmula à sua Função</h2></div>
+    <div class="card-body">
+      <div class="drag-section">
+        <div style="font-weight:800;font-size:.95em;margin-bottom:4px">Arraste cada fórmula para a descrição correta</div>
+        <div style="font-size:.85em;color:var(--gray);margin-bottom:16px">👆 Clique e arraste as fórmulas abaixo para as zonas corretas</div>
+        <div class="drag-tokens" id="dragTokens">
+          <div class="drag-token" draggable="true" data-val="=SOMA()" ondragstart="dragStart(event)">=SOMA()</div>
+          <div class="drag-token" draggable="true" data-val="=MÉDIA()" ondragstart="dragStart(event)">=MÉDIA()</div>
+          <div class="drag-token" draggable="true" data-val="=MÁXIMO()" ondragstart="dragStart(event)">=MÁXIMO()</div>
+          <div class="drag-token" draggable="true" data-val="=MÍNIMO()" ondragstart="dragStart(event)">=MÍNIMO()</div>
+        </div>
+        <div class="drag-zones">
+          <div class="drag-zone" data-answer="=SOMA()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Adiciona todos os valores de um intervalo</div>
+            <div class="drag-zone-slot" id="slot-s1">Arraste aqui</div>
+          </div>
+          <div class="drag-zone" data-answer="=MÉDIA()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Calcula a média aritmética dos valores</div>
+            <div class="drag-zone-slot" id="slot-s2">Arraste aqui</div>
+          </div>
+          <div class="drag-zone" data-answer="=MÁXIMO()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Retorna o valor mais alto do intervalo</div>
+            <div class="drag-zone-slot" id="slot-s3">Arraste aqui</div>
+          </div>
+          <div class="drag-zone" data-answer="=MÍNIMO()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
+            <div class="drag-zone-desc">Retorna o valor mais baixo do intervalo</div>
+            <div class="drag-zone-slot" id="slot-s4">Arraste aqui</div>
+          </div>
+        </div>
+        <button class="drag-btn drag-btn-check" onclick="checkDrag()">✅ Verificar</button>
+        <button class="drag-btn drag-btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
+        <div class="drag-result" id="dragResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSÕES -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🗡</span><h2 class="card-title">Missões Práticas</h2></div>
+    <div class="card-body">
+      <div class="mission-list">
+        <div class="mission" id="m0" onclick="toggleMission(0)">
+          <div class="mission-num">1</div>
+          <div class="mission-content">
+            <div class="mission-title">📊 Criar planilha de notas no Excel</div>
+            <div class="mission-desc">Monte uma planilha com 5 alunos e suas notas, calculando média, maior e menor nota.</div>
+            <div class="mission-tags"><span class="mtag">⏱ 30 min</span><span class="mtag">📊 Excel</span><span class="mtag mtag-xp">⚡ +70 XP</span></div>
+            <div class="mission-steps" id="ms0">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Abra o Excel com <span class="mstep-code">Ctrl+N</span>. Na célula A1 escreva <strong>Aluno</strong>. Em B1: <strong>Nota 1</strong>. Em C1: <strong>Nota 2</strong>. Em D1: <strong>Média</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Nas células A2 a A6, escreva 5 nomes de colegas de sala.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Preencha as notas em B2:C6 com valores entre 0 e 10.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Em D2, digite: <span class="mstep-code">=MÉDIA(B2:C2)</span> e pressione Enter. Copie essa fórmula para D3 até D6.</div></div>
+              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Em A8 escreva <strong>Maior nota:</strong> e em B8 use <span class="mstep-code">=MÁXIMO(D2:D6)</span></div></div>
+              <div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Em A9 escreva <strong>Menor nota:</strong> e em B9 use <span class="mstep-code">=MÍNIMO(D2:D6)</span></div></div>
+              <div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Salve com <span class="mstep-code">Ctrl+S</span> como <strong>Notas_SeuNome.xlsx</strong></div></div>
             </div>
-            <div class="exercise-desc">Aplique os conceitos de planilhas – parte 1 em uma atividade prática orientada, seguindo os passos indicados pelo professor.</div>
+          </div>
+          <div class="mission-check">○</div>
         </div>
-        <div class="exercise-card">
-            <div class="exercise-num">2</div>
-            <div class="exercise-title">Projeto: Planilhas – Parte 1 na Prática</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 35 min</span>
-                <span class="exercise-tag">✏️ Exercício 2</span>
+        <div class="mission" id="m1" onclick="toggleMission(1)">
+          <div class="mission-num">2</div>
+          <div class="mission-content">
+            <div class="mission-title">☁️ Criar planilha de gastos no Google Sheets</div>
+            <div class="mission-desc">Crie uma planilha de controle de gastos mensais com SOMA total.</div>
+            <div class="mission-tags"><span class="mtag">⏱ 25 min</span><span class="mtag">☁️ Sheets</span><span class="mtag mtag-xp">⚡ +60 XP</span></div>
+            <div class="mission-steps" id="ms1">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Acesse <span class="mstep-code">sheets.google.com</span> e crie uma nova planilha.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Crie as colunas: <strong>A: Categoria</strong>, <strong>B: Valor (R$)</strong>, <strong>C: Data</strong></div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Adicione 6 gastos fictícios: Transporte, Alimentação, Material Escolar, Lazer, Roupa, Internet</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Em B8 (após os dados) use <span class="mstep-code">=SOMA(B2:B7)</span> para calcular o total.</div></div>
+              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Nomeie a planilha como <strong>Gastos_SeuNome</strong> e compartilhe com o professor.</div></div>
             </div>
-            <div class="exercise-desc">Desenvolva um pequeno projeto que demonstre sua compreensão de planilhas – parte 1, com criatividade e qualidade técnica.</div>
+          </div>
+          <div class="mission-check">○</div>
         </div>
-        <div class="exercise-card">
-            <div class="exercise-num">3</div>
-            <div class="exercise-title">Desafio: Planilhas – Parte 1</div>
-            <div class="exercise-meta">
-                <span class="exercise-tag">⏱ 25 min</span>
-                <span class="exercise-tag">✏️ Exercício 3</span>
+        <div class="mission" id="m2" onclick="toggleMission(2)">
+          <div class="mission-num">3</div>
+          <div class="mission-content">
+            <div class="mission-title">🎨 Formatar e embelezar a planilha</div>
+            <div class="mission-desc">Aplique cores, negrito e bordas na planilha criada para deixá-la profissional.</div>
+            <div class="mission-tags"><span class="mtag">⏱ 20 min</span><span class="mtag">🎨 Design</span><span class="mtag mtag-xp">⚡ +50 XP</span></div>
+            <div class="mission-steps" id="ms2">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Selecione a linha de cabeçalho (linha 1). Aplique <strong>Negrito</strong> com <span class="mstep-code">Ctrl+B</span>.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Com o cabeçalho selecionado, aplique uma <strong>cor de fundo</strong> (balde de tinta na aba Início).</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Selecione todos os dados. Vá em <strong>Início → Bordas → Todas as bordas</strong>.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Ajuste a largura das colunas: dê duplo clique na borda entre letras das colunas para ajuste automático.</div></div>
+              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">✅ Salve. Sua planilha agora parece profissional!</div></div>
             </div>
-            <div class="exercise-desc">Resolva um problema desafiador que exige pensamento criativo e aplicação avançada dos conceitos de planilhas – parte 1.</div>
+          </div>
+          <div class="mission-check">○</div>
         </div>
-  </div>
-
-  <!-- RECURSOS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-icon">🔗</span>
-      <h2 class="card-title">Recursos Complementares</h2>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">▶️</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Vídeos no YouTube</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Pesquise por: "planilhas – parte 1 para iniciantes"</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">📚</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Khan Academy</div>
-        <div style="font-size:.85em; color:var(--gray-600);">pt.khanacademy.org — cursos gratuitos</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">🤖</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Pergunte à IA</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Use ChatGPT ou Gemini para tirar dúvidas</div>
-      </div>
-      <div style="background:var(--gray-50); border-radius:8px; padding:16px; border:1px solid var(--gray-200);">
-        <div style="font-size:1.5em; margin-bottom:8px;">💬</div>
-        <div style="font-weight:600; font-size:.9em; color:var(--navy); margin-bottom:4px;">Professor</div>
-        <div style="font-size:.85em; color:var(--gray-600);">Nunca tenha vergonha de perguntar!</div>
       </div>
     </div>
   </div>
 
-  <!-- NAV RODAPÉ -->
+  <div class="progress-bar">
+    <div class="section-label">📊 Seu progresso</div>
+    <div class="progress-missions">
+      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Digitação</div><div class="prog-sub" id="prog-type">0/4 completos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="prog-quiz">0/6 respondidos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="prog-drag">Não realizado</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="prog-miss">0/3 concluídas</div></div></div>
+    </div>
+    <div class="total-xp"><div class="total-xp-label">⚡ XP Total</div><div class="total-xp-num" id="totalXpDisp">0 / 300 XP</div></div>
+  </div>
+
   <nav class="nav-bar">
-    <a href="semana06_aula.html" class="nav-btn nav-btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Índice</a>
-    <a href="semana07_guia.html" class="nav-btn nav-btn-accent">📝 Guia</a>
+    <a href="semana06_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
     <span class="nav-spacer"></span>
-    <a href="semana08_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
+    <a href="semana08_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
   </nav>
-
 </div>
+
+<script>
+let totalXP=0,MAX_XP=300;const earned={};
+function addXP(k,v){if(earned[k])return;earned[k]=true;totalXP=Math.min(totalXP+v,MAX_XP);updateXPBar()}
+function updateXPBar(){const p=(totalXP/MAX_XP)*100;document.getElementById('xpFill').style.width=p+'%';document.getElementById('xpNum').textContent=totalXP+' / '+MAX_XP;document.getElementById('totalXpDisp').textContent=totalXP+' / '+MAX_XP+' XP';checkAch()}
+function checkAch(){if(totalXP>=50)unB('badge0');if(totalXP>=130)unB('badge1');if(totalXP>=220)unB('badge2');if(totalXP>=300)unB('badge3')}
+function unB(id){const e=document.getElementById(id);if(e&&e.classList.contains('locked'))e.classList.replace('locked','unlocked')}
+let typingDone={};
+function checkTyping(input,target,boxId,badge,xp){
+  const box=document.getElementById(boxId),fb=document.getElementById(boxId+'-fb'),val=input.value.trim();
+  if(val===target){box.classList.remove('wrong');box.classList.add('correct');input.disabled=true;fb.textContent='🎉 Correto! +'+xp+' XP';fb.style.color='var(--green)';
+    if(!typingDone[boxId]){typingDone[boxId]=true;addXP('t_'+boxId,xp);document.getElementById('prog-type').textContent=Object.keys(typingDone).length+'/4 completos'}}
+  else if(val.length>=target.length){box.classList.add('wrong');setTimeout(()=>box.classList.remove('wrong'),500);fb.textContent='❌ Tente novamente...';fb.style.color='var(--red)'}
+  else{fb.textContent='';box.classList.remove('wrong','correct')}}
+const qA=[2,1,2,0,0,2],qE=['Correto! Coluna = letra (C), linha = número (2), então C2.','Correto! A fórmula correta usa = no início e : para o intervalo.','Correto! O * é o operador de multiplicação no Excel/Sheets.','Correto! Sem o = no início, o Excel trata como texto e não calcula.','Correto! A maioria das fórmulas básicas funciona igual nos dois.','Correto! =MÁXIMO() retorna o maior valor do intervalo.'];
+let qScore=0,qAnswered={};
+function answerQuiz(n,c,correct){if(qAnswered[n])return;qAnswered[n]=true;const btns=document.querySelectorAll('#qq'+n+' .quiz-option');btns.forEach(b=>b.disabled=true);const fb=document.getElementById('qf'+n);if(c===correct){btns[c].classList.add('correct');fb.textContent='✅ '+qE[n];fb.classList.add('show','ok');qScore++;addXP('q_'+n,15)}else{btns[c].classList.add('wrong');btns[correct].classList.add('correct');fb.textContent='❌ '+qE[n];fb.classList.add('show','bad')}const ans=Object.keys(qAnswered).length;document.getElementById('prog-quiz').textContent=ans+'/6 respondidos';if(ans===6)document.getElementById('quiz-total').textContent='🏆 Quiz finalizado! Você acertou '+qScore+'/6.'}
+let draggedToken=null;const dragSlots={};
+function dragStart(e){draggedToken=e.target;e.target.classList.add('dragging')}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('over')}
+function dragLeave(e){e.currentTarget.classList.remove('over')}
+function dropItem(e){e.preventDefault();e.currentTarget.classList.remove('over');if(!draggedToken)return;const zone=e.currentTarget,slot=zone.querySelector('.drag-zone-slot');dragSlots[slot.id]=draggedToken.dataset.val;slot.textContent=draggedToken.dataset.val;slot.classList.add('filled');draggedToken.classList.add('used');draggedToken.classList.remove('dragging');draggedToken=null}
+function checkDrag(){const ans={'slot-s1':'=SOMA()','slot-s2':'=MÉDIA()','slot-s3':'=MÁXIMO()','slot-s4':'=MÍNIMO()'};let c=0;for(const[id,exp]of Object.entries(ans)){const slot=document.getElementById(id),zone=slot.parentElement;if(dragSlots[id]===exp){zone.classList.add('correct');c++}else zone.classList.add('wrong')}const r=document.getElementById('dragResult');r.classList.add('show');if(c===4){r.style.background='var(--green-light)';r.style.color='var(--green)';r.textContent='🎉 Perfeito! Todas corretas! +50 XP';addXP('drag',50);document.getElementById('prog-drag').textContent='✅ Concluído'}else{r.style.background='var(--red-light)';r.style.color='var(--red)';r.textContent='Você acertou '+c+'/4. Tente novamente!'}}
+function resetDrag(){document.querySelectorAll('.drag-token').forEach(t=>t.classList.remove('used','dragging'));document.querySelectorAll('.drag-zone').forEach(z=>z.classList.remove('correct','wrong','over'));document.querySelectorAll('.drag-zone-slot').forEach(s=>{s.classList.remove('filled');s.textContent='Arraste aqui'});Object.keys(dragSlots).forEach(k=>delete dragSlots[k]);document.getElementById('dragResult').classList.remove('show');draggedToken=null}
+let mDone={};
+function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';const xpM=[70,60,50];addXP('m_'+id,xpM[id]);document.getElementById('prog-miss').textContent=Object.keys(mDone).length+'/3 concluídas'}}
+</script>
 </body>
 </html>
