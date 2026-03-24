@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 06 – Projeto Artigo: Gêneros em Jogos Digitais | TIC 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0e0e14;--paper:#f5f0e8;--cream:#faf7f2;
+  --gold:#c9882a;--gold-light:#f0c56a;--gold-pale:#fdf3dc;
+  --blue:#1d4ed8;--blue-light:#dbeafe;
+  --green:#15803d;--green-light:#dcfce7;
+  --red:#b91c1c;--red-light:#fee2e2;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --orange:#ea580c;--orange-light:#ffedd5;
+  --teal:#0f766e;--teal-light:#ccfbf1;
+  --gray:#6b7280;--border:#e5ddd0;
+  --shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);
+  --r:10px;
+}
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;min-height:100vh}
+
+/* HEADER */
+.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--gold)}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.week-pill{background:var(--gold);color:var(--ink);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.header-title{flex:1}
+.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800;letter-spacing:-.02em}
+.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--gold-light);white-space:nowrap}
+.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.78em;font-weight:700;color:var(--gold-light);font-family:'DM Mono',monospace}
+
+/* CONTAINER */
+.container{max-width:1100px;margin:0 auto;padding:28px}
+
+/* NAV */
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.nav-btn-outline:hover{border-color:var(--ink)}
+.nav-btn-gold{background:var(--gold);color:#fff}
+.nav-btn-gold:hover{background:#b5771f}
+.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-btn-dark:hover{background:#1c1c28}
+.nav-spacer{flex:1}
+
+/* QUEST BANNER */
+.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
+.quest-banner::before{content:'';position:absolute;top:0;right:0;width:300px;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(201,136,42,.15));pointer-events:none}
+.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.quest-banner h2 span{color:var(--gold-light)}
+.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
+.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
+.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
+
+/* BADGES */
+.badges-section{margin-bottom:24px}
+.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.badges-row{display:flex;gap:12px;flex-wrap:wrap}
+.badge-item{background:var(--cream);border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s;cursor:default}
+.badge-item.locked{opacity:.45;filter:grayscale(.8)}
+.badge-item.unlocked{border-color:var(--gold);background:var(--gold-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
+.badge-icon{font-size:1.8em;margin-bottom:6px}
+.badge-name{font-size:.8em;font-weight:700;color:var(--ink)}
+.badge-xp{font-size:.72em;font-weight:600;color:var(--gold);font-family:'DM Mono',monospace}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
+.card-icon{font-size:1.5em}
+.card-title{font-size:1.15em;font-weight:800;letter-spacing:-.02em}
+.card-subtitle{font-size:.82em;color:var(--gray);margin-top:2px}
+.card-body{display:flex;flex-direction:column;gap:16px}
+
+/* STEP */
+.drive-step{display:flex;gap:16px;padding:16px;background:var(--cream);border-radius:var(--r);border-left:4px solid var(--gold)}
+.drive-step-num{width:32px;height:32px;background:var(--gold);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
+.drive-step-body{flex:1}
+.drive-step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
+.drive-step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-tip{font-size:.82em;color:#1e40af;background:var(--blue-light);border-radius:6px;padding:6px 10px;margin-top:8px}
+.step-purple{font-size:.82em;color:#6d28d9;background:var(--purple-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+.step-orange{font-size:.82em;color:#c2410c;background:var(--orange-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
+
+/* SECTION BLOCK */
+.section-block{border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.section-block-head{padding:14px 20px;font-weight:800;font-size:1em;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;transition:opacity .2s}
+.section-block-head:hover{opacity:.85}
+.section-block-head.word-color{background:#2b579a;color:#fff}
+.section-block-head.docs-color{background:#34a853;color:#fff}
+.section-block-head.both-color{background:var(--ink);color:#fff}
+.section-block-body{padding:16px;border:2px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);display:none}
+.section-block-body.open{display:flex;flex-direction:column;gap:10px}
+.toggle-arrow{margin-left:auto;transition:transform .3s;font-size:.85em}
+.section-block-body.open ~ * .toggle-arrow,
+.section-block-head[aria-expanded="true"] .toggle-arrow{transform:rotate(180deg)}
+
+/* PLATFORM TABS */
+.platform-tabs{display:flex;gap:0;margin-bottom:0;border-radius:var(--r) var(--r) 0 0;overflow:hidden;border:2px solid var(--border);border-bottom:none}
+.ptab{flex:1;padding:12px 16px;font-weight:700;font-size:.88em;cursor:pointer;border:none;font-family:'Syne',sans-serif;transition:all .2s;text-align:center}
+.ptab.word-tab{background:#e8f0fb;color:#2b579a}
+.ptab.docs-tab{background:#e8f8ec;color:#2d7a47}
+.ptab.word-tab.active{background:#2b579a;color:#fff}
+.ptab.docs-tab.active{background:#34a853;color:#fff}
+.ptab-content{display:none;border:2px solid var(--border);border-radius:0 0 var(--r) var(--r);padding:18px}
+.ptab-content.active{display:flex;flex-direction:column;gap:10px}
+
+/* PROGRESS TRACKER */
+.article-progress{background:var(--ink);color:#fff;border-radius:var(--r);padding:20px 24px;margin-bottom:24px}
+.ap-title{font-size:.85em;font-weight:700;color:var(--gold-light);letter-spacing:.05em;text-transform:uppercase;margin-bottom:14px}
+.ap-sections{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.ap-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px;text-align:center;transition:all .3s;cursor:pointer}
+.ap-item.done{background:rgba(21,128,61,.25);border-color:#4ade80}
+.ap-item.active{background:rgba(201,136,42,.25);border-color:var(--gold-light)}
+.ap-item-num{font-size:.72em;font-weight:700;color:rgba(255,255,255,.5);font-family:'DM Mono',monospace;margin-bottom:4px}
+.ap-item-name{font-size:.78em;font-weight:700;line-height:1.3}
+.ap-item.done .ap-item-name{color:#4ade80}
+.ap-item.active .ap-item-name{color:var(--gold-light)}
+.ap-xp-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
+.ap-xp-label{font-size:.82em;opacity:.6}
+.ap-xp-num{font-size:1.2em;font-weight:800;color:var(--gold-light);font-family:'DM Mono',monospace}
+
+/* SUMARIO PREVIEW */
+.sumario-box{background:var(--cream);border:2px solid var(--border);border-radius:var(--r);padding:20px;font-family:'DM Mono',monospace;font-size:.85em;line-height:2}
+.sumario-box h4{font-family:'Syne',sans-serif;font-size:.9em;font-weight:800;text-align:center;margin-bottom:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)}
+.s-item{display:flex;align-items:baseline;gap:4px}
+.s-num{font-weight:700;min-width:28px;color:var(--ink)}
+.s-title{font-weight:600;color:var(--ink)}
+.s-sub{padding-left:24px;font-size:.9em;color:var(--gray)}
+.s-dots{flex:1;overflow:hidden;color:#ccc;letter-spacing:2px}
+.s-page{color:var(--blue);font-weight:700}
+
+/* QUIZ */
+.quiz-wrap{display:flex;flex-direction:column;gap:16px}
+.quiz-q{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
+.quiz-option:hover{border-color:var(--blue);background:var(--blue-light)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-option:disabled{cursor:default}
+.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
+
+/* TYPING */
+.typing-box{background:var(--cream);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
+.typing-box.correct{border-color:var(--green);background:var(--green-light)}
+.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.typing-label{font-size:.82em;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:var(--blue);background:var(--blue-light);padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px;letter-spacing:.03em}
+.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none;transition:border-color .2s}
+.typing-input:focus{border-color:var(--blue)}
+.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
+.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--gold-pale);color:var(--gold);border:1px solid #fcd975;border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+
+/* MISSIONS */
+.mission-list{display:flex;flex-direction:column;gap:14px}
+.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);transition:background .2s}
+.mission:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.mission:hover::before{background:var(--gold)}
+.mission.done{border-color:var(--green);background:var(--green-light)}
+.mission.done::before{background:var(--green)}
+.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95em;flex-shrink:0;border:2px solid var(--border);transition:all .2s}
+.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
+.mission-content{flex:1}
+.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
+.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px;line-height:1.5}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
+.mtag-xp{background:var(--gold-pale);color:var(--gold);border-color:#fcd975}
+.mtag-word{background:#e8f0fb;color:#2b579a;border-color:#c8d8f0}
+.mtag-docs{background:#e8f8ec;color:#2d7a47;border-color:#b3dfc0}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0;transition:all .2s;margin-top:4px}
+.mission:hover .mission-check{border-color:var(--gold)}
+.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
+.mission-steps{background:var(--cream);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
+.mission-steps.open{display:block}
+.mstep{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.mstep:last-child{margin-bottom:0}
+.mstep-num{background:var(--gold);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0;margin-top:2px}
+.mstep-text{font-size:.87em;line-height:1.6;color:var(--ink)}
+.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--gold-light);padding:2px 8px;border-radius:4px;font-size:.9em}
+.mstep-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:6px;font-weight:600;display:block}
+.mstep-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:6px;font-weight:600;display:block}
+.mstep-tip{font-size:.82em;color:#1e40af;background:var(--blue-light);border-radius:6px;padding:6px 10px;margin-top:6px;display:block}
+
+/* ABNT GRID */
+.abnt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.abnt-rule{background:var(--cream);border-radius:var(--r);padding:16px;border:2px solid var(--border)}
+.abnt-rule-num{font-size:.72em;font-weight:700;color:var(--gray);letter-spacing:.05em;margin-bottom:6px;font-family:'DM Mono',monospace}
+.abnt-rule-icon{font-size:1.4em;margin-bottom:6px}
+.abnt-rule-title{font-weight:800;font-size:.9em;margin-bottom:6px}
+.abnt-rule-val{font-size:.85em;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace;margin-bottom:2px}
+.abnt-rule-desc{font-size:.8em;color:var(--gray);margin-top:6px;line-height:1.5}
+
+/* WORD MOCK */
+.word-mock{background:#fff;border-radius:var(--r);border:2px solid #2b579a;overflow:hidden;max-width:520px;margin-top:10px}
+.word-ribbon{background:#2b579a;padding:6px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.word-rib-btn{background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:.75em;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif}
+.word-rib-btn.active{background:rgba(255,255,255,.5);color:#2b579a}
+.word-toolbar{background:#e8f0fb;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #c8d8f0}
+.word-tool-btn{background:#fff;border:1px solid #c8d8f0;border-radius:4px;padding:3px 8px;font-size:.8em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;transition:background .15s}
+.word-tool-btn:hover{background:#dbeafe}
+.word-body{padding:20px;font-size:.88em;line-height:1.9;font-family:'Times New Roman',serif;color:#333}
+.word-statusbar{background:#f0f4fb;border-top:1px solid #c8d8f0;padding:4px 12px;font-size:.75em;color:#5f6368;display:flex;gap:16px}
+
+/* DOCS MOCK */
+.docs-mock{background:#fff;border-radius:var(--r);border:2px solid #34a853;overflow:hidden;max-width:520px;margin-top:10px}
+.docs-topbar{background:#fff;border-bottom:1px solid #e0e0e0;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.docs-icon{font-size:1.2em}
+.docs-filename{font-size:.88em;font-weight:700;color:#202124}
+.docs-autosave{font-size:.75em;color:#5f6368;display:flex;align-items:center;gap:4px;margin-left:auto}
+.autosave-dot{width:6px;height:6px;border-radius:50%;background:#34a853;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.docs-toolbar{background:#f8f9fa;padding:6px 12px;border-bottom:1px solid #e0e0e0;display:flex;gap:6px;flex-wrap:wrap}
+.docs-tool-btn{background:#fff;border:1px solid #dadce0;border-radius:4px;padding:3px 8px;font-size:.8em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;transition:background .15s;color:#202124}
+.docs-tool-btn:hover{background:#e8f0fe;border-color:#1967d2}
+.docs-body{padding:20px;font-size:.88em;line-height:1.9;font-family:'Times New Roman',serif;color:#333}
+
+/* INFO CALLOUT */
+.info-callout{display:flex;gap:14px;padding:16px 20px;border-radius:var(--r);margin-bottom:4px}
+.info-callout.blue{background:var(--blue-light);border-left:4px solid var(--blue)}
+.info-callout.green{background:var(--green-light);border-left:4px solid var(--green)}
+.info-callout.gold{background:var(--gold-pale);border-left:4px solid var(--gold)}
+.info-callout.orange{background:var(--orange-light);border-left:4px solid var(--orange)}
+.info-callout.purple{background:var(--purple-light);border-left:4px solid var(--purple)}
+.info-callout-icon{font-size:1.4em;flex-shrink:0}
+.info-callout-body{flex:1}
+.info-callout-title{font-weight:800;font-size:.92em;margin-bottom:4px}
+.info-callout-text{font-size:.86em;line-height:1.6;color:var(--gray)}
+.info-callout.blue .info-callout-text{color:#1e40af}
+.info-callout.green .info-callout-text{color:#166534}
+.info-callout.gold .info-callout-text{color:#92400e}
+.info-callout.orange .info-callout-text{color:#c2410c}
+.info-callout.purple .info-callout-text{color:#6d28d9}
+
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:8px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--cream);border-radius:8px;border:2px solid var(--border);cursor:pointer;transition:all .2s}
+.check-item:hover{border-color:var(--gold)}
+.check-item.checked{background:var(--green-light);border-color:var(--green)}
+.check-box{width:22px;height:22px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.85em;transition:all .2s;margin-top:1px}
+.check-item:hover .check-box{border-color:var(--gold)}
+.check-item.checked .check-box{background:var(--green);border-color:var(--green);color:#fff}
+.check-text{font-size:.88em;font-weight:600;line-height:1.5}
+.check-item.checked .check-text{text-decoration:line-through;color:var(--gray)}
+
+/* REFERENCE SOURCE */
+.source-list{display:flex;flex-direction:column;gap:10px}
+.source-item{background:var(--cream);border-radius:var(--r);padding:14px 16px;border:1px solid var(--border);display:flex;gap:12px;align-items:flex-start}
+.source-icon{font-size:1.3em;flex-shrink:0}
+.source-body{flex:1}
+.source-title{font-weight:800;font-size:.9em;margin-bottom:2px}
+.source-url{font-size:.78em;font-family:'DM Mono',monospace;color:var(--blue);word-break:break-all}
+.source-desc{font-size:.82em;color:var(--gray);margin-top:4px;line-height:1.5}
+
+/* PROGRESS BAR */
+.progress-bar-section{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.prog-icon{font-size:1.2em}
+.prog-label{font-size:.82em;font-weight:600}
+.prog-sub{font-size:.75em;color:var(--gray)}
+.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.total-xp-label{font-size:.85em;opacity:.7}
+.total-xp-num{font-size:1.4em;font-weight:800;color:var(--gold-light);font-family:'DM Mono',monospace}
+
+/* PHASE DIVIDER */
+.phase-divider{display:flex;align-items:center;gap:16px;margin:28px 0 20px}
+.phase-num{background:var(--gold);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1em;flex-shrink:0}
+.phase-info{flex:1}
+.phase-title{font-weight:800;font-size:1.1em;letter-spacing:-.02em}
+.phase-sub{font-size:.82em;color:var(--gray)}
+.phase-line{flex:1;height:2px;background:var(--border);border-radius:2px}
+
+/* TOOLTIP */
+.tooltip-wrap{position:relative;display:inline-block}
+.tooltip-trigger{cursor:help;border-bottom:2px dotted var(--gold);font-weight:700}
+.tooltip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 12px;border-radius:8px;font-size:.82em;white-space:nowrap;z-index:100;pointer-events:none;line-height:1.4;max-width:260px;white-space:normal;text-align:center}
+.tooltip-wrap:hover .tooltip-box{display:block}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container{padding:16px}
+  .card{padding:18px}
+  .xp-track{width:60px}
+  .badges-row{gap:8px}
+  .badge-item{min-width:90px}
+  .abnt-grid{grid-template-columns:1fr 1fr}
+  .ap-sections{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+}
+@media(max-width:480px){
+  .abnt-grid{grid-template-columns:1fr}
+  .platform-tabs{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-pill">📅 Semana 06</span>
+    <div class="header-title">
+      <h1>Projeto: Artigo — Gêneros em Jogos Digitais</h1>
+      <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
+    </div>
+    <div class="xp-bar-wrap">
+      <span class="xp-label">⚡ XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0 / 500</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <nav class="nav-bar">
+    <a href="semana05_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <a href="semana06_guia.html" class="nav-btn nav-btn-gold">📝 Guia ABNT</a>
+    <span class="nav-spacer"></span>
+    <a href="semana07_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
+  </nav>
+
+  <!-- QUEST BANNER -->
+  <div class="quest-banner">
+    <div class="quest-eyebrow">🎮 Projeto da Semana 06</div>
+    <h2>Escreva um <span>Artigo Acadêmico</span> completo sobre Jogos Digitais</h2>
+    <p>Você vai criar do zero um artigo formatado nas normas ABNT com sumário automático, referências, cabeçalho e rodapé — usando Microsoft Word <strong>e</strong> Google Docs. Siga cada fase com calma e ao final terá um trabalho completo e profissional!</p>
+    <div class="quest-rewards">
+      <div class="reward-chip">🏆 500 XP disponíveis</div>
+      <div class="reward-chip">📜 5 Conquistas</div>
+      <div class="reward-chip">⏱ ~2 aulas</div>
+      <div class="reward-chip">💻 Microsoft Word</div>
+      <div class="reward-chip">☁️ Google Docs</div>
+      <div class="reward-chip">📚 Google Acadêmico</div>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges-section">
+    <div class="section-label">🏅 Conquistas desta semana</div>
+    <div class="badges-row">
+      <div class="badge-item locked" id="badge0"><div class="badge-icon">🏗️</div><div class="badge-name">Estrutura ABNT</div><div class="badge-xp">+80 XP</div></div>
+      <div class="badge-item locked" id="badge1"><div class="badge-icon">📑</div><div class="badge-name">Sumário Ninja</div><div class="badge-xp">+100 XP</div></div>
+      <div class="badge-item locked" id="badge2"><div class="badge-icon">🔬</div><div class="badge-name">Pesquisador</div><div class="badge-xp">+100 XP</div></div>
+      <div class="badge-item locked" id="badge3"><div class="badge-icon">☁️</div><div class="badge-name">Cloud Expert</div><div class="badge-xp">+120 XP</div></div>
+      <div class="badge-item locked" id="badge4"><div class="badge-icon">🎓</div><div class="badge-name">Artigo Completo</div><div class="badge-xp">+100 XP</div></div>
+    </div>
+  </div>
+
+  <!-- SUMÁRIO DO ARTIGO — PREVIEW -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🗂</span>
+      <div>
+        <div class="card-title">Estrutura do Artigo que você vai produzir</div>
+        <div class="card-subtitle">Este é o sumário final esperado — cada seção será construída passo a passo</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout gold">
+        <div class="info-callout-icon">💡</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">Como usar este mapa</div>
+          <div class="info-callout-text">Nas próximas seções você receberá instruções detalhadas para escrever cada parte. Volte aqui sempre que quiser ver onde está no artigo. As seções marcadas em verde já estão prontas!</div>
+        </div>
+      </div>
+
+      <div class="sumario-box">
+        <h4>SUMÁRIO — Artigo: Gêneros em Jogos Digitais</h4>
+        <div class="s-item"><span class="s-num">1</span><span class="s-title">INTRODUÇÃO</span><span class="s-dots">........................................................................</span><span class="s-page">1</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num">2</span><span class="s-title">FUNDAMENTAÇÃO TEÓRICA</span><span class="s-dots">................................................</span><span class="s-page">2</span></div>
+        <div class="s-item s-sub"><span class="s-num">2.1</span><span class="s-title">Conceito de Jogos Digitais</span><span class="s-dots">............................................</span><span class="s-page">2</span></div>
+        <div class="s-item s-sub"><span class="s-num">2.2</span><span class="s-title">Classificação por Gêneros</span><span class="s-dots">...............................................</span><span class="s-page">3</span></div>
+        <div class="s-item s-sub"><span class="s-num">2.3</span><span class="s-title">Importância dos Gêneros no Design de Jogos</span><span class="s-dots">................</span><span class="s-page">4</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num">3</span><span class="s-title">METODOLOGIA</span><span class="s-dots">...................................................................</span><span class="s-page">5</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num">4</span><span class="s-title">ANÁLISE DOS GÊNEROS DE JOGOS</span><span class="s-dots">......................................</span><span class="s-page">6</span></div>
+        <div class="s-item s-sub"><span class="s-num">4.1</span><span class="s-title">RPG (Role-Playing Game)</span><span class="s-dots">................................................</span><span class="s-page">6</span></div>
+        <div class="s-item s-sub"><span class="s-num">4.2</span><span class="s-title">Jogos de Corrida</span><span class="s-dots">...............................................................</span><span class="s-page">7</span></div>
+        <div class="s-item s-sub"><span class="s-num">4.3</span><span class="s-title">FPS (First-Person Shooter)</span><span class="s-dots">.............................................</span><span class="s-page">8</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num">5</span><span class="s-title">ESTUDO DE CASO: ANÁLISE DE JOGOS</span><span class="s-dots">.................................</span><span class="s-page">9</span></div>
+        <div class="s-item s-sub"><span class="s-num">5.1</span><span class="s-title">Jogo do gênero RPG</span><span class="s-dots">.........................................................</span><span class="s-page">9</span></div>
+        <div class="s-item s-sub"><span class="s-num">5.2</span><span class="s-title">Jogo do gênero Corrida</span><span class="s-dots">.....................................................</span><span class="s-page">10</span></div>
+        <div class="s-item s-sub"><span class="s-num">5.3</span><span class="s-title">Jogo do gênero FPS</span><span class="s-dots">...........................................................</span><span class="s-page">11</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num">6</span><span class="s-title">DISCUSSÃO DOS RESULTADOS</span><span class="s-dots">................................................</span><span class="s-page">12</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num">7</span><span class="s-title">CONCLUSÃO</span><span class="s-dots">.........................................................................</span><span class="s-page">13</span></div>
+        <div class="s-item" style="margin-top:6px"><span class="s-num"> </span><span class="s-title">REFERÊNCIAS</span><span class="s-dots">.......................................................................</span><span class="s-page">14</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 1 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">1</div>
+    <div class="phase-info">
+      <div class="phase-title">🏗️ Fase 1 — Configurar o Documento</div>
+      <div class="phase-sub">Criar o arquivo, definir margens ABNT e configurar fontes</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <!-- CARD: ABNT -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📐</span>
+      <div>
+        <div class="card-title">Configurações ABNT obrigatórias</div>
+        <div class="card-subtitle">Antes de escrever qualquer linha, o documento precisa estar configurado corretamente</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout blue">
+        <div class="info-callout-icon">📖</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">O que é ABNT?</div>
+          <div class="info-callout-text">ABNT é a Associação Brasileira de Normas Técnicas. A norma ABNT NBR 6022 define como artigos acadêmicos devem ser formatados no Brasil. Faculdades, ETEC e universidades exigem esse padrão.</div>
+        </div>
+      </div>
+
+      <div class="abnt-grid">
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">ABNT · 01</div>
+          <div class="abnt-rule-icon">📏</div>
+          <div class="abnt-rule-title">Margem Superior</div>
+          <div class="abnt-rule-val">3 cm</div>
+          <div class="abnt-rule-desc">Também é a margem da esquerda (encadernação)</div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">ABNT · 02</div>
+          <div class="abnt-rule-icon">📏</div>
+          <div class="abnt-rule-title">Margem Inferior</div>
+          <div class="abnt-rule-val">2 cm</div>
+          <div class="abnt-rule-desc">Também é a margem da direita</div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">ABNT · 03</div>
+          <div class="abnt-rule-icon">🔤</div>
+          <div class="abnt-rule-title">Fonte do texto</div>
+          <div class="abnt-rule-val">Times New Roman 12</div>
+          <div class="abnt-rule-desc">Ou Arial 12. O importante é manter uma só fonte</div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">ABNT · 04</div>
+          <div class="abnt-rule-icon">↕️</div>
+          <div class="abnt-rule-title">Espaçamento</div>
+          <div class="abnt-rule-val">1,5 entre linhas</div>
+          <div class="abnt-rule-desc">Exceto resumo e referências que usam 1,0 (simples)</div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">ABNT · 05</div>
+          <div class="abnt-rule-icon">⬅️</div>
+          <div class="abnt-rule-title">Recuo de parágrafo</div>
+          <div class="abnt-rule-val">1,25 cm</div>
+          <div class="abnt-rule-desc">Primeira linha de cada parágrafo com recuo</div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">ABNT · 06</div>
+          <div class="abnt-rule-icon">📄</div>
+          <div class="abnt-rule-title">Numeração de página</div>
+          <div class="abnt-rule-val">Canto sup. direito</div>
+          <div class="abnt-rule-desc">A contagem começa na capa mas o número aparece na Introdução</div>
+        </div>
+      </div>
+
+      <!-- TABS: Word vs Docs -->
+      <h3 style="font-size:.95em;font-weight:800;margin-top:8px">Siga as instruções para o seu aplicativo:</h3>
+
+      <div class="platform-tabs">
+        <button class="ptab word-tab active" onclick="switchTab('cfg',0,this)">💻 Microsoft Word</button>
+        <button class="ptab docs-tab" onclick="switchTab('cfg',1,this)">☁️ Google Docs</button>
+      </div>
+
+      <div class="ptab-content active" id="cfg-0">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Abrir o Word e criar novo documento</div>
+            <div class="drive-step-desc">Abra o Microsoft Word. Clique em <strong>Arquivo → Novo → Documento em Branco</strong>. Ou pressione o atalho <strong>Ctrl + N</strong>.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Salvar o arquivo com nome correto</div>
+            <div class="drive-step-desc">Pressione <strong>Ctrl + Shift + S</strong> para "Salvar como". Escolha uma pasta. No campo <em>Nome do arquivo</em> digite: <strong>Artigo_GenerosJogos_SeuNome</strong>. Clique em Salvar.</div>
+            <div class="step-warn">⚠️ Salve sempre em uma pasta que você saiba encontrar depois. Recomendamos criar uma pasta chamada "PTIC" em Documentos.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Configurar as margens ABNT</div>
+            <div class="drive-step-desc">Clique na aba <strong>"Layout"</strong> (ou "Layout da Página"). Clique em <strong>"Margens"</strong> → <strong>"Margens Personalizadas..."</strong>. Preencha: <strong>Superior: 3cm | Esquerda: 3cm | Inferior: 2cm | Direita: 2cm</strong>. Clique em OK.</div>
+            <div class="word-mock">
+              <div class="word-ribbon">
+                <button class="word-rib-btn">Início</button>
+                <button class="word-rib-btn">Inserir</button>
+                <button class="word-rib-btn active">Layout</button>
+              </div>
+              <div class="word-toolbar">
+                <button class="word-tool-btn" style="color:#2b579a;font-weight:800">📏 Margens ▾</button>
+                <button class="word-tool-btn">Orientação</button>
+                <button class="word-tool-btn">Tamanho</button>
+              </div>
+              <div class="word-body" style="font-size:.8em">
+                <strong>Configuração de Margens:</strong><br>
+                Superior: <span style="color:#2b579a">3 cm</span> &nbsp;|&nbsp; Inferior: <span style="color:#2b579a">2 cm</span><br>
+                Esquerda: <span style="color:#2b579a">3 cm</span> &nbsp;|&nbsp; Direita: <span style="color:#2b579a">2 cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">4</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Configurar a fonte Times New Roman 12</div>
+            <div class="drive-step-desc">Pressione <strong>Ctrl + A</strong> para selecionar tudo. Na aba <strong>"Início"</strong>, no campo de fonte, selecione <strong>Times New Roman</strong>. No campo do tamanho, selecione <strong>12</strong>.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">5</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Configurar espaçamento 1,5</div>
+            <div class="drive-step-desc">Com tudo selecionado (Ctrl+A), clique com o <strong>botão direito</strong> → <strong>"Parágrafo"</strong>. Em "Espaçamento entre linhas" selecione <strong>1,5</strong>. Em "Recuo especial" selecione <strong>Primeira linha: 1,25 cm</strong>. Clique OK.</div>
+            <div class="step-ok">✅ Pronto! Seu documento está configurado no padrão ABNT. Agora é hora de escrever.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptab-content" id="cfg-1">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Criar um novo documento no Google Docs</div>
+            <div class="drive-step-desc">Abra o navegador e acesse <span style="font-family:'DM Mono',monospace;background:var(--blue-light);padding:2px 8px;border-radius:4px">docs.google.com</span>. Clique no grande <strong>"+"</strong> (Documento em branco).</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Nomear o documento</div>
+            <div class="drive-step-desc">Clique em <strong>"Documento sem título"</strong> no canto superior esquerdo. Digite: <strong>Artigo_GenerosJogos_SeuNome</strong>. O Google Docs salva automaticamente!</div>
+            <div class="step-ok">✅ O ponto verde animado na barra superior confirma que está salvando em tempo real.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Configurar as margens ABNT</div>
+            <div class="drive-step-desc">Vá em <strong>Arquivo → Configurar Página</strong>. Preencha: <strong>Superior: 3cm | Esquerda: 3cm | Inferior: 2cm | Direita: 2cm</strong>. Clique em OK.</div>
+            <div class="docs-mock">
+              <div class="docs-topbar">
+                <span class="docs-icon">📄</span>
+                <span class="docs-filename">Artigo_GenerosJogos_SeuNome</span>
+                <span class="docs-autosave"><span class="autosave-dot"></span> Salvo</span>
+              </div>
+              <div class="docs-toolbar">
+                <button class="docs-tool-btn">Arquivo</button>
+                <button class="docs-tool-btn" style="color:#1967d2;font-weight:700">→ Configurar página</button>
+              </div>
+              <div class="docs-body" style="font-size:.82em">
+                Superior: <strong>3 cm</strong> &nbsp;|&nbsp; Inferior: <strong>2 cm</strong><br>
+                Esquerda: <strong>3 cm</strong> &nbsp;|&nbsp; Direita: <strong>2 cm</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">4</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Configurar fonte e espaçamento</div>
+            <div class="drive-step-desc">Pressione <strong>Ctrl + A</strong> para selecionar tudo. Na barra de ferramentas, clique no nome da fonte (geralmente "Arial") e troque para <strong>Times New Roman</strong>. Troque o tamanho para <strong>12</strong>. Para o espaçamento: menu <strong>Formatar → Espaçamento entre linhas → 1,5</strong>.</div>
+            <div class="step-ok">✅ Documento configurado! O Google Docs já está pronto para receber seu artigo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz de fixação -->
+      <div class="typing-box" id="type1">
+        <div class="typing-xp-chip">⚡ +15 XP</div>
+        <div class="typing-label">✏️ Qual é a margem superior exigida pela ABNT?</div>
+        <div class="typing-target">3 cm</div><br>
+        <input class="typing-input" type="text" placeholder="Digite aqui..." oninput="checkTyping(this,'3 cm','type1','badge0',15)">
+        <div class="typing-feedback" id="type1-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 2 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">2</div>
+    <div class="phase-info">
+      <div class="phase-title">📝 Fase 2 — Capa e Folha de Rosto</div>
+      <div class="phase-sub">A identidade do seu artigo — quem escreveu, para onde vai</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🖊️</span>
+      <div>
+        <div class="card-title">Criando a Capa do Artigo</div>
+        <div class="card-subtitle">A capa não entra na contagem de páginas do sumário, mas é obrigatória</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout gold">
+        <div class="info-callout-icon">📋</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">O que precisa ter na capa?</div>
+          <div class="info-callout-text">Nome da instituição • Nome do curso • Nome completo do(s) autor(es) • Título do artigo • Cidade e ano</div>
+        </div>
+      </div>
+
+      <div class="platform-tabs">
+        <button class="ptab word-tab active" onclick="switchTab('capa',0,this)">💻 Microsoft Word</button>
+        <button class="ptab docs-tab" onclick="switchTab('capa',1,this)">☁️ Google Docs</button>
+      </div>
+
+      <div class="ptab-content active" id="capa-0">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Centralizar e digitar os elementos da capa</div>
+            <div class="drive-step-desc">No início do documento, pressione <strong>Ctrl + E</strong> para centralizar o texto. Digite os elementos abaixo, pressionando <strong>Enter</strong> entre cada um:</div>
+            <div class="word-mock">
+              <div class="word-ribbon"><button class="word-rib-btn active">Início</button></div>
+              <div class="word-body" style="text-align:center;font-size:.85em">
+                ETEC — Escola Técnica Estadual<br>
+                Curso Técnico em Informática<br><br>
+                <strong>FULANO DE TAL SILVA</strong><br><br><br>
+                <strong>GÊNEROS EM JOGOS DIGITAIS: UMA ANÁLISE COMPARATIVA</strong><br><br><br>
+                São Paulo<br>
+                2026
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir quebra de página após a capa</div>
+            <div class="drive-step-desc">Posicione o cursor no final da capa (após o ano). Vá em <strong>Inserir → Quebra de Página</strong> ou pressione <strong>Ctrl + Enter</strong>. Isso faz o sumário começar numa nova página limpa.</div>
+            <div class="step-tip">💡 O atalho Ctrl + Enter é um dos mais úteis no Word! Sempre que quiser começar uma nova seção em nova página, use-o.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptab-content" id="capa-1">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Centralizar e digitar os elementos</div>
+            <div class="drive-step-desc">Clique no início do documento. Pressione <strong>Ctrl + E</strong> para centralizar. Digite os mesmos elementos da capa (nome da instituição, seu nome, título do artigo, cidade e ano), com uma linha em branco entre cada item importante.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir quebra de página no Google Docs</div>
+            <div class="drive-step-desc">Posicione o cursor no final da capa. Vá em <strong>Inserir → Quebra → Quebra de página</strong>. Ou use o atalho <strong>Ctrl + Enter</strong> (funciona igual ao Word!).</div>
+            <div class="step-ok">✅ A capa ficará sozinha na primeira página. A próxima página receberá o Sumário.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 3 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">3</div>
+    <div class="phase-info">
+      <div class="phase-title">🔤 Fase 3 — Estilos de Título e Estrutura</div>
+      <div class="phase-sub">Aplicar estilos é o segredo do sumário automático</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔤</span>
+      <div>
+        <div class="card-title">Aplicando Estilos — a base de tudo</div>
+        <div class="card-subtitle">Sem estilos, não existe sumário automático. Esse é o passo mais importante!</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout purple">
+        <div class="info-callout-icon">🎯</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">Por que usar estilos?</div>
+          <div class="info-callout-text">Um estilo é uma receita de formatação guardada com um nome. Quando você aplica "Título 1", o Word/Docs já sabe que aquilo é uma seção principal e vai incluir no sumário automaticamente. Se precisar mudar a aparência de todos os títulos, basta mudar o estilo uma vez!</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95em;font-weight:800">Tabela de estilos do artigo:</h3>
+      <div class="abnt-grid">
+        <div class="abnt-rule" style="border-color:#2b579a">
+          <div class="abnt-rule-num">ESTILO · 01</div>
+          <div class="abnt-rule-icon">1️⃣</div>
+          <div class="abnt-rule-title">Título 1</div>
+          <div class="abnt-rule-val">Seções principais</div>
+          <div class="abnt-rule-desc">1 INTRODUÇÃO, 2 FUNDAMENTAÇÃO, 3 METODOLOGIA etc.</div>
+        </div>
+        <div class="abnt-rule" style="border-color:#7c3aed">
+          <div class="abnt-rule-num">ESTILO · 02</div>
+          <div class="abnt-rule-icon">2️⃣</div>
+          <div class="abnt-rule-title">Título 2</div>
+          <div class="abnt-rule-val">Subseções</div>
+          <div class="abnt-rule-desc">2.1 Conceito de Jogos, 2.2 Classificação etc.</div>
+        </div>
+        <div class="abnt-rule" style="border-color:#15803d">
+          <div class="abnt-rule-num">ESTILO · 03</div>
+          <div class="abnt-rule-icon">📝</div>
+          <div class="abnt-rule-title">Normal / Corpo</div>
+          <div class="abnt-rule-val">Texto comum</div>
+          <div class="abnt-rule-desc">Todo o texto do artigo, parágrafos, análises</div>
+        </div>
+      </div>
+
+      <div class="platform-tabs">
+        <button class="ptab word-tab active" onclick="switchTab('estilo',0,this)">💻 Microsoft Word</button>
+        <button class="ptab docs-tab" onclick="switchTab('estilo',1,this)">☁️ Google Docs</button>
+      </div>
+
+      <div class="ptab-content active" id="estilo-0">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Localize o painel de Estilos na aba Início</div>
+            <div class="drive-step-desc">Clique na aba <strong>"Início"</strong>. À direita, você verá uma galeria de estilos com botões chamados "Normal", "Título 1", "Título 2" etc.</div>
+            <div class="word-mock">
+              <div class="word-ribbon"><button class="word-rib-btn active">Início</button></div>
+              <div class="word-toolbar">
+                <button class="word-tool-btn">Normal</button>
+                <button class="word-tool-btn" style="font-size:1em;font-weight:800;color:#2b579a">Título 1</button>
+                <button class="word-tool-btn" style="font-weight:700">Título 2</button>
+                <button class="word-tool-btn" style="font-style:italic">Subtítulo</button>
+              </div>
+              <div class="word-body">← Clique em "Título 1" com o cursor na linha do título</div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Digitar e aplicar cada título do artigo</div>
+            <div class="drive-step-desc">Na segunda página (depois da capa), clique, digite o título e depois aplique o estilo. Exemplo: clique na linha onde está "1 INTRODUÇÃO" → clique em "Título 1".</div>
+            <div class="step-tip">💡 Você não precisa selecionar a linha inteira. Basta ter o cursor em qualquer lugar na linha do título.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Lista completa de títulos para aplicar Título 1</div>
+            <div class="drive-step-desc">Digite e aplique <strong>Título 1</strong> em cada uma destas linhas:</div>
+            <div style="background:var(--blue-light);border-radius:8px;padding:12px 16px;margin-top:8px;font-family:'DM Mono',monospace;font-size:.82em;line-height:2;color:#1e40af">
+              1 INTRODUÇÃO<br>
+              2 FUNDAMENTAÇÃO TEÓRICA<br>
+              3 METODOLOGIA<br>
+              4 ANÁLISE DOS GÊNEROS DE JOGOS<br>
+              5 ESTUDO DE CASO: ANÁLISE DE JOGOS<br>
+              6 DISCUSSÃO DOS RESULTADOS<br>
+              7 CONCLUSÃO<br>
+              REFERÊNCIAS
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">4</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Aplicar Título 2 nas subseções</div>
+            <div class="drive-step-desc">Aplique <strong>Título 2</strong> nos subtítulos:</div>
+            <div style="background:var(--purple-light);border-radius:8px;padding:12px 16px;margin-top:8px;font-family:'DM Mono',monospace;font-size:.82em;line-height:2;color:#6d28d9">
+              2.1 Conceito de Jogos Digitais<br>
+              2.2 Classificação por Gêneros<br>
+              2.3 Importância dos Gêneros no Design de Jogos<br>
+              4.1 RPG (Role-Playing Game)<br>
+              4.2 Jogos de Corrida<br>
+              4.3 FPS (First-Person Shooter)<br>
+              5.1 Jogo do gênero RPG<br>
+              5.2 Jogo do gênero Corrida<br>
+              5.3 Jogo do gênero FPS
+            </div>
+            <div class="step-ok">✅ Com os estilos aplicados, seu sumário automático vai funcionar perfeitamente!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptab-content" id="estilo-1">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Localizar o menu de estilos no Google Docs</div>
+            <div class="drive-step-desc">Na barra de ferramentas, o menu de estilos mostra <strong>"Texto normal ▾"</strong>. Clique nele para ver as opções: Título, Título 1, Título 2, Texto normal etc.</div>
+            <div class="docs-mock">
+              <div class="docs-topbar"><span class="docs-icon">📄</span><span class="docs-filename">Artigo_GenerosJogos</span></div>
+              <div class="docs-toolbar">
+                <button class="docs-tool-btn" style="color:#1967d2;font-weight:700">Texto normal ▾</button>
+                <button class="docs-tool-btn" style="font-size:1.1em;font-weight:800">Título 1</button>
+                <button class="docs-tool-btn" style="font-weight:700">Título 2</button>
+              </div>
+              <div class="docs-body">← Menu de estilos fica aqui, na barra superior</div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Aplicar os mesmos estilos nas mesmas seções</div>
+            <div class="drive-step-desc">A lógica é idêntica ao Word: posicione o cursor na linha do título → no menu de estilos clique em <strong>"Título 1"</strong>. Para subseções, clique em <strong>"Título 2"</strong>. Para o texto normal, use <strong>"Texto normal"</strong>.</div>
+            <div class="step-ok">✅ No Google Docs os estilos se chamam da mesma forma. O processo é exatamente igual!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-box" id="type2">
+        <div class="typing-xp-chip">⚡ +15 XP</div>
+        <div class="typing-label">✏️ Qual estilo deve ser aplicado em "2.1 Conceito de Jogos Digitais"?</div>
+        <div class="typing-target">Título 2</div><br>
+        <input class="typing-input" type="text" placeholder="Nome do estilo..." oninput="checkTyping(this,'Título 2','type2','badge0',15)">
+        <div class="typing-feedback" id="type2-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 4 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">4</div>
+    <div class="phase-info">
+      <div class="phase-title">📑 Fase 4 — Sumário Automático</div>
+      <div class="phase-sub">Gerar o sumário com um clique, depois de aplicar os estilos</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📑</span>
+      <div>
+        <div class="card-title">Criando o Sumário Automático</div>
+        <div class="card-subtitle">Com os estilos aplicados, o sumário é gerado em segundos!</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout green">
+        <div class="info-callout-icon">✅</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">Pré-requisito obrigatório</div>
+          <div class="info-callout-text">O sumário automático SÓ funciona se você aplicou os estilos Título 1 e Título 2 em todos os títulos do artigo. Se ainda não fez isso, volte para a Fase 3!</div>
+        </div>
+      </div>
+
+      <div class="platform-tabs">
+        <button class="ptab word-tab active" onclick="switchTab('sum',0,this)">💻 Microsoft Word</button>
+        <button class="ptab docs-tab" onclick="switchTab('sum',1,this)">☁️ Google Docs</button>
+      </div>
+
+      <div class="ptab-content active" id="sum-0">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Posicionar o cursor no início da segunda página</div>
+            <div class="drive-step-desc">O sumário vem logo depois da capa. Clique no começo da segunda página do documento (que agora está em branco após a quebra de página).</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Acessar Referências → Sumário</div>
+            <div class="drive-step-desc">Clique na aba <strong>"Referências"</strong> na faixa de opções. No canto esquerdo, clique em <strong>"Sumário"</strong>. Escolha um dos modelos automáticos (ex: "Sumário Automático 1").</div>
+            <div class="word-mock">
+              <div class="word-ribbon">
+                <button class="word-rib-btn">Início</button>
+                <button class="word-rib-btn">Inserir</button>
+                <button class="word-rib-btn active">Referências</button>
+              </div>
+              <div class="word-toolbar">
+                <button class="word-tool-btn" style="color:#2b579a;font-weight:800">📋 Sumário ▾</button>
+                <button class="word-tool-btn">Nota de Rodapé</button>
+                <button class="word-tool-btn">Citações</button>
+              </div>
+              <div class="word-body" style="font-size:.8em">
+                <strong>Sumário</strong><br>
+                1 Introdução .................. 1<br>
+                2 Fundamentação Teórica ..... 2<br>
+                &nbsp;&nbsp;2.1 Conceito de Jogos ...... 2<br>
+                &nbsp;&nbsp;2.2 Classificação ........... 3<br>
+                3 Metodologia ................ 5
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Atualizar o sumário após escrever mais conteúdo</div>
+            <div class="drive-step-desc">Sempre que adicionar novos títulos ou o número de páginas mudar: clique dentro do sumário → pressione <strong>F9</strong> → selecione <strong>"Atualizar o índice inteiro"</strong> → OK.</div>
+            <div class="step-tip">💡 Lembre-se: sempre atualize o sumário antes de entregar o trabalho final!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptab-content" id="sum-1">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Posicionar cursor após a capa</div>
+            <div class="drive-step-desc">Clique no início da segunda página, depois da quebra de página que você inseriu.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir → Índice</div>
+            <div class="drive-step-desc">No menu superior, clique em <strong>"Inserir"</strong>. Role o menu e clique em <strong>"Índice"</strong> (ou "Sumário"). Escolha um dos estilos disponíveis. O sumário aparecerá com todos os títulos que você marcou!</div>
+            <div class="docs-mock">
+              <div class="docs-topbar"><span class="docs-icon">📄</span><span class="docs-filename">Artigo_GenerosJogos</span></div>
+              <div class="docs-toolbar">
+                <button class="docs-tool-btn" style="color:#1967d2;font-weight:700">Inserir ▾</button>
+                <button class="docs-tool-btn">→ Índice</button>
+              </div>
+              <div class="docs-body" style="font-size:.8em">
+                <strong>Sumário</strong><br>
+                1 Introdução ..................... 1<br>
+                2 Fundamentação Teórica .... 2<br>
+                &nbsp;&nbsp;2.1 Conceito de Jogos ....... 2<br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Atualizar o sumário</div>
+            <div class="drive-step-desc">Clique no sumário. Um ícone de <strong>↻ atualizar</strong> aparecerá no canto superior esquerdo do sumário. Clique nele para atualizar sempre que adicionar novos títulos ou conteúdo.</div>
+            <div class="step-ok">✅ No Google Docs o sumário também é clicável — o leitor pode clicar em qualquer seção e ir direto para ela!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-box" id="type3">
+        <div class="typing-xp-chip">⚡ +15 XP</div>
+        <div class="typing-label">✏️ No Word, em qual aba fica o botão "Sumário"?</div>
+        <div class="typing-target">Referências</div><br>
+        <input class="typing-input" type="text" placeholder="Nome da aba..." oninput="checkTyping(this,'Referências','type3','badge1',15)">
+        <div class="typing-feedback" id="type3-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 5 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">5</div>
+    <div class="phase-info">
+      <div class="phase-title">🔍 Fase 5 — Pesquisa e Conteúdo</div>
+      <div class="phase-sub">Onde pesquisar e como escrever cada seção do artigo</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔬</span>
+      <div>
+        <div class="card-title">Onde pesquisar informações para o artigo</div>
+        <div class="card-subtitle">Fontes confiáveis para cada gênero de jogo</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout blue">
+        <div class="info-callout-icon">📚</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">Fontes acadêmicas e oficiais — as mais confiáveis</div>
+          <div class="info-callout-text">Para um artigo acadêmico, use fontes confiáveis. Evite Wikipedia para citar diretamente — use-a como ponto de partida para encontrar fontes melhores.</div>
+        </div>
+      </div>
+
+      <div class="source-list">
+        <div class="source-item">
+          <div class="source-icon">🎓</div>
+          <div class="source-body">
+            <div class="source-title">Google Acadêmico (Scholar)</div>
+            <div class="source-url">scholar.google.com</div>
+            <div class="source-desc">Pesquise termos como "jogos digitais gêneros", "RPG videogame", "FPS game design". Encontre artigos, dissertações e TCC sobre o tema. Clique em "Citar" para copiar a referência ABNT.</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-icon">🎮</div>
+          <div class="source-body">
+            <div class="source-title">Site oficial da CD Projekt Red (RPG — The Witcher)</div>
+            <div class="source-url">cdprojektred.com</div>
+            <div class="source-desc">Informações oficiais sobre o desenvolvimento dos jogos Witcher. Ideal para a seção 5.1 (Estudo de Caso RPG).</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-icon">🚗</div>
+          <div class="source-body">
+            <div class="source-title">Site oficial da Polyphony Digital (Corrida — Gran Turismo)</div>
+            <div class="source-url">gran-turismo.com</div>
+            <div class="source-desc">Estúdio responsável por Gran Turismo. Ótima fonte para a seção 5.2 (Estudo de Caso Corrida). Traga dados de lançamento, mecânicas e evolução da franquia.</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-icon">🎯</div>
+          <div class="source-body">
+            <div class="source-title">Site oficial da Valve (FPS — CS:GO / CS2)</div>
+            <div class="source-url">store.steampowered.com / valvesoftware.com</div>
+            <div class="source-desc">Informações sobre Counter-Strike e outros FPS. Use para a seção 5.3 (Estudo de Caso FPS).</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-icon">📰</div>
+          <div class="source-body">
+            <div class="source-title">IGN Brasil / Tecnoblog / Adrenaline</div>
+            <div class="source-url">ign.com/br · tecnoblog.net · adrenaline.com.br</div>
+            <div class="source-desc">Portais de games em português com análises, histórico e estatísticas de vendas. Boas fontes complementares para enriquecer o artigo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSÕES DE ESCRITA -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">✍️</span>
+      <div>
+        <div class="card-title">Escrevendo cada seção do artigo</div>
+        <div class="card-subtitle">Clique em cada missão para expandir as instruções detalhadas de escrita</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="mission-list">
+
+        <!-- MISSÃO: INTRODUÇÃO -->
+        <div class="mission" id="m0" onclick="toggleMission(0)">
+          <div class="mission-num">1</div>
+          <div class="mission-content">
+            <div class="mission-title">📌 Seção 1 — Introdução</div>
+            <div class="mission-desc">Apresente o tema, justifique a importância e indique o que será abordado no artigo.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ ~20 min</span>
+              <span class="mtag">📄 1 página</span>
+              <span class="mtag mtag-xp">⚡ +40 XP</span>
+            </div>
+            <div class="mission-steps" id="ms0">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">No documento, vá para a página da Introdução. O título <strong>1 INTRODUÇÃO</strong> já deve estar com o estilo <strong>Título 1</strong> aplicado.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Escreva de 3 a 5 parágrafos abordando: <strong>o que são jogos digitais</strong>, por que o tema é relevante hoje, <strong>qual é o objetivo do artigo</strong> e quais gêneros serão analisados.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Dica de abertura: <em>"Com o crescimento exponencial da indústria de jogos digitais, o estudo de seus gêneros tornou-se fundamental para compreender as preferências dos jogadores e as estratégias de design dos estúdios..."</em></div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Finalize o parágrafo de introdução com uma frase que apresente a estrutura do artigo: <em>"Este trabalho está organizado em sete seções: a seção 2 apresenta a fundamentação teórica..."</em></div></div>
+              <span class="mstep-ok">✅ Seção completa? Clique no título da missão para marcar como concluída e ganhar XP!</span>
+            </div>
+          </div>
+          <div class="mission-check" id="mc0">○</div>
+        </div>
+
+        <!-- MISSÃO: FUNDAMENTAÇÃO -->
+        <div class="mission" id="m1" onclick="toggleMission(1)">
+          <div class="mission-num">2</div>
+          <div class="mission-content">
+            <div class="mission-title">📚 Seção 2 — Fundamentação Teórica</div>
+            <div class="mission-desc">Embasamento teórico com conceitos e classificações dos jogos digitais (3 subseções).</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ ~40 min</span>
+              <span class="mtag">📄 3 páginas</span>
+              <span class="mtag mtag-xp">⚡ +60 XP</span>
+            </div>
+            <div class="mission-steps" id="ms1">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text"><strong>2.1 Conceito de Jogos Digitais:</strong> Pesquise no Google Acadêmico o termo "conceito jogos digitais". Escreva 1 a 2 parágrafos definindo o que são jogos digitais, sua história e impacto cultural.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text"><strong>2.2 Classificação por Gêneros:</strong> Liste os principais gêneros existentes (RPG, FPS, Plataforma, Estratégia, Corrida, Aventura, Puzzle etc.). Explique brevemente cada um. Use pelo menos 2 parágrafos.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text"><strong>2.3 Importância dos Gêneros no Design de Jogos:</strong> Explique como os gêneros influenciam o desenvolvimento, o público-alvo e o sucesso comercial dos jogos. Cite exemplos de franquias.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Lembre-se: cada subseção (2.1, 2.2, 2.3) deve ter o estilo <strong>Título 2</strong> aplicado. O texto abaixo usa o estilo <strong>Normal</strong>.</div></div>
+              <span class="mstep-tip">🔍 Pesquise em: scholar.google.com · Use termos: "gêneros jogos digitais", "video game genres classification"</span>
+            </div>
+          </div>
+          <div class="mission-check" id="mc1">○</div>
+        </div>
+
+        <!-- MISSÃO: METODOLOGIA -->
+        <div class="mission" id="m2" onclick="toggleMission(2)">
+          <div class="mission-num">3</div>
+          <div class="mission-content">
+            <div class="mission-title">⚗️ Seção 3 — Metodologia</div>
+            <div class="mission-desc">Descreva como você fez a pesquisa: quais fontes usou, como selecionou os jogos analisados.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ ~15 min</span>
+              <span class="mtag">📄 1 página</span>
+              <span class="mtag mtag-xp">⚡ +30 XP</span>
+            </div>
+            <div class="mission-steps" id="ms2">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Escreva 2 a 3 parágrafos explicando: esta é uma pesquisa <strong>bibliográfica e exploratória</strong>. Você buscou fontes no Google Acadêmico, sites oficiais dos estúdios e portais especializados.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Explique o <strong>critério de seleção dos jogos</strong>: por que escolheu esses jogos específicos para os estudos de caso. Exemplo: relevância, popularidade, disponibilidade de dados.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Modelo de texto: <em>"A metodologia adotada neste trabalho é de natureza qualitativa e exploratória, baseando-se em revisão bibliográfica e análise de fontes primárias dos estúdios desenvolvedores..."</em></div></div>
+            </div>
+          </div>
+          <div class="mission-check" id="mc2">○</div>
+        </div>
+
+        <!-- MISSÃO: ANÁLISE DOS GÊNEROS -->
+        <div class="mission" id="m3" onclick="toggleMission(3)">
+          <div class="mission-num">4</div>
+          <div class="mission-content">
+            <div class="mission-title">🎮 Seção 4 — Análise dos Gêneros de Jogos</div>
+            <div class="mission-desc">Análise aprofundada dos 3 gêneros escolhidos: RPG, Corrida e FPS.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ ~45 min</span>
+              <span class="mtag">📄 3 páginas</span>
+              <span class="mtag mtag-xp">⚡ +80 XP</span>
+            </div>
+            <div class="mission-steps" id="ms3">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text"><strong>4.1 RPG (Role-Playing Game):</strong> O que caracteriza um RPG? Sistema de evolução de personagem, narrativa, mundo aberto. Cite exemplos: Final Fantasy, The Witcher, Pokémon. Pesquise características do gênero.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text"><strong>4.2 Jogos de Corrida:</strong> Características do gênero: simulação vs. arcade. Diferença entre Gran Turismo (simulação) e Mario Kart (arcade). Importância dos modelos físicos, gráficos e trilha sonora.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text"><strong>4.3 FPS (First-Person Shooter):</strong> O que define um FPS: perspectiva em primeira pessoa, mecânicas de tiro, mapa, objetivos. Cite: Counter-Strike, Call of Duty, Doom. Fale sobre o aspecto competitivo e e-sports.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Cada subseção deve ter pelo menos <strong>2 parágrafos</strong> e mencionar pelo menos <strong>1 jogo famoso</strong> como exemplo. Use o estilo Título 2 em cada subtítulo.</div></div>
+              <span class="mstep-tip">🔍 Pesquise nos sites oficiais dos estúdios e no Google Acadêmico: "RPG mechanics", "racing game design", "FPS esports"</span>
+            </div>
+          </div>
+          <div class="mission-check" id="mc3">○</div>
+        </div>
+
+        <!-- MISSÃO: ESTUDO DE CASO -->
+        <div class="mission" id="m4" onclick="toggleMission(4)">
+          <div class="mission-num">5</div>
+          <div class="mission-content">
+            <div class="mission-title">🔍 Seção 5 — Estudo de Caso</div>
+            <div class="mission-desc">Escolha um jogo para cada gênero e faça uma análise detalhada com dados reais dos estúdios.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ ~50 min</span>
+              <span class="mtag">📄 3 páginas</span>
+              <span class="mtag mtag-xp">⚡ +80 XP</span>
+            </div>
+            <div class="mission-steps" id="ms4">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text"><strong>5.1 Jogo do gênero RPG:</strong> Escolha um jogo (ex: The Witcher 3, Elden Ring, Final Fantasy XVI). Pesquise no site do estúdio ou Google Acadêmico: ano de lançamento, plataformas, mecânicas principais, críticas e premiações recebidas.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text"><strong>5.2 Jogo do gênero Corrida:</strong> Escolha um jogo (ex: Gran Turismo 7, Forza Horizon 5, Need for Speed). Pesquise no site oficial: história do jogo, mecânicas, número de veículos, modo online e recepção da crítica.</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text"><strong>5.3 Jogo do gênero FPS:</strong> Escolha um jogo (ex: CS2, Valorant, Apex Legends). Pesquise: mecânicas de gameplay, número de jogadores ativos, cena competitiva e impacto nos e-sports.</div></div>
+              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Em cada estudo de caso, tente responder: <em>O que torna esse jogo representativo do seu gênero? O que ele tem de especial em relação a outros jogos similares?</em></div></div>
+              <span class="mstep-ok">✅ Dica: anotar a URL de onde você tirou as informações agora vai facilitar muito a seção de Referências no final!</span>
+            </div>
+          </div>
+          <div class="mission-check" id="mc4">○</div>
+        </div>
+
+        <!-- MISSÃO: DISCUSSÃO + CONCLUSÃO -->
+        <div class="mission" id="m5" onclick="toggleMission(5)">
+          <div class="mission-num">6</div>
+          <div class="mission-content">
+            <div class="mission-title">💬 Seções 6 e 7 — Discussão e Conclusão</div>
+            <div class="mission-desc">Interprete os resultados encontrados e feche o artigo com as principais reflexões.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ ~30 min</span>
+              <span class="mtag">📄 2 páginas</span>
+              <span class="mtag mtag-xp">⚡ +50 XP</span>
+            </div>
+            <div class="mission-steps" id="ms5">
+              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text"><strong>Seção 6 — Discussão dos Resultados:</strong> Compare os três gêneros analisados. O que têm em comum? O que os diferencia? Qual gênero você acredita que tem mais impacto cultural? Por quê? Escreva ao menos 3 parágrafos.</div></div>
+              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text"><strong>Seção 7 — Conclusão:</strong> Retome o objetivo inicial do artigo. Resuma as principais descobertas. Sugira possibilidades para pesquisas futuras. Ex: "Como a inteligência artificial está mudando o design de jogos RPG?"</div></div>
+              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">A conclusão NÃO deve apresentar informações novas. Ela deve sintetizar o que já foi dito no artigo de forma coerente e finalizar o raciocínio.</div></div>
+            </div>
+          </div>
+          <div class="mission-check" id="mc5">○</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 6 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">6</div>
+    <div class="phase-info">
+      <div class="phase-title">📚 Fase 6 — Referências ABNT</div>
+      <div class="phase-sub">Liste todas as fontes consultadas no formato correto</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📚</span>
+      <div>
+        <div class="card-title">Formatando as Referências</div>
+        <div class="card-subtitle">A seção REFERÊNCIAS lista todas as fontes usadas — é obrigatória e tem formato próprio</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-callout orange">
+        <div class="info-callout-icon">⚠️</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">Atenção: Referências ≠ Bibliografia</div>
+          <div class="info-callout-text">Referências listam APENAS as fontes que você citou no texto. Coloque em ordem alfabética pelo sobrenome do autor. Espaçamento simples (1,0) entre as linhas de cada referência e linha em branco entre elas.</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95em;font-weight:800">Modelos de referência ABNT — copie e adapte:</h3>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">TIPO: Site / Página Web</div>
+          <div class="abnt-rule-desc" style="font-family:'DM Mono',monospace;font-size:.82em;line-height:1.8;color:var(--ink)">
+            NOME DO ESTÚDIO. <strong>Título da página</strong>. Local, ano. Disponível em: &lt;URL&gt;. Acesso em: dia mês ano.<br><br>
+            <span style="color:var(--blue)">Exemplo:</span><br>
+            CD PROJEKT RED. <strong>The Witcher 3: Wild Hunt</strong>. Polônia, 2015. Disponível em: &lt;https://www.cdprojektred.com&gt;. Acesso em: 20 jun. 2026.
+          </div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">TIPO: Artigo Acadêmico</div>
+          <div class="abnt-rule-desc" style="font-family:'DM Mono',monospace;font-size:.82em;line-height:1.8;color:var(--ink)">
+            SOBRENOME, Nome. <strong>Título do artigo</strong>. <em>Nome da Revista</em>, Cidade, v. X, n. X, p. XX-XX, mês ano.<br><br>
+            <span style="color:var(--blue)">Exemplo:</span><br>
+            SILVA, João. <strong>Gêneros de jogos digitais e design de interação</strong>. <em>Revista Brasileira de Games</em>, São Paulo, v. 5, n. 2, p. 30-45, jan. 2023.
+          </div>
+        </div>
+        <div class="abnt-rule">
+          <div class="abnt-rule-num">TIPO: Livro</div>
+          <div class="abnt-rule-desc" style="font-family:'DM Mono',monospace;font-size:.82em;line-height:1.8;color:var(--ink)">
+            SOBRENOME, Nome. <strong>Título do Livro</strong>. Edição. Cidade: Editora, ano.<br><br>
+            <span style="color:var(--blue)">Exemplo:</span><br>
+            SCHELL, Jesse. <strong>A Arte de Game Design: O Livro dos Lenses</strong>. Rio de Janeiro: Elsevier, 2011.
+          </div>
+        </div>
+      </div>
+
+      <div class="info-callout green">
+        <div class="info-callout-icon">💡</div>
+        <div class="info-callout-body">
+          <div class="info-callout-title">Dica: Google Acadêmico gera a referência automaticamente!</div>
+          <div class="info-callout-text">No scholar.google.com, ao encontrar um artigo clique em <strong>"Citar"</strong> (ícone de aspas) → selecione <strong>ABNT</strong> → copie e cole nas suas referências. Muito mais fácil!</div>
+        </div>
+      </div>
+
+      <div class="typing-box" id="type4">
+        <div class="typing-xp-chip">⚡ +15 XP</div>
+        <div class="typing-label">✏️ As referências devem ser ordenadas em qual ordem?</div>
+        <div class="typing-target">alfabética</div><br>
+        <input class="typing-input" type="text" placeholder="Tipo de ordem..." oninput="checkTyping(this,'alfabética','type4','badge2',15)">
+        <div class="typing-feedback" id="type4-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 7 ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">7</div>
+    <div class="phase-info">
+      <div class="phase-title">📄 Fase 7 — Cabeçalho, Rodapé e Numeração</div>
+      <div class="phase-sub">Os detalhes finais que tornam o artigo profissional</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📄</span>
+      <div>
+        <div class="card-title">Cabeçalho, Rodapé e Numeração de Páginas</div>
+        <div class="card-subtitle">Configure cabeçalho e rodapé para finalizar seu artigo com qualidade profissional</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="platform-tabs">
+        <button class="ptab word-tab active" onclick="switchTab('hf',0,this)">💻 Microsoft Word</button>
+        <button class="ptab docs-tab" onclick="switchTab('hf',1,this)">☁️ Google Docs</button>
+      </div>
+
+      <div class="ptab-content active" id="hf-0">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir Cabeçalho</div>
+            <div class="drive-step-desc">Vá em <strong>Inserir → Cabeçalho</strong> → escolha <strong>"Em branco"</strong>. Digite o título curto do artigo: <strong>GÊNEROS EM JOGOS DIGITAIS</strong>. Pressione <strong>Esc</strong> para sair do modo de edição do cabeçalho.</div>
+            <div class="step-tip">💡 Atalho: dê <strong>duplo clique</strong> na área superior da página para abrir o cabeçalho diretamente!</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir numeração de página no canto superior direito</div>
+            <div class="drive-step-desc">Vá em <strong>Inserir → Número de Página → Início da Página → Número Simples 3</strong> (canto direito). A numeração aparecerá no cabeçalho, à direita.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Remover número da capa (primeira página diferente)</div>
+            <div class="drive-step-desc">Com o cabeçalho aberto, na aba <strong>"Design do Cabeçalho"</strong> marque a opção <strong>"Primeira página diferente"</strong>. Assim a capa não terá número.</div>
+            <div class="step-ok">✅ Pela norma ABNT, a contagem começa na capa mas o número só aparece visível a partir da Introdução.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptab-content" id="hf-1">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir Cabeçalho no Google Docs</div>
+            <div class="drive-step-desc">Vá em <strong>Inserir → Cabeçalho e número de página → Cabeçalho</strong>. Uma área aparecerá no topo da página. Digite: <strong>GÊNEROS EM JOGOS DIGITAIS</strong>. Clique fora para fechar.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Inserir número de página</div>
+            <div class="drive-step-desc">Vá em <strong>Inserir → Número de página</strong>. Escolha a opção que coloca o número no <strong>canto superior direito</strong>. Marque a opção de <strong>pular a primeira página</strong> (para a capa ficar sem número).</div>
+            <div class="step-ok">✅ No Google Docs, o cabeçalho e a numeração são visíveis mas editáveis ao clicar sobre eles!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-box" id="type5">
+        <div class="typing-xp-chip">⚡ +15 XP</div>
+        <div class="typing-label">✏️ Qual o atalho para abrir o cabeçalho rapidamente no Word?</div>
+        <div class="typing-target">duplo clique</div><br>
+        <input class="typing-input" type="text" placeholder="Ação do mouse..." oninput="checkTyping(this,'duplo clique','type5','badge3',15)">
+        <div class="typing-feedback" id="type5-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== QUIZ ======================== -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🧠</span>
+      <h2 class="card-title">Quiz — Teste seus conhecimentos do projeto!</h2>
+    </div>
+    <div class="card-body">
+      <div class="quiz-wrap" id="quizWrap">
+
+        <div class="quiz-q" id="qq0">
+          <div class="quiz-question">1. Qual é a margem esquerda exigida pela ABNT para artigos acadêmicos?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(0,0,2)">A) 1 cm</button>
+            <button class="quiz-option" onclick="answerQuiz(0,1,2)">B) 2 cm</button>
+            <button class="quiz-option" onclick="answerQuiz(0,2,2)">C) 3 cm</button>
+            <button class="quiz-option" onclick="answerQuiz(0,3,2)">D) 4 cm</button>
+          </div>
+          <div class="quiz-feedback" id="qf0"></div>
+        </div>
+
+        <div class="quiz-q" id="qq1">
+          <div class="quiz-question">2. Para que o sumário automático funcione, o que você deve fazer ANTES de gerá-lo?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(1,0,1)">A) Salvar o arquivo no Google Drive</button>
+            <button class="quiz-option" onclick="answerQuiz(1,1,1)">B) Aplicar os estilos Título 1 e Título 2 em todos os títulos</button>
+            <button class="quiz-option" onclick="answerQuiz(1,2,1)">C) Configurar as margens da página</button>
+            <button class="quiz-option" onclick="answerQuiz(1,3,1)">D) Inserir cabeçalho e rodapé</button>
+          </div>
+          <div class="quiz-feedback" id="qf1"></div>
+        </div>
+
+        <div class="quiz-q" id="qq2">
+          <div class="quiz-question">3. No Word, qual atalho insere uma quebra de página para começar nova seção?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(2,0,2)">A) Ctrl + N</button>
+            <button class="quiz-option" onclick="answerQuiz(2,1,2)">B) Ctrl + S</button>
+            <button class="quiz-option" onclick="answerQuiz(2,2,2)">C) Ctrl + Enter</button>
+            <button class="quiz-option" onclick="answerQuiz(2,3,2)">D) Alt + F4</button>
+          </div>
+          <div class="quiz-feedback" id="qf2"></div>
+        </div>
+
+        <div class="quiz-q" id="qq3">
+          <div class="quiz-question">4. Onde você encontra artigos acadêmicos para embasar seu trabalho?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(3,0,0)">A) scholar.google.com (Google Acadêmico)</button>
+            <button class="quiz-option" onclick="answerQuiz(3,1,0)">B) instagram.com</button>
+            <button class="quiz-option" onclick="answerQuiz(3,2,0)">C) youtube.com</button>
+            <button class="quiz-option" onclick="answerQuiz(3,3,0)">D) twitter.com</button>
+          </div>
+          <div class="quiz-feedback" id="qf3"></div>
+        </div>
+
+        <div class="quiz-q" id="qq4">
+          <div class="quiz-question">5. Qual estilo de texto deve ser aplicado em "2.1 Conceito de Jogos Digitais"?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(4,0,1)">A) Título 1</button>
+            <button class="quiz-option" onclick="answerQuiz(4,1,1)">B) Título 2</button>
+            <button class="quiz-option" onclick="answerQuiz(4,2,1)">C) Normal</button>
+            <button class="quiz-option" onclick="answerQuiz(4,3,1)">D) Subtítulo</button>
+          </div>
+          <div class="quiz-feedback" id="qf4"></div>
+        </div>
+
+        <div class="quiz-q" id="qq5">
+          <div class="quiz-question">6. As referências bibliográficas em ABNT devem estar organizadas em qual ordem?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" onclick="answerQuiz(5,0,1)">A) Ordem de aparição no texto</button>
+            <button class="quiz-option" onclick="answerQuiz(5,1,1)">B) Ordem alfabética pelo sobrenome do autor</button>
+            <button class="quiz-option" onclick="answerQuiz(5,2,1)">C) Ordem cronológica</button>
+            <button class="quiz-option" onclick="answerQuiz(5,3,1)">D) Ordem do mais importante ao menos importante</button>
+          </div>
+          <div class="quiz-feedback" id="qf5"></div>
+        </div>
+
+      </div>
+      <div id="quiz-total" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
+    </div>
+  </div>
+
+  <!-- ======================== FASE 8 — FINALIZAÇÃO ======================== -->
+  <div class="phase-divider">
+    <div class="phase-num">8</div>
+    <div class="phase-info">
+      <div class="phase-title">☁️ Fase 8 — Salvar, Exportar e Compartilhar</div>
+      <div class="phase-sub">Entregar o trabalho nos dois formatos: .docx e link do Google Docs</div>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">☁️</span>
+      <div>
+        <div class="card-title">Exportar do Word para Google Docs e vice-versa</div>
+        <div class="card-subtitle">Aprenda a trabalhar nos dois formatos — habilidade essencial no mercado de trabalho</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="platform-tabs">
+        <button class="ptab word-tab active" onclick="switchTab('export',0,this)">💻 Word → Google Docs</button>
+        <button class="ptab docs-tab" onclick="switchTab('export',1,this)">☁️ Google Docs → Word</button>
+      </div>
+
+      <div class="ptab-content active" id="export-0">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Salvar o arquivo Word (.docx)</div>
+            <div class="drive-step-desc">Pressione <strong>Ctrl + S</strong> no Word. Certifique-se que o arquivo está salvo como <strong>.docx</strong> (formato padrão do Word). Verifique o nome do arquivo na barra de título.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Fazer upload para o Google Drive</div>
+            <div class="drive-step-desc">Acesse <strong>drive.google.com</strong>. Clique em <strong>"+ Novo"</strong> → <strong>"Upload de arquivo"</strong>. Selecione o arquivo .docx do seu artigo. Aguarde o upload.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Abrir no Google Docs</div>
+            <div class="drive-step-desc">No Drive, clique com o <strong>botão direito</strong> no arquivo → <strong>"Abrir com"</strong> → <strong>"Google Docs"</strong>. O arquivo abre no Docs mantendo a formatação!</div>
+            <div class="step-warn">⚠️ Algumas formatações avançadas podem não ser mantidas perfeitamente. Revise o documento após a conversão.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">4</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Compartilhar com o professor</div>
+            <div class="drive-step-desc">Com o arquivo aberto no Google Docs, clique em <strong>"Compartilhar"</strong> (botão azul, canto superior direito). Adicione o e-mail do professor. Selecione permissão <strong>"Comentarista"</strong>. Clique em <strong>"Enviar"</strong>.</div>
+            <div class="step-ok">✅ O professor poderá ver e comentar o documento sem precisar baixá-lo!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptab-content" id="export-1">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Baixar como Word (.docx) do Google Docs</div>
+            <div class="drive-step-desc">Com o documento aberto no Google Docs, vá em <strong>Arquivo → Fazer download → Microsoft Word (.docx)</strong>. O arquivo será baixado para a pasta Downloads.</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Baixar como PDF</div>
+            <div class="drive-step-desc">Vá em <strong>Arquivo → Fazer download → Documento PDF (.pdf)</strong>. O PDF é ideal para enviar por e-mail, pois preserva toda a formatação em qualquer computador.</div>
+            <div class="step-tip">💡 Sempre entregue seu artigo também em PDF quando possível — assim a formatação nunca se perde!</div>
+          </div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div class="drive-step-body">
+            <div class="drive-step-title">Obter link para compartilhamento</div>
+            <div class="drive-step-desc">Clique em <strong>"Compartilhar"</strong> → <strong>"Copiar link"</strong>. Altere o acesso para <strong>"Qualquer pessoa com o link"</strong> como <strong>Leitor</strong>. Cole o link na entrega da atividade.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST FINAL -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">✅</span>
+      <div>
+        <div class="card-title">Checklist Final — Antes de Entregar</div>
+        <div class="card-subtitle">Clique em cada item para marcar como verificado</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="checklist" id="checklist">
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Margens ABNT configuradas: Superior 3cm · Esquerda 3cm · Inferior 2cm · Direita 2cm</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Fonte Times New Roman 12 em todo o documento</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Espaçamento 1,5 entre linhas e recuo 1,25cm no primeiro parágrafo</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Capa completa com nome, instituição, título do artigo, cidade e ano</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Estilos Título 1 aplicados em todas as seções principais (1 a 7 + REFERÊNCIAS)</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Estilos Título 2 aplicados em todas as subseções (2.1, 2.2, 2.3, 4.1, 4.2, 4.3, 5.1, 5.2, 5.3)</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Sumário automático inserido e atualizado na segunda página</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Todas as 7 seções do artigo escritas com conteúdo baseado em pesquisa</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Estudo de caso com 3 jogos reais (RPG, Corrida, FPS) com fontes identificadas</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Seção REFERÊNCIAS com pelo menos 3 fontes no formato ABNT</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Cabeçalho com título do artigo e numeração de página no canto superior direito</div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">○</div><div class="check-text">Documento salvo como .docx e compartilhado no Google Drive com o professor</div></div>
+      </div>
+      <div style="margin-top:14px;padding:12px 16px;background:var(--cream);border-radius:var(--r);font-size:.88em;font-weight:700;color:var(--gray)" id="checkProgress">0 / 12 itens verificados</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-section">
+    <div class="section-label">📊 Seu progresso na semana</div>
+    <div class="progress-missions">
+      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Exercícios</div><div class="prog-sub" id="prog-type">0/5 completos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="prog-quiz">0/6 respondidos</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Seções do artigo</div><div class="prog-sub" id="prog-miss">0/6 escritas</div></div></div>
+      <div class="prog-item"><div class="prog-icon">✅</div><div><div class="prog-label">Checklist</div><div class="prog-sub" id="prog-check">0/12 verificados</div></div></div>
+    </div>
+    <div class="total-xp">
+      <div class="total-xp-label">⚡ XP Total Acumulado</div>
+      <div class="total-xp-num" id="totalXpDisp">0 / 500 XP</div>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="semana05_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana07_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
+  </nav>
+
+</div>
+
+<script>
+// ===== XP SYSTEM =====
+let totalXP = 0;
+const MAX_XP = 500;
+const earned = {};
+
+function addXP(key, amount) {
+  if (earned[key]) return;
+  earned[key] = true;
+  totalXP = Math.min(totalXP + amount, MAX_XP);
+  updateXPBar();
+}
+
+function updateXPBar() {
+  const pct = (totalXP / MAX_XP) * 100;
+  document.getElementById('xpFill').style.width = pct + '%';
+  document.getElementById('xpNum').textContent = totalXP + ' / ' + MAX_XP;
+  document.getElementById('totalXpDisp').textContent = totalXP + ' / ' + MAX_XP + ' XP';
+  checkAchievements();
+}
+
+function checkAchievements() {
+  if (totalXP >= 80)  unlockBadge('badge0');
+  if (totalXP >= 180) unlockBadge('badge1');
+  if (totalXP >= 280) unlockBadge('badge2');
+  if (totalXP >= 380) unlockBadge('badge3');
+  if (totalXP >= 500) unlockBadge('badge4');
+}
+
+function unlockBadge(id) {
+  const el = document.getElementById(id);
+  if (el && el.classList.contains('locked')) el.classList.replace('locked','unlocked');
+}
+
+// ===== PLATFORM TABS =====
+function switchTab(group, idx, btn) {
+  const tabs = btn.parentElement.querySelectorAll('.ptab');
+  tabs.forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  let sibling = btn.parentElement.nextElementSibling;
+  let count = 0;
+  while (sibling && sibling.classList.contains('ptab-content')) {
+    sibling.classList.toggle('active', count === idx);
+    count++;
+    sibling = sibling.nextElementSibling;
+  }
+}
+
+// ===== TYPING =====
+let typingDone = {};
+let typingCount = 0;
+function checkTyping(input, target, boxId, badgeId, xp) {
+  const box = document.getElementById(boxId);
+  const fb = document.getElementById(boxId + '-fb');
+  const val = input.value.trim();
+  if (val.toLowerCase() === target.toLowerCase()) {
+    box.classList.remove('wrong');
+    box.classList.add('correct');
+    input.disabled = true;
+    fb.textContent = '🎉 Correto! +' + xp + ' XP';
+    fb.style.color = 'var(--green)';
+    if (!typingDone[boxId]) {
+      typingDone[boxId] = true;
+      addXP('typing_' + boxId, xp);
+      typingCount = Object.keys(typingDone).length;
+      document.getElementById('prog-type').textContent = typingCount + '/5 completos';
+    }
+  } else if (val.length >= target.length) {
+    box.classList.add('wrong');
+    setTimeout(() => box.classList.remove('wrong'), 500);
+    fb.textContent = '❌ Tente novamente...';
+    fb.style.color = 'var(--red)';
+  } else {
+    fb.textContent = '';
+    box.classList.remove('wrong','correct');
+  }
+}
+
+// ===== QUIZ =====
+const quizAnswers = [2, 1, 2, 0, 1, 1];
+const quizExplain = [
+  'Correto! A norma ABNT exige margem esquerda de 3 cm (encadernação) e superior de 3 cm.',
+  'Correto! Os estilos de título são o pré-requisito obrigatório para o sumário automático funcionar.',
+  'Correto! Ctrl + Enter insere uma quebra de página no Word e também no Google Docs.',
+  'Correto! O Google Acadêmico (scholar.google.com) é a ferramenta ideal para pesquisa de artigos acadêmicos.',
+  'Correto! Subseções (2.1, 2.2, 4.1 etc.) usam Título 2. Seções principais usam Título 1.',
+  'Correto! As referências ABNT são ordenadas alfabeticamente pelo sobrenome do primeiro autor.'
+];
+let quizScore = 0;
+let quizAnswered = {};
+
+function answerQuiz(qNum, choice, correct) {
+  if (quizAnswered[qNum]) return;
+  quizAnswered[qNum] = true;
+  const btns = document.querySelectorAll(`#qq${qNum} .quiz-option`);
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qf' + qNum);
+  if (choice === correct) {
+    btns[choice].classList.add('correct');
+    fb.textContent = '✅ ' + quizExplain[qNum];
+    fb.classList.add('show', 'ok');
+    quizScore++;
+    addXP('quiz_' + qNum, 20);
+  } else {
+    btns[choice].classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.textContent = '❌ ' + quizExplain[qNum];
+    fb.classList.add('show', 'bad');
+  }
+  const answered = Object.keys(quizAnswered).length;
+  document.getElementById('prog-quiz').textContent = answered + '/6 respondidos';
+  if (answered === 6) {
+    document.getElementById('quiz-total').textContent = '🏆 Quiz finalizado! Você acertou ' + quizScore + '/6 questões.';
+    addXP('quiz_done_bonus', 20);
+  }
+}
+
+// ===== MISSIONS =====
+let missionsDone = {};
+const missionXP = [40, 60, 30, 80, 80, 50];
+function toggleMission(id) {
+  const steps = document.getElementById('ms' + id);
+  steps.classList.toggle('open');
+  const mission = document.getElementById('m' + id);
+  if (!missionsDone[id]) {
+    missionsDone[id] = true;
+    mission.classList.add('done');
+    document.getElementById('mc' + id).textContent = '✓';
+    addXP('mission_' + id, missionXP[id]);
+    const done = Object.keys(missionsDone).length;
+    document.getElementById('prog-miss').textContent = done + '/6 escritas';
+  }
+}
+
+// ===== CHECKLIST =====
+let checkCount = 0;
+function toggleCheck(item) {
+  const isChecked = item.classList.contains('checked');
+  item.classList.toggle('checked', !isChecked);
+  item.querySelector('.check-box').textContent = isChecked ? '○' : '✓';
+  checkCount = document.querySelectorAll('.check-item.checked').length;
+  document.getElementById('checkProgress').textContent = checkCount + ' / 12 itens verificados';
+  document.getElementById('prog-check').textContent = checkCount + '/12 verificados';
+  if (!isChecked) addXP('check_' + item.textContent.substring(0,20), 5);
+  if (checkCount === 12) addXP('checklist_complete', 40);
+}
+
+// Init XP bar
+updateXPBar();
+</script>
+</body>
+</html>
