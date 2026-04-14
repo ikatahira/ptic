@@ -82,6 +82,28 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--gray-50);color:var(
 .eval-card .eval-meta{font-size:.75em;opacity:.75;}
 .eval-card .eval-arrow{float:right;font-size:1.1em;margin-top:-2px;}
 
+/* AVALIAÇÃO PTIC QR CARD */
+.ptic-eval-wrapper{grid-column:1/-1;margin-top:4px;}
+.ptic-eval-card{
+  display:flex;align-items:center;gap:24px;
+  background:linear-gradient(135deg,#3b1f6e,#6d28d9);
+  color:white;border-radius:var(--radius-sm);padding:20px 24px;
+  text-decoration:none;transition:all .2s ease;
+}
+.ptic-eval-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(109,40,217,.35);}
+.ptic-qr-wrap{flex-shrink:0;background:white;border-radius:8px;padding:6px;width:90px;height:90px;display:flex;align-items:center;justify-content:center;}
+.ptic-qr-wrap img{width:78px;height:78px;display:block;}
+.ptic-eval-info{flex:1;}
+.ptic-eval-tag{font-size:.7em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin-bottom:4px;}
+.ptic-eval-title{font-size:1em;font-weight:700;margin-bottom:4px;}
+.ptic-eval-meta{font-size:.8em;opacity:.8;}
+.ptic-eval-link{font-size:.78em;opacity:.7;margin-top:6px;word-break:break-all;}
+.ptic-eval-arrow{font-size:1.3em;margin-left:8px;flex-shrink:0;}
+@media(max-width:480px){
+  .ptic-eval-card{flex-direction:column;text-align:center;}
+  .ptic-eval-arrow{display:none;}
+}
+
 /* FOOTER */
 footer{text-align:center;padding:32px;color:var(--gray-600);font-size:.85em;border-top:1px solid var(--gray-200);}
 
@@ -197,6 +219,20 @@ footer{text-align:center;padding:32px;color:var(--gray-600);font-size:.85em;bord
             <div class="eval-tag">✅ Gabarito Prático</div>
             <div class="eval-title">Correção Prática</div>
             <div class="eval-meta">Critérios detalhados por tarefa</div>
+          </a>
+        </div>
+        <div class="ptic-eval-wrapper">
+          <a href="https://forms.office.com/r/Pskv4NwbMQ" class="ptic-eval-card" target="_blank" rel="noopener">
+            <div class="ptic-qr-wrap">
+              <img src="qrcode_ptic.png" alt="QR Code Avaliação PTIC">
+            </div>
+            <div class="ptic-eval-info">
+              <div class="ptic-eval-tag">📋 Formulário de Avaliação</div>
+              <div class="ptic-eval-title">Avaliação – PTIC</div>
+              <div class="ptic-eval-meta">Preencher o formulário · Escaneie o QR Code ou clique aqui</div>
+              <div class="ptic-eval-link">https://forms.office.com/r/Pskv4NwbMQ</div>
+            </div>
+            <div class="ptic-eval-arrow">→</div>
           </a>
         </div>
         <a href="semana07_aula.html" class="week-card" style="--accent:#1a56db">
