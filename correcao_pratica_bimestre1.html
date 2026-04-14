@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correção Prática – 1º Bimestre · Projetos de TIC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0d1117;
+  --paper:#fafaf8;
+  --cream:#f0f4f8;
+  --blue:#1a3a6b;
+  --blue-mid:#2155a3;
+  --blue-light:#dbeafe;
+  --blue-pale:#f0f6ff;
+  --accent:#e85d04;
+  --accent-pale:#fff7ed;
+  --green:#166534;
+  --green-mid:#16a34a;
+  --green-pale:#f0fdf4;
+  --green-border:#86efac;
+  --red:#991b1b;
+  --red-pale:#fef2f2;
+  --red-border:#fca5a5;
+  --amber:#92400e;
+  --amber-pale:#fffbeb;
+  --amber-border:#fcd34d;
+  --gray-100:#f1f5f9;
+  --gray-200:#e2e8f0;
+  --gray-400:#94a3b8;
+  --gray-600:#475569;
+  --shadow:0 2px 12px rgba(13,17,23,.1);
+  --shadow-lg:0 6px 28px rgba(13,17,23,.14);
+}
+body{font-family:'Sora',sans-serif;background:var(--cream);color:var(--ink);line-height:1.7;}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,#064e3b 0%,#065f46 60%,#059669 100%);
+  color:#fff;position:sticky;top:0;z-index:200;
+  box-shadow:0 3px 20px rgba(0,0,0,.35);
+}
+.header-inner{
+  max-width:960px;margin:0 auto;
+  padding:18px 32px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.badge-corr{background:#10b981;color:#fff;border-radius:4px;padding:4px 14px;font-size:.78em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
+.badge-bim{border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:4px 14px;font-size:.78em;font-weight:500;color:rgba(255,255,255,.85);white-space:nowrap;}
+.header-title{flex:1;}
+.header-title h1{font-size:clamp(1em,2.2vw,1.4em);font-weight:700;letter-spacing:-.01em;}
+.header-title p{font-size:.8em;color:rgba(255,255,255,.6);margin-top:3px;}
+
+/* ── HERO SCORE ── */
+.hero-score{max-width:960px;margin:32px auto 0;padding:0 24px;}
+.score-strip{background:var(--paper);border:1.5px solid var(--gray-200);border-radius:2px;display:flex;overflow:hidden;box-shadow:var(--shadow);}
+.score-block{flex:1;padding:20px 24px;text-align:center;border-right:1.5px solid var(--gray-200);}
+.score-block:last-child{border-right:none;}
+.score-val{font-family:'JetBrains Mono',monospace;font-size:1.9em;font-weight:700;}
+.score-val.green{color:var(--green-mid);}
+.score-val.blue{color:var(--blue-mid);}
+.score-val.orange{color:var(--accent);}
+.score-val.purple{color:#7c3aed;}
+.score-label{font-size:.72em;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600);margin-top:4px;}
+
+/* ── CONTAINER ── */
+.container{max-width:960px;margin:32px auto;padding:0 24px 60px;}
+
+/* ── AVISO INICIAL ── */
+.aviso{background:var(--amber-pale);border:1.5px solid var(--amber-border);border-left:5px solid #d97706;border-radius:2px;padding:18px 22px;margin-bottom:28px;}
+.aviso h3{font-size:.85em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--amber);margin-bottom:10px;}
+.aviso p{font-size:.9em;color:#78350f;line-height:1.6;}
+.aviso ul{padding-left:18px;margin-top:8px;}
+.aviso li{font-size:.88em;color:#78350f;margin-bottom:4px;}
+
+/* ── TAREFA CARD ── */
+.tarefa-corr{background:var(--paper);border:1.5px solid var(--gray-200);border-top:5px solid var(--blue);border-radius:2px;margin-bottom:36px;overflow:hidden;}
+.tarefa-corr.orange{border-top-color:var(--accent);}
+.tarefa-header-corr{padding:22px 26px;background:linear-gradient(135deg,var(--blue) 0%,var(--blue-mid) 100%);color:#fff;display:flex;gap:16px;align-items:center;}
+.tarefa-header-corr.orange{background:linear-gradient(135deg,var(--accent) 0%,#c2410c 100%);}
+.tarefa-num-corr{width:48px;height:48px;flex-shrink:0;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:800;}
+.tarefa-info-corr{flex:1;}
+.tarefa-titulo-corr{font-size:1.1em;font-weight:700;}
+.tarefa-sub-corr{font-size:.82em;opacity:.75;margin-top:3px;}
+.tarefa-pts-corr{font-family:'JetBrains Mono',monospace;font-size:1.5em;font-weight:800;opacity:.9;}
+
+.tarefa-body-corr{padding:24px 26px;}
+
+/* ── CRITÉRIO BLOCK ── */
+.criterio{border:1.5px solid var(--gray-200);border-radius:2px;margin-bottom:18px;overflow:hidden;}
+.criterio-header{display:flex;gap:0;align-items:stretch;}
+.criterio-pts{background:var(--blue);color:#fff;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1em;padding:14px 18px;display:flex;align-items:center;justify-content:center;min-width:72px;flex-shrink:0;text-align:center;flex-direction:column;line-height:1.2;}
+.criterio-pts .pts-label{font-size:.62em;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.75;margin-bottom:2px;}
+.criterio-pts.orange{background:var(--accent);}
+.criterio-enunciado{padding:14px 16px;font-size:.92em;font-weight:600;color:var(--ink);line-height:1.5;flex:1;display:flex;align-items:center;}
+.criterio-status{padding:14px 16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.status-pill{border-radius:50px;padding:5px 14px;font-size:.75em;font-weight:700;letter-spacing:.04em;white-space:nowrap;}
+.status-full{background:var(--green-pale);color:var(--green);border:1.5px solid var(--green-border);}
+.status-partial{background:var(--amber-pale);color:var(--amber);border:1.5px solid var(--amber-border);}
+.status-zero{background:var(--red-pale);color:var(--red);border:1.5px solid var(--red-border);}
+
+.criterio-body{padding:16px 18px;background:var(--cream);border-top:1.5px solid var(--gray-200);}
+.criterio-body h4{font-size:.75em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue-mid);margin-bottom:8px;}
+.criterio-body.orange h4{color:var(--accent);}
+
+/* ── EXPLANATION BLOCKS ── */
+.exp-block{margin-bottom:12px;}
+.exp-correct{background:var(--green-pale);border:1.5px solid var(--green-border);border-left:4px solid var(--green-mid);border-radius:2px;padding:12px 16px;font-size:.88em;color:#14532d;line-height:1.6;}
+.exp-correct strong{color:var(--green);}
+.exp-warn{background:var(--amber-pale);border:1.5px solid var(--amber-border);border-left:4px solid #d97706;border-radius:2px;padding:12px 16px;font-size:.88em;color:#78350f;line-height:1.6;}
+.exp-warn strong{color:var(--amber);}
+.exp-error{background:var(--red-pale);border:1.5px solid var(--red-border);border-left:4px solid var(--red);border-radius:2px;padding:12px 16px;font-size:.88em;color:#7f1d1d;line-height:1.6;}
+.exp-error strong{color:var(--red);}
+.exp-tip{background:var(--blue-pale);border:1.5px solid #93c5fd;border-left:4px solid var(--blue-mid);border-radius:2px;padding:12px 16px;font-size:.88em;color:var(--blue);line-height:1.6;}
+.exp-tip strong{color:var(--blue);}
+
+/* step by step */
+.how-title{font-size:.75em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-600);margin:14px 0 8px;}
+.how-list{list-style:none;padding:0;}
+.how-list li{display:flex;gap:10px;align-items:flex-start;font-size:.87em;color:var(--gray-600);margin-bottom:7px;line-height:1.5;}
+.how-num{width:22px;height:22px;flex-shrink:0;border-radius:50%;background:var(--blue-mid);color:#fff;font-size:.72em;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.how-num.orange{background:var(--accent);}
+
+/* code / path */
+.code{font-family:'JetBrains Mono',monospace;background:#1e293b;color:#7dd3fc;padding:8px 14px;border-radius:2px;font-size:.82em;display:block;margin:8px 0;overflow-x:auto;}
+.inline-code{font-family:'JetBrains Mono',monospace;background:#1e293b;color:#7dd3fc;padding:1px 7px;border-radius:2px;font-size:.82em;}
+
+/* erros comuns */
+.erros-title{font-size:.78em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--red);margin:14px 0 8px;}
+.erro-item{display:flex;gap:8px;align-items:flex-start;font-size:.86em;padding:6px 0;border-bottom:1px dashed var(--gray-200);}
+.erro-item:last-child{border-bottom:none;}
+.erro-x{color:var(--red);font-weight:800;flex-shrink:0;margin-top:1px;}
+.erro-ok{color:var(--green);font-weight:800;flex-shrink:0;margin-top:1px;}
+
+/* exemplo modelo */
+.modelo-box{background:#1e293b;border-radius:2px;padding:18px 20px;margin-top:10px;}
+.modelo-title{font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7dd3fc;margin-bottom:12px;}
+.modelo-content{font-size:.85em;color:#e2e8f0;line-height:1.7;}
+.modelo-content .m-section{color:#34d399;font-weight:700;}
+.modelo-content .m-subsection{color:#7dd3fc;font-weight:600;margin-left:12px;}
+.modelo-content .m-body{color:#cbd5e1;margin-left:24px;}
+.modelo-content .m-highlight{color:#fbbf24;}
+
+/* tabela exemplo */
+.ex-table{width:100%;border-collapse:collapse;font-size:.85em;margin:10px 0;}
+.ex-table th{background:var(--blue);color:#fff;padding:8px 12px;text-align:left;font-weight:600;}
+.ex-table td{padding:8px 12px;border-bottom:1px solid var(--gray-200);line-height:1.4;}
+.ex-table tr:last-child td{border-bottom:none;}
+.ex-table .cell-bad{color:var(--red);font-family:'JetBrains Mono',monospace;font-size:.9em;}
+.ex-table .cell-good{color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.9em;font-weight:600;}
+.ex-table .cell-why{color:var(--gray-600);}
+
+/* nota parcial */
+.nota-bloco{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:18px 0 4px;border-top:2px dashed var(--gray-200);margin-top:20px;}
+.nota-bloco-label{font-size:.85em;font-weight:700;color:var(--gray-600);}
+.nota-bloco-pts{font-family:'JetBrains Mono',monospace;font-size:1.2em;font-weight:800;color:var(--blue);background:var(--blue-pale);border:2px solid #93c5fd;border-radius:2px;padding:6px 18px;}
+.nota-bloco-pts.orange{color:var(--accent);background:var(--accent-pale);border-color:#fdba74;}
+
+/* gabarito rápido */
+.gabarito-rapido{background:var(--paper);border:1.5px solid var(--gray-200);border-radius:2px;padding:24px 26px;margin-top:8px;}
+.gabarito-rapido h3{font-size:.9em;font-weight:700;color:var(--ink);margin-bottom:16px;padding-bottom:10px;border-bottom:1.5px solid var(--gray-200);}
+.gb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.gb-item{background:var(--green-pale);border:1.5px solid var(--green-border);border-radius:2px;padding:14px 16px;}
+.gb-item h4{font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:8px;}
+.gb-row{display:flex;justify-content:space-between;font-size:.83em;padding:4px 0;border-bottom:1px dashed #bbf7d0;}
+.gb-row:last-child{border-bottom:none;}
+.gb-crit{color:var(--gray-600);}
+.gb-pts{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green);}
+
+/* rodape */
+.rodape{max-width:960px;margin:0 auto;padding:0 24px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.rodape-text{font-size:.78em;color:var(--gray-400);}
+.rodape-nav{display:flex;gap:10px;}
+.nav-btn{padding:8px 16px;border-radius:2px;text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.nav-btn-dark{background:var(--ink);color:#fff;}
+.nav-btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
+.nav-btn-dark:hover{background:#2d333b;}
+.nav-btn-outline:hover{background:var(--ink);color:#fff;}
+
+@media(max-width:680px){
+  .container{padding:0 14px 40px;}
+  .hero-score{padding:0 14px;}
+  .score-strip{flex-wrap:wrap;}
+  .score-block{min-width:50%;border-bottom:1.5px solid var(--gray-200);}
+  .criterio-header{flex-wrap:wrap;}
+  .gb-grid{grid-template-columns:1fr;}
+  .tarefa-header-corr{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="badge-corr">✅ Correção Comentada</span>
+    <span class="badge-bim">1º Bimestre · Avaliação Prática · 2026</span>
+    <div class="header-title">
+      <h1>Gabarito — Edição de Documentos Digitais</h1>
+      <p>ETEC · Centro Paula Souza · Semanas 01–06 · Critérios detalhados por tarefa</p>
+    </div>
+  </div>
+</header>
+
+<!-- SCORE STRIP -->
+<div class="hero-score">
+  <div class="score-strip">
+    <div class="score-block"><div class="score-val blue">4,0</div><div class="score-label">Tarefa 1 · Google Docs</div></div>
+    <div class="score-block"><div class="score-val blue">4,0</div><div class="score-label">Tarefa 2 · Word ABNT</div></div>
+    <div class="score-block"><div class="score-val orange">2,0</div><div class="score-label">Tarefa 3 · Organização</div></div>
+    <div class="score-block"><div class="score-val green">10,0</div><div class="score-label">Total</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- AVISO -->
+  <div class="aviso">
+    <h3>⚠ Como usar esta correção</h3>
+    <p>Este documento apresenta os <strong>critérios exatos de avaliação</strong>, o que se espera em cada ponto, os erros mais comuns e exemplos de respostas modelo. Use como guia de estudo para compreender onde perder ou ganhar pontos.</p>
+    <ul>
+      <li>Cada critério tem explicação do que é verificado e como fazer corretamente.</li>
+      <li>As caixas coloridas indicam: <span style="color:var(--green);font-weight:700;">verde = correto</span>, <span style="color:var(--amber);font-weight:700;">amarelo = atenção/parcial</span>, <span style="color:var(--red);font-weight:700;">vermelho = erro comum</span>, <span style="color:var(--blue-mid);font-weight:700;">azul = dica técnica</span>.</li>
+      <li>Os exemplos de código e estrutura mostram como o arquivo deve ficar na prática.</li>
+    </ul>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       TAREFA 1 — Google Docs
+  ════════════════════════════════════════════ -->
+  <div class="tarefa-corr">
+    <div class="tarefa-header-corr">
+      <div class="tarefa-num-corr">1</div>
+      <div class="tarefa-info-corr">
+        <div class="tarefa-titulo-corr">Documento Estruturado com Sumário Automático</div>
+        <div class="tarefa-sub-corr">☁️ Google Docs · Estilos · Sumário · Cabeçalho/Rodapé · Formatação de parágrafo</div>
+      </div>
+      <div class="tarefa-pts-corr">4,0 pts</div>
+    </div>
+    <div class="tarefa-body-corr">
+
+      <!-- C1 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts">
+            <span class="pts-label">Pts</span>
+            <span>1,0</span>
+          </div>
+          <div class="criterio-enunciado">Estilo Título aplicado ao título do documento, e Títulos 1 e 2 usados corretamente nas seções e subseções</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Correto:</strong> O título principal do documento (ex: "Segurança Digital — Conceitos e Boas Práticas") deve ter o estilo <strong>"Título"</strong> aplicado — não apenas fonte grande ou negrito, mas o estilo nativo do Google Docs. As seções principais (Introdução, Desenvolvimento, Conclusão) devem usar <strong>"Título 1"</strong>, e as subseções dentro de uma seção devem usar <strong>"Título 2"</strong>.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Erro mais comum:</strong> Formatar o texto manualmente (aumentar fonte, colocar negrito) sem aplicar o estilo. Visualmente pode parecer igual, mas o Google Docs <strong>não reconhece</strong> esse texto como título — o sumário ficará vazio ou incompleto. A diferença está na barra de estilos no canto superior esquerdo: ela deve mostrar "Título 1", não "Texto normal".
+            </div>
+          </div>
+          <div class="how-title">Como fazer corretamente no Google Docs</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span>Clique no título do documento → abra o menu suspenso de estilos (canto superior esquerdo, onde está escrito "Texto normal") → selecione <strong>"Título"</strong>.</span></li>
+            <li><div class="how-num">2</div><span>Clique em cada seção principal → selecione <strong>"Título 1"</strong> no mesmo menu.</span></li>
+            <li><div class="how-num">3</div><span>Clique em cada subseção → selecione <strong>"Título 2"</strong>.</span></li>
+            <li><div class="how-num">4</div><span>Verifique: ao clicar em qualquer título, o menu de estilos deve exibir o nome correto (Título, Título 1, ou Título 2).</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-tip">
+              <strong>💡 Dica de verificação:</strong> Se o sumário automático aparecer com os títulos corretos (mesmo antes de inserir o sumário, o painel "Estrutura do documento" no menu Visualizar mostra todos os títulos detectados), os estilos estão aplicados corretamente.
+            </div>
+          </div>
+          <div class="erros-title">Erros que causam desconto de pontos</div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Usar apenas um nível de título (somente Título 1, sem subseções com Título 2)</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Aplicar negrito/tamanho de fonte manualmente em vez do estilo</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Não aplicar estilo "Título" (o de maior hierarquia) ao título do documento</span></div>
+          <div class="erro-item"><span class="erro-ok">✓</span><span>Três seções com Título 1 + pelo menos duas subseções com Título 2 dentro de uma delas = <strong>pontuação completa</strong></span></div>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>1,0</span></div>
+          <div class="criterio-enunciado">Sumário automático presente, funcional e posicionado na 2ª página, antes do conteúdo</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Correto:</strong> O sumário deve ser gerado pelo recurso nativo do Google Docs (<strong>Inserir → Sumário</strong>), aparecer na segunda página do documento (após a página de título ou capa) e exibir todos os títulos com os números de página correspondentes. Ao clicar em um item do sumário, deve navegar para a seção correta.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-warn">
+              <strong>⚠ Atenção — posicionamento:</strong> O sumário deve estar <em>antes</em> do conteúdo textual, mas <em>depois</em> do título do documento. A forma mais fácil: coloque o cursor no início do documento (após o título), insira uma quebra de página (<span class="inline-code">Ctrl+Enter</span>), posicione o cursor na nova página e insira o sumário.
+            </div>
+          </div>
+          <div class="how-title">Passo a passo para inserir o sumário</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span>Garanta que os estilos de título já foram aplicados (critério anterior).</span></li>
+            <li><div class="how-num">2</div><span>Posicione o cursor onde quer o sumário (2ª página).</span></li>
+            <li><div class="how-num">3</div><span>Menu <strong>Inserir → Sumário</strong> → escolha o formato com números de página.</span></li>
+            <li><div class="how-num">4</div><span>O sumário é atualizado automaticamente, mas se precisar forçar: clique com o botão direito sobre o sumário → <strong>"Atualizar sumário"</strong>.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Erro crítico:</strong> Digitar o sumário manualmente (escrever "Introdução ... 2" etc.) não conta como sumário automático. O professor verifica se o sumário é interativo — se ao clicar nos itens, o documento navega até aquela seção.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C3 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,8</span></div>
+          <div class="criterio-enunciado">Cabeçalho com nome do aluno e disciplina; rodapé com numeração automática de páginas</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Cabeçalho correto:</strong> Deve conter pelo menos o nome completo do aluno e o nome da disciplina ("Projetos de TIC" ou "Tecnologia de Informação e Comunicação"). Pode estar formatado como quiser, mas o conteúdo deve aparecer em <em>todas as páginas</em>.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Rodapé correto:</strong> O número de página deve ser inserido automaticamente pelo recurso do Google Docs — não digitado manualmente. Dessa forma, se a página 3 mudar de posição, o número se ajusta sozinho.
+            </div>
+          </div>
+          <div class="how-title">Como configurar cabeçalho e rodapé</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span><strong>Cabeçalho:</strong> Inserir → Cabeçalho e rodapé → Cabeçalho. Digite seu nome e a disciplina.</span></li>
+            <li><div class="how-num">2</div><span><strong>Rodapé com número automático:</strong> Inserir → Cabeçalho e rodapé → Rodapé. Depois: Inserir → Números de página → escolha o formato desejado.</span></li>
+            <li><div class="how-num">3</div><span>Para sair do modo cabeçalho/rodapé: clique em qualquer área do texto principal.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-warn">
+              <strong>⚠ Primeira página diferente:</strong> Se quiser que a capa não tenha cabeçalho/rodapé, ative a opção "Primeira página diferente" nas configurações de cabeçalho/rodapé. Isso não é obrigatório para a avaliação, mas é uma boa prática.
+            </div>
+          </div>
+          <div class="erros-title">Descontos parciais</div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Cabeçalho presente mas sem o nome do aluno OU sem o nome da disciplina → desconto de 0,2 pt</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Número de página digitado manualmente (ex: "Página 1") em vez de inserido automaticamente → desconto de 0,2 pt</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Cabeçalho ou rodapé completamente ausentes → desconto proporcional de 0,4 pt por item faltante</span></div>
+        </div>
+      </div>
+
+      <!-- C4 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,7</span></div>
+          <div class="criterio-enunciado">Parágrafo formatado: Arial 12pt, espaçamento 1,5 entre linhas, recuo de primeira linha 1,25 cm</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Correto:</strong> Pelo menos <em>um parágrafo</em> deve ter os <strong>três atributos simultaneamente</strong>: fonte Arial tamanho 12, espaçamento entre linhas de exatamente 1,5 e recuo da primeira linha de 1,25 cm. O professor clica no parágrafo e confere cada configuração nos menus.
+            </div>
+          </div>
+          <div class="how-title">Como configurar cada atributo</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span><strong>Fonte Arial 12pt:</strong> Selecione o parágrafo → na barra de ferramentas, mude o nome da fonte para "Arial" e o tamanho para "12".</span></li>
+            <li><div class="how-num">2</div><span><strong>Espaçamento 1,5:</strong> Selecione o parágrafo → Formatar → Espaçamento entre linhas → <strong>1,5</strong>. Atenção: "Duplo" é 2,0, não 1,5.</span></li>
+            <li><div class="how-num">3</div><span><strong>Recuo 1,25 cm:</strong> Formatar → Alinhar e recuar → Opções de recuo → campo <strong>"Especial: Primeira linha"</strong> → digite 1,25 cm. Não use a tecla Tab — ela não cria recuo medido.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-warn">
+              <strong>⚠ Atenção ao Tab:</strong> Pressionar Tab no início do parágrafo cria um recuo visual, mas não é o recuo de parágrafo correto. O professor verifica via Formatar → Opções de recuo, onde o valor deve ser exatamente "1,25 cm". Se estiver vazio, o Tab não conta.
+            </div>
+          </div>
+          <div class="erros-title">Pontuação parcial</div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Dois dos três atributos corretos → 0,4 pt (desconto de 0,3)</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Apenas um atributo correto → 0,2 pt (desconto de 0,5)</span></div>
+          <div class="erro-item"><span class="erro-ok">✓</span><span>Os três atributos aplicados corretamente em pelo menos um parágrafo → 0,7 pt (integral)</span></div>
+        </div>
+      </div>
+
+      <!-- C5 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,5</span></div>
+          <div class="criterio-enunciado">Documento com mínimo de 2 páginas, conteúdo real e link compartilhado corretamente</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Conteúdo real:</strong> O documento deve ter texto original sobre o tema escolhido (Organização de Arquivos, Segurança Digital ou Armazenamento em Nuvem). "Lorem ipsum" ou texto genérico sem sentido não é aceito. O conteúdo não precisa ser perfeito, mas deve demonstrar que o aluno entende o tema.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Link compartilhado:</strong> No Google Docs, clique em <strong>"Compartilhar"</strong> (botão azul no canto superior direito) → Configurações → mude para <strong>"Qualquer pessoa com o link"</strong> com permissão de <strong>"Visualizador"</strong> → copie o link e entregue ao professor.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Erro crítico de entrega:</strong> Se o link estiver com permissão de "Editor", o professor pode alterar o documento inadvertidamente. Se estiver restrito (padrão), o professor verá uma mensagem de "acesso negado". Sempre verifique se o link funciona abrindo em uma aba anônima do navegador.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nota-bloco">
+        <span class="nota-bloco-label">Pontuação total da Tarefa 1:</span>
+        <span class="nota-bloco-pts">___ / 4,0</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       TAREFA 2 — Microsoft Word / ABNT
+  ════════════════════════════════════════════ -->
+  <div class="tarefa-corr">
+    <div class="tarefa-header-corr">
+      <div class="tarefa-num-corr">2</div>
+      <div class="tarefa-info-corr">
+        <div class="tarefa-titulo-corr">Formatação ABNT no Microsoft Word</div>
+        <div class="tarefa-sub-corr">💻 Microsoft Word · Margens · Fonte · Espaçamento · Localizar/Substituir · Tabela · Notas de Rodapé</div>
+      </div>
+      <div class="tarefa-pts-corr">4,0 pts</div>
+    </div>
+    <div class="tarefa-body-corr">
+
+      <!-- C1 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,8</span></div>
+          <div class="criterio-enunciado">Margens configuradas corretamente conforme ABNT: superior e esquerda = 3 cm; inferior e direita = 2 cm</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Valores exatos ABNT (NBR 6022 / NBR 14724):</strong><br>
+              Superior → <strong>3 cm</strong> &nbsp;·&nbsp; Esquerda → <strong>3 cm</strong> &nbsp;·&nbsp; Inferior → <strong>2 cm</strong> &nbsp;·&nbsp; Direita → <strong>2 cm</strong>
+            </div>
+          </div>
+          <div class="how-title">Como configurar as margens</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span>Aba <strong>Layout</strong> (ou "Layout da Página") → grupo <strong>Configurar Página</strong> → clique em <strong>Margens</strong>.</span></li>
+            <li><div class="how-num">2</div><span>Selecione <strong>"Margens Personalizadas…"</strong> no final da lista.</span></li>
+            <li><div class="how-num">3</div><span>Preencha: Superior = 3 cm, Inferior = 2 cm, Esquerda = 3 cm, Direita = 2 cm. Clique em OK.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Confusão frequente:</strong> Muitos alunos invertem — colocam 2 cm nas margens superior/esquerda e 3 cm nas inferior/direita. A lógica ABNT é: as margens maiores (3 cm) ficam onde o texto tem mais "peso visual" — topo e lado esquerdo (onde o leitor começa a leitura e onde ficam as encadernações).
+            </div>
+          </div>
+          <div class="erros-title">Descontos</div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Margens invertidas (2 cm em cima/esquerda, 3 cm em baixo/direita) → 0,4 pt</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Margens todas iguais (ex: 2,5 cm em todos os lados) → 0,2 pt</span></div>
+          <div class="erro-item"><span class="erro-x">✗</span><span>Margens padrão do Word sem modificação → 0 pt</span></div>
+          <div class="erro-item"><span class="erro-ok">✓</span><span>Todos os quatro valores exatos → 0,8 pt</span></div>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,8</span></div>
+          <div class="criterio-enunciado">Fonte Times New Roman ou Arial 12pt; espaçamento 1,5; recuo de primeira linha 1,25 cm</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Correto:</strong> O corpo do texto deve usar Times New Roman 12pt <em>ou</em> Arial 12pt (ambas são aceitas pela ABNT). O espaçamento entre linhas deve ser <strong>1,5</strong> (não "Duplo" = 2,0 nem "Simples" = 1,0). O recuo da primeira linha de cada parágrafo deve ser <strong>1,25 cm</strong>.
+            </div>
+          </div>
+          <div class="how-title">Como configurar no Word</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span><strong>Fonte:</strong> Selecione tudo (Ctrl+A) → barra superior: mude a fonte para "Times New Roman" ou "Arial" e o tamanho para "12".</span></li>
+            <li><div class="how-num">2</div><span><strong>Espaçamento 1,5:</strong> Selecione o texto → aba Início → grupo Parágrafo → clique na setinha → na janela, mude "Espaçamento entre linhas" para <strong>"1,5 linha"</strong>.</span></li>
+            <li><div class="how-num">3</div><span><strong>Recuo 1,25 cm:</strong> Na mesma janela de parágrafo → seção "Recuos" → campo "Especial" → selecione <strong>"Primeira linha"</strong> → valor <strong>"1,25 cm"</strong>.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-warn">
+              <strong>⚠ Atenção ao Calibri:</strong> A fonte padrão do Word é Calibri 11pt — muito alunos esquecem de mudar. O professor detecta isso imediatamente ao abrir o documento.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C3 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,6</span></div>
+          <div class="criterio-enunciado">Texto de 200+ palavras com conteúdo coerente e parágrafos bem estruturados</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Conteúdo mínimo:</strong> 200 palavras é o equivalente a aproximadamente 3–4 parágrafos sólidos. O tema deve ser o mesmo da Tarefa 1 (Organização de Arquivos, Segurança Digital ou Armazenamento em Nuvem). O texto deve ser original — pode ser uma versão resumida do que foi escrito no Google Docs.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-tip">
+              <strong>💡 Como conferir a contagem de palavras:</strong> No Word, a contagem aparece na barra de status (rodapé) do documento. Você também pode acessar via <strong>Revisão → Contagem de Palavras</strong>.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-warn">
+              <strong>⚠ Parágrafos bem estruturados:</strong> Cada parágrafo deve ter ideia central + desenvolvimento. Evite parágrafos de apenas uma frase. O professor avalia a coerência — texto que claramente faz sentido sobre o tema vs. texto gerado aleatoriamente.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C4 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,6</span></div>
+          <div class="criterio-enunciado">Localizar e Substituir utilizado corretamente — evidência visível no documento</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Evidência no documento:</strong> O professor abre o arquivo e verifica se há uma substituição visível. Por exemplo: se o texto primeiro menciona "TIC" e depois aparece "Tecnologia da Informação e Comunicação" no local onde estava "TIC" — isso evidencia o uso da ferramenta. O ideal é que o aluno faça a substituição de uma sigla/termo no primeiro uso.
+            </div>
+          </div>
+          <div class="how-title">Como usar Localizar e Substituir</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span>Pressione <strong>Ctrl+H</strong> para abrir a janela.</span></li>
+            <li><div class="how-num">2</div><span>No campo <strong>"Localizar"</strong>: escreva o termo original (ex: "TIC").</span></li>
+            <li><div class="how-num">3</div><span>No campo <strong>"Substituir por"</strong>: escreva o novo texto (ex: "Tecnologia da Informação e Comunicação").</span></li>
+            <li><div class="how-num">4</div><span>Clique em <strong>"Substituir"</strong> (uma ocorrência) ou <strong>"Substituir Tudo"</strong> (todas de uma vez).</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Erro frequente:</strong> Fazer a substituição e não salvar o arquivo. Se o documento for enviado sem as alterações salvas, o professor não verá a evidência. Sempre use <strong>Ctrl+S</strong> após a substituição.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-tip">
+              <strong>💡 Sugestões de substituição válida:</strong> "HD" → "Hard Disk", "URL" → "Uniform Resource Locator", "backup" → "cópia de segurança", ou qualquer abreviação usada no texto.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C5 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,7</span></div>
+          <div class="criterio-enunciado">Tabela 3×4 inserida e formatada com cor de fundo no cabeçalho</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Estrutura mínima:</strong> A tabela deve ter exatamente <strong>3 colunas e 4 linhas</strong> (a primeira linha sendo o cabeçalho). O cabeçalho deve ter uma cor de fundo diferente do restante da tabela (ex: azul com texto branco). O conteúdo deve comparar aspectos do tema escolhido.
+            </div>
+          </div>
+          <div class="how-title">Exemplo de tabela válida — tema Armazenamento em Nuvem</div>
+          <table class="ex-table" style="margin-top:10px;">
+            <thead><tr><th>Aspecto</th><th>Armazenamento Local</th><th>Armazenamento em Nuvem</th></tr></thead>
+            <tbody>
+              <tr><td>Acesso</td><td>Apenas no dispositivo</td><td>Qualquer lugar com internet</td></tr>
+              <tr><td>Custo</td><td>Investimento único (HD)</td><td>Assinatura mensal</td></tr>
+              <tr><td>Segurança</td><td>Risco de perda física</td><td>Backup automático</td></tr>
+            </tbody>
+          </table>
+          <div class="how-title" style="margin-top:14px;">Como inserir e formatar a tabela</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span><strong>Inserir tabela:</strong> Aba Inserir → Tabela → arraste para selecionar 3 colunas × 4 linhas.</span></li>
+            <li><div class="how-num">2</div><span><strong>Cor de fundo no cabeçalho:</strong> Selecione a primeira linha → aba Design de Tabela → botão <strong>"Sombreamento"</strong> → escolha uma cor.</span></li>
+            <li><div class="how-num">3</div><span>Altere a cor do texto da linha de cabeçalho para branco (ou outra cor com bom contraste) para facilitar a leitura.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Erros comuns:</strong> Criar tabela com dimensões erradas (ex: 2×4 ou 3×3), não aplicar cor de fundo na linha de cabeçalho, ou deixar a tabela com conteúdo vazio/sem relação com o tema.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C6 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts"><span class="pts-label">Pts</span><span>0,5</span></div>
+          <div class="criterio-enunciado">2 notas de rodapé inseridas corretamente com conteúdo explicativo de termos técnicos</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Correto:</strong> Duas notas de rodapé numeradas automaticamente pelo Word, aparecendo no rodapé da página correspondente, com conteúdo que explica ou contextualiza um termo técnico usado no texto principal.
+            </div>
+          </div>
+          <div class="how-title">Como inserir nota de rodapé</div>
+          <ul class="how-list">
+            <li><div class="how-num">1</div><span>Posicione o cursor imediatamente após o termo que deseja explicar (sem espaço).</span></li>
+            <li><div class="how-num">2</div><span>Aba <strong>Referências</strong> → grupo Notas de Rodapé → clique em <strong>"Inserir Nota de Rodapé"</strong>.</span></li>
+            <li><div class="how-num">3</div><span>O cursor vai automaticamente para o rodapé — digite a explicação do termo.</span></li>
+            <li><div class="how-num">4</div><span>Repita para a segunda nota. A numeração é automática e sequencial.</span></li>
+          </ul>
+          <div class="exp-block">
+            <div class="exp-tip">
+              <strong>💡 Exemplos de termos para explicar:</strong>
+              <ul style="margin:6px 0 0 14px;font-size:.9em;">
+                <li>¹ <em>Phishing:</em> técnica de golpe digital em que criminosos se passam por entidades confiáveis para roubar dados pessoais.</li>
+                <li>² <em>Criptografia:</em> método de codificação de dados para que somente pessoas autorizadas consigam lê-los.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-error">
+              <strong>✗ Nota de rodapé vs. Nota de fim:</strong> Notas de fim (End Notes) aparecem ao final do documento, não na página. Verifique que usou "Inserir Nota de Rodapé" — as notas devem aparecer no <em>final de cada página</em>, separadas do texto por uma linha horizontal automática.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nota-bloco">
+        <span class="nota-bloco-label">Pontuação total da Tarefa 2:</span>
+        <span class="nota-bloco-pts">___ / 4,0</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       TAREFA 3 — Organização de Arquivos
+  ════════════════════════════════════════════ -->
+  <div class="tarefa-corr orange">
+    <div class="tarefa-header-corr orange">
+      <div class="tarefa-num-corr">3</div>
+      <div class="tarefa-info-corr">
+        <div class="tarefa-titulo-corr">Documentação de Organização de Arquivos</div>
+        <div class="tarefa-sub-corr">📁 Google Docs ou Word · Nomenclatura · Backup · Estrutura de Pastas · Estilos</div>
+      </div>
+      <div class="tarefa-pts-corr">2,0 pts</div>
+    </div>
+    <div class="tarefa-body-corr">
+
+      <!-- C1 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts orange"><span class="pts-label">Pts</span><span>0,5</span></div>
+          <div class="criterio-enunciado">Estrutura de pastas hierárquica coerente e bem organizada (Seção 1)</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body orange">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Estrutura hierárquica:</strong> A organização de pastas deve seguir uma lógica clara de nível-a-nível, do mais geral ao mais específico. A nomenclatura deve seguir as boas práticas aprendidas: sem espaços, sem acentos, com prefixos numéricos para manter a ordem.
+            </div>
+          </div>
+          <div class="how-title">Exemplo de estrutura que recebe pontuação completa</div>
+          <div class="modelo-box">
+            <div class="modelo-title">📁 Estrutura de pastas — Modelo válido</div>
+            <div class="modelo-content">
+              <div class="m-section">TIC_2026/</div>
+              <div class="m-subsection">01_Bimestre1/</div>
+              <div class="m-body">01_Semana01_Apresentacao/</div>
+              <div class="m-body">02_Semana02_Organizacao/</div>
+              <div class="m-body" style="margin-left:48px;">exercicios/</div>
+              <div class="m-body" style="margin-left:48px;">anotacoes/</div>
+              <div class="m-body">03_Semana03_Nuvem/</div>
+              <div class="m-body">04_Semana04_Seguranca/</div>
+              <div class="m-body">05_Semana05_Edicao_Parte1/</div>
+              <div class="m-body">06_Semana06_Edicao_Parte2/</div>
+              <div class="m-body"><span class="m-highlight">avaliacoes/</span></div>
+              <div class="m-body" style="margin-left:48px;"><span class="m-highlight">prova_bim1_pratica/</span></div>
+              <div class="m-body" style="margin-left:48px;"><span class="m-highlight">prova_bim1_teorica/</span></div>
+              <div class="m-subsection">02_Bimestre2/</div>
+              <div class="m-body">...</div>
+            </div>
+          </div>
+          <div class="exp-block" style="margin-top:10px;">
+            <div class="exp-warn">
+              <strong>⚠ Erros de nomenclatura que causam desconto:</strong> Usar espaços nos nomes (ex: "Semana 01" em vez de "Semana01" ou "Semana_01"), usar acentos (ex: "Avaliação"), não usar prefixos numéricos (os arquivos ficam fora de ordem alfabética), ou criar uma estrutura rasa demais (apenas uma pasta para tudo).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts orange"><span class="pts-label">Pts</span><span>0,7</span></div>
+          <div class="criterio-enunciado">Tabela com 5+ exemplos de renomeação de arquivos com justificativas claras (Seção 2)</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body orange">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Cinco ou mais linhas</strong> na tabela (além do cabeçalho), cada uma com: nome original ruim → nome correto → explicação clara do porquê melhorou.
+            </div>
+          </div>
+          <div class="how-title">Exemplo de tabela que recebe pontuação completa</div>
+          <table class="ex-table" style="margin-top:8px;">
+            <thead><tr><th>Nome ruim</th><th>Nome correto</th><th>Por quê melhorou</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="cell-bad">trabalho final ok MESMO.docx</td>
+                <td class="cell-good">trabalho_final_bim1.docx</td>
+                <td class="cell-why">Sem espaços; sem palavras vagas como "ok" e "MESMO"; descritivo e limpo</td>
+              </tr>
+              <tr>
+                <td class="cell-bad">foto aula 1.jpg</td>
+                <td class="cell-good">aula01_foto_quadro.jpg</td>
+                <td class="cell-why">Prefixo numérico garante ordenação; descrição do conteúdo da foto</td>
+              </tr>
+              <tr>
+                <td class="cell-bad">Relatório de Vendas Abril 2026.xlsx</td>
+                <td class="cell-good">relatorio_vendas_2026-04.xlsx</td>
+                <td class="cell-why">Sem acentos; sem espaços; data em formato AAAA-MM para ordenação correta</td>
+              </tr>
+              <tr>
+                <td class="cell-bad">versao3 DEFINITIVA (2).pdf</td>
+                <td class="cell-good">proposta_projeto_v3.pdf</td>
+                <td class="cell-why">Nome descritivo; versão indicada com "v3"; sem parênteses nem palavras ambíguas</td>
+              </tr>
+              <tr>
+                <td class="cell-bad">Sem título.docx</td>
+                <td class="cell-good">atividade_semana02_exercicio1.docx</td>
+                <td class="cell-why">Nome completamente sem sentido substituído por identificação precisa do conteúdo</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="exp-block" style="margin-top:10px;">
+            <div class="exp-error">
+              <strong>✗ Desconto:</strong> Tabela com menos de 5 exemplos → perda proporcional (ex: 3 exemplos = ~0,4 pt). Justificativas vazias como "melhorou porque está melhor" sem explicar o motivo técnico → desconto de 0,1 pt por item. Nomes "corretos" que ainda possuem problemas (espaços, acentos) → não contam como exemplo válido.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C3 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts orange"><span class="pts-label">Pts</span><span>0,5</span></div>
+          <div class="criterio-enunciado">Plano de backup descrito com ferramentas e frequência justificadas (Seção 3)</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body orange">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Plano completo:</strong> O texto de 3 a 5 frases deve responder a pelo menos três perguntas: <em>onde</em> os arquivos serão guardados (ferramentas específicas), <em>com que frequência</em> o backup será feito e <em>por quê</em> essas escolhas foram feitas.
+            </div>
+          </div>
+          <div class="how-title">Exemplo de plano que recebe pontuação completa</div>
+          <div class="modelo-box">
+            <div class="modelo-title">✏️ Plano de backup — Modelo válido</div>
+            <div class="modelo-content" style="font-style:italic;color:#cbd5e1;">
+              "Meu plano de backup seguirá a estratégia 3-2-1: manterei uma cópia dos arquivos no computador da escola, uma segunda cópia em um HD externo pessoal e uma terceira no Google Drive. O backup no HD externo será feito a cada semana, toda sexta-feira, e o Google Drive será sincronizado automaticamente a cada alteração. Escolhi o Google Drive porque é gratuito para até 15 GB, acessível de qualquer dispositivo e oferece histórico de versões. O HD externo serve como cópia offline, protegendo contra problemas de internet ou invasão à conta em nuvem."
+            </div>
+          </div>
+          <div class="exp-block" style="margin-top:10px;">
+            <div class="exp-warn">
+              <strong>⚠ Planos incompletos perdem pontos:</strong> Citar somente uma ferramenta (ex: "vou usar o Google Drive") sem mencionar frequência ou justificativa = 0,2 pt. Texto muito genérico sem indicar ferramentas reais = 0,1 pt. Plano que cita apenas backup local sem considerar nuvem = 0,3 pt (perde 0,2 por estratégia incompleta).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C4 -->
+      <div class="criterio">
+        <div class="criterio-header">
+          <div class="criterio-pts orange"><span class="pts-label">Pts</span><span>0,3</span></div>
+          <div class="criterio-enunciado">Estilos de título usados nas seções e pelo menos uma lista formatada presente</div>
+          <div class="criterio-status"><span class="status-pill status-full">Critério avaliado</span></div>
+        </div>
+        <div class="criterio-body orange">
+          <h4>O que o professor verifica</h4>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Estilos nas seções:</strong> Os títulos "Seção 1 — Estrutura de Pastas", "Seção 2 — Renomeação de Arquivos" e "Seção 3 — Plano de Backup" devem usar o estilo "Título 1" (ou "Heading 1" em inglês) — não apenas negrito ou fonte maior.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-correct">
+              <strong>✓ Lista formatada:</strong> A estrutura de pastas da Seção 1 pode ser representada como lista com recuos (lista com marcadores em diferentes níveis), ou você pode adicionar uma lista numerada com instruções de backup na Seção 3. O importante é que seja uma lista criada com o recurso de lista do editor (botões de lista na barra de ferramentas), não formatada manualmente com traços.
+            </div>
+          </div>
+          <div class="exp-block">
+            <div class="exp-tip">
+              <strong>💡 Lista hierárquica:</strong> Para representar a estrutura de pastas como lista com múltiplos níveis, use o botão de lista com marcadores e pressione <strong>Tab</strong> para criar subitens. Cada Tab adicional aumenta o nível de recuo, criando a hierarquia visual de pastas.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nota-bloco">
+        <span class="nota-bloco-label">Pontuação total da Tarefa 3:</span>
+        <span class="nota-bloco-pts orange">___ / 2,0</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GABARITO RÁPIDO -->
+  <div class="gabarito-rapido">
+    <h3>📋 Resumo de Pontuação — Todos os Critérios</h3>
+    <div class="gb-grid">
+      <div class="gb-item">
+        <h4>Tarefa 1 — Google Docs (4,0 pts)</h4>
+        <div class="gb-row"><span class="gb-crit">Estilos de título (Título / T1 / T2)</span><span class="gb-pts">1,0</span></div>
+        <div class="gb-row"><span class="gb-crit">Sumário automático posicionado</span><span class="gb-pts">1,0</span></div>
+        <div class="gb-row"><span class="gb-crit">Cabeçalho + rodapé com nº de página</span><span class="gb-pts">0,8</span></div>
+        <div class="gb-row"><span class="gb-crit">Parágrafo Arial 12pt / 1,5 / 1,25 cm</span><span class="gb-pts">0,7</span></div>
+        <div class="gb-row"><span class="gb-crit">2 páginas, conteúdo real, link</span><span class="gb-pts">0,5</span></div>
+      </div>
+      <div class="gb-item">
+        <h4>Tarefa 2 — Word ABNT (4,0 pts)</h4>
+        <div class="gb-row"><span class="gb-crit">Margens ABNT (3/3/2/2 cm)</span><span class="gb-pts">0,8</span></div>
+        <div class="gb-row"><span class="gb-crit">Fonte TNR/Arial 12pt + esp. 1,5 + recuo</span><span class="gb-pts">0,8</span></div>
+        <div class="gb-row"><span class="gb-crit">Texto 200+ palavras coerentes</span><span class="gb-pts">0,6</span></div>
+        <div class="gb-row"><span class="gb-crit">Localizar e Substituir (evidência visível)</span><span class="gb-pts">0,6</span></div>
+        <div class="gb-row"><span class="gb-crit">Tabela 3×4 com cabeçalho colorido</span><span class="gb-pts">0,7</span></div>
+        <div class="gb-row"><span class="gb-crit">2 notas de rodapé explicativas</span><span class="gb-pts">0,5</span></div>
+      </div>
+      <div class="gb-item" style="background:#fff7ed;border-color:#fdba74;">
+        <h4 style="color:var(--accent);">Tarefa 3 — Organização (2,0 pts)</h4>
+        <div class="gb-row"><span class="gb-crit">Estrutura de pastas hierárquica</span><span class="gb-pts" style="color:var(--accent);">0,5</span></div>
+        <div class="gb-row"><span class="gb-crit">Tabela com 5+ renomeações + justif.</span><span class="gb-pts" style="color:var(--accent);">0,7</span></div>
+        <div class="gb-row"><span class="gb-crit">Plano de backup ferramentas + freq.</span><span class="gb-pts" style="color:var(--accent);">0,5</span></div>
+        <div class="gb-row"><span class="gb-crit">Estilos de título + lista formatada</span><span class="gb-pts" style="color:var(--accent);">0,3</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="rodape">
+  <span class="rodape-text">TIC 2026 · ETEC · 1º Bimestre · Correção Comentada — Avaliação Prática</span>
+  <div class="rodape-nav">
+    <a href="avaliacao_pratica__2_.html" class="nav-btn nav-btn-outline">⬅ Ver Avaliação Prática</a>
+    <a href="correcao_bimestre1.html" class="nav-btn nav-btn-outline">📄 Correção Teórica</a>
+    <a href="index.html" class="nav-btn nav-btn-dark">🏠 Índice</a>
+  </div>
+</div>
+
+</body>
+</html>

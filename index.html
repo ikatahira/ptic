@@ -72,6 +72,10 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--gray-50);color:var(
 }
 .eval-card.prova{background:linear-gradient(135deg,#1e3a5f,#1a56db);color:white;border:none;}
 .eval-card.correcao{background:linear-gradient(135deg,#064e3b,#059669);color:white;border:none;}
+.eval-card.pratica{background:linear-gradient(135deg,#431407,#e85d04);color:white;border:none;}
+.eval-card.correcao-pratica{background:linear-gradient(135deg,#14532d,#15803d);color:white;border:none;}
+.eval-cards-4{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:768px){.eval-cards-4{grid-template-columns:1fr 1fr;}}
 .eval-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.18);}
 .eval-card .eval-tag{font-size:.7em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin-bottom:6px;}
 .eval-card .eval-title{font-size:.95em;font-weight:700;margin-bottom:6px;}
@@ -166,21 +170,33 @@ footer{text-align:center;padding:32px;color:var(--gray-600);font-size:.85em;bord
         </a>
         <div class="eval-divider">
           <div class="eval-divider-line"></div>
-          <div class="eval-divider-label">📋 Avaliação do 1º Bimestre · Semanas 01–06</div>
+          <div class="eval-divider-label">📋 Avaliações do 1º Bimestre · Semanas 01–06</div>
           <div class="eval-divider-line"></div>
         </div>
-        <div class="eval-cards">
+        <div class="eval-cards-4">
           <a href="avaliacao_bimestre1.html" class="eval-card prova">
             <span class="eval-arrow">→</span>
-            <div class="eval-tag">📝 Prova</div>
+            <div class="eval-tag">📝 Prova Teórica</div>
             <div class="eval-title">Avaliação Teórica</div>
             <div class="eval-meta">20 questões · 10,0 pts · 50 min</div>
           </a>
           <a href="correcao_bimestre1.html" class="eval-card correcao">
             <span class="eval-arrow">→</span>
-            <div class="eval-tag">✅ Gabarito</div>
-            <div class="eval-title">Correção Comentada</div>
+            <div class="eval-tag">✅ Gabarito Teórico</div>
+            <div class="eval-title">Correção Teórica</div>
             <div class="eval-meta">Gabarito completo com explicações</div>
+          </a>
+          <a href="avaliacao_pratica__2_.html" class="eval-card pratica">
+            <span class="eval-arrow">→</span>
+            <div class="eval-tag">🖥️ Prova Prática</div>
+            <div class="eval-title">Avaliação Prática</div>
+            <div class="eval-meta">3 tarefas · 10,0 pts · 90 min</div>
+          </a>
+          <a href="correcao_pratica_bimestre1.html" class="eval-card correcao-pratica">
+            <span class="eval-arrow">→</span>
+            <div class="eval-tag">✅ Gabarito Prático</div>
+            <div class="eval-title">Correção Prática</div>
+            <div class="eval-meta">Critérios detalhados por tarefa</div>
           </a>
         </div>
         <a href="semana07_aula.html" class="week-card" style="--accent:#1a56db">
