@@ -60,6 +60,24 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--gray-50);color:var(
 .wl-guia{background:rgba(139,92,246,.1);color:#6d28d9;}
 .wl-guia:hover{background:rgba(139,92,246,.2);}
 
+/* AVALIAÇÃO CARDS */
+.eval-divider{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:4px 0 2px;}
+.eval-divider-line{flex:1;height:1px;background:var(--gray-200);}
+.eval-divider-label{font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);white-space:nowrap;}
+.eval-cards{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.eval-card{
+  border-radius:var(--radius-sm);padding:16px;
+  text-decoration:none;color:inherit;display:block;
+  transition:all .2s ease;
+}
+.eval-card.prova{background:linear-gradient(135deg,#1e3a5f,#1a56db);color:white;border:none;}
+.eval-card.correcao{background:linear-gradient(135deg,#064e3b,#059669);color:white;border:none;}
+.eval-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.eval-card .eval-tag{font-size:.7em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin-bottom:6px;}
+.eval-card .eval-title{font-size:.95em;font-weight:700;margin-bottom:6px;}
+.eval-card .eval-meta{font-size:.75em;opacity:.75;}
+.eval-card .eval-arrow{float:right;font-size:1.1em;margin-top:-2px;}
+
 /* FOOTER */
 footer{text-align:center;padding:32px;color:var(--gray-600);font-size:.85em;border-top:1px solid var(--gray-200);}
 
@@ -146,6 +164,25 @@ footer{text-align:center;padding:32px;color:var(--gray-600);font-size:.85em;bord
             <a href="semana06_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
           </div>
         </a>
+        <div class="eval-divider">
+          <div class="eval-divider-line"></div>
+          <div class="eval-divider-label">📋 Avaliação do 1º Bimestre · Semanas 01–06</div>
+          <div class="eval-divider-line"></div>
+        </div>
+        <div class="eval-cards">
+          <a href="avaliacao_bimestre1.html" class="eval-card prova">
+            <span class="eval-arrow">→</span>
+            <div class="eval-tag">📝 Prova</div>
+            <div class="eval-title">Avaliação Teórica</div>
+            <div class="eval-meta">20 questões · 10,0 pts · 50 min</div>
+          </a>
+          <a href="correcao_bimestre1.html" class="eval-card correcao">
+            <span class="eval-arrow">→</span>
+            <div class="eval-tag">✅ Gabarito</div>
+            <div class="eval-title">Correção Comentada</div>
+            <div class="eval-meta">Gabarito completo com explicações</div>
+          </a>
+        </div>
         <a href="semana07_aula.html" class="week-card" style="--accent:#1a56db">
           <div class="week-num">S07</div>
           <div class="week-title">Planilhas – Parte 1</div>

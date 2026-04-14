@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correção Comentada – 1º Bimestre · Projetos de TIC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0a1628; --blue:#1a56db; --blue-light:#dbeafe;
+  --green:#059669; --green-light:#d1fae5;
+  --red:#dc2626; --red-light:#fee2e2;
+  --amber:#d97706; --amber-light:#fef3c7;
+  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+  --gray-600:#475569; --gray-800:#1e293b; --white:#fff;
+  --radius:10px; --shadow:0 2px 12px rgba(0,0,0,.08);
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;}
+
+/* TOP BAR */
+.topbar{background:var(--navy);color:white;padding:10px 32px;font-size:.8em;display:flex;align-items:center;gap:12px;}
+.topbar a{color:#60a5fa;text-decoration:none;}
+.topbar a:hover{text-decoration:underline;}
+.topbar-sep{color:#475569;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#064e3b 0%,#065f46 50%,#059669 100%);color:white;padding:48px 32px 40px;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:6px 18px;font-size:.8em;font-weight:600;margin-bottom:20px;}
+.hero h1{font-size:clamp(1.6em,4vw,2.6em);font-weight:700;letter-spacing:-.03em;margin-bottom:8px;}
+.hero h1 span{color:#6ee7b7;}
+.hero-sub{opacity:.8;font-size:.95em;margin-bottom:24px;}
+.hero-notice{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:12px 20px;display:inline-flex;align-items:center;gap:8px;font-size:.88em;}
+
+/* SCORE BOARD */
+.score-board{max-width:900px;margin:-28px auto 0;padding:0 32px;position:relative;z-index:10;}
+.score-card{background:white;border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,.12);padding:24px 32px;display:flex;gap:0;overflow:hidden;}
+.score-item{flex:1;text-align:center;padding:16px 24px;border-right:1px solid var(--gray-200);}
+.score-item:last-child{border-right:none;}
+.score-val{font-size:1.8em;font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.score-label{font-size:.75em;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-600);margin-top:4px;}
+.score-val.green{color:var(--green);}
+.score-val.blue{color:var(--blue);}
+.score-val.amber{color:var(--amber);}
+
+/* MAIN */
+.main{max-width:900px;margin:32px auto;padding:0 32px 60px;}
+
+/* SECTION HEADER */
+.section-header{background:var(--navy);color:white;border-radius:var(--radius) var(--radius) 0 0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:36px;}
+.section-header .sec-title{font-size:1em;font-weight:700;}
+.section-header .sec-subtitle{font-size:.82em;opacity:.7;margin-top:2px;}
+.section-header .sec-pts{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:.78em;font-weight:600;white-space:nowrap;}
+
+/* ANSWER CARDS */
+.answers-wrapper{background:white;border:1px solid var(--gray-200);border-top:none;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;}
+.answer-item{padding:20px 24px;border-bottom:1px solid var(--gray-100);display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;}
+.answer-item:last-child{border-bottom:none;}
+.answer-item.correct{border-left:4px solid var(--green);}
+.answer-item.false{border-left:4px solid var(--red);}
+.answer-item.true{border-left:4px solid var(--green);}
+
+.q-badge{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:56px;}
+.q-num{background:var(--blue);color:white;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8em;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.correct-badge{background:var(--green);color:white;border-radius:20px;padding:3px 10px;font-size:.72em;font-weight:700;letter-spacing:.04em;white-space:nowrap;}
+.false-badge{background:var(--red);color:white;border-radius:20px;padding:3px 10px;font-size:.72em;font-weight:700;letter-spacing:.04em;}
+
+.answer-content{}
+.q-text-sm{font-size:.88em;color:var(--gray-600);font-style:italic;margin-bottom:10px;line-height:1.4;}
+.answer-box{background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.answer-box.wrong-ex{background:var(--red-light);border-color:var(--red);}
+.answer-letter{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1em;color:var(--green);flex-shrink:0;}
+.answer-letter.wrong{color:var(--red);}
+.answer-text{font-size:.9em;font-weight:600;color:var(--gray-800);}
+
+.explanation{font-size:.88em;color:var(--gray-600);line-height:1.6;padding:12px 16px;background:var(--gray-50);border-radius:8px;border-left:3px solid var(--blue);}
+.explanation strong{color:var(--navy);}
+.explanation .tip{display:inline-flex;align-items:center;gap:4px;background:var(--amber-light);border-radius:4px;padding:2px 8px;font-size:.85em;color:#92400e;font-weight:600;margin-top:6px;}
+
+/* WHY WRONG */
+.why-wrong{font-size:.83em;color:var(--red);margin-top:6px;padding-left:4px;}
+.option-row{display:flex;gap:8px;align-items:center;font-size:.85em;padding:5px 0;border-bottom:1px dashed var(--gray-200);}
+.option-row:last-child{border-bottom:none;}
+.opt-key{font-family:'IBM Plex Mono',monospace;font-weight:600;width:24px;flex-shrink:0;}
+.opt-key.right{color:var(--green);}
+.opt-key.wrong{color:var(--red);}
+.opt-mark{font-size:.9em;}
+.opt-desc{color:var(--gray-600);}
+
+/* TF SECTION */
+.tf-grid{display:flex;flex-direction:column;gap:0;}
+
+/* MATCH TABLE */
+.match-table{width:100%;border-collapse:collapse;margin-top:8px;}
+.match-table th{background:var(--gray-100);padding:8px 14px;font-size:.78em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-600);text-align:left;}
+.match-table td{padding:10px 14px;border-bottom:1px solid var(--gray-100);font-size:.88em;}
+.match-table tr:last-child td{border-bottom:none;}
+.match-table .match-num{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--navy);}
+.match-table .match-ans{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--green);font-size:1em;}
+.match-table .match-desc{color:var(--gray-600);}
+
+/* ESSAY */
+.essay-rubric{background:white;border:1px solid var(--gray-200);border-radius:8px;padding:20px;margin-top:8px;}
+.rubric-title{font-size:.8em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-600);margin-bottom:12px;}
+.rubric-point{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--gray-200);font-size:.88em;}
+.rubric-point:last-child{border-bottom:none;}
+.rubric-pts{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--green);min-width:40px;}
+.model-answer{background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:14px 16px;margin-top:10px;font-size:.88em;line-height:1.6;color:var(--gray-800);}
+.model-answer-title{font-size:.75em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+
+/* FOOTER */
+.page-footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--gray-200);color:var(--gray-600);font-size:.82em;}
+.page-footer a{color:var(--blue);}
+
+@media(max-width:680px){
+  .main{padding:0 16px 40px;}
+  .score-board{padding:0 16px;}
+  .score-card{flex-wrap:wrap;}
+  .score-item{min-width:50%;border-right:none;border-bottom:1px solid var(--gray-200);}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html">← Índice</a>
+  <span class="topbar-sep">›</span>
+  <a href="avaliacao_bimestre1.html">Avaliação</a>
+  <span class="topbar-sep">›</span>
+  <span>Correção Comentada</span>
+</div>
+
+<header class="hero">
+  <div class="hero-tag">✅ Gabarito Oficial</div>
+  <h1>Correção Comentada — <span>1º Bimestre</span></h1>
+  <p class="hero-sub">Projetos de TIC · Gerenciamento de Arquivos &amp; Edição de Textos · Semanas 01 a 06</p>
+  <div class="hero-notice">📌 Cada questão possui explicação detalhada do porquê da resposta correta</div>
+</header>
+
+<div class="score-board">
+  <div class="score-card">
+    <div class="score-item"><div class="score-val green">4,0 pts</div><div class="score-label">Parte I · Múltipla Escolha</div></div>
+    <div class="score-item"><div class="score-val blue">3,0 pts</div><div class="score-label">Parte II · Verdadeiro/Falso</div></div>
+    <div class="score-item"><div class="score-val amber">2,0 pts</div><div class="score-label">Parte III · Correspondência</div></div>
+    <div class="score-item"><div class="score-val" style="color:#7c3aed">1,0 pt</div><div class="score-label">Parte IV · Dissertativas</div></div>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- ===== PARTE I ===== -->
+  <div class="section-header">
+    <div><div class="sec-title">I · Múltipla Escolha — Gabarito e Explicações</div><div class="sec-subtitle">0,4 pt por questão</div></div>
+    <div class="sec-pts">Total: 4,0 pts</div>
+  </div>
+
+  <div class="answers-wrapper">
+
+    <!-- Q1 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">01</div><div class="correct-badge">✓ B</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Nomenclatura adequada para uso profissional</div>
+        <div class="answer-box">
+          <span class="answer-letter">B)</span>
+          <span class="answer-text">relatorio_vendas_2026-04.docx</span>
+        </div>
+        <div class="explanation">
+          Um bom nome de arquivo deve ser <strong>sem espaços</strong> (use underline ou hífen), <strong>sem acentos ou caracteres especiais</strong>, com <strong>data no formato AAAA-MM</strong> (facilita ordenação automática), e <strong>descritivo</strong>.
+          A opção B atende todos esses critérios: sem espaços, sem acentos, data no padrão ISO e extensão correta.<br>
+          <span class="tip">💡 Dica: arquivos nomeados assim ficam em ordem cronológica perfeita no gerenciador de arquivos.</span>
+        </div>
+        <div style="margin-top:10px;">
+          <div class="option-row"><span class="opt-key wrong">A)</span><span class="opt-mark">✗</span><span class="opt-desc">Espaços e palavras como "FINAL", "ok", "versao3" indicam falta de controle de versão — nada profissional.</span></div>
+          <div class="option-row"><span class="opt-key wrong">C)</span><span class="opt-mark">✗</span><span class="opt-desc">Tem espaços e acento ("Relatório") — pode gerar erro em sistemas e servidores.</span></div>
+          <div class="option-row"><span class="opt-key wrong">D)</span><span class="opt-mark">✗</span><span class="opt-desc">Usa "–" (travessão), um caractere especial, e abreviações pouco claras.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">02</div><div class="correct-badge">✓ C</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Vantagem do Google Docs em relação ao Word instalado</div>
+        <div class="answer-box">
+          <span class="answer-letter">C)</span>
+          <span class="answer-text">Permite colaboração em tempo real com vários editores simultâneos</span>
+        </div>
+        <div class="explanation">
+          A <strong>grande vantagem do Google Docs</strong> é a colaboração em tempo real: várias pessoas podem editar o mesmo documento ao mesmo tempo, ver as alterações instantaneamente e comunicar-se pelo chat interno.
+          O Word instalado (versão desktop tradicional) não possui essa funcionalidade nativamente — ela só existe na versão online (Word Online), que é diferente do Word instalado.<br>
+          <span class="tip">💡 O Google Docs exige internet para funcionar, então a opção B está errada — é o Word instalado que funciona offline.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">03</div><div class="correct-badge">✓ B</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Requisito para criar Sumário Automático no Word</div>
+        <div class="answer-box">
+          <span class="answer-letter">B)</span>
+          <span class="answer-text">Os títulos devem estar formatados com os estilos Título 1, Título 2, etc.</span>
+        </div>
+        <div class="explanation">
+          O Sumário Automático do Word funciona <strong>lendo os estilos aplicados</strong> no documento. Somente texto marcado como "Título 1", "Título 2" ou "Título 3" é reconhecido como entrada do sumário.
+          Se você apenas aumentar a fonte e deixar em negrito, o Word <strong>não reconhece</strong> como título — o sumário ficará em branco.<br>
+          <span class="tip">💡 Caminho: Referências → Sumário → Sumário Automático</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">04</div><div class="correct-badge">✓ C</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Espaçamento entre linhas segundo a ABNT (NBR 6022)</div>
+        <div class="answer-box">
+          <span class="answer-letter">C)</span>
+          <span class="answer-text">1,5 para o corpo do texto; 1,0 para resumo e referências</span>
+        </div>
+        <div class="explanation">
+          A <strong>NBR 6022</strong> (artigos acadêmicos) determina:
+          <ul style="margin:8px 0 0 16px;font-size:.9em;color:var(--gray-600);">
+            <li><strong>1,5</strong> para o corpo do texto</li>
+            <li><strong>1,0 (simples)</strong> para: resumo, abstract, notas de rodapé, referências, legendas</li>
+          </ul>
+          <span class="tip">💡 Memorize: "texto longo = 1,5 · partes compactas = 1,0"</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">05</div><div class="correct-badge">✓ C</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Atalho para Localizar e Substituir</div>
+        <div class="answer-box">
+          <span class="answer-letter">C)</span>
+          <span class="answer-text">Ctrl + H</span>
+        </div>
+        <div class="explanation">
+          <strong>Ctrl + H</strong> abre "Localizar e Substituir" em ambos os programas. É uma função poderosa para corrigir palavras repetidas ao longo de todo o documento de uma vez.
+          <table style="margin-top:8px;font-size:.85em;width:100%;border-collapse:collapse;">
+            <tr style="background:var(--gray-100);"><th style="padding:6px 10px;text-align:left;">Atalho</th><th style="padding:6px 10px;text-align:left;">Função</th></tr>
+            <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:6px 10px;font-family:'IBM Plex Mono',monospace;">Ctrl + F</td><td style="padding:6px 10px;">Apenas localizar (não substitui)</td></tr>
+            <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:6px 10px;font-family:'IBM Plex Mono',monospace;">Ctrl + H</td><td style="padding:6px 10px;font-weight:600;color:var(--green);">Localizar E Substituir ✓</td></tr>
+            <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:6px 10px;font-family:'IBM Plex Mono',monospace;">Ctrl + S</td><td style="padding:6px 10px;">Salvar</td></tr>
+            <tr><td style="padding:6px 10px;font-family:'IBM Plex Mono',monospace;">Ctrl + R</td><td style="padding:6px 10px;">Alinhar à direita</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">06</div><div class="correct-badge">✓ A</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Apenas serviços de armazenamento em nuvem</div>
+        <div class="answer-box">
+          <span class="answer-letter">A)</span>
+          <span class="answer-text">Google Drive, Dropbox, OneDrive</span>
+        </div>
+        <div class="explanation">
+          Os três são serviços dedicados ao armazenamento e sincronização de arquivos na nuvem. Nas outras alternativas:
+          <ul style="margin:8px 0 0 16px;font-size:.88em;color:var(--gray-600);">
+            <li><strong>B)</strong> Notepad é editor de texto local</li>
+            <li><strong>C)</strong> Adobe Acrobat é leitor de PDF</li>
+            <li><strong>D)</strong> Winrar é compactador de arquivos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">07</div><div class="correct-badge">✓ D</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Recuo da primeira linha do parágrafo segundo a ABNT</div>
+        <div class="answer-box">
+          <span class="answer-letter">D)</span>
+          <span class="answer-text">1,25 cm</span>
+        </div>
+        <div class="explanation">
+          A <strong>NBR 6022</strong> e a <strong>NBR 14724</strong> estabelecem que o recuo da primeira linha do parágrafo deve ser de <strong>1,25 cm</strong> em relação à margem esquerda. Esse valor está pré-definido na régua do Word e corresponde a um "Tab" padrão.<br>
+          <span class="tip">💡 No Word: Parágrafo → Recuos → Especial: Primeira linha → 1,25 cm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">08</div><div class="correct-badge">✓ B</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Boa prática de segurança digital ao criar senhas</div>
+        <div class="answer-box">
+          <span class="answer-letter">B)</span>
+          <span class="answer-text">Combinar letras maiúsculas, minúsculas, números e caracteres especiais</span>
+        </div>
+        <div class="explanation">
+          Uma senha forte deve ter <strong>variedade de caracteres</strong> e comprimento adequado (mínimo 8, idealmente 12+). Combinando os 4 tipos de caracteres, o número de combinações possíveis aumenta exponencialmente, tornando ataques de força bruta inviáveis.
+          <ul style="margin:8px 0 0 16px;font-size:.88em;color:var(--red);">
+            <li>❌ Mesma senha em todas as contas — se uma vaza, todas ficam expostas</li>
+            <li>❌ Post-it na tela — qualquer pessoa vê</li>
+            <li>❌ Data de aniversário — fácil de adivinhar e está em perfis públicos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">09</div><div class="correct-badge">✓ C</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Aba do Word para inserir Sumário Automático</div>
+        <div class="answer-box">
+          <span class="answer-letter">C)</span>
+          <span class="answer-text">Aba Referências</span>
+        </div>
+        <div class="explanation">
+          A aba <strong>Referências</strong> reúne recursos acadêmicos: Sumário, Notas de Rodapé, Citações, Bibliografia, Legendas e Índice. O primeiro grupo da aba é justamente "Sumário".<br>
+          <span class="tip">💡 Caminho completo: Referências → grupo Sumário → Sumário Automático 1 ou 2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">10</div><div class="correct-badge">✓ C</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Caracteres a evitar em nomes de arquivo</div>
+        <div class="answer-box">
+          <span class="answer-letter">C)</span>
+          <span class="answer-text">Espaços, acentos e caracteres especiais como / \ : * ? " &lt; &gt; |</span>
+        </div>
+        <div class="explanation">
+          Os caracteres listados são <strong>proibidos ou problemáticos</strong> em sistemas de arquivos Windows, macOS e Linux. Espaços causam erros em linhas de comando; os demais são reservados pelo sistema operacional para funções especiais (separadores de caminho, curingas, redirecionamento de terminal).<br>
+          <span class="tip">💡 Use apenas: a-z, 0-9, underscore (_), hífen (-) e ponto (.) em nomes de arquivo.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== PARTE II ===== -->
+  <div class="section-header">
+    <div><div class="sec-title">II · Verdadeiro ou Falso — Gabarito e Explicações</div><div class="sec-subtitle">0,5 pt por afirmação</div></div>
+    <div class="sec-pts">Total: 3,0 pts</div>
+  </div>
+
+  <div class="answers-wrapper">
+
+    <div class="answer-item true">
+      <div class="q-badge"><div class="q-num">11</div><div class="correct-badge" style="background:var(--green);">✓ VERDADEIRO</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">O Google Docs salva automaticamente a cada alteração, sem precisar Ctrl+S.</div>
+        <div class="explanation"><strong>Verdadeiro.</strong> O Google Docs possui salvamento automático contínuo na nuvem. A cada modificação, o documento é sincronizado automaticamente com o Google Drive. Você pode ver o status "Todas as alterações salvas no Drive" no topo da tela. Diferente do Word local, onde esquecer de salvar pode significar perder o trabalho.</div>
+      </div>
+    </div>
+
+    <div class="answer-item false">
+      <div class="q-badge"><div class="q-num">12</div><div class="false-badge" style="background:var(--red);">✗ FALSO</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Pela ABNT, margem superior e esquerda de artigo acadêmico devem ser de 2 cm cada.</div>
+        <div class="explanation"><strong>Falso.</strong> Segundo a ABNT (NBR 6022 e NBR 14724), as margens corretas são:
+          <ul style="margin:8px 0 0 16px;font-size:.88em;">
+            <li>Superior: <strong>3 cm</strong></li>
+            <li>Esquerda: <strong>3 cm</strong></li>
+            <li>Inferior: <strong>2 cm</strong></li>
+            <li>Direita: <strong>2 cm</strong></li>
+          </ul>
+          As margens de 2 cm são as <strong>inferiores e direitas</strong>, não as superiores e esquerdas.</div>
+      </div>
+    </div>
+
+    <div class="answer-item true">
+      <div class="q-badge"><div class="q-num">13</div><div class="correct-badge" style="background:var(--green);">✓ VERDADEIRO</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Um estilo de texto é uma regra de formatação guardada com nome, aplicável com um clique e alterada globalmente.</div>
+        <div class="explanation"><strong>Verdadeiro.</strong> Estilos são conjuntos de formatação (fonte, tamanho, cor, espaçamento, etc.) salvos com um nome. A grande vantagem é a <strong>alteração global</strong>: se você mudar o estilo "Título 1", todos os títulos do documento são atualizados automaticamente. Isso economiza horas em documentos longos.</div>
+      </div>
+    </div>
+
+    <div class="answer-item false">
+      <div class="q-badge"><div class="q-num">14</div><div class="false-badge" style="background:var(--red);">✗ FALSO</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Backup em apenas um local é suficiente e seguro.</div>
+        <div class="explanation"><strong>Falso.</strong> A regra recomendada na área de TI é a <strong>estratégia 3-2-1</strong>: manter 3 cópias dos dados, em 2 tipos de mídia diferentes, sendo 1 cópia em local externo (nuvem ou outro local físico). Backup em apenas um local falha se aquele local for danificado por incêndio, roubo, falha de hardware ou inundação.<br>
+          <span class="tip">💡 Exemplo: arquivo no computador + HD externo + Google Drive.</span></div>
+      </div>
+    </div>
+
+    <div class="answer-item true">
+      <div class="q-badge"><div class="q-num">15</div><div class="correct-badge" style="background:var(--green);">✓ VERDADEIRO</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">O Word é padrão em empresas e repartições públicas, com o formato .docx amplamente aceito.</div>
+        <div class="explanation"><strong>Verdadeiro.</strong> O Microsoft Word e o formato .docx são amplamente adotados como padrão corporativo e governamental. Repartições públicas brasileiras frequentemente exigem documentos em .docx ou .doc. Isso faz do Word a escolha mais segura para documentos formais que serão compartilhados externamente.</div>
+      </div>
+    </div>
+
+    <div class="answer-item false">
+      <div class="q-badge"><div class="q-num">16</div><div class="false-badge" style="background:var(--red);">✗ FALSO</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">É possível criar Sumário Automático sem estilos de Título — basta negrito e tamanho maior.</div>
+        <div class="explanation"><strong>Falso.</strong> O Word usa <strong>exclusivamente os estilos de parágrafo</strong> (Título 1, Título 2, etc.) para construir o sumário automático. Texto em negrito com fonte maior é apenas formatação visual — o Word não o reconhece como título. Sem os estilos aplicados, o sumário automático ficará vazio ou com erros.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== PARTE III ===== -->
+  <div class="section-header">
+    <div><div class="sec-title">III · Correspondência — Gabarito</div><div class="sec-subtitle">1,0 pt por questão (toda a correspondência correta)</div></div>
+    <div class="sec-pts">Total: 2,0 pts</div>
+  </div>
+
+  <div class="answers-wrapper">
+
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">17</div><div class="correct-badge">✓ Gabarito</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Atalhos de teclado × Funções</div>
+        <table class="match-table">
+          <thead><tr><th>#</th><th>Atalho</th><th>Resposta</th><th>Função correspondente</th></tr></thead>
+          <tbody>
+            <tr><td class="match-num">1.</td><td>Ctrl + N</td><td class="match-ans">B</td><td class="match-desc">Novo documento em branco</td></tr>
+            <tr><td class="match-num">2.</td><td>Ctrl + H</td><td class="match-ans">D</td><td class="match-desc">Localizar e substituir</td></tr>
+            <tr><td class="match-num">3.</td><td>F9</td><td class="match-ans">E</td><td class="match-desc">Atualizar o sumário automático</td></tr>
+            <tr><td class="match-num">4.</td><td>Ctrl + Z</td><td class="match-ans">C</td><td class="match-desc">Desfazer a última ação</td></tr>
+            <tr><td class="match-num">5.</td><td>Ctrl + S</td><td class="match-ans">A</td><td class="match-desc">Salvar o documento</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation" style="margin-top:10px;">
+          <strong>Atenção ao F9:</strong> é um atalho menos conhecido, mas muito útil. Selecione o sumário e pressione F9 para que o Word atualize os números de página. Também funciona para campos de data e outros campos automáticos.
+        </div>
+      </div>
+    </div>
+
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">18</div><div class="correct-badge">✓ Gabarito</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Conceitos × Descrições</div>
+        <table class="match-table">
+          <thead><tr><th>#</th><th>Conceito</th><th>Resposta</th><th>Descrição</th></tr></thead>
+          <tbody>
+            <tr><td class="match-num">1.</td><td>Backup</td><td class="match-ans">C</td><td class="match-desc">Cópia de segurança dos arquivos para evitar perda de dados</td></tr>
+            <tr><td class="match-num">2.</td><td>Armazenamento em nuvem</td><td class="match-ans">E</td><td class="match-desc">Serviço que permite guardar e acessar arquivos pela internet</td></tr>
+            <tr><td class="match-num">3.</td><td>Estilo de texto</td><td class="match-ans">D</td><td class="match-desc">Regra de formatação guardada com um nome e aplicável com um clique</td></tr>
+            <tr><td class="match-num">4.</td><td>ABNT</td><td class="match-ans">B</td><td class="match-desc">Associação Brasileira de Normas Técnicas, que define padrões acadêmicos</td></tr>
+            <tr><td class="match-num">5.</td><td>Sumário automático</td><td class="match-ans">A</td><td class="match-desc">Lista gerada pelo Word/Docs com títulos e páginas, a partir de estilos</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== PARTE IV ===== -->
+  <div class="section-header">
+    <div><div class="sec-title">IV · Questões Dissertativas — Critérios de Correção</div><div class="sec-subtitle">0,5 pt por questão</div></div>
+    <div class="sec-pts">Total: 1,0 pt</div>
+  </div>
+
+  <div class="answers-wrapper">
+
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">19</div><div class="correct-badge">✓ Modelo</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">O que é estilo de texto no Word e uma vantagem em documentos longos</div>
+        <div class="essay-rubric">
+          <div class="rubric-title">📊 Critérios de avaliação (0,5 pt)</div>
+          <div class="rubric-point"><span class="rubric-pts">0,25</span><span>Definição correta: conjunto de formatações salvo com um nome, aplicável com um clique</span></div>
+          <div class="rubric-point"><span class="rubric-pts">0,25</span><span>Vantagem válida: alteração global, consistência visual, geração de sumário, economia de tempo, etc.</span></div>
+        </div>
+        <div class="model-answer">
+          <div class="model-answer-title">✏️ Resposta modelo</div>
+          Um <strong>estilo de texto</strong> é um conjunto de configurações de formatação (tipo de fonte, tamanho, cor, espaçamento, alinhamento) salvo com um nome e disponível para aplicar em qualquer trecho do documento com um único clique. Em documentos longos, a principal vantagem é a <strong>consistência e agilidade na alteração global</strong>: se o professor pedir para mudar o estilo de todos os títulos, basta editar o estilo uma vez e todos os títulos do documento são atualizados automaticamente, sem precisar alterar cada um manualmente. Além disso, o uso de estilos é essencial para gerar o sumário automático.
+        </div>
+      </div>
+    </div>
+
+    <div class="answer-item correct">
+      <div class="q-badge"><div class="q-num">20</div><div class="correct-badge">✓ Modelo</div></div>
+      <div class="answer-content">
+        <div class="q-text-sm">Duas diferenças entre armazenamento local e em nuvem, com situações recomendadas</div>
+        <div class="essay-rubric">
+          <div class="rubric-title">📊 Critérios de avaliação (0,5 pt)</div>
+          <div class="rubric-point"><span class="rubric-pts">0,25</span><span>Duas diferenças corretas e coerentes entre local e nuvem</span></div>
+          <div class="rubric-point"><span class="rubric-pts">0,25</span><span>Pelo menos uma situação de uso indicada para cada tipo</span></div>
+        </div>
+        <div class="model-answer">
+          <div class="model-answer-title">✏️ Resposta modelo</div>
+          <strong>Diferença 1 — Acesso:</strong> O armazenamento local só pode ser acessado no dispositivo onde está salvo (ou conectado por cabo/rede local), enquanto o armazenamento em nuvem pode ser acessado de qualquer lugar com internet e em qualquer dispositivo.<br><br>
+          <strong>Diferença 2 — Dependência de conexão:</strong> O armazenamento local funciona sem internet, ideal para trabalhar em locais sem conexão. Já a nuvem depende de internet para sincronizar e acessar os arquivos.<br><br>
+          <strong>Quando usar local:</strong> editar um vídeo grande (arquivo pesado) em um local sem internet ou guardar documentos confidenciais sem risco de acesso remoto.<br><br>
+          <strong>Quando usar nuvem:</strong> trabalhar em grupo em um documento que várias pessoas precisam editar, ou garantir acesso aos arquivos em caso de perda ou dano do computador.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GABARITO RESUMIDO -->
+  <div style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px;margin-top:36px;">
+    <h3 style="font-size:.95em;font-weight:700;color:var(--navy);margin-bottom:16px;">📋 Gabarito Resumido — Múltipla Escolha</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;">
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">01 · B</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">02 · C</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">03 · B</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">04 · C</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">05 · C</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">06 · A</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">07 · D</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">08 · B</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">09 · C</div>
+      <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">10 · C</div>
+    </div>
+    <div style="margin-top:16px;">
+      <h3 style="font-size:.95em;font-weight:700;color:var(--navy);margin-bottom:12px;">Verdadeiro ou Falso</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">11 · V</div>
+        <div style="background:var(--red-light);border:1.5px solid var(--red);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;color:var(--red);">12 · F</div>
+        <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">13 · V</div>
+        <div style="background:var(--red-light);border:1.5px solid var(--red);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;color:var(--red);">14 · F</div>
+        <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;">15 · V</div>
+        <div style="background:var(--red-light);border:1.5px solid var(--red);border-radius:8px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.9em;color:var(--red);">16 · F</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <p>📚 Projetos de Tecnologia de Informação e Comunicação · ETEC Centro Paula Souza · 2026</p>
+    <p style="margin-top:6px;"><a href="avaliacao_bimestre1.html">← Voltar à Avaliação</a> · <a href="index.html">Voltar ao Índice</a></p>
+  </div>
+
+</main>
+</body>
+</html>

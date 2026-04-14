@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação Teórica – 1º Bimestre · Projetos de TIC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0a1628; --blue:#1a56db; --blue-light:#dbeafe;
+  --green:#059669; --red:#dc2626; --amber:#d97706;
+  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+  --gray-400:#94a3b8; --gray-600:#475569; --gray-800:#1e293b;
+  --white:#fff; --radius:10px; --shadow:0 2px 12px rgba(0,0,0,.08);
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;}
+
+/* TOP BAR */
+.topbar{background:var(--navy);color:white;padding:10px 32px;font-size:.8em;display:flex;align-items:center;gap:12px;}
+.topbar a{color:#60a5fa;text-decoration:none;}
+.topbar a:hover{text-decoration:underline;}
+.topbar-sep{color:#475569;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#1a56db 100%);color:white;padding:48px 32px 40px;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:6px 18px;font-size:.8em;font-weight:600;margin-bottom:20px;}
+.hero h1{font-size:clamp(1.6em,4vw,2.6em);font-weight:700;letter-spacing:-.03em;margin-bottom:8px;}
+.hero h1 span{color:#93c5fd;}
+.hero-sub{opacity:.75;font-size:.95em;margin-bottom:32px;}
+.meta-grid{display:flex;justify-content:center;gap:0;flex-wrap:wrap;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;max-width:700px;margin:0 auto;overflow:hidden;}
+.meta-item{padding:16px 24px;text-align:center;border-right:1px solid rgba(255,255,255,.15);flex:1;min-width:120px;}
+.meta-item:last-child{border-right:none;}
+.meta-val{font-size:1.3em;font-weight:700;color:#93c5fd;}
+.meta-label{font-size:.75em;opacity:.7;margin-top:2px;letter-spacing:.04em;text-transform:uppercase;}
+
+/* ANSWER LINK */
+.answer-banner{background:linear-gradient(90deg,#059669,#10b981);color:white;text-align:center;padding:14px 32px;font-size:.9em;font-weight:600;}
+.answer-banner a{color:white;text-decoration:underline;text-underline-offset:3px;}
+
+/* MAIN */
+.main{max-width:900px;margin:40px auto;padding:0 32px 60px;}
+
+/* STUDENT BOX */
+.student-box{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;margin-bottom:32px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;}
+.field-group{display:flex;flex-direction:column;gap:4px;}
+.field-label{font-size:.75em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-600);}
+.field-line{border:none;border-bottom:2px solid var(--gray-200);width:100%;padding:8px 4px;font-family:'IBM Plex Sans',sans-serif;font-size:.95em;color:var(--gray-800);background:transparent;outline:none;transition:border-color .2s;}
+.field-line:focus{border-color:var(--blue);}
+.nota-box{background:var(--gray-100);border:2px solid var(--gray-200);border-radius:8px;padding:16px 24px;text-align:center;min-width:100px;}
+.nota-box .field-label{margin-bottom:8px;}
+.nota-box .nota-value{font-size:2em;font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+
+/* INSTRUCTIONS */
+.instrucoes{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);border-radius:var(--radius);padding:18px 20px;margin-bottom:32px;}
+.instrucoes h3{font-size:.85em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;}
+.instrucoes ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.instrucoes li{font-size:.9em;color:#78350f;padding-left:16px;position:relative;}
+.instrucoes li::before{content:"›";position:absolute;left:0;color:var(--amber);font-weight:700;}
+
+/* SECTION HEADER */
+.section-header{background:var(--navy);color:white;border-radius:var(--radius) var(--radius) 0 0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:36px;}
+.section-header .sec-title{font-size:1em;font-weight:700;}
+.section-header .sec-subtitle{font-size:.82em;opacity:.7;margin-top:2px;}
+.section-header .sec-pts{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:.78em;font-weight:600;white-space:nowrap;}
+
+/* QUESTIONS */
+.questions-wrapper{background:white;border:1px solid var(--gray-200);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:8px 0;}
+.question{padding:20px 24px;border-bottom:1px solid var(--gray-100);}
+.question:last-child{border-bottom:none;}
+.q-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.q-num{background:var(--blue);color:white;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8em;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:.95em;font-weight:500;color:var(--gray-800);line-height:1.5;}
+.q-text strong{color:var(--navy);}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-left:44px;}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;cursor:pointer;transition:all .2s;background:white;}
+.option:hover{border-color:var(--blue);background:var(--blue-light);}
+.option input[type=radio]{display:none;}
+.option.selected{border-color:var(--blue);background:var(--blue-light);}
+.opt-label{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8em;color:var(--blue);flex-shrink:0;margin-top:2px;}
+.opt-text{font-size:.88em;color:var(--gray-800);line-height:1.4;}
+
+/* TRUE/FALSE */
+.tf-table{width:100%;border-collapse:collapse;margin-left:44px;width:calc(100% - 44px);}
+.tf-table th{font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600);padding:8px 12px;background:var(--gray-100);text-align:left;}
+.tf-table th:last-child{text-align:center;width:80px;}
+.tf-table td{padding:14px 12px;border-bottom:1px solid var(--gray-100);font-size:.9em;}
+.tf-table tr:last-child td{border-bottom:none;}
+.tf-choices{display:flex;gap:16px;justify-content:center;}
+.tf-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--gray-200);background:white;font-weight:700;font-size:.85em;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.tf-btn.v:hover,.tf-btn.v.active{border-color:var(--green);background:var(--green);color:white;}
+.tf-btn.f:hover,.tf-btn.f.active{border-color:var(--red);background:var(--red);color:white;}
+
+/* MATCH */
+.match-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-left:44px;width:calc(100% - 44px);}
+.match-col h4{font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600);margin-bottom:10px;}
+.match-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:8px;margin-bottom:8px;font-size:.88em;}
+.match-key{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85em;color:var(--blue);}
+.match-input{border:none;border-bottom:2px solid var(--gray-200);width:36px;text-align:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1em;padding:2px;outline:none;background:transparent;}
+.match-input:focus{border-color:var(--blue);}
+.match-desc{font-size:.88em;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:8px;margin-bottom:8px;line-height:1.4;}
+.match-desc-key{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--navy);margin-right:6px;}
+
+/* ESSAY */
+.essay-area{margin-left:44px;width:calc(100% - 44px);}
+.essay-area textarea{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:12px;font-family:'IBM Plex Sans',sans-serif;font-size:.9em;color:var(--gray-800);resize:vertical;outline:none;transition:border-color .2s;min-height:100px;}
+.essay-area textarea:focus{border-color:var(--blue);}
+
+/* FOOTER */
+.page-footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--gray-200);color:var(--gray-600);font-size:.82em;}
+.page-footer a{color:var(--blue);}
+
+@media(max-width:680px){
+  .main{padding:0 16px 40px;}
+  .options-grid{grid-template-columns:1fr;}
+  .match-wrapper{grid-template-columns:1fr;}
+  .meta-grid{flex-direction:column;}
+  .meta-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.15);}
+  .meta-item:last-child{border-bottom:none;}
+  .row2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html">← Índice</a>
+  <span class="topbar-sep">›</span>
+  <span>1º Bimestre</span>
+  <span class="topbar-sep">›</span>
+  <span>Avaliação Teórica</span>
+</div>
+
+<header class="hero">
+  <div class="hero-tag">📋 ETEC · Centro Paula Souza · 2026</div>
+  <h1>Avaliação Teórica — <span>1º Bimestre</span></h1>
+  <p class="hero-sub">Projetos de TIC · 1ª Série · Gerenciamento de Arquivos &amp; Edição de Textos</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-val">10,0</div><div class="meta-label">Pontos</div></div>
+    <div class="meta-item"><div class="meta-val">50 min</div><div class="meta-label">Duração</div></div>
+    <div class="meta-item"><div class="meta-val">20</div><div class="meta-label">Questões</div></div>
+    <div class="meta-item"><div class="meta-val">Não</div><div class="meta-label">Consulta</div></div>
+  </div>
+</header>
+
+<div class="answer-banner">
+  Quer conferir o gabarito? <a href="correcao_bimestre1.html">Acesse a Correção Comentada →</a>
+</div>
+
+<main class="main">
+
+  <!-- ALUNO -->
+  <div class="student-box">
+    <div>
+      <div class="field-group">
+        <span class="field-label">Nome Completo</span>
+        <input type="text" class="field-line" placeholder="Digite seu nome completo">
+      </div>
+      <div class="row2">
+        <div class="field-group">
+          <span class="field-label">Turma</span>
+          <input type="text" class="field-line" placeholder="Ex: 1A">
+        </div>
+        <div class="field-group">
+          <span class="field-label">Data</span>
+          <input type="date" class="field-line">
+        </div>
+      </div>
+    </div>
+    <div class="nota-box">
+      <div class="field-label">Nota</div>
+      <div class="nota-value">___</div>
+    </div>
+  </div>
+
+  <!-- INSTRUÇÕES -->
+  <div class="instrucoes">
+    <h3>⚠ Instruções</h3>
+    <ul>
+      <li>Leia cada questão com atenção antes de responder.</li>
+      <li><strong>Múltipla escolha:</strong> marque <strong>uma alternativa</strong>.</li>
+      <li><strong>Verdadeiro/Falso:</strong> circule V ou F.</li>
+      <li><strong>Correspondência:</strong> escreva a letra da coluna B ao lado do número.</li>
+      <li><strong>Dissertativas:</strong> responda de forma clara e objetiva.</li>
+      <li>Não é permitido o uso de celular durante a avaliação.</li>
+    </ul>
+  </div>
+
+  <!-- ===== PARTE I — MÚLTIPLA ESCOLHA ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">I · Múltipla Escolha</div>
+      <div class="sec-subtitle">Marque a alternativa correta</div>
+    </div>
+    <div class="sec-pts">10 questões · 0,4 pt cada = 4,0 pts</div>
+  </div>
+
+  <div class="questions-wrapper">
+
+    <!-- Q1 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">01</div>
+        <div class="q-text">Ao organizar arquivos em um computador, qual das seguintes práticas de nomenclatura é considerada a mais adequada para uso profissional?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q1" value="A"><span class="opt-label">A)</span><span class="opt-text">relatorio FINAL versao3 ok.docx</span></label>
+        <label class="option"><input type="radio" name="q1" value="B"><span class="opt-label">B)</span><span class="opt-text">relatorio_vendas_2026-04.docx</span></label>
+        <label class="option"><input type="radio" name="q1" value="C"><span class="opt-label">C)</span><span class="opt-text">Relatório de Vendas Abril 2026.docx</span></label>
+        <label class="option"><input type="radio" name="q1" value="D"><span class="opt-label">D)</span><span class="opt-text">REL–Vendas_abril.docx</span></label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">02</div>
+        <div class="q-text">Qual das afirmações abaixo descreve <strong>corretamente</strong> uma vantagem do Google Docs em relação ao Microsoft Word instalado?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q2" value="A"><span class="opt-label">A)</span><span class="opt-text">Possui mais recursos avançados de formatação e macros</span></label>
+        <label class="option"><input type="radio" name="q2" value="B"><span class="opt-label">B)</span><span class="opt-text">Funciona sem necessidade de conexão à internet</span></label>
+        <label class="option"><input type="radio" name="q2" value="C"><span class="opt-label">C)</span><span class="opt-text">Permite colaboração em tempo real com vários editores simultâneos</span></label>
+        <label class="option"><input type="radio" name="q2" value="D"><span class="opt-label">D)</span><span class="opt-text">Gera arquivos .docx aceitos em repartições públicas sem conversão</span></label>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">03</div>
+        <div class="q-text">Para criar um <strong>Sumário Automático</strong> funcional no Microsoft Word, qual é o requisito essencial antes de inserir o sumário?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q3" value="A"><span class="opt-label">A)</span><span class="opt-text">O documento deve ter pelo menos 10 páginas</span></label>
+        <label class="option"><input type="radio" name="q3" value="B"><span class="opt-label">B)</span><span class="opt-text">Os títulos devem estar formatados com os estilos Título 1, Título 2, etc.</span></label>
+        <label class="option"><input type="radio" name="q3" value="C"><span class="opt-label">C)</span><span class="opt-text">É necessário numerar as páginas manualmente antes</span></label>
+        <label class="option"><input type="radio" name="q3" value="D"><span class="opt-label">D)</span><span class="opt-text">O documento precisa estar salvo no OneDrive</span></label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">04</div>
+        <div class="q-text">Segundo as normas ABNT para artigos acadêmicos (NBR 6022), qual é o espaçamento entre linhas correto para o corpo do texto?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q4" value="A"><span class="opt-label">A)</span><span class="opt-text">1,0 (simples) em todo o documento</span></label>
+        <label class="option"><input type="radio" name="q4" value="B"><span class="opt-label">B)</span><span class="opt-text">2,0 em todo o documento</span></label>
+        <label class="option"><input type="radio" name="q4" value="C"><span class="opt-label">C)</span><span class="opt-text">1,5 para o corpo do texto; 1,0 para resumo e referências</span></label>
+        <label class="option"><input type="radio" name="q4" value="D"><span class="opt-label">D)</span><span class="opt-text">1,5 em todo o documento sem exceções</span></label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">05</div>
+        <div class="q-text">Qual é o atalho de teclado correto para a função <strong>Localizar e Substituir</strong> tanto no Word quanto no Google Docs?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q5" value="A"><span class="opt-label">A)</span><span class="opt-text">Ctrl + F</span></label>
+        <label class="option"><input type="radio" name="q5" value="B"><span class="opt-label">B)</span><span class="opt-text">Ctrl + S</span></label>
+        <label class="option"><input type="radio" name="q5" value="C"><span class="opt-label">C)</span><span class="opt-text">Ctrl + H</span></label>
+        <label class="option"><input type="radio" name="q5" value="D"><span class="opt-label">D)</span><span class="opt-text">Ctrl + R</span></label>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">06</div>
+        <div class="q-text">Em relação ao armazenamento em nuvem, qual alternativa apresenta <strong>apenas</strong> exemplos de serviços de armazenamento em nuvem?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q6" value="A"><span class="opt-label">A)</span><span class="opt-text">Google Drive, Dropbox, OneDrive</span></label>
+        <label class="option"><input type="radio" name="q6" value="B"><span class="opt-label">B)</span><span class="opt-text">Google Drive, Notepad, Word Online</span></label>
+        <label class="option"><input type="radio" name="q6" value="C"><span class="opt-label">C)</span><span class="opt-text">iCloud, Adobe Acrobat, Dropbox</span></label>
+        <label class="option"><input type="radio" name="q6" value="D"><span class="opt-label">D)</span><span class="opt-text">OneDrive, Winrar, Mega</span></label>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">07</div>
+        <div class="q-text">O recuo da primeira linha de um parágrafo, segundo as normas ABNT, deve ser de:</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q7" value="A"><span class="opt-label">A)</span><span class="opt-text">2,5 cm</span></label>
+        <label class="option"><input type="radio" name="q7" value="B"><span class="opt-label">B)</span><span class="opt-text">0,5 cm</span></label>
+        <label class="option"><input type="radio" name="q7" value="C"><span class="opt-label">C)</span><span class="opt-text">1,0 cm</span></label>
+        <label class="option"><input type="radio" name="q7" value="D"><span class="opt-label">D)</span><span class="opt-text">1,25 cm</span></label>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">08</div>
+        <div class="q-text">Uma <strong>boa prática de segurança digital</strong> ao criar senhas é:</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q8" value="A"><span class="opt-label">A)</span><span class="opt-text">Usar o mesmo nome de usuário em todas as contas para facilitar o acesso</span></label>
+        <label class="option"><input type="radio" name="q8" value="B"><span class="opt-label">B)</span><span class="opt-text">Combinar letras maiúsculas, minúsculas, números e caracteres especiais</span></label>
+        <label class="option"><input type="radio" name="q8" value="C"><span class="opt-label">C)</span><span class="opt-text">Anotar a senha em um post-it próximo ao computador</span></label>
+        <label class="option"><input type="radio" name="q8" value="D"><span class="opt-label">D)</span><span class="opt-text">Usar datas de aniversário por serem fáceis de lembrar</span></label>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">09</div>
+        <div class="q-text">Qual aba do Microsoft Word contém a opção para inserir o Sumário Automático?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q9" value="A"><span class="opt-label">A)</span><span class="opt-text">Aba Inserir</span></label>
+        <label class="option"><input type="radio" name="q9" value="B"><span class="opt-label">B)</span><span class="opt-text">Aba Início</span></label>
+        <label class="option"><input type="radio" name="q9" value="C"><span class="opt-label">C)</span><span class="opt-text">Aba Referências</span></label>
+        <label class="option"><input type="radio" name="q9" value="D"><span class="opt-label">D)</span><span class="opt-text">Aba Layout da Página</span></label>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">10</div>
+        <div class="q-text">Ao nomear arquivos digitais, quais caracteres devem ser <strong>evitados</strong> pois podem causar problemas de compatibilidade entre sistemas operacionais?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q10" value="A"><span class="opt-label">A)</span><span class="opt-text">Letras minúsculas e números</span></label>
+        <label class="option"><input type="radio" name="q10" value="B"><span class="opt-label">B)</span><span class="opt-text">Underline (_) e hífen (-)</span></label>
+        <label class="option"><input type="radio" name="q10" value="C"><span class="opt-label">C)</span><span class="opt-text">Espaços, acentos e caracteres especiais como / \ : * ? " &lt; &gt; |</span></label>
+        <label class="option"><input type="radio" name="q10" value="D"><span class="opt-label">D)</span><span class="opt-text">Datas no formato AAAA-MM</span></label>
+      </div>
+    </div>
+
+  </div><!-- /questions-wrapper -->
+
+  <!-- ===== PARTE II — VERDADEIRO OU FALSO ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">II · Verdadeiro ou Falso</div>
+      <div class="sec-subtitle">Circule V ou F para cada afirmação</div>
+    </div>
+    <div class="sec-pts">6 afirmações · 0,5 pt cada = 3,0 pts</div>
+  </div>
+
+  <div class="questions-wrapper">
+    <div class="question">
+      <table class="tf-table">
+        <thead>
+          <tr><th>#</th><th>Afirmação</th><th>V / F</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>11</strong></td>
+            <td>O Google Docs salva automaticamente o documento na nuvem a cada alteração, sem necessidade de pressionar Ctrl+S.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf11')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf11')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>12</strong></td>
+            <td>Para a ABNT, a margem superior e a margem esquerda de um artigo acadêmico devem ser de 2 cm cada.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf12')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf12')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>13</strong></td>
+            <td>Um estilo de texto no Word é uma regra de formatação guardada com um nome, que pode ser aplicada com um único clique e alterada globalmente em todo o documento.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf13')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf13')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>14</strong></td>
+            <td>Realizar backup em apenas um local é uma prática suficiente e segura para proteger arquivos importantes.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf14')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf14')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>15</strong></td>
+            <td>O Microsoft Word é o padrão em empresas e repartições públicas, sendo amplamente aceito o formato .docx.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf15')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf15')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>16</strong></td>
+            <td>É possível criar um Sumário Automático sem usar os estilos de Título (Título 1, Título 2…) — basta digitar os títulos com fonte em negrito e tamanho maior.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf16')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf16')">F</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PARTE III — CORRESPONDÊNCIA ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">III · Correspondência</div>
+      <div class="sec-subtitle">Relacione a Coluna A com a Coluna B</div>
+    </div>
+    <div class="sec-pts">2 questões · 1,0 pt cada = 2,0 pts</div>
+  </div>
+
+  <div class="questions-wrapper">
+
+    <!-- Q17 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">17</div>
+        <div class="q-text">Relacione cada atalho de teclado com sua função correspondente. Escreva a letra da Coluna B no espaço ao lado de cada número da Coluna A.</div>
+      </div>
+      <div class="match-wrapper">
+        <div>
+          <h4>Coluna A — Atalho</h4>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">1.</span> Ctrl + N</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">2.</span> Ctrl + H</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">3.</span> F9</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">4.</span> Ctrl + Z</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">5.</span> Ctrl + S</div>
+        </div>
+        <div>
+          <h4>Coluna B — Função</h4>
+          <div class="match-desc"><span class="match-desc-key">A.</span> Salvar o documento</div>
+          <div class="match-desc"><span class="match-desc-key">B.</span> Novo documento em branco</div>
+          <div class="match-desc"><span class="match-desc-key">C.</span> Desfazer a última ação</div>
+          <div class="match-desc"><span class="match-desc-key">D.</span> Localizar e substituir</div>
+          <div class="match-desc"><span class="match-desc-key">E.</span> Atualizar o sumário automático</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">18</div>
+        <div class="q-text">Relacione cada conceito da Coluna A com sua descrição na Coluna B.</div>
+      </div>
+      <div class="match-wrapper">
+        <div>
+          <h4>Coluna A — Conceito</h4>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">1.</span> Backup</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">2.</span> Armazenamento em nuvem</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">3.</span> Estilo de texto</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">4.</span> ABNT</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">5.</span> Sumário automático</div>
+        </div>
+        <div>
+          <h4>Coluna B — Descrição</h4>
+          <div class="match-desc"><span class="match-desc-key">A.</span> Lista gerada pelo Word/Docs com títulos e páginas, criada a partir de estilos aplicados</div>
+          <div class="match-desc"><span class="match-desc-key">B.</span> Associação Brasileira de Normas Técnicas, que define padrões para documentos acadêmicos</div>
+          <div class="match-desc"><span class="match-desc-key">C.</span> Cópia de segurança dos arquivos para evitar perda de dados</div>
+          <div class="match-desc"><span class="match-desc-key">D.</span> Regra de formatação guardada com um nome e aplicável com um clique</div>
+          <div class="match-desc"><span class="match-desc-key">E.</span> Serviço que permite guardar e acessar arquivos pela internet de qualquer dispositivo</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== PARTE IV — DISSERTATIVAS ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">IV · Questões Dissertativas</div>
+      <div class="sec-subtitle">Responda de forma clara e objetiva</div>
+    </div>
+    <div class="sec-pts">2 questões · 0,5 pt cada = 1,0 pt</div>
+  </div>
+
+  <div class="questions-wrapper">
+
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">19</div>
+        <div class="q-text">Explique com suas próprias palavras o que é um <strong>estilo de texto</strong> no Microsoft Word e cite pelo menos uma vantagem de utilizá-lo em documentos longos.</div>
+      </div>
+      <div class="essay-area">
+        <textarea placeholder="Escreva sua resposta aqui..."></textarea>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">20</div>
+        <div class="q-text">Cite e explique <strong>duas diferenças</strong> entre armazenamento local e armazenamento em nuvem, indicando uma situação em que cada um seria mais recomendado.</div>
+      </div>
+      <div class="essay-area">
+        <textarea placeholder="Escreva sua resposta aqui..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <p>📚 Projetos de Tecnologia de Informação e Comunicação · ETEC Centro Paula Souza · 2026</p>
+    <p style="margin-top:6px;"><a href="correcao_bimestre1.html">Ver Gabarito e Correção Comentada</a> · <a href="index.html">Voltar ao Índice</a></p>
+  </div>
+
+</main>
+
+<script>
+// Opções de múltipla escolha
+document.querySelectorAll('.option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const name = opt.querySelector('input').name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
+      i.closest('.option').classList.remove('selected');
+    });
+    opt.querySelector('input').checked = true;
+    opt.classList.add('selected');
+  });
+});
+
+// Verdadeiro/Falso
+function toggleTF(btn, type, group) {
+  const row = btn.closest('tr');
+  row.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
