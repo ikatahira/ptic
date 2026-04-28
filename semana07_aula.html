@@ -3,598 +3,1067 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semana 07 – Planilhas Parte 1 | TIC 2026</title>
+<title>Semana 07 — Nasce a TechMercado | TIC 2026</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#0e0e14;--paper:#f0f5ee;--cream:#f7faf5;
-  --gold:#2d8a4e;--gold-light:#6fcf97;--gold-pale:#d4f0dc;
-  --blue:#1d4ed8;--blue-light:#dbeafe;
-  --green:#15803d;--green-light:#dcfce7;
-  --red:#b91c1c;--red-light:#fee2e2;
-  --gray:#6b7280;--border:#d4e8d4;
-  --shadow:0 2px 12px rgba(14,14,20,.08);--shadow-lg:0 8px 32px rgba(14,14,20,.14);
-  --r:10px;
+  --bg:#0d0f14;
+  --surface:#161920;
+  --surface2:#1e2230;
+  --border:#2a2f3e;
+  --acc:#f59e0b;
+  --acc2:#10b981;
+  --acc3:#6366f1;
+  --acc4:#ec4899;
+  --text:#e8eaf0;
+  --muted:#7a8099;
+  --white:#ffffff;
+  --r:14px;
+  --r-sm:8px;
 }
-body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
-.header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--gold-light)}
-.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.week-pill{background:#2d8a4e;color:#fff;border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700;white-space:nowrap}
-.header-title{flex:1}
-.header-title h1{font-size:clamp(1em,2.5vw,1.4em);font-weight:800}
-.header-title p{font-size:.82em;opacity:.6;margin-top:2px}
-.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:8px 16px}
-.xp-label{font-size:.78em;font-weight:700;color:var(--gold-light)}
-.xp-track{width:100px;height:6px;background:rgba(255,255,255,.15);border-radius:50px;overflow:hidden}
-.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,#2d8a4e,#6fcf97);border-radius:50px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
-.xp-num{font-size:.78em;font-weight:700;color:var(--gold-light);font-family:'DM Mono',monospace}
+
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200}
+.header-inner{max-width:1100px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{font-size:1.3em;font-weight:900;letter-spacing:-.03em}
+.logo span{color:var(--acc)}
+.week-pill{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--acc);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:700}
+.header-spacer{flex:1}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50px;padding:8px 16px}
+.xp-label{font-size:.78em;font-weight:700;color:var(--acc)}
+.xp-track{width:120px;height:6px;background:rgba(255,255,255,.1);border-radius:50px;overflow:hidden}
+.xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--acc),#f97316);border-radius:50px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+.xp-num{font-size:.8em;font-weight:700;color:var(--acc);font-family:'Fira Code',monospace;white-space:nowrap}
+
+/* NAV */
 .container{max-width:1100px;margin:0 auto;padding:28px}
-.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
-.nav-btn{padding:9px 18px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
-.nav-btn-outline{background:transparent;color:var(--ink);border:2px solid var(--border)}
-.nav-btn-outline:hover{border-color:var(--ink)}
-.nav-btn-gold{background:#2d8a4e;color:#fff}
-.nav-btn-dark{background:var(--ink);color:#fff}
+.nav-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:28px}
+.nav-btn{padding:9px 20px;border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-weight:700;font-size:.85em;text-decoration:none;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.nb-outline{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.nb-outline:hover{color:var(--text);border-color:var(--text)}
+.nb-acc{background:var(--acc);color:#000}
+.nb-dark{background:var(--white);color:#000}
 .nav-spacer{flex:1}
-.quest-banner{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden}
-.quest-eyebrow{font-size:.78em;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-.quest-banner h2{font-size:clamp(1.4em,3vw,2em);font-weight:800;margin-bottom:10px}
-.quest-banner h2 span{color:var(--gold-light)}
-.quest-banner p{font-size:.92em;opacity:.75;max-width:700px;margin-bottom:20px}
-.quest-rewards{display:flex;flex-wrap:wrap;gap:8px}
-.reward-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600}
-.badges-section{margin-bottom:24px}
-.section-label{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
-.badges-row{display:flex;gap:12px;flex-wrap:wrap}
-.badge-item{background:var(--cream);border:2px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;flex:1;min-width:120px;max-width:160px;transition:all .3s}
-.badge-item.locked{opacity:.45;filter:grayscale(.8)}
-.badge-item.unlocked{border-color:#2d8a4e;background:var(--gold-pale);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
-@keyframes popIn{0%{transform:scale(.8)}100%{transform:scale(1)}}
-.badge-icon{font-size:1.8em;margin-bottom:6px}
-.badge-name{font-size:.8em;font-weight:700}
-.badge-xp{font-size:.72em;font-weight:600;color:#2d8a4e;font-family:'DM Mono',monospace}
-.card{background:#fff;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
-.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--paper)}
-.card-icon{font-size:1.5em}
-.card-title{font-size:1.15em;font-weight:800}
-.card-body{display:flex;flex-direction:column;gap:16px}
-.info-box{background:var(--cream);border-radius:var(--r);padding:16px 20px;border-left:4px solid #2d8a4e;display:flex;gap:12px}
-.info-icon{font-size:1.3em}
-.info-text{font-size:.9em;line-height:1.6}
-.info-text strong{color:#1a6635}
-.step{display:flex;gap:16px;padding:16px;background:var(--cream);border-radius:var(--r);border-left:4px solid #2d8a4e}
-.step-num{width:32px;height:32px;background:#2d8a4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0}
-.step-body{flex:1}
-.step-title{font-weight:800;margin-bottom:4px;font-size:.95em}
-.step-desc{font-size:.88em;color:var(--gray);line-height:1.6;margin-bottom:8px}
-.step-ok{font-size:.82em;color:var(--green);background:var(--green-light);border-radius:6px;padding:6px 10px;margin-top:8px;font-weight:600}
-.step-tip{font-size:.82em;color:#1e40af;background:var(--blue-light);border-radius:6px;padding:6px 10px;margin-top:8px}
-.step-warn{font-size:.82em;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+
+/* STORY BANNER */
+.story-banner{background:linear-gradient(135deg,#1a1200 0%,#251800 40%,#0d1a10 100%);border:1px solid rgba(245,158,11,.2);border-radius:var(--r);padding:40px;margin-bottom:28px;position:relative;overflow:hidden}
+.story-banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.story-eyebrow{font-size:.78em;font-weight:700;color:var(--acc);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.story-eyebrow::before{content:'';display:block;width:20px;height:2px;background:var(--acc)}
+.story-title{font-size:clamp(1.6em,4vw,2.6em);font-weight:900;line-height:1.1;margin-bottom:14px}
+.story-title em{color:var(--acc);font-style:normal}
+.story-desc{color:var(--muted);max-width:680px;line-height:1.75;margin-bottom:24px}
+.story-chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;font-weight:600}
+.chip-acc{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--acc)}
+.chip-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:var(--acc2)}
+
+/* PROGRESS TRACKER */
+.progress-track{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:28px}
+.pt-title{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.pt-steps{display:flex;gap:0;position:relative}
+.pt-steps::before{content:'';position:absolute;top:16px;left:16px;right:16px;height:2px;background:var(--border)}
+.pt-fill-line{position:absolute;top:16px;left:16px;height:2px;background:var(--acc);transition:width 1s ease}
+.pt-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1}
+.pt-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:700;transition:all .3s;cursor:pointer}
+.pt-dot.active{border-color:var(--acc);background:var(--acc);color:#000}
+.pt-dot.done{border-color:var(--acc2);background:var(--acc2);color:#fff}
+.pt-label{font-size:.72em;font-weight:600;color:var(--muted);text-align:center;max-width:80px}
+.pt-label.active{color:var(--acc)}
+.pt-label.done{color:var(--acc2)}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:24px;transition:border-color .2s}
+.card:hover{border-color:rgba(245,158,11,.2)}
+.card-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.card-icon-wrap{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2em;flex-shrink:0}
+.icon-amber{background:rgba(245,158,11,.15)}
+.icon-green{background:rgba(16,185,129,.15)}
+.icon-indigo{background:rgba(99,102,241,.15)}
+.icon-pink{background:rgba(236,72,153,.15)}
+.card-title{font-size:1.15em;font-weight:800;line-height:1.2}
+.card-subtitle{font-size:.82em;color:var(--muted);margin-top:3px}
+
+/* STORY SCENE */
+.scene-box{background:linear-gradient(135deg,#1a1200,#0d1505);border:1px solid rgba(245,158,11,.2);border-radius:var(--r);padding:24px;margin-bottom:20px;display:flex;gap:20px;align-items:flex-start}
+.scene-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6em;flex-shrink:0;background:rgba(245,158,11,.1);border:2px solid rgba(245,158,11,.3)}
+.scene-bubble{flex:1}
+.scene-name{font-size:.78em;font-weight:700;color:var(--acc);margin-bottom:6px;letter-spacing:.04em}
+.scene-text{font-size:.92em;color:var(--text);line-height:1.7}
+.scene-text strong{color:var(--acc)}
+
+/* INFO BOXES */
+.info-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.info-box{background:var(--surface2);border-radius:var(--r-sm);padding:16px;border-left:3px solid var(--acc);display:flex;gap:12px}
+.info-box.green{border-left-color:var(--acc2)}
+.info-box.indigo{border-left-color:var(--acc3)}
+.info-box.pink{border-left-color:var(--acc4)}
+.info-ico{font-size:1.3em;flex-shrink:0}
+.info-body{flex:1}
+.info-title{font-size:.85em;font-weight:700;margin-bottom:4px}
+.info-desc{font-size:.8em;color:var(--muted);line-height:1.55}
+
 /* SPREADSHEET MOCK */
-.sheet-mock{background:#fff;border:2px solid #34a853;border-radius:var(--r);overflow:hidden;max-width:560px}
-.sheet-topbar{background:#0f9d58;padding:6px 12px;display:flex;align-items:center;gap:8px}
-.sheet-icon{font-size:1.1em}
-.sheet-filename{font-size:.85em;font-weight:700;color:#fff}
-.sheet-toolbar{background:#f0faf4;padding:6px 12px;border-bottom:1px solid #c5e8ce;display:flex;gap:6px;flex-wrap:wrap}
-.sheet-tool-btn{background:#fff;border:1px solid #c5e8ce;border-radius:4px;padding:3px 8px;font-size:.8em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600}
-.sheet-table{width:100%;border-collapse:collapse;font-size:.82em;font-family:'DM Mono',monospace}
-.sheet-table th{background:#e8f5e9;padding:5px 10px;text-align:center;border:1px solid #c5e8ce;font-weight:700;color:#2d8a4e}
-.sheet-table td{padding:5px 10px;border:1px solid #e0e0e0;text-align:center}
-.sheet-table td.formula{color:#0f9d58;font-weight:700}
-.sheet-table td.header-row{background:#f5f5f5;font-weight:700;text-align:left;color:#333}
-.sheet-table td.selected{background:#e3f2fd;border:2px solid #1976d2}
-/* EXCEL MOCK */
-.excel-mock{background:#fff;border:2px solid #217346;border-radius:var(--r);overflow:hidden;max-width:560px}
-.excel-topbar{background:#217346;padding:6px 12px;display:flex;align-items:center;gap:8px}
-.excel-filename{font-size:.85em;font-weight:700;color:#fff}
-.excel-ribbon{background:#e8f5e9;padding:4px 12px;border-bottom:1px solid #c5e8ce;display:flex;gap:6px;flex-wrap:wrap}
-.excel-rib-btn{background:#fff;border:1px solid #c5e8ce;border-radius:4px;padding:3px 8px;font-size:.78em;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600}
-.excel-rib-btn.active{background:#217346;color:#fff;border-color:#217346}
-/* FORMULA BAR */
-.formula-bar{background:#f5f5f5;border-bottom:1px solid #e0e0e0;padding:4px 12px;display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:.8em}
-.cell-ref{background:#fff;border:1px solid #dadce0;border-radius:3px;padding:2px 8px;min-width:50px;text-align:center;color:#333;font-weight:700}
-.formula-content{flex:1;color:#0f9d58;font-weight:700}
-/* TYPING */
-.typing-box{background:var(--cream);border-radius:var(--r);padding:20px;border:2px solid var(--border);transition:border-color .3s}
-.typing-box.correct{border-color:var(--green);background:var(--green-light)}
-.typing-box.wrong{border-color:var(--red);animation:shake .4s}
+.sheet-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0}
+.sheet-topbar{background:#1e7e3e;padding:8px 14px;display:flex;align-items:center;gap:8px}
+.sheet-topbar.excel{background:#217346}
+.sheet-topbar-icon{font-size:1em}
+.sheet-filename{font-size:.82em;font-weight:700;color:#fff;flex:1}
+.sheet-dots{display:flex;gap:5px}
+.sheet-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3)}
+.sheet-tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 14px;display:flex;gap:0}
+.sheet-tab{padding:7px 14px;font-size:.78em;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.sheet-tab.active{color:var(--acc2);border-bottom-color:var(--acc2)}
+.formula-bar{background:var(--surface2);padding:6px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);font-family:'Fira Code',monospace;font-size:.8em}
+.cell-ref{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 10px;color:var(--acc);font-weight:700;min-width:45px;text-align:center}
+.formula-eq{color:var(--muted)}
+.formula-content{color:var(--acc2);font-weight:600;flex:1}
+.sheet-tbl{width:100%;border-collapse:collapse;font-size:.8em;font-family:'Fira Code',monospace}
+.sheet-tbl .col-header{background:rgba(255,255,255,.04);padding:5px 10px;text-align:center;border:1px solid var(--border);font-weight:700;color:var(--muted);font-size:.75em;font-family:'Outfit',monospace}
+.sheet-tbl td{padding:5px 10px;border:1px solid rgba(255,255,255,.05);color:var(--text)}
+.sheet-tbl td.row-num{background:rgba(255,255,255,.04);text-align:center;color:var(--muted);font-size:.72em;font-weight:700;border:1px solid var(--border)}
+.sheet-tbl td.hd{background:rgba(255,255,255,.06);font-weight:700;color:var(--text);font-family:'Outfit',sans-serif}
+.sheet-tbl td.formula{color:var(--acc2);font-weight:700}
+.sheet-tbl td.formula2{color:var(--acc3);font-weight:700}
+.sheet-tbl td.selected{background:rgba(99,102,241,.15);border:1.5px solid var(--acc3)}
+.sheet-tbl td.highlight{background:rgba(245,158,11,.08);color:var(--acc);font-weight:700}
+.sheet-tbl td.green-cell{background:rgba(16,185,129,.1);color:var(--acc2);font-weight:700}
+.sheet-tbl td.red-cell{background:rgba(239,68,68,.1);color:#f87171;font-weight:700}
+
+/* STEPS */
+.steps-timeline{display:flex;flex-direction:column;gap:0}
+.step-item{display:flex;gap:0;position:relative}
+.step-item:not(:last-child)::after{content:'';position:absolute;left:20px;top:44px;bottom:0;width:2px;background:var(--border)}
+.step-dot{width:40px;height:40px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85em;flex-shrink:0;z-index:1;transition:all .3s;color:var(--muted)}
+.step-item.active .step-dot{background:var(--acc);border-color:var(--acc);color:#000}
+.step-item.done .step-dot{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.step-body{flex:1;padding:8px 0 24px 20px}
+.step-title{font-size:.95em;font-weight:800;margin-bottom:6px}
+.step-desc{font-size:.87em;color:var(--muted);line-height:1.6}
+.step-code{font-family:'Fira Code',monospace;font-size:.85em;background:rgba(245,158,11,.1);color:var(--acc);padding:3px 10px;border-radius:5px;display:inline-block;border:1px solid rgba(245,158,11,.2)}
+.step-tip{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:var(--r-sm);padding:8px 12px;margin-top:10px;font-size:.82em;color:#a5b4fc}
+.step-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--r-sm);padding:8px 12px;margin-top:10px;font-size:.82em;color:var(--acc)}
+.step-ok{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:var(--r-sm);padding:8px 12px;margin-top:10px;font-size:.82em;color:var(--acc2)}
+
+/* FORMULA GRID */
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:20px}
+.formula-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:18px;transition:border-color .2s;cursor:default}
+.formula-card:hover{border-color:rgba(16,185,129,.4)}
+.f-name{font-family:'Fira Code',monospace;font-size:1em;font-weight:600;color:var(--acc2);margin-bottom:8px}
+.f-desc{font-size:.82em;color:var(--muted);line-height:1.55;margin-bottom:10px}
+.f-ex{font-family:'Fira Code',monospace;font-size:.8em;background:var(--bg);color:var(--acc);padding:5px 10px;border-radius:5px;display:block;border:1px solid var(--border)}
+
+/* INTERACTIVE TYPING */
+.typing-box{background:var(--surface2);border:2px solid var(--border);border-radius:var(--r);padding:22px;transition:border-color .3s}
+.typing-box.correct{border-color:var(--acc2)}
+.typing-box.wrong{border-color:#ef4444;animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.typing-label{font-size:.82em;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
-.typing-target{font-family:'DM Mono',monospace;font-size:1.05em;font-weight:600;color:#0f9d58;background:#e8f5e9;padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:10px}
-.typing-input{width:100%;border:2px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.95em;background:#fff;outline:none;transition:border-color .2s}
-.typing-input:focus{border-color:#2d8a4e}
-.typing-feedback{font-size:.83em;font-weight:600;margin-top:8px;min-height:20px}
-.typing-xp-chip{display:inline-flex;align-items:center;gap:4px;background:var(--gold-pale);color:#2d8a4e;border:1px solid #a8d5b5;border-radius:50px;padding:3px 10px;font-size:.8em;font-weight:700;margin-bottom:8px}
+.ty-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ty-badge{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--acc);border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:700}
+.ty-question{font-size:.92em;font-weight:600;color:var(--text);margin-bottom:10px}
+.ty-target{font-family:'Fira Code',monospace;font-size:1em;background:rgba(16,185,129,.1);color:var(--acc2);padding:8px 14px;border-radius:6px;display:inline-block;border:1px solid rgba(16,185,129,.2);margin-bottom:12px}
+.ty-input{width:100%;background:var(--bg);border:2px solid var(--border);border-radius:var(--r-sm);padding:11px 16px;font-family:'Fira Code',monospace;font-size:.95em;color:var(--text);outline:none;transition:border-color .2s}
+.ty-input:focus{border-color:var(--acc)}
+.ty-feedback{font-size:.84em;font-weight:600;margin-top:10px;min-height:20px}
+.ty-feedback.ok{color:var(--acc2)}
+.ty-feedback.bad{color:#f87171}
+
 /* QUIZ */
-.quiz-q{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
-.quiz-question{font-weight:700;font-size:.95em;margin-bottom:14px}
-.quiz-options{display:flex;flex-direction:column;gap:8px}
-.quiz-option{padding:11px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9em;transition:all .2s;background:#fff;text-align:left;font-family:'Syne',sans-serif;font-weight:600}
-.quiz-option:hover{border-color:#2d8a4e;background:var(--gold-pale)}
-.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
-.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
-.quiz-feedback{font-size:.85em;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
-.quiz-feedback.show{display:block}
-.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
-.quiz-feedback.bad{background:var(--red-light);color:var(--red)}
-/* DRAG */
-.drag-section{background:var(--cream);border-radius:var(--r);padding:20px;border:1px solid var(--border)}
-.drag-tokens{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;background:#fff;border-radius:8px;border:2px dashed var(--border);margin-bottom:16px}
-.drag-token{background:var(--ink);color:#fff;border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;font-family:'DM Mono',monospace}
-.drag-token.used{background:var(--gray);opacity:.5;cursor:default}
-.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.drag-zone{background:#fff;border:2px dashed var(--border);border-radius:8px;padding:12px 16px;min-height:52px;transition:border-color .2s;display:flex;align-items:center;gap:10px}
-.drag-zone.over{border-color:#2d8a4e;background:var(--gold-pale)}
-.drag-zone.correct{border-color:var(--green);background:var(--green-light)}
-.drag-zone.wrong{border-color:var(--red);background:var(--red-light)}
-.drag-zone-desc{font-size:.83em;color:var(--gray);flex:1}
-.drag-zone-slot{min-width:100px;height:32px;background:var(--cream);border-radius:5px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.78em;color:var(--gray)}
-.drag-zone-slot.filled{background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-weight:700;border-style:solid;border-color:var(--ink)}
-.drag-btn{padding:10px 22px;border-radius:var(--r);font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;border:none;margin-top:14px}
-.drag-btn-check{background:var(--ink);color:#fff}
-.drag-btn-reset{background:var(--paper);color:var(--ink);border:2px solid var(--border);margin-left:8px}
-.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:8px;display:none}
+.quiz-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:22px}
+.quiz-q{font-size:.95em;font-weight:700;margin-bottom:16px;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{padding:12px 18px;border:2px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:.9em;font-weight:500;transition:all .2s;background:var(--surface);color:var(--text);text-align:left;font-family:'Outfit',sans-serif}
+.quiz-opt:hover{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.05)}
+.quiz-opt.correct{border-color:var(--acc2);background:rgba(16,185,129,.1);color:var(--acc2)}
+.quiz-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.1);color:#f87171}
+.quiz-fb{font-size:.85em;font-weight:600;margin-top:12px;padding:10px 14px;border-radius:var(--r-sm);display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:rgba(16,185,129,.1);color:var(--acc2);border:1px solid rgba(16,185,129,.2)}
+.quiz-fb.bad{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+
+/* BADGES */
+.badges-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:24px}
+.badge-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;transition:all .3s}
+.badge-card.locked{opacity:.4;filter:grayscale(1)}
+.badge-card.unlocked{border-color:var(--acc);background:rgba(245,158,11,.05);animation:badgePop .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes badgePop{0%{transform:scale(.7)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.badge-ico{font-size:2em;margin-bottom:8px}
+.badge-name{font-size:.8em;font-weight:700;color:var(--text)}
+.badge-xp{font-size:.75em;color:var(--acc);font-family:'Fira Code',monospace;margin-top:4px}
+
+/* DRAG AND DROP */
+.drag-area{background:var(--surface2);border-radius:var(--r);padding:20px}
+.drag-pool{display:flex;flex-wrap:wrap;gap:8px;min-height:48px;background:var(--bg);border:2px dashed var(--border);border-radius:var(--r-sm);padding:12px;margin-bottom:16px}
+.drag-token{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:700;cursor:grab;user-select:none;font-family:'Fira Code',monospace;transition:all .2s}
+.drag-token:hover{border-color:var(--acc);color:var(--acc)}
+.drag-token.used{opacity:.3;cursor:default}
+.drag-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.drag-zone{background:var(--surface);border:2px dashed var(--border);border-radius:var(--r-sm);padding:12px 16px;min-height:54px;display:flex;align-items:center;gap:12px;transition:border-color .2s}
+.drag-zone.over{border-color:var(--acc);background:rgba(245,158,11,.05)}
+.drag-zone.correct{border-color:var(--acc2);background:rgba(16,185,129,.05)}
+.drag-zone.wrong-drop{border-color:#ef4444;background:rgba(239,68,68,.05)}
+.dz-desc{font-size:.82em;color:var(--muted);flex:1}
+.dz-slot{min-width:90px;height:32px;background:var(--bg);border:1px dashed var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.78em;color:var(--muted)}
+.dz-slot.filled{background:var(--surface2);border-style:solid;border-color:var(--acc);color:var(--acc);font-family:'Fira Code',monospace;font-weight:700;font-size:.82em}
+.drag-actions{margin-top:14px;display:flex;gap:8px}
+.drag-btn{padding:9px 20px;border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-weight:700;font-size:.85em;cursor:pointer;border:none}
+.drag-btn-check{background:var(--acc);color:#000}
+.drag-btn-reset{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.drag-result{margin-top:12px;font-size:.88em;font-weight:700;padding:10px 14px;border-radius:var(--r-sm);display:none}
 .drag-result.show{display:block}
-/* MISSIONS */
+.drag-result.ok{background:rgba(16,185,129,.1);color:var(--acc2);border:1px solid rgba(16,185,129,.2)}
+.drag-result.bad{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+
+/* MISSION CARDS */
 .mission-list{display:flex;flex-direction:column;gap:14px}
-.mission{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.mission::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);transition:background .2s}
-.mission:hover{border-color:#2d8a4e;box-shadow:var(--shadow)}
-.mission:hover::before{background:#2d8a4e}
-.mission.done{border-color:var(--green);background:var(--green-light)}
-.mission.done::before{background:var(--green)}
-.mission-num{width:36px;height:36px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;border:2px solid var(--border)}
-.mission.done .mission-num{background:var(--green);color:#fff;border-color:var(--green)}
-.mission-content{flex:1}
-.mission-title{font-size:.98em;font-weight:800;margin-bottom:4px}
-.mission-desc{font-size:.85em;color:var(--gray);margin-bottom:10px}
-.mission-tags{display:flex;gap:8px;flex-wrap:wrap}
-.mtag{background:var(--paper);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--gray)}
-.mtag-xp{background:var(--gold-pale);color:#2d8a4e;border-color:#a8d5b5}
-.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0}
-.mission.done .mission-check{background:var(--green);border-color:var(--green);color:#fff}
-.mission-steps{background:var(--cream);border-radius:var(--r);padding:16px;margin-top:14px;display:none}
-.mission-steps.open{display:block}
-.mstep{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
-.mstep-num{background:#2d8a4e;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0}
-.mstep-text{font-size:.87em;line-height:1.55}
-.mstep-code{font-family:'DM Mono',monospace;background:var(--ink);color:var(--gold-light);padding:2px 8px;border-radius:4px;font-size:.9em}
-.progress-bar{background:var(--paper);border-radius:var(--r);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
-.progress-missions{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
-.prog-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
-.prog-icon{font-size:1.2em}
-.prog-label{font-size:.82em;font-weight:600}
-.prog-sub{font-size:.75em;color:var(--gray)}
-.total-xp{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
-.total-xp-label{font-size:.85em;opacity:.7}
-.total-xp-num{font-size:1.4em;font-weight:800;color:var(--gold-light);font-family:'DM Mono',monospace}
-/* FORMULA CARDS */
-.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.formula-card{background:var(--cream);border-radius:var(--r);padding:16px;border:1px solid var(--border)}
-.formula-name{font-family:'DM Mono',monospace;font-size:1em;font-weight:700;color:#0f9d58;margin-bottom:6px}
-.formula-desc{font-size:.83em;color:var(--gray);margin-bottom:8px}
-.formula-ex{font-family:'DM Mono',monospace;font-size:.82em;background:var(--ink);color:var(--gold-light);padding:4px 8px;border-radius:4px;display:inline-block}
-@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}}
+.mission-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--r);padding:20px 20px 20px 24px;display:flex;gap:16px;cursor:pointer;transition:all .25s;position:relative}
+.mission-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);border-radius:var(--r) 0 0 var(--r);transition:background .2s}
+.mission-card:hover{border-color:rgba(245,158,11,.3)}
+.mission-card:hover::before{background:var(--acc)}
+.mission-card.done{border-color:rgba(16,185,129,.3)}
+.mission-card.done::before{background:var(--acc2)}
+.mc-num{width:38px;height:38px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9em;flex-shrink:0;color:var(--muted)}
+.mission-card.done .mc-num{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.mc-body{flex:1}
+.mc-title{font-size:1em;font-weight:800;margin-bottom:4px}
+.mc-desc{font-size:.84em;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.mc-tags{display:flex;gap:6px;flex-wrap:wrap}
+.mc-tag{background:var(--surface2);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:600;color:var(--muted)}
+.mc-tag-xp{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--acc)}
+.mc-check{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0;color:transparent}
+.mission-card.done .mc-check{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.mc-steps{padding:16px;background:var(--surface2);border-radius:var(--r-sm);margin-top:12px;display:none;border:1px solid var(--border)}
+.mc-steps.open{display:block}
+.mcs-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mcs-num{width:22px;height:22px;border-radius:50%;background:var(--acc);color:#000;display:flex;align-items:center;justify-content:center;font-size:.72em;font-weight:800;flex-shrink:0}
+.mcs-text{font-size:.86em;line-height:1.55;color:var(--muted)}
+.mcs-code{font-family:'Fira Code',monospace;background:var(--bg);color:var(--acc2);padding:1px 6px;border-radius:3px;font-size:.9em;border:1px solid var(--border)}
+
+/* XP TOAST */
+.xp-toast{position:fixed;top:80px;right:24px;background:var(--acc);color:#000;border-radius:50px;padding:10px 20px;font-weight:800;font-size:.9em;z-index:999;transform:translateY(-20px) scale(.9);opacity:0;transition:all .4s cubic-bezier(.175,.885,.32,1.275);pointer-events:none}
+.xp-toast.show{transform:translateY(0) scale(1);opacity:1}
+
+/* SECTION DIVIDER */
+.section-divider{display:flex;align-items:center;gap:14px;margin:28px 0}
+.sd-line{flex:1;height:1px;background:var(--border)}
+.sd-label{font-size:.78em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* TABLE OF CONTENTS */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:28px}
+.toc-title{font-size:.82em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.toc-items{display:flex;flex-direction:column;gap:6px}
+.toc-item{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:var(--r-sm);cursor:pointer;transition:background .2s;text-decoration:none;color:var(--text)}
+.toc-item:hover{background:var(--surface2)}
+.toc-ico{font-size:.9em;width:20px;text-align:center}
+.toc-label{font-size:.88em;font-weight:600;flex:1}
+.toc-xp{font-size:.75em;color:var(--acc);font-family:'Fira Code',monospace}
+
+/* CALLOUT */
+.callout{border-radius:var(--r-sm);padding:14px 18px;margin:14px 0;font-size:.87em;line-height:1.6;display:flex;gap:10px}
+.callout-amber{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--acc)}
+.callout-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--acc2)}
+.callout-blue{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);color:#a5b4fc}
+.callout-ico{flex-shrink:0;font-size:1.1em}
+
+/* FOOTER NAV */
+.footer-nav{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-top:32px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+@media(max-width:768px){
+  .container{padding:16px}
+  .card{padding:18px}
+  .story-banner{padding:24px}
+  .xp-track{width:70px}
+  .header-inner{padding:12px 16px}
+}
 </style>
 </head>
 <body>
+
+<div class="xp-toast" id="xpToast">⚡ +<span id="toastAmt">10</span> XP!</div>
+
 <header class="header">
   <div class="header-inner">
-    <span class="week-pill">📅 Semana 07</span>
-    <div class="header-title">
-      <h1>Planilhas — Parte 1</h1>
-      <p>Projetos de Tecnologia de Informação e Comunicação · ETEC 2026</p>
-    </div>
+    <div class="logo">Tech<span>Mercado</span></div>
+    <span class="week-pill">📅 Semana 07 · Ato I</span>
+    <div class="header-spacer"></div>
     <div class="xp-bar-wrap">
       <span class="xp-label">⚡ XP</span>
       <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
-      <span class="xp-num" id="xpNum">0 / 300</span>
+      <span class="xp-num" id="xpNum">0 / 350</span>
     </div>
   </div>
 </header>
 
 <div class="container">
   <nav class="nav-bar">
-    <a href="semana06_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
-    <a href="semana07_guia.html" class="nav-btn nav-btn-gold">📝 Guia</a>
+    <a href="semana06_aula.html" class="nav-btn nb-outline">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nb-outline">🏠 Índice</a>
+    <a href="semana07_guia.html" class="nav-btn nb-acc">📝 Guia de Exercícios</a>
     <span class="nav-spacer"></span>
-    <a href="semana08_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
+    <a href="semana08_aula.html" class="nav-btn nb-dark">Próxima Semana ➡</a>
   </nav>
 
-  <div class="quest-banner">
-    <div class="quest-eyebrow">🗡 Missão da Semana 07</div>
-    <h2>Descubra o poder das <span>Planilhas</span></h2>
-    <p>Aprenda a criar e navegar em planilhas no Excel e Google Sheets. Você vai entender células, colunas, linhas e criar suas primeiras fórmulas matemáticas!</p>
-    <div class="quest-rewards">
-      <div class="reward-chip">🏆 300 XP disponíveis</div>
-      <div class="reward-chip">📜 4 Conquistas</div>
-      <div class="reward-chip">⏱ ~90 min</div>
-      <div class="reward-chip">📊 Excel</div>
-      <div class="reward-chip">📈 Google Sheets</div>
+  <!-- STORY BANNER -->
+  <div class="story-banner">
+    <div class="story-eyebrow">📖 Início do Projeto — Semana 07</div>
+    <div class="story-title">Nasce a <em>TechMercado</em>:<br>do caos aos dados organizados</div>
+    <p class="story-desc">Você foi contratado como Analista de Dados Júnior pela TechMercado — uma startup de e-commerce que vende eletrônicos. O problema: os dados financeiros e de vendas estão todos bagunçados em anotações em papel. Sua missão começa hoje: construir as planilhas que vão salvar a empresa.</p>
+    <div class="story-chips">
+      <div class="chip chip-acc">🏆 350 XP disponíveis</div>
+      <div class="chip chip-green">📊 Google Sheets / Excel</div>
+      <div class="chip chip-acc">⏱ ~90 minutos</div>
+      <div class="chip">🗂 4 Conquistas</div>
     </div>
   </div>
 
-  <div class="badges-section">
-    <div class="section-label">🏅 Conquistas desta semana</div>
-    <div class="badges-row">
-      <div class="badge-item locked" id="badge0"><div class="badge-icon">🏗</div><div class="badge-name">Construtor de Tabelas</div><div class="badge-xp">+50 XP</div></div>
-      <div class="badge-item locked" id="badge1"><div class="badge-icon">🔢</div><div class="badge-name">Mestre das Fórmulas</div><div class="badge-xp">+80 XP</div></div>
-      <div class="badge-item locked" id="badge2"><div class="badge-icon">📊</div><div class="badge-name">Analista Iniciante</div><div class="badge-xp">+90 XP</div></div>
-      <div class="badge-item locked" id="badge3"><div class="badge-icon">☁️</div><div class="badge-name">Sheets Pro</div><div class="badge-xp">+80 XP</div></div>
-    </div>
-  </div>
-
-  <!-- TEORIA: Anatomia da Planilha -->
-  <div class="card">
-    <div class="card-header"><span class="card-icon">🗂</span><h2 class="card-title">Anatomia de uma Planilha — Aprenda o vocabulário</h2></div>
-    <div class="card-body">
-      <div class="info-box"><div class="info-icon">💡</div><div class="info-text"><strong>O que é uma planilha?</strong> Uma planilha é uma grade de células organizadas em linhas (numeradas: 1, 2, 3...) e colunas (letras: A, B, C...). Cada célula tem um endereço único, como <strong>A1</strong>, <strong>B3</strong>, <strong>C5</strong>. Você pode colocar textos, números e fórmulas nas células.</div></div>
-
-      <div class="excel-mock">
-        <div class="excel-topbar"><span style="font-size:1.2em">📊</span><span class="excel-filename">Planilha1.xlsx — Microsoft Excel</span></div>
-        <div class="excel-ribbon">
-          <button class="excel-rib-btn active">Início</button>
-          <button class="excel-rib-btn">Inserir</button>
-          <button class="excel-rib-btn">Fórmulas</button>
-          <button class="excel-rib-btn">Dados</button>
-        </div>
-        <div class="formula-bar"><span class="cell-ref">B2</span><span style="color:#666">fx</span><span class="formula-content">=SOMA(B2:B5)</span></div>
-        <table class="sheet-table">
-          <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
-          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">1</td><td class="header-row">Produto</td><td class="header-row">Preço</td><td class="header-row">Qtde</td><td class="header-row">Total</td></tr>
-          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">2</td><td>Notebook</td><td class="selected">R$ 2.500</td><td>3</td><td class="formula">=B2*C2</td></tr>
-          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">3</td><td>Mouse</td><td>R$ 80</td><td>10</td><td class="formula">=B3*C3</td></tr>
-          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">4</td><td>Teclado</td><td>R$ 150</td><td>5</td><td class="formula">=B4*C4</td></tr>
-          <tr><td style="background:#f5f5f5;font-weight:700;color:#333;text-align:center;border:1px solid #e0e0e0">5</td><td><strong>TOTAL</strong></td><td colspan="2"></td><td class="formula">=SOMA(D2:D4)</td></tr>
-        </table>
+  <!-- PROGRESS -->
+  <div class="progress-track">
+    <div class="pt-title">🗺 Sua jornada esta semana</div>
+    <div class="pt-steps" id="ptSteps">
+      <div class="pt-fill-line" id="ptLine" style="width:0%"></div>
+      <div class="pt-step">
+        <div class="pt-dot active" id="ptd0">1</div>
+        <div class="pt-label active">Anatomia</div>
       </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
-        <div class="info-box"><div class="info-icon">📍</div><div class="info-text"><strong>Célula:</strong> A intersecção de uma linha e uma coluna. Ex: A1 = coluna A, linha 1</div></div>
-        <div class="info-box"><div class="info-icon">↔️</div><div class="info-text"><strong>Coluna:</strong> Série vertical identificada por letras (A, B, C...)</div></div>
-        <div class="info-box"><div class="info-icon">↕️</div><div class="info-text"><strong>Linha:</strong> Série horizontal identificada por números (1, 2, 3...)</div></div>
-        <div class="info-box"><div class="info-icon">🔢</div><div class="info-text"><strong>Intervalo:</strong> Um conjunto de células. Ex: A1:A10 = células A1 até A10</div></div>
+      <div class="pt-step">
+        <div class="pt-dot" id="ptd1">2</div>
+        <div class="pt-label">Fórmulas</div>
       </div>
-
-      <div class="typing-box" id="type1">
-        <div class="typing-xp-chip">⚡ +10 XP</div>
-        <div class="typing-label">✏️ Qual é o endereço da célula na coluna C, linha 5?</div>
-        <div class="typing-target">C5</div><br>
-        <input class="typing-input" type="text" placeholder="Digite o endereço..." oninput="checkTyping(this,'C5','type1','badge0',10)">
-        <div class="typing-feedback" id="type1-fb"></div>
+      <div class="pt-step">
+        <div class="pt-dot" id="ptd2">3</div>
+        <div class="pt-label">Quiz</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-dot" id="ptd3">4</div>
+        <div class="pt-label">Encaixar</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-dot" id="ptd4">5</div>
+        <div class="pt-label">Missões</div>
       </div>
     </div>
   </div>
 
-  <!-- TEORIA: Primeiras Fórmulas -->
-  <div class="card">
-    <div class="card-header"><span class="card-icon">🔢</span><h2 class="card-title">Suas Primeiras Fórmulas — Toda fórmula começa com =</h2></div>
-    <div class="card-body">
-      <div class="info-box"><div class="info-icon">⚡</div><div class="info-text"><strong>Regra de ouro:</strong> No Excel e Google Sheets, TODA fórmula começa com o sinal de igual <strong>=</strong>. Sem ele, o programa entende como texto normal.</div></div>
+  <!-- BADGES -->
+  <div class="section-divider"><div class="sd-line"></div><div class="sd-label">🏅 Conquistas da Semana 07</div><div class="sd-line"></div></div>
+  <div class="badges-row">
+    <div class="badge-card locked" id="badge0"><div class="badge-ico">🏗️</div><div class="badge-name">Arquiteto de Dados</div><div class="badge-xp">+50 XP</div></div>
+    <div class="badge-card locked" id="badge1"><div class="badge-ico">🧮</div><div class="badge-name">Mestre das Fórmulas</div><div class="badge-xp">+80 XP</div></div>
+    <div class="badge-card locked" id="badge2"><div class="badge-ico">📊</div><div class="badge-name">Analista Júnior</div><div class="badge-xp">+90 XP</div></div>
+    <div class="badge-card locked" id="badge3"><div class="badge-ico">⭐</div><div class="badge-name">Herói da TechMercado</div><div class="badge-xp">+130 XP</div></div>
+  </div>
 
-      <div class="formula-grid">
-        <div class="formula-card">
-          <div class="formula-name">=SOMA()</div>
-          <div class="formula-desc">Soma um conjunto de células ou números</div>
-          <div class="formula-ex">=SOMA(A1:A10)</div>
-        </div>
-        <div class="formula-card">
-          <div class="formula-name">=MÉDIA()</div>
-          <div class="formula-desc">Calcula a média de um conjunto</div>
-          <div class="formula-ex">=MÉDIA(B1:B5)</div>
-        </div>
-        <div class="formula-card">
-          <div class="formula-name">=MÁXIMO()</div>
-          <div class="formula-desc">Retorna o maior valor do intervalo</div>
-          <div class="formula-ex">=MÁXIMO(C1:C20)</div>
-        </div>
-        <div class="formula-card">
-          <div class="formula-name">=MÍNIMO()</div>
-          <div class="formula-desc">Retorna o menor valor do intervalo</div>
-          <div class="formula-ex">=MÍNIMO(D1:D20)</div>
-        </div>
-        <div class="formula-card">
-          <div class="formula-name">=CONT.NÚM()</div>
-          <div class="formula-desc">Conta quantas células têm números</div>
-          <div class="formula-ex">=CONT.NÚM(A1:A50)</div>
-        </div>
-        <div class="formula-card">
-          <div class="formula-name">=AGORA()</div>
-          <div class="formula-desc">Retorna data e hora atual</div>
-          <div class="formula-ex">=AGORA()</div>
+  <!-- === ATO 1: ANATOMIA === -->
+  <div class="card" id="sec-anatomia">
+    <div class="card-header">
+      <div class="card-icon-wrap icon-amber">🗂️</div>
+      <div>
+        <div class="card-title">Ato I — Anatomia da Planilha</div>
+        <div class="card-subtitle">O CEO da TechMercado jogou os dados na mesa. Você precisa entender a ferramenta antes de tudo.</div>
+      </div>
+    </div>
+
+    <div class="scene-box">
+      <div class="scene-avatar">👩‍💼</div>
+      <div class="scene-bubble">
+        <div class="scene-name">MARINA SOUZA · CEO da TechMercado</div>
+        <div class="scene-text">"Bem-vindo! Olha que bagunça esse papel aqui — nossas vendas do mês inteiro anotadas à mão. Preciso que você organize isso em uma planilha. <strong>Você sabe usar Excel ou Google Sheets, né?</strong>"</div>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <div class="info-box">
+        <div class="info-ico">📍</div>
+        <div class="info-body">
+          <div class="info-title">Célula</div>
+          <div class="info-desc">A caixinha onde você digita. Identificada por letra+número. Ex: <span style="font-family:'Fira Code',monospace;color:var(--acc)">A1</span>, <span style="font-family:'Fira Code',monospace;color:var(--acc)">B3</span>, <span style="font-family:'Fira Code',monospace;color:var(--acc)">C10</span></div>
         </div>
       </div>
-
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <div class="step-title">Como digitar uma fórmula no Excel:</div>
-            <div class="step-desc">Clique na célula onde quer o resultado. Digite <strong>=SOMA(</strong>. Selecione o intervalo de células que quer somar (ex: clique em A1 e arraste até A5). Feche o parêntese <strong>)</strong> e pressione <strong>Enter</strong>.</div>
-            <div class="step-tip">💡 O Excel mostra uma dica de autocomplete enquanto você digita. Muito útil!</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <div class="step-title">Operadores matemáticos básicos:</div>
-            <div class="step-desc">Você também pode usar: <strong>+</strong> (soma), <strong>-</strong> (subtração), <strong>*</strong> (multiplicação), <strong>/</strong> (divisão), <strong>^</strong> (potência). Ex: <strong>=B2*C2</strong> multiplica B2 por C2.</div>
-          </div>
+      <div class="info-box green">
+        <div class="info-ico">↕️</div>
+        <div class="info-body">
+          <div class="info-title">Linha</div>
+          <div class="info-desc">Sequência horizontal identificada por números (1, 2, 3...). Cada produto vai em uma linha.</div>
         </div>
       </div>
-
-      <div class="typing-box" id="type2">
-        <div class="typing-xp-chip">⚡ +10 XP</div>
-        <div class="typing-label">✏️ Como começar qualquer fórmula no Excel?</div>
-        <div class="typing-target">=</div><br>
-        <input class="typing-input" type="text" placeholder="Digite o símbolo..." oninput="checkTyping(this,'=','type2','badge1',10)">
-        <div class="typing-feedback" id="type2-fb"></div>
+      <div class="info-box indigo">
+        <div class="info-ico">↔️</div>
+        <div class="info-body">
+          <div class="info-title">Coluna</div>
+          <div class="info-desc">Sequência vertical identificada por letras (A, B, C...). Cada tipo de dado numa coluna.</div>
+        </div>
       </div>
-
-      <div class="typing-box" id="type3">
-        <div class="typing-xp-chip">⚡ +10 XP</div>
-        <div class="typing-label">✏️ Digite a fórmula para somar o intervalo A1 até A10:</div>
-        <div class="typing-target">=SOMA(A1:A10)</div><br>
-        <input class="typing-input" type="text" placeholder="Digite a fórmula completa..." oninput="checkTyping(this,'=SOMA(A1:A10)','type3','badge1',10)">
-        <div class="typing-feedback" id="type3-fb"></div>
+      <div class="info-box pink">
+        <div class="info-ico">🔲</div>
+        <div class="info-body">
+          <div class="info-title">Intervalo</div>
+          <div class="info-desc">Um grupo de células. <span style="font-family:'Fira Code',monospace;color:var(--acc4)">A1:A10</span> = células A1 até A10.</div>
+        </div>
       </div>
+    </div>
+
+    <!-- MOCK PLANILHA DA TECHMERCADO -->
+    <p style="font-size:.85em;color:var(--muted);margin-bottom:10px">📋 Veja como ficará a planilha de produtos da TechMercado:</p>
+    <div class="sheet-wrap">
+      <div class="sheet-topbar">
+        <span class="sheet-topbar-icon">📊</span>
+        <span class="sheet-filename">TechMercado_Produtos.xlsx</span>
+        <div class="sheet-dots"><div class="sheet-dot"></div><div class="sheet-dot"></div><div class="sheet-dot"></div></div>
+      </div>
+      <div class="sheet-tabs">
+        <div class="sheet-tab active">Produtos</div>
+        <div class="sheet-tab">Vendas Jan</div>
+        <div class="sheet-tab">Dashboard</div>
+      </div>
+      <div class="formula-bar">
+        <span class="cell-ref">D2</span>
+        <span class="formula-eq">fx</span>
+        <span class="formula-content">=B2*C2</span>
+      </div>
+      <table class="sheet-tbl">
+        <tr>
+          <th class="col-header"></th>
+          <th class="col-header">A</th>
+          <th class="col-header">B</th>
+          <th class="col-header">C</th>
+          <th class="col-header">D</th>
+          <th class="col-header">E</th>
+        </tr>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="hd">Produto</td>
+          <td class="hd">Preço Unit.</td>
+          <td class="hd">Qtde Vendida</td>
+          <td class="hd">Total</td>
+          <td class="hd">Categoria</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>Notebook Gamer</td>
+          <td>R$ 3.500</td>
+          <td>12</td>
+          <td class="selected formula">→ =B2*C2</td>
+          <td>Computadores</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td>Mouse Sem Fio</td>
+          <td>R$ 89</td>
+          <td>47</td>
+          <td class="formula">R$ 4.183</td>
+          <td>Periféricos</td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td>Teclado Mecânico</td>
+          <td>R$ 320</td>
+          <td>23</td>
+          <td class="formula">R$ 7.360</td>
+          <td>Periféricos</td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td>Monitor 27"</td>
+          <td>R$ 1.200</td>
+          <td>8</td>
+          <td class="formula">R$ 9.600</td>
+          <td>Displays</td>
+        </tr>
+        <tr>
+          <td class="row-num">6</td>
+          <td style="font-weight:700;color:var(--acc)">TOTAL GERAL</td>
+          <td></td>
+          <td></td>
+          <td class="highlight">=SOMA(D2:D5)</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="callout callout-amber">
+      <span class="callout-ico">💡</span>
+      <span>Perceba: cada <strong>linha</strong> é um produto. Cada <strong>coluna</strong> é um tipo de dado (nome, preço, quantidade). A célula <strong>D2</strong> é a interseção da coluna D com a linha 2 — ali vai o cálculo do total daquele produto.</span>
+    </div>
+
+    <!-- TYPING CHALLENGE -->
+    <div class="typing-box" id="ty1" style="margin-top:20px">
+      <div class="ty-header">
+        <span class="ty-badge">⚡ +10 XP</span>
+        <span style="font-size:.78em;color:var(--muted)">Desafio de Fixação</span>
+      </div>
+      <div class="ty-question">🎯 Na planilha da TechMercado acima, qual é o endereço da célula onde fica o preço do "Mouse Sem Fio"?</div>
+      <div class="ty-target">B3</div>
+      <input class="ty-input" type="text" placeholder="Digite o endereço da célula..." oninput="checkTyping(this,'B3','ty1','badge0',10)">
+      <div class="ty-feedback" id="ty1-fb"></div>
     </div>
   </div>
 
-  <!-- TEORIA: Google Sheets -->
-  <div class="card">
-    <div class="card-header"><span class="card-icon">☁️</span><h2 class="card-title">Google Sheets — Planilhas na Nuvem</h2></div>
-    <div class="card-body">
-      <div class="step">
-        <div class="step-num">1</div>
+  <!-- === ATO 2: FÓRMULAS === -->
+  <div class="card" id="sec-formulas">
+    <div class="card-header">
+      <div class="card-icon-wrap icon-green">🧮</div>
+      <div>
+        <div class="card-title">Ato II — As Fórmulas que Salvam a TechMercado</div>
+        <div class="card-subtitle">Com os dados organizados, hora de fazer a planilha "pensar" por conta própria.</div>
+      </div>
+    </div>
+
+    <div class="scene-box">
+      <div class="scene-avatar">👨‍💻</div>
+      <div class="scene-bubble">
+        <div class="scene-name">LUCAS FERREIRA · Dev Sênior da TechMercado</div>
+        <div class="scene-text">"Ei, você precisará calcular os totais de todos os produtos. Mas não fica digitando na mão — <strong>toda fórmula começa com =</strong>. A planilha calcula automaticamente e se você mudar um valor, ela recalcula sozinha!"</div>
+      </div>
+    </div>
+
+    <div class="callout callout-amber">
+      <span class="callout-ico">⚡</span>
+      <span><strong>Regra de ouro:</strong> No Excel e Google Sheets, TODA fórmula começa com <span style="font-family:'Fira Code',monospace;background:rgba(245,158,11,.1);padding:2px 8px;border-radius:4px">=</span>. Sem o sinal de igual, a planilha entende como texto normal.</span>
+    </div>
+
+    <div class="formula-grid">
+      <div class="formula-card">
+        <div class="f-name">=SOMA()</div>
+        <div class="f-desc">Soma todos os valores de um intervalo. O "faz-tudo" das planilhas.</div>
+        <code class="f-ex">=SOMA(D2:D10)</code>
+      </div>
+      <div class="formula-card">
+        <div class="f-name">=MÉDIA()</div>
+        <div class="f-desc">Calcula a média aritmética automaticamente.</div>
+        <code class="f-ex">=MÉDIA(B2:B13)</code>
+      </div>
+      <div class="formula-card">
+        <div class="f-name">=MÁXIMO()</div>
+        <div class="f-desc">Encontra o maior valor do intervalo — qual produto vendeu mais?</div>
+        <code class="f-ex">=MÁXIMO(D2:D10)</code>
+      </div>
+      <div class="formula-card">
+        <div class="f-name">=MÍNIMO()</div>
+        <div class="f-desc">Encontra o menor valor — qual mês foi mais fraco?</div>
+        <code class="f-ex">=MÍNIMO(C2:C13)</code>
+      </div>
+      <div class="formula-card">
+        <div class="f-name">=SE()</div>
+        <div class="f-desc">Toma decisões: SE uma condição for verdadeira, faça X; senão, faça Y.</div>
+        <code class="f-ex">=SE(B2>=6,"OK","NOK")</code>
+      </div>
+      <div class="formula-card">
+        <div class="f-name">=CONT.SE()</div>
+        <div class="f-desc">Conta células que atendem a uma condição específica.</div>
+        <code class="f-ex">=CONT.SE(E2:E10,"Gamer")</code>
+      </div>
+    </div>
+
+    <!-- COMO FUNCIONA NA PRÁTICA -->
+    <p style="font-size:.85em;color:var(--muted);margin-bottom:10px;margin-top:4px">📋 Veja a planilha financeira da TechMercado com as fórmulas em ação:</p>
+    <div class="sheet-wrap">
+      <div class="sheet-topbar excel">
+        <span class="sheet-topbar-icon">📈</span>
+        <span class="sheet-filename">TechMercado_Financeiro_2026.xlsx</span>
+        <div class="sheet-dots"><div class="sheet-dot"></div><div class="sheet-dot"></div><div class="sheet-dot"></div></div>
+      </div>
+      <div class="formula-bar">
+        <span class="cell-ref">D2</span>
+        <span class="formula-eq">fx</span>
+        <span class="formula-content">=B2-C2</span>
+      </div>
+      <table class="sheet-tbl">
+        <tr>
+          <th class="col-header"></th>
+          <th class="col-header">A</th>
+          <th class="col-header">B</th>
+          <th class="col-header">C</th>
+          <th class="col-header">D</th>
+        </tr>
+        <tr><td class="row-num">1</td><td class="hd">Mês</td><td class="hd">Receita</td><td class="hd">Despesas</td><td class="hd">Saldo</td></tr>
+        <tr><td class="row-num">2</td><td>Janeiro</td><td>R$ 42.000</td><td>R$ 28.500</td><td class="formula green-cell">R$ 13.500</td></tr>
+        <tr><td class="row-num">3</td><td>Fevereiro</td><td>R$ 38.200</td><td>R$ 31.000</td><td class="formula green-cell">R$ 7.200</td></tr>
+        <tr><td class="row-num">4</td><td>Março</td><td>R$ 51.800</td><td>R$ 29.800</td><td class="formula green-cell">R$ 22.000</td></tr>
+        <tr><td class="row-num">5</td><td>Abril</td><td>R$ 33.500</td><td>R$ 35.200</td><td class="formula red-cell">-R$ 1.700</td></tr>
+        <tr><td class="row-num">6</td><td>Maio</td><td>R$ 61.200</td><td>R$ 40.100</td><td class="formula green-cell">R$ 21.100</td></tr>
+        <tr><td class="row-num">7</td><td style="font-style:italic;color:var(--muted)">... Jun–Dez</td><td style="color:var(--muted)">...</td><td style="color:var(--muted)">...</td><td style="color:var(--muted)">...</td></tr>
+        <tr><td class="row-num">14</td><td class="hd">TOTAL</td><td class="formula2">=SOMA(B2:B13)</td><td class="formula2">=SOMA(C2:C13)</td><td class="formula2">=SOMA(D2:D13)</td></tr>
+        <tr><td class="row-num">15</td><td class="hd">MÉDIA</td><td class="formula2">=MÉDIA(B2:B13)</td><td class="formula2">=MÉDIA(C2:C13)</td><td class="formula2">=MÉDIA(D2:D13)</td></tr>
+        <tr><td class="row-num">16</td><td class="hd">MÁXIMO</td><td></td><td></td><td class="formula2">=MÁXIMO(D2:D13)</td></tr>
+        <tr><td class="row-num">17</td><td class="hd">MÍNIMO</td><td></td><td></td><td class="formula2">=MÍNIMO(D2:D13)</td></tr>
+      </table>
+    </div>
+
+    <div class="callout callout-green">
+      <span class="callout-ico">🌟</span>
+      <span>Percebeu que Abril teve saldo negativo (-R$ 1.700)? Isso significa que a TechMercado gastou mais do que arrecadou naquele mês. A planilha deixa isso visível em segundos — antes levava horas de cálculo manual!</span>
+    </div>
+
+    <!-- PASSO A PASSO: CONSTRUINDO -->
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">🔨 Como construir isso</div><div class="sd-line"></div></div>
+    <div class="steps-timeline">
+      <div class="step-item active">
+        <div class="step-dot">1</div>
         <div class="step-body">
-          <div class="step-title">Acessar o Google Sheets</div>
-          <div class="step-desc">Acesse <strong>sheets.google.com</strong> ou abra o Google Drive → <strong>+ Novo → Planilhas Google</strong>. As fórmulas são idênticas ao Excel!</div>
+          <div class="step-title">Abra o Google Sheets ou Excel</div>
+          <div class="step-desc">Acesse <a href="https://sheets.google.com" target="_blank" style="color:var(--acc2)">sheets.google.com</a> (gratuito) ou abra o Microsoft Excel. Ambos funcionam para este projeto.</div>
         </div>
       </div>
-      <div class="sheet-mock">
-        <div class="sheet-topbar"><span class="sheet-icon">📊</span><span class="sheet-filename">Planilha sem título</span></div>
-        <div class="sheet-toolbar">
-          <button class="sheet-tool-btn">Normal ▾</button>
-          <button class="sheet-tool-btn"><strong>N</strong></button>
-          <button class="sheet-tool-btn"><em>I</em></button>
-          <button class="sheet-tool-btn"><u>S</u></button>
-          <button class="sheet-tool-btn">$ %</button>
-          <button class="sheet-tool-btn">∑ Funções</button>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div class="step-body">
+          <div class="step-title">Crie os cabeçalhos na linha 1</div>
+          <div class="step-desc">Clique em A1 e digite: <span class="step-code">Mês</span> → Tab → <span class="step-code">Receita</span> → Tab → <span class="step-code">Despesas</span> → Tab → <span class="step-code">Saldo</span></div>
+          <div class="step-tip">💡 Use Tab para avançar de coluna. Enter vai para a linha de baixo.</div>
         </div>
-        <div class="formula-bar"><span class="cell-ref">A1</span><span style="color:#666">fx</span><span class="formula-content">=SOMA(B2:B10)</span></div>
-        <table class="sheet-table">
-          <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
-          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">1</td><td class="header-row">Aluno</td><td class="header-row">Nota 1</td><td class="header-row">Nota 2</td></tr>
-          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">2</td><td>Ana</td><td>8.5</td><td>9.0</td></tr>
-          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">3</td><td>Bruno</td><td>7.0</td><td>6.5</td></tr>
-          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">4</td><td>Carla</td><td>9.5</td><td>8.0</td></tr>
-          <tr><td style="background:#e8f5e9;font-weight:700;color:#333;text-align:center;border:1px solid #c5e8ce">5</td><td>Média</td><td class="formula">=MÉDIA(B2:B4)</td><td class="formula">=MÉDIA(C2:C4)</td></tr>
-        </table>
       </div>
-      <div class="typing-box" id="type4">
-        <div class="typing-xp-chip">⚡ +10 XP</div>
-        <div class="typing-label">✏️ Digite a fórmula para calcular a média das células B2 até B4:</div>
-        <div class="typing-target">=MÉDIA(B2:B4)</div><br>
-        <input class="typing-input" type="text" placeholder="Digite a fórmula..." oninput="checkTyping(this,'=MÉDIA(B2:B4)','type4','badge2',10)">
-        <div class="typing-feedback" id="type4-fb"></div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div class="step-body">
+          <div class="step-title">Preencha os 12 meses com dados</div>
+          <div class="step-desc">Linhas 2 a 13: Jan, Fev, Mar... até Dez. Invente valores realistas para Receita e Despesas (só números, sem R$).</div>
+          <div class="step-warn">⚠️ Não inclua o símbolo R$ na célula — formate depois. Só números por agora.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">4</div>
+        <div class="step-body">
+          <div class="step-title">Crie a fórmula de Saldo</div>
+          <div class="step-desc">Em D2, digite: <span class="step-code">=B2-C2</span> e pressione Enter. Depois <strong>copie a fórmula</strong> para D3:D13 (arraste pelo cantinho verde).</div>
+          <div class="step-ok">✅ A planilha calcula automaticamente! Se mudar um valor, o saldo atualiza na hora.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">5</div>
+        <div class="step-body">
+          <div class="step-title">Adicione SOMA, MÉDIA, MÁXIMO e MÍNIMO</div>
+          <div class="step-desc">Na linha 14: <span class="step-code">=SOMA(B2:B13)</span>. Na linha 15: <span class="step-code">=MÉDIA(D2:D13)</span>. Linha 16: <span class="step-code">=MÁXIMO(D2:D13)</span>. Linha 17: <span class="step-code">=MÍNIMO(D2:D13)</span></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">6</div>
+        <div class="step-body">
+          <div class="step-title">Formate como moeda (R$)</div>
+          <div class="step-desc">Selecione as colunas B, C e D. No Google Sheets: Formatar → Número → Moeda. No Excel: Ctrl+1 → Moeda.</div>
+          <div class="step-ok">✅ Agora sim! Fica bonito e profissional para mostrar à Marina.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPING 2 -->
+    <div class="typing-box" id="ty2" style="margin-top:20px">
+      <div class="ty-header">
+        <span class="ty-badge">⚡ +15 XP</span>
+        <span style="font-size:.78em;color:var(--muted)">Desafio de Fixação</span>
+      </div>
+      <div class="ty-question">🎯 O Lucas pediu para calcular a soma das receitas que estão em B2 até B13. Qual é a fórmula correta?</div>
+      <div class="ty-target">=SOMA(B2:B13)</div>
+      <input class="ty-input" type="text" placeholder="Digite a fórmula..." oninput="checkTyping(this,'=SOMA(B2:B13)','ty2','badge1',15)">
+      <div class="ty-feedback" id="ty2-fb"></div>
+    </div>
+  </div>
+
+  <!-- === ATO 3: QUIZ === -->
+  <div class="card" id="sec-quiz">
+    <div class="card-header">
+      <div class="card-icon-wrap icon-indigo">🧠</div>
+      <div>
+        <div class="card-title">Ato III — Quiz: Prove que você está pronto</div>
+        <div class="card-subtitle">A Marina quer saber se você entendeu mesmo antes de soltar o acesso à planilha oficial.</div>
+      </div>
+    </div>
+
+    <div class="scene-box">
+      <div class="scene-avatar">👩‍💼</div>
+      <div class="scene-bubble">
+        <div class="scene-name">MARINA SOUZA · CEO da TechMercado</div>
+        <div class="scene-text">"Antes de te dar o acesso completo às nossas planilhas, preciso ter certeza. <strong>Responda essas perguntas!</strong> Se acertar tudo, você ganha acesso de Analista Sênior."</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <!-- Q1 -->
+      <div class="quiz-box">
+        <div class="quiz-q">Q1 — Qual é o endereço da célula localizada na coluna C, linha 7?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q1')">7C</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q1','badge2',20)">C7</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q1')">C-7</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q1')">Coluna7</button>
+        </div>
+        <div class="quiz-fb" id="fb-Q1"></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-box">
+        <div class="quiz-q">Q2 — A TechMercado quer saber qual foi a maior venda do mês. Os valores estão em D2:D30. Qual fórmula usar?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q2')">SOMA(D2:D30)</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q2')">MAIOR(D2:D30)</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q2',null,20)">MÁXIMO(D2:D30)</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q2')">TOPO(D2:D30)</button>
+        </div>
+        <div class="quiz-fb" id="fb-Q2"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-box">
+        <div class="quiz-q">Q3 — O que acontece se você digitar <span style="font-family:'Fira Code',monospace;color:var(--acc)">SOMA(B2:B10)</span> sem o sinal de = no início?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q3')">A planilha calcula normalmente</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q3',null,20)">A planilha mostra como texto, não calcula</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q3')">A planilha mostra um erro #NOME?</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q3')">A célula fica em branco</button>
+        </div>
+        <div class="quiz-fb" id="fb-Q3"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-box">
+        <div class="quiz-q">Q4 — A TechMercado tem receitas em B2:B13. Para calcular a média mensal, qual fórmula usar?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q4')">SOMA(B2:B13)/12</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q4',null,20)">MÉDIA(B2:B13)</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q4')">CALCULAR(B2:B13)</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q4')">MEDIANA(B2:B13)</button>
+        </div>
+        <div class="quiz-fb" id="fb-Q4"></div>
       </div>
     </div>
   </div>
 
-  <!-- QUIZ -->
-  <div class="card">
-    <div class="card-header"><span class="card-icon">🧠</span><h2 class="card-title">Quiz — Teste seus conhecimentos!</h2></div>
-    <div class="card-body">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div class="quiz-q" id="qq0">
-          <div class="quiz-question">1. Qual é o endereço da célula na 3ª coluna e 2ª linha?</div>
-          <div class="quiz-options">
-            <button class="quiz-option" onclick="answerQuiz(0,0,2)">A) 3B</button>
-            <button class="quiz-option" onclick="answerQuiz(0,1,2)">B) B3</button>
-            <button class="quiz-option" onclick="answerQuiz(0,2,2)">C) C2</button>
-            <button class="quiz-option" onclick="answerQuiz(0,3,2)">D) 2C</button>
-          </div>
-          <div class="quiz-feedback" id="qf0"></div>
+  <!-- === ATO 4: DRAG & DROP === -->
+  <div class="card" id="sec-drag">
+    <div class="card-header">
+      <div class="card-icon-wrap icon-pink">🧩</div>
+      <div>
+        <div class="card-title">Ato IV — Encaixe as Peças</div>
+        <div class="card-subtitle">O Lucas deixou as fórmulas embaralhadas. Ajude-o a conectar cada fórmula ao seu uso correto.</div>
+      </div>
+    </div>
+
+    <div class="drag-area">
+      <p style="font-size:.84em;color:var(--muted);margin-bottom:12px">Arraste cada fórmula para o cenário correto na TechMercado:</p>
+      <div class="drag-pool" id="dragPool">
+        <div class="drag-token" draggable="true" id="dt-soma" data-id="soma" ondragstart="dragStart(event)">SOMA</div>
+        <div class="drag-token" draggable="true" id="dt-media" data-id="media" ondragstart="dragStart(event)">MÉDIA</div>
+        <div class="drag-token" draggable="true" id="dt-max" data-id="max" ondragstart="dragStart(event)">MÁXIMO</div>
+        <div class="drag-token" draggable="true" id="dt-min" data-id="min" ondragstart="dragStart(event)">MÍNIMO</div>
+        <div class="drag-token" draggable="true" id="dt-se" data-id="se" ondragstart="dragStart(event)">SE</div>
+      </div>
+      <div class="drag-zones">
+        <div class="drag-zone" ondragover="dragOver(event)" ondrop="dropToken(event,'soma')" ondragleave="dragLeave(event)" data-answer="soma">
+          <div class="dz-desc">Calcular o faturamento total do mês inteiro somando todas as vendas</div>
+          <div class="dz-slot" id="slot-soma">Solte aqui</div>
         </div>
-        <div class="quiz-q" id="qq1">
-          <div class="quiz-question">2. Você quer somar as notas de A1 até A20. Qual fórmula usar?</div>
-          <div class="quiz-options">
-            <button class="quiz-option" onclick="answerQuiz(1,0,1)">A) SOMA(A1-A20)</button>
-            <button class="quiz-option" onclick="answerQuiz(1,1,1)">B) =SOMA(A1:A20)</button>
-            <button class="quiz-option" onclick="answerQuiz(1,2,1)">C) +A1+A20</button>
-            <button class="quiz-option" onclick="answerQuiz(1,3,1)">D) =TOTAL(A1:A20)</button>
-          </div>
-          <div class="quiz-feedback" id="qf1"></div>
+        <div class="drag-zone" ondragover="dragOver(event)" ondrop="dropToken(event,'media')" ondragleave="dragLeave(event)" data-answer="media">
+          <div class="dz-desc">Descobrir a receita mensal típica do ano</div>
+          <div class="dz-slot" id="slot-media">Solte aqui</div>
         </div>
-        <div class="quiz-q" id="qq2">
-          <div class="quiz-question">3. Qual operador usa-se para MULTIPLICAR no Excel?</div>
-          <div class="quiz-options">
-            <button class="quiz-option" onclick="answerQuiz(2,0,2)">A) x</button>
-            <button class="quiz-option" onclick="answerQuiz(2,1,2)">B) ×</button>
-            <button class="quiz-option" onclick="answerQuiz(2,2,2)">C) *</button>
-            <button class="quiz-option" onclick="answerQuiz(2,3,2)">D) ^</button>
-          </div>
-          <div class="quiz-feedback" id="qf2"></div>
+        <div class="drag-zone" ondragover="dragOver(event)" ondrop="dropToken(event,'max')" ondragleave="dragLeave(event)" data-answer="max">
+          <div class="dz-desc">Descobrir qual foi o produto com o preço mais alto</div>
+          <div class="dz-slot" id="slot-max">Solte aqui</div>
         </div>
-        <div class="quiz-q" id="qq3">
-          <div class="quiz-question">4. Você digitou "SOMA(A1:A5)" em uma célula e apareceu o texto, não o resultado. O que faltou?</div>
-          <div class="quiz-options">
-            <button class="quiz-option" onclick="answerQuiz(3,0,0)">A) O sinal de = no início</button>
-            <button class="quiz-option" onclick="answerQuiz(3,1,0)">B) Selecionar as células antes</button>
-            <button class="quiz-option" onclick="answerQuiz(3,2,0)">C) Salvar o arquivo</button>
-            <button class="quiz-option" onclick="answerQuiz(3,3,0)">D) Fechar o parêntese</button>
-          </div>
-          <div class="quiz-feedback" id="qf3"></div>
+        <div class="drag-zone" ondragover="dragOver(event)" ondrop="dropToken(event,'min')" ondragleave="dragLeave(event)" data-answer="min">
+          <div class="dz-desc">Identificar o mês com o menor saldo do ano</div>
+          <div class="dz-slot" id="slot-min">Solte aqui</div>
         </div>
-        <div class="quiz-q" id="qq4">
-          <div class="quiz-question">5. O Google Sheets e o Excel usam as mesmas fórmulas?</div>
-          <div class="quiz-options">
-            <button class="quiz-option" onclick="answerQuiz(4,0,0)">A) Sim, a maioria das fórmulas básicas é idêntica</button>
-            <button class="quiz-option" onclick="answerQuiz(4,1,0)">B) Não, são completamente diferentes</button>
-            <button class="quiz-option" onclick="answerQuiz(4,2,0)">C) Só o Excel tem fórmulas</button>
-            <button class="quiz-option" onclick="answerQuiz(4,3,0)">D) Só o Google Sheets tem fórmulas</button>
-          </div>
-          <div class="quiz-feedback" id="qf4"></div>
-        </div>
-        <div class="quiz-q" id="qq5">
-          <div class="quiz-question">6. Qual fórmula retorna o MAIOR valor de um intervalo?</div>
-          <div class="quiz-options">
-            <button class="quiz-option" onclick="answerQuiz(5,0,2)">A) =SOMA()</button>
-            <button class="quiz-option" onclick="answerQuiz(5,1,2)">B) =MÉDIA()</button>
-            <button class="quiz-option" onclick="answerQuiz(5,2,2)">C) =MÁXIMO()</button>
-            <button class="quiz-option" onclick="answerQuiz(5,3,2)">D) =CONT.NÚM()</button>
-          </div>
-          <div class="quiz-feedback" id="qf5"></div>
+        <div class="drag-zone" ondragover="dragOver(event)" ondrop="dropToken(event,'se')" ondragleave="dragLeave(event)" data-answer="se">
+          <div class="dz-desc">Classificar automaticamente se um produto está "Em Alta" ou "Em Baixa"</div>
+          <div class="dz-slot" id="slot-se">Solte aqui</div>
         </div>
       </div>
-      <div id="quiz-total" style="margin-top:16px;font-size:.9em;color:var(--gray);font-weight:600"></div>
-    </div>
-  </div>
-
-  <!-- DRAG & DROP -->
-  <div class="card">
-    <div class="card-header"><span class="card-icon">🎯</span><h2 class="card-title">Conecte a Fórmula à sua Função</h2></div>
-    <div class="card-body">
-      <div class="drag-section">
-        <div style="font-weight:800;font-size:.95em;margin-bottom:4px">Arraste cada fórmula para a descrição correta</div>
-        <div style="font-size:.85em;color:var(--gray);margin-bottom:16px">👆 Clique e arraste as fórmulas abaixo para as zonas corretas</div>
-        <div class="drag-tokens" id="dragTokens">
-          <div class="drag-token" draggable="true" data-val="=SOMA()" ondragstart="dragStart(event)">=SOMA()</div>
-          <div class="drag-token" draggable="true" data-val="=MÉDIA()" ondragstart="dragStart(event)">=MÉDIA()</div>
-          <div class="drag-token" draggable="true" data-val="=MÁXIMO()" ondragstart="dragStart(event)">=MÁXIMO()</div>
-          <div class="drag-token" draggable="true" data-val="=MÍNIMO()" ondragstart="dragStart(event)">=MÍNIMO()</div>
-        </div>
-        <div class="drag-zones">
-          <div class="drag-zone" data-answer="=SOMA()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
-            <div class="drag-zone-desc">Adiciona todos os valores de um intervalo</div>
-            <div class="drag-zone-slot" id="slot-s1">Arraste aqui</div>
-          </div>
-          <div class="drag-zone" data-answer="=MÉDIA()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
-            <div class="drag-zone-desc">Calcula a média aritmética dos valores</div>
-            <div class="drag-zone-slot" id="slot-s2">Arraste aqui</div>
-          </div>
-          <div class="drag-zone" data-answer="=MÁXIMO()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
-            <div class="drag-zone-desc">Retorna o valor mais alto do intervalo</div>
-            <div class="drag-zone-slot" id="slot-s3">Arraste aqui</div>
-          </div>
-          <div class="drag-zone" data-answer="=MÍNIMO()" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
-            <div class="drag-zone-desc">Retorna o valor mais baixo do intervalo</div>
-            <div class="drag-zone-slot" id="slot-s4">Arraste aqui</div>
-          </div>
-        </div>
+      <div class="drag-actions">
         <button class="drag-btn drag-btn-check" onclick="checkDrag()">✅ Verificar</button>
         <button class="drag-btn drag-btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
-        <div class="drag-result" id="dragResult"></div>
+      </div>
+      <div class="drag-result" id="dragResult"></div>
+    </div>
+  </div>
+
+  <!-- === ATO 5: MISSÕES === -->
+  <div class="card" id="sec-missoes">
+    <div class="card-header">
+      <div class="card-icon-wrap icon-amber">🚀</div>
+      <div>
+        <div class="card-title">Ato V — Missões Práticas: Mão na Massa!</div>
+        <div class="card-subtitle">A teoria é ótima, mas a TechMercado precisa de planilhas de verdade. Hora de construir!</div>
       </div>
     </div>
-  </div>
 
-  <!-- MISSÕES -->
-  <div class="card">
-    <div class="card-header"><span class="card-icon">🗡</span><h2 class="card-title">Missões Práticas</h2></div>
-    <div class="card-body">
-      <div class="mission-list">
-        <div class="mission" id="m0" onclick="toggleMission(0)">
-          <div class="mission-num">1</div>
-          <div class="mission-content">
-            <div class="mission-title">📊 Criar planilha de notas no Excel</div>
-            <div class="mission-desc">Monte uma planilha com 5 alunos e suas notas, calculando média, maior e menor nota.</div>
-            <div class="mission-tags"><span class="mtag">⏱ 30 min</span><span class="mtag">📊 Excel</span><span class="mtag mtag-xp">⚡ +70 XP</span></div>
-            <div class="mission-steps" id="ms0">
-              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Abra o Excel com <span class="mstep-code">Ctrl+N</span>. Na célula A1 escreva <strong>Aluno</strong>. Em B1: <strong>Nota 1</strong>. Em C1: <strong>Nota 2</strong>. Em D1: <strong>Média</strong>.</div></div>
-              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Nas células A2 a A6, escreva 5 nomes de colegas de sala.</div></div>
-              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Preencha as notas em B2:C6 com valores entre 0 e 10.</div></div>
-              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Em D2, digite: <span class="mstep-code">=MÉDIA(B2:C2)</span> e pressione Enter. Copie essa fórmula para D3 até D6.</div></div>
-              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Em A8 escreva <strong>Maior nota:</strong> e em B8 use <span class="mstep-code">=MÁXIMO(D2:D6)</span></div></div>
-              <div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Em A9 escreva <strong>Menor nota:</strong> e em B9 use <span class="mstep-code">=MÍNIMO(D2:D6)</span></div></div>
-              <div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Salve com <span class="mstep-code">Ctrl+S</span> como <strong>Notas_SeuNome.xlsx</strong></div></div>
-            </div>
-          </div>
-          <div class="mission-check">○</div>
-        </div>
-        <div class="mission" id="m1" onclick="toggleMission(1)">
-          <div class="mission-num">2</div>
-          <div class="mission-content">
-            <div class="mission-title">☁️ Criar planilha de gastos no Google Sheets</div>
-            <div class="mission-desc">Crie uma planilha de controle de gastos mensais com SOMA total.</div>
-            <div class="mission-tags"><span class="mtag">⏱ 25 min</span><span class="mtag">☁️ Sheets</span><span class="mtag mtag-xp">⚡ +60 XP</span></div>
-            <div class="mission-steps" id="ms1">
-              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Acesse <span class="mstep-code">sheets.google.com</span> e crie uma nova planilha.</div></div>
-              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Crie as colunas: <strong>A: Categoria</strong>, <strong>B: Valor (R$)</strong>, <strong>C: Data</strong></div></div>
-              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Adicione 6 gastos fictícios: Transporte, Alimentação, Material Escolar, Lazer, Roupa, Internet</div></div>
-              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Em B8 (após os dados) use <span class="mstep-code">=SOMA(B2:B7)</span> para calcular o total.</div></div>
-              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">Nomeie a planilha como <strong>Gastos_SeuNome</strong> e compartilhe com o professor.</div></div>
-            </div>
-          </div>
-          <div class="mission-check">○</div>
-        </div>
-        <div class="mission" id="m2" onclick="toggleMission(2)">
-          <div class="mission-num">3</div>
-          <div class="mission-content">
-            <div class="mission-title">🎨 Formatar e embelezar a planilha</div>
-            <div class="mission-desc">Aplique cores, negrito e bordas na planilha criada para deixá-la profissional.</div>
-            <div class="mission-tags"><span class="mtag">⏱ 20 min</span><span class="mtag">🎨 Design</span><span class="mtag mtag-xp">⚡ +50 XP</span></div>
-            <div class="mission-steps" id="ms2">
-              <div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Selecione a linha de cabeçalho (linha 1). Aplique <strong>Negrito</strong> com <span class="mstep-code">Ctrl+B</span>.</div></div>
-              <div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Com o cabeçalho selecionado, aplique uma <strong>cor de fundo</strong> (balde de tinta na aba Início).</div></div>
-              <div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Selecione todos os dados. Vá em <strong>Início → Bordas → Todas as bordas</strong>.</div></div>
-              <div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Ajuste a largura das colunas: dê duplo clique na borda entre letras das colunas para ajuste automático.</div></div>
-              <div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">✅ Salve. Sua planilha agora parece profissional!</div></div>
-            </div>
-          </div>
-          <div class="mission-check">○</div>
-        </div>
+    <div class="scene-box">
+      <div class="scene-avatar">👩‍💼</div>
+      <div class="scene-bubble">
+        <div class="scene-name">MARINA SOUZA · CEO da TechMercado</div>
+        <div class="scene-text">"Perfeito! Você passou nos testes. Agora preciso que você <strong>construa as planilhas reais</strong> que vão guiar nossas decisões este mês. São 3 tarefas — cada uma vale pontos para sua avaliação. Bora?"</div>
       </div>
     </div>
-  </div>
 
-  <div class="progress-bar">
-    <div class="section-label">📊 Seu progresso</div>
-    <div class="progress-missions">
-      <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Digitação</div><div class="prog-sub" id="prog-type">0/4 completos</div></div></div>
-      <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="prog-quiz">0/6 respondidos</div></div></div>
-      <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="prog-drag">Não realizado</div></div></div>
-      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="prog-miss">0/3 concluídas</div></div></div>
+    <div class="mission-list">
+      <div class="mission-card" id="m1" onclick="toggleMission('m1')">
+        <div class="mc-num">1</div>
+        <div class="mc-body">
+          <div class="mc-title">💰 Controle Financeiro Anual — Salve o caixa da TechMercado</div>
+          <div class="mc-desc">Crie a planilha que mostra exatamente quanto a TechMercado ganhou, gastou e lucrou em cada mês do ano.</div>
+          <div class="mc-tags">
+            <span class="mc-tag">📊 Google Sheets</span>
+            <span class="mc-tag">⏱ 30 min</span>
+            <span class="mc-tag mc-tag-xp">⚡ 100 pts</span>
+          </div>
+          <div class="mc-steps" id="ms1">
+            <div class="mcs-item"><div class="mcs-num">1</div><div class="mcs-text">Abra o Google Sheets e renomeie a aba para "Financeiro 2026"</div></div>
+            <div class="mcs-item"><div class="mcs-num">2</div><div class="mcs-text">Crie os cabeçalhos: <span class="mcs-code">Mês | Receita | Despesas | Saldo</span></div></div>
+            <div class="mcs-item"><div class="mcs-num">3</div><div class="mcs-text">Preencha 12 linhas (Jan–Dez) com valores fictícios realistas para uma empresa de eletrônicos</div></div>
+            <div class="mcs-item"><div class="mcs-num">4</div><div class="mcs-text">Em D2, crie a fórmula de saldo: <span class="mcs-code">=B2-C2</span> e copie para todas as linhas</div></div>
+            <div class="mcs-item"><div class="mcs-num">5</div><div class="mcs-text">Linha 14: <span class="mcs-code">=SOMA(B2:B13)</span> e <span class="mcs-code">=SOMA(C2:C13)</span></div></div>
+            <div class="mcs-item"><div class="mcs-num">6</div><div class="mcs-text">Linha 15: <span class="mcs-code">=MÉDIA(D2:D13)</span> · Linha 16: <span class="mcs-code">=MÁXIMO(D2:D13)</span> e <span class="mcs-code">=MÍNIMO(D2:D13)</span></div></div>
+            <div class="mcs-item"><div class="mcs-num">7</div><div class="mcs-text">Selecione B2:D17 e formate como moeda (R$) — Formatar → Número → Moeda</div></div>
+          </div>
+        </div>
+        <div class="mc-check" id="mc1-check">✓</div>
+      </div>
+
+      <div class="mission-card" id="m2" onclick="toggleMission('m2')">
+        <div class="mc-num">2</div>
+        <div class="mc-body">
+          <div class="mc-title">🎓 Sistema de Notas — O RH quer avaliar a equipe</div>
+          <div class="mc-desc">A TechMercado fez uma capacitação interna. Agora precisa classificar os 10 funcionários por nota e frequência.</div>
+          <div class="mc-tags">
+            <span class="mc-tag">📊 Google Sheets</span>
+            <span class="mc-tag">⏱ 35 min</span>
+            <span class="mc-tag mc-tag-xp">⚡ 100 pts</span>
+          </div>
+          <div class="mc-steps" id="ms2">
+            <div class="mcs-item"><div class="mcs-num">1</div><div class="mcs-text">Crie colunas: <span class="mcs-code">Funcionário | Nota1 | Nota2 | Nota3 | Média | Frequência% | Situação</span></div></div>
+            <div class="mcs-item"><div class="mcs-num">2</div><div class="mcs-text">Insira 10 funcionários da TechMercado com nomes fictícios e notas variadas (0-10)</div></div>
+            <div class="mcs-item"><div class="mcs-num">3</div><div class="mcs-text">Em E2, calcule: <span class="mcs-code">=MÉDIA(B2:D2)</span> e copie para todas as linhas</div></div>
+            <div class="mcs-item"><div class="mcs-num">4</div><div class="mcs-text">Em G2, use SE duplo: <span class="mcs-code">=SE(E2>=6,SE(F2>=75,"Aprovado","Rep. por Falta"),"Rep. por Nota")</span></div></div>
+            <div class="mcs-item"><div class="mcs-num">5</div><div class="mcs-text">Aplique formatação condicional: Aprovado = verde, Reprovado = vermelho</div></div>
+            <div class="mcs-item"><div class="mcs-num">6</div><div class="mcs-text">Crie um gráfico de barras com as médias dos funcionários</div></div>
+          </div>
+        </div>
+        <div class="mc-check" id="mc2-check">✓</div>
+      </div>
+
+      <div class="mission-card" id="m3" onclick="toggleMission('m3')">
+        <div class="mc-num">3</div>
+        <div class="mc-body">
+          <div class="mc-title">📈 Dashboard de Vendas — Qual produto é o campeão?</div>
+          <div class="mc-desc">O diretor comercial quer saber quais produtos são os mais vendidos. Construa o mini-dashboard de análise.</div>
+          <div class="mc-tags">
+            <span class="mc-tag">📊 Google Sheets</span>
+            <span class="mc-tag">⏱ 25 min</span>
+            <span class="mc-tag mc-tag-xp">⚡ 100 pts</span>
+          </div>
+          <div class="mc-steps" id="ms3">
+            <div class="mcs-item"><div class="mcs-num">1</div><div class="mcs-text">Crie colunas: <span class="mcs-code">Produto | Vendas Jan | Fev | Mar | Total | % do Total</span></div></div>
+            <div class="mcs-item"><div class="mcs-num">2</div><div class="mcs-text">Insira 8 produtos da TechMercado com dados de vendas de 3 meses</div></div>
+            <div class="mcs-item"><div class="mcs-num">3</div><div class="mcs-text">Em E2: <span class="mcs-code">=SOMA(B2:D2)</span> para o total por produto</div></div>
+            <div class="mcs-item"><div class="mcs-num">4</div><div class="mcs-text">Em F2: <span class="mcs-code">=E2/SOMA($E$2:$E$9)*100</span> para a porcentagem (note o $ para fixar)</div></div>
+            <div class="mcs-item"><div class="mcs-num">5</div><div class="mcs-text">Ordene por Total decrescente: Dados → Classificar intervalo</div></div>
+            <div class="mcs-item"><div class="mcs-num">6</div><div class="mcs-text">Crie um gráfico de pizza mostrando a participação de cada produto</div></div>
+            <div class="mcs-item"><div class="mcs-num">7</div><div class="mcs-text">Destaque o produto campeão com cor especial (amarelo/dourado)</div></div>
+          </div>
+        </div>
+        <div class="mc-check" id="mc3-check">✓</div>
+      </div>
     </div>
-    <div class="total-xp"><div class="total-xp-label">⚡ XP Total</div><div class="total-xp-num" id="totalXpDisp">0 / 300 XP</div></div>
+
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+      <button class="nav-btn nb-acc" onclick="completeMission('m1','mc1-check','badge3',30)">✅ Completar Missão 1</button>
+      <button class="nav-btn nb-acc" onclick="completeMission('m2','mc2-check',null,30)">✅ Completar Missão 2</button>
+      <button class="nav-btn nb-acc" onclick="completeMission('m3','mc3-check',null,30)">✅ Completar Missão 3</button>
+    </div>
   </div>
 
-  <nav class="nav-bar">
-    <a href="semana06_aula.html" class="nav-btn nav-btn-outline">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn nav-btn-outline">🏠 Índice</a>
+  <!-- FOOTER -->
+  <div class="footer-nav">
+    <a href="semana07_guia.html" class="nav-btn nb-acc">📝 Guia de Exercícios</a>
+    <a href="index.html" class="nav-btn nb-outline">🏠 Índice</a>
     <span class="nav-spacer"></span>
-    <a href="semana08_aula.html" class="nav-btn nav-btn-dark">Próxima ➡</a>
-  </nav>
+    <a href="semana08_aula.html" class="nav-btn nb-dark">Semana 08: Missão avançada ➡</a>
+  </div>
 </div>
 
 <script>
-let totalXP=0,MAX_XP=300;const earned={};
-function addXP(k,v){if(earned[k])return;earned[k]=true;totalXP=Math.min(totalXP+v,MAX_XP);updateXPBar()}
-function updateXPBar(){const p=(totalXP/MAX_XP)*100;document.getElementById('xpFill').style.width=p+'%';document.getElementById('xpNum').textContent=totalXP+' / '+MAX_XP;document.getElementById('totalXpDisp').textContent=totalXP+' / '+MAX_XP+' XP';checkAch()}
-function checkAch(){if(totalXP>=50)unB('badge0');if(totalXP>=130)unB('badge1');if(totalXP>=220)unB('badge2');if(totalXP>=300)unB('badge3')}
-function unB(id){const e=document.getElementById(id);if(e&&e.classList.contains('locked'))e.classList.replace('locked','unlocked')}
-let typingDone={};
-function checkTyping(input,target,boxId,badge,xp){
-  const box=document.getElementById(boxId),fb=document.getElementById(boxId+'-fb'),val=input.value.trim();
-  if(val===target){box.classList.remove('wrong');box.classList.add('correct');input.disabled=true;fb.textContent='🎉 Correto! +'+xp+' XP';fb.style.color='var(--green)';
-    if(!typingDone[boxId]){typingDone[boxId]=true;addXP('t_'+boxId,xp);document.getElementById('prog-type').textContent=Object.keys(typingDone).length+'/4 completos'}}
-  else if(val.length>=target.length){box.classList.add('wrong');setTimeout(()=>box.classList.remove('wrong'),500);fb.textContent='❌ Tente novamente...';fb.style.color='var(--red)'}
-  else{fb.textContent='';box.classList.remove('wrong','correct')}}
-const qA=[2,1,2,0,0,2],qE=['Correto! Coluna = letra (C), linha = número (2), então C2.','Correto! A fórmula correta usa = no início e : para o intervalo.','Correto! O * é o operador de multiplicação no Excel/Sheets.','Correto! Sem o = no início, o Excel trata como texto e não calcula.','Correto! A maioria das fórmulas básicas funciona igual nos dois.','Correto! =MÁXIMO() retorna o maior valor do intervalo.'];
-let qScore=0,qAnswered={};
-function answerQuiz(n,c,correct){if(qAnswered[n])return;qAnswered[n]=true;const btns=document.querySelectorAll('#qq'+n+' .quiz-option');btns.forEach(b=>b.disabled=true);const fb=document.getElementById('qf'+n);if(c===correct){btns[c].classList.add('correct');fb.textContent='✅ '+qE[n];fb.classList.add('show','ok');qScore++;addXP('q_'+n,15)}else{btns[c].classList.add('wrong');btns[correct].classList.add('correct');fb.textContent='❌ '+qE[n];fb.classList.add('show','bad')}const ans=Object.keys(qAnswered).length;document.getElementById('prog-quiz').textContent=ans+'/6 respondidos';if(ans===6)document.getElementById('quiz-total').textContent='🏆 Quiz finalizado! Você acertou '+qScore+'/6.'}
-let draggedToken=null;const dragSlots={};
-function dragStart(e){draggedToken=e.target;e.target.classList.add('dragging')}
-function dragOver(e){e.preventDefault();e.currentTarget.classList.add('over')}
-function dragLeave(e){e.currentTarget.classList.remove('over')}
-function dropItem(e){e.preventDefault();e.currentTarget.classList.remove('over');if(!draggedToken)return;const zone=e.currentTarget,slot=zone.querySelector('.drag-zone-slot');dragSlots[slot.id]=draggedToken.dataset.val;slot.textContent=draggedToken.dataset.val;slot.classList.add('filled');draggedToken.classList.add('used');draggedToken.classList.remove('dragging');draggedToken=null}
-function checkDrag(){const ans={'slot-s1':'=SOMA()','slot-s2':'=MÉDIA()','slot-s3':'=MÁXIMO()','slot-s4':'=MÍNIMO()'};let c=0;for(const[id,exp]of Object.entries(ans)){const slot=document.getElementById(id),zone=slot.parentElement;if(dragSlots[id]===exp){zone.classList.add('correct');c++}else zone.classList.add('wrong')}const r=document.getElementById('dragResult');r.classList.add('show');if(c===4){r.style.background='var(--green-light)';r.style.color='var(--green)';r.textContent='🎉 Perfeito! Todas corretas! +50 XP';addXP('drag',50);document.getElementById('prog-drag').textContent='✅ Concluído'}else{r.style.background='var(--red-light)';r.style.color='var(--red)';r.textContent='Você acertou '+c+'/4. Tente novamente!'}}
-function resetDrag(){document.querySelectorAll('.drag-token').forEach(t=>t.classList.remove('used','dragging'));document.querySelectorAll('.drag-zone').forEach(z=>z.classList.remove('correct','wrong','over'));document.querySelectorAll('.drag-zone-slot').forEach(s=>{s.classList.remove('filled');s.textContent='Arraste aqui'});Object.keys(dragSlots).forEach(k=>delete dragSlots[k]);document.getElementById('dragResult').classList.remove('show');draggedToken=null}
-let mDone={};
-function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';const xpM=[70,60,50];addXP('m_'+id,xpM[id]);document.getElementById('prog-miss').textContent=Object.keys(mDone).length+'/3 concluídas'}}
+// XP SYSTEM
+let xp = 0;
+const xpMax = 350;
+const earned = {};
+
+function addXP(amount, badgeId) {
+  xp = Math.min(xp + amount, xpMax);
+  document.getElementById('xpNum').textContent = xp + ' / ' + xpMax;
+  document.getElementById('xpFill').style.width = (xp/xpMax*100) + '%';
+  showToast(amount);
+  if (badgeId) unlockBadge(badgeId);
+  updateProgress();
+}
+
+function showToast(amount) {
+  const t = document.getElementById('xpToast');
+  document.getElementById('toastAmt').textContent = amount;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function unlockBadge(id) {
+  const b = document.getElementById(id);
+  if (b && b.classList.contains('locked')) {
+    b.classList.remove('locked');
+    b.classList.add('unlocked');
+  }
+}
+
+// PROGRESS TRACKER
+let completedSections = 0;
+function updateProgress() {
+  const sections = ['ptd0','ptd1','ptd2','ptd3','ptd4'];
+  const pct = Math.min(xp / xpMax, 1);
+  const step = Math.floor(pct * 5);
+  sections.forEach((id, i) => {
+    const dot = document.getElementById(id);
+    const label = dot?.nextElementSibling;
+    if (i < step) {
+      dot?.classList.remove('active'); dot?.classList.add('done');
+      label?.classList.remove('active'); label?.classList.add('done');
+    } else if (i === step) {
+      dot?.classList.add('active');
+      label?.classList.add('active');
+    }
+  });
+  document.getElementById('ptLine').style.width = (pct * 88) + '%';
+}
+
+// TYPING CHECK
+function checkTyping(inp, answer, boxId, badgeId, xpAmt) {
+  const key = boxId + '-done';
+  if (earned[key]) return;
+  const val = inp.value.trim().toUpperCase();
+  const target = answer.toUpperCase();
+  const fb = document.getElementById(boxId + '-fb');
+  const box = document.getElementById(boxId);
+  if (val === target) {
+    box.classList.add('correct');
+    box.classList.remove('wrong');
+    fb.textContent = '🎉 Perfeito! +' + xpAmt + ' XP ganhos!';
+    fb.className = 'ty-feedback ok';
+    if (!earned[key]) { earned[key] = true; addXP(xpAmt, badgeId); }
+    inp.disabled = true;
+  } else if (val.length >= answer.length) {
+    box.classList.add('wrong');
+    box.classList.remove('correct');
+    fb.textContent = '❌ Tente novamente. Dica: observe bem o endereço na planilha acima.';
+    fb.className = 'ty-feedback bad';
+    setTimeout(() => box.classList.remove('wrong'), 600);
+  } else {
+    box.classList.remove('correct','wrong');
+    fb.textContent = '';
+  }
+}
+
+// QUIZ
+function answerQuiz(btn, result, qId, badgeId, xpAmt) {
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('fb-' + qId);
+  const key = 'quiz-' + qId;
+  if (earned[key]) return;
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  fb.classList.add('show');
+  if (result === 'correct') {
+    fb.classList.add('ok');
+    fb.textContent = '✅ Correto! ' + (xpAmt ? '+' + xpAmt + ' XP' : '');
+    if (!earned[key] && xpAmt) { earned[key] = true; addXP(xpAmt, badgeId); }
+    else if (!earned[key]) { earned[key] = true; }
+  } else {
+    fb.classList.add('bad');
+    opts.forEach(o => { if (o.onclick?.toString().includes("'correct'")) o.classList.add('correct'); });
+    fb.textContent = '❌ Não era essa. A correta está destacada em verde.';
+  }
+}
+
+// DRAG AND DROP
+let dragging = null;
+const slotMap = {};
+
+function dragStart(e) { dragging = e.target.dataset.id; }
+function dragOver(e) { e.preventDefault(); e.currentTarget.classList.add('over'); }
+function dragLeave(e) { e.currentTarget.classList.remove('over'); }
+
+function dropToken(e, answer) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  if (!dragging) return;
+  const slot = document.getElementById('slot-' + answer);
+  // return previous token if slot already filled
+  if (slotMap[answer]) {
+    const prev = document.getElementById('dt-' + slotMap[answer]);
+    if (prev) prev.classList.remove('used');
+  }
+  slotMap[answer] = dragging;
+  slot.textContent = dragging;
+  slot.classList.add('filled');
+  const token = document.getElementById('dt-' + dragging);
+  if (token) token.classList.add('used');
+  dragging = null;
+}
+
+function checkDrag() {
+  const answers = {soma:'soma',media:'media',max:'max',min:'min',se:'se'};
+  let correct = 0;
+  Object.keys(answers).forEach(zone => {
+    const zoneEl = document.querySelector('[data-answer="' + zone + '"]');
+    if (slotMap[zone] === answers[zone]) {
+      zoneEl.classList.add('correct'); correct++;
+    } else {
+      zoneEl.classList.add('wrong-drop');
+    }
+  });
+  const res = document.getElementById('dragResult');
+  res.classList.add('show');
+  if (correct === 5) {
+    res.classList.add('ok');
+    res.textContent = '🎉 Perfeito! Você conectou tudo certo! +25 XP';
+    if (!earned['drag-done']) { earned['drag-done'] = true; addXP(25, 'badge3'); }
+  } else {
+    res.classList.add('bad');
+    res.textContent = '❌ ' + correct + '/5 corretos. Revise e tente novamente!';
+  }
+}
+
+function resetDrag() {
+  Object.keys(slotMap).forEach(k => {
+    delete slotMap[k];
+    const slot = document.getElementById('slot-' + k);
+    if (slot) { slot.textContent = 'Solte aqui'; slot.classList.remove('filled'); }
+    const zoneEl = document.querySelector('[data-answer="' + k + '"]');
+    if (zoneEl) zoneEl.classList.remove('correct','wrong-drop');
+  });
+  document.querySelectorAll('.drag-token').forEach(t => t.classList.remove('used'));
+  const res = document.getElementById('dragResult');
+  res.classList.remove('show','ok','bad');
+  dragging = null;
+}
+
+// MISSIONS
+function toggleMission(id) {
+  const steps = document.getElementById('ms' + id.slice(1));
+  if (steps) steps.classList.toggle('open');
+}
+
+function completeMission(cardId, checkId, badgeId, xpAmt) {
+  const card = document.getElementById(cardId);
+  const check = document.getElementById(checkId);
+  const key = 'mission-' + cardId;
+  if (!earned[key]) {
+    earned[key] = true;
+    card.classList.add('done');
+    addXP(xpAmt, badgeId);
+  }
+}
+
+// INIT
+updateProgress();
 </script>
 </body>
 </html>
