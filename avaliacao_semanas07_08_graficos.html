@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação — Planilhas e Gráficos · Projetos de TIC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0a1628; --blue:#1a56db; --blue-light:#dbeafe;
+  --green:#059669; --red:#dc2626; --amber:#d97706;
+  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+  --gray-400:#94a3b8; --gray-600:#475569; --gray-800:#1e293b;
+  --white:#fff; --radius:10px; --shadow:0 2px 12px rgba(0,0,0,.08);
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;}
+
+/* TOP BAR */
+.topbar{background:var(--navy);color:white;padding:10px 32px;font-size:.8em;display:flex;align-items:center;gap:12px;}
+.topbar a{color:#60a5fa;text-decoration:none;}
+.topbar a:hover{text-decoration:underline;}
+.topbar-sep{color:#475569;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#1a56db 100%);color:white;padding:48px 32px 40px;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:6px 18px;font-size:.8em;font-weight:600;margin-bottom:20px;}
+.hero h1{font-size:clamp(1.6em,4vw,2.6em);font-weight:700;letter-spacing:-.03em;margin-bottom:8px;}
+.hero h1 span{color:#93c5fd;}
+.hero-sub{opacity:.75;font-size:.95em;margin-bottom:32px;}
+.meta-grid{display:flex;justify-content:center;gap:0;flex-wrap:wrap;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;max-width:700px;margin:0 auto;overflow:hidden;}
+.meta-item{padding:16px 24px;text-align:center;border-right:1px solid rgba(255,255,255,.15);flex:1;min-width:120px;}
+.meta-item:last-child{border-right:none;}
+.meta-val{font-size:1.3em;font-weight:700;color:#93c5fd;}
+.meta-label{font-size:.75em;opacity:.7;margin-top:2px;letter-spacing:.04em;text-transform:uppercase;}
+
+/* MAIN */
+.main{max-width:900px;margin:40px auto;padding:0 32px 60px;}
+
+/* STUDENT BOX */
+.student-box{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;margin-bottom:32px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;}
+.field-group{display:flex;flex-direction:column;gap:4px;}
+.field-label{font-size:.75em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-600);}
+.field-line{border:none;border-bottom:2px solid var(--gray-200);width:100%;padding:8px 4px;font-family:'IBM Plex Sans',sans-serif;font-size:.95em;color:var(--gray-800);background:transparent;outline:none;transition:border-color .2s;}
+.field-line:focus{border-color:var(--blue);}
+.nota-box{background:var(--gray-100);border:2px solid var(--gray-200);border-radius:8px;padding:16px 24px;text-align:center;min-width:100px;}
+.nota-box .field-label{margin-bottom:8px;}
+.nota-box .nota-value{font-size:2em;font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+
+/* INSTRUCTIONS */
+.instrucoes{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);border-radius:var(--radius);padding:18px 20px;margin-bottom:32px;}
+.instrucoes h3{font-size:.85em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;}
+.instrucoes ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.instrucoes li{font-size:.9em;color:#78350f;padding-left:16px;position:relative;}
+.instrucoes li::before{content:"›";position:absolute;left:0;color:var(--amber);font-weight:700;}
+
+/* SECTION HEADER */
+.section-header{background:var(--navy);color:white;border-radius:var(--radius) var(--radius) 0 0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:36px;}
+.section-header .sec-title{font-size:1em;font-weight:700;}
+.section-header .sec-subtitle{font-size:.82em;opacity:.7;margin-top:2px;}
+.section-header .sec-pts{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:.78em;font-weight:600;white-space:nowrap;}
+
+/* QUESTIONS */
+.questions-wrapper{background:white;border:1px solid var(--gray-200);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:8px 0;}
+.question{padding:20px 24px;border-bottom:1px solid var(--gray-100);}
+.question:last-child{border-bottom:none;}
+.q-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.q-num{background:var(--blue);color:white;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8em;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:.95em;font-weight:500;color:var(--gray-800);line-height:1.5;}
+.q-text strong{color:var(--navy);}
+.q-text code{font-family:'IBM Plex Mono',monospace;background:var(--gray-100);color:var(--blue);padding:2px 7px;border-radius:4px;font-size:.9em;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-left:44px;}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;cursor:pointer;transition:all .2s;background:white;}
+.option:hover{border-color:var(--blue);background:var(--blue-light);}
+.option input[type=radio]{display:none;}
+.option.selected{border-color:var(--blue);background:var(--blue-light);}
+.opt-label{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8em;color:var(--blue);flex-shrink:0;margin-top:2px;}
+.opt-text{font-size:.88em;color:var(--gray-800);line-height:1.4;}
+.opt-text code{font-family:'IBM Plex Mono',monospace;background:var(--gray-100);color:var(--blue);padding:1px 6px;border-radius:3px;font-size:.88em;}
+
+/* TRUE/FALSE */
+.tf-table{width:100%;border-collapse:collapse;margin-left:0;}
+.tf-table th{font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600);padding:8px 12px;background:var(--gray-100);text-align:left;}
+.tf-table th:last-child{text-align:center;width:80px;}
+.tf-table td{padding:14px 12px;border-bottom:1px solid var(--gray-100);font-size:.9em;}
+.tf-table tr:last-child td{border-bottom:none;}
+.tf-choices{display:flex;gap:16px;justify-content:center;}
+.tf-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--gray-200);background:white;font-weight:700;font-size:.85em;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.tf-btn.v:hover,.tf-btn.v.active{border-color:var(--green);background:var(--green);color:white;}
+.tf-btn.f:hover,.tf-btn.f.active{border-color:var(--red);background:var(--red);color:white;}
+
+/* MATCH */
+.match-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-left:44px;width:calc(100% - 44px);}
+.match-col h4{font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600);margin-bottom:10px;}
+.match-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:8px;margin-bottom:8px;font-size:.88em;}
+.match-key{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85em;color:var(--blue);}
+.match-input{border:none;border-bottom:2px solid var(--gray-200);width:36px;text-align:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1em;padding:2px;outline:none;background:transparent;}
+.match-input:focus{border-color:var(--blue);}
+.match-desc{font-size:.88em;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:8px;margin-bottom:8px;line-height:1.4;}
+.match-desc-key{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--navy);margin-right:6px;}
+
+/* ESSAY */
+.essay-area{margin-left:44px;width:calc(100% - 44px);}
+.essay-area textarea{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:12px;font-family:'IBM Plex Sans',sans-serif;font-size:.9em;color:var(--gray-800);resize:vertical;outline:none;transition:border-color .2s;min-height:100px;}
+.essay-area textarea:focus{border-color:var(--blue);}
+
+/* PLANILHA MOCK */
+.sheet-mock{background:#f1f5f9;border:1px solid var(--gray-200);border-radius:8px;overflow:hidden;margin:12px 0 12px 44px;font-family:'IBM Plex Mono',monospace;font-size:.82em;}
+.sheet-mock table{width:100%;border-collapse:collapse;}
+.sheet-mock th{background:#334155;color:white;padding:5px 10px;text-align:center;border:1px solid #475569;font-size:.75em;}
+.sheet-mock td{padding:5px 10px;border:1px solid var(--gray-200);color:var(--gray-800);}
+.sheet-mock td.hd{background:#e2e8f0;font-weight:700;font-family:'IBM Plex Sans',sans-serif;}
+.sheet-mock td.rn{background:#e2e8f0;text-align:center;color:var(--gray-600);font-size:.75em;width:28px;}
+.sheet-mock td.hi{background:#dbeafe;color:var(--blue);font-weight:700;}
+
+/* FOOTER */
+.page-footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--gray-200);color:var(--gray-600);font-size:.82em;}
+.page-footer a{color:var(--blue);}
+
+@media(max-width:680px){
+  .main{padding:0 16px 40px;}
+  .options-grid{grid-template-columns:1fr;}
+  .match-wrapper{grid-template-columns:1fr;}
+  .meta-grid{flex-direction:column;}
+  .meta-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.15);}
+  .meta-item:last-child{border-bottom:none;}
+  .row2{grid-template-columns:1fr;}
+  .sheet-mock{margin-left:0;}
+  .essay-area{margin-left:0;width:100%;}
+  .match-wrapper{margin-left:0;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html">← Índice</a>
+  <span class="topbar-sep">›</span>
+  <span>2º Bimestre</span>
+  <span class="topbar-sep">›</span>
+  <span>Avaliação Teórica — Planilhas e Gráficos</span>
+</div>
+
+<header class="hero">
+  <div class="hero-tag">📋 ETEC · Centro Paula Souza · 2026</div>
+  <h1>Avaliação Teórica — <span>Planilhas &amp; Gráficos</span></h1>
+  <p class="hero-sub">Projetos de TIC · 1ª Série · Semanas 07 e 08 · Google Sheets / Excel &amp; Gráficos</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-val">10,0</div><div class="meta-label">Pontos</div></div>
+    <div class="meta-item"><div class="meta-val">50 min</div><div class="meta-label">Duração</div></div>
+    <div class="meta-item"><div class="meta-val">18</div><div class="meta-label">Questões</div></div>
+    <div class="meta-item"><div class="meta-val">Não</div><div class="meta-label">Consulta</div></div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ALUNO -->
+  <div class="student-box">
+    <div>
+      <div class="field-group">
+        <span class="field-label">Nome Completo</span>
+        <input type="text" class="field-line" placeholder="Digite seu nome completo">
+      </div>
+      <div class="row2">
+        <div class="field-group">
+          <span class="field-label">Turma</span>
+          <input type="text" class="field-line" placeholder="Ex: 1A">
+        </div>
+        <div class="field-group">
+          <span class="field-label">Data</span>
+          <input type="date" class="field-line">
+        </div>
+      </div>
+    </div>
+    <div class="nota-box">
+      <div class="field-label">Nota</div>
+      <div class="nota-value">___</div>
+    </div>
+  </div>
+
+  <!-- INSTRUÇÕES -->
+  <div class="instrucoes">
+    <h3>⚠ Instruções</h3>
+    <ul>
+      <li>Leia cada questão com atenção antes de responder.</li>
+      <li><strong>Múltipla escolha:</strong> marque <strong>uma alternativa</strong>.</li>
+      <li><strong>Verdadeiro/Falso:</strong> circule V ou F.</li>
+      <li><strong>Correspondência:</strong> escreva a letra da Coluna B no espaço ao lado do número.</li>
+      <li><strong>Dissertativas:</strong> responda de forma clara e objetiva.</li>
+      <li>Não é permitido o uso de celular durante a avaliação.</li>
+    </ul>
+  </div>
+
+  <!-- ===== PARTE I — MÚLTIPLA ESCOLHA ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">I · Múltipla Escolha</div>
+      <div class="sec-subtitle">Marque a alternativa correta</div>
+    </div>
+    <div class="sec-pts">8 questões · 0,5 pt cada = 4,0 pts</div>
+  </div>
+
+  <div class="questions-wrapper">
+
+    <!-- Q1 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">01</div>
+        <div class="q-text">No Google Sheets e no Microsoft Excel, qual caractere <strong>obrigatoriamente inicia</strong> toda fórmula de cálculo?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q1" value="A"><span class="opt-label">A)</span><span class="opt-text">Ponto e vírgula ( ; )</span></label>
+        <label class="option"><input type="radio" name="q1" value="B"><span class="opt-label">B)</span><span class="opt-text">Sinal de igual ( = )</span></label>
+        <label class="option"><input type="radio" name="q1" value="C"><span class="opt-label">C)</span><span class="opt-text">Cerquilha ( # )</span></label>
+        <label class="option"><input type="radio" name="q1" value="D"><span class="opt-label">D)</span><span class="opt-text">Arroba ( @ )</span></label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">02</div>
+        <div class="q-text">Na planilha abaixo, qual é o <strong>endereço correto</strong> da célula que contém o valor <strong>R$ 42.000</strong>?</div>
+      </div>
+      <div class="sheet-mock">
+        <table>
+          <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+          <tr><td class="rn">1</td><td class="hd">Mês</td><td class="hd">Receita</td><td class="hd">Despesas</td></tr>
+          <tr><td class="rn">2</td><td>Janeiro</td><td class="hi">R$ 42.000</td><td>R$ 28.500</td></tr>
+          <tr><td class="rn">3</td><td>Fevereiro</td><td>R$ 38.200</td><td>R$ 31.000</td></tr>
+        </table>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q2" value="A"><span class="opt-label">A)</span><span class="opt-text">A2</span></label>
+        <label class="option"><input type="radio" name="q2" value="B"><span class="opt-label">B)</span><span class="opt-text">B2</span></label>
+        <label class="option"><input type="radio" name="q2" value="C"><span class="opt-label">C)</span><span class="opt-text">2B</span></label>
+        <label class="option"><input type="radio" name="q2" value="D"><span class="opt-label">D)</span><span class="opt-text">C1</span></label>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">03</div>
+        <div class="q-text">A TechMercado precisa calcular o <strong>total anual de receitas</strong> armazenadas nas células B2 a B13. Qual fórmula está <strong>correta</strong>?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q3" value="A"><span class="opt-label">A)</span><span class="opt-text"><code>=TOTAL(B2:B13)</code></span></label>
+        <label class="option"><input type="radio" name="q3" value="B"><span class="opt-label">B)</span><span class="opt-text"><code>SOMA(B2 ATÉ B13)</code></span></label>
+        <label class="option"><input type="radio" name="q3" value="C"><span class="opt-label">C)</span><span class="opt-text"><code>=SOMA(B2:B13)</code></span></label>
+        <label class="option"><input type="radio" name="q3" value="D"><span class="opt-label">D)</span><span class="opt-text"><code>=SOMAR(B2,B13)</code></span></label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">04</div>
+        <div class="q-text">Um analista precisa saber qual foi o <strong>mês com maior saldo</strong> numa coluna D com 12 valores (D2:D13). Qual função deve usar?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q4" value="A"><span class="opt-label">A)</span><span class="opt-text"><code>=SOMA(D2:D13)</code></span></label>
+        <label class="option"><input type="radio" name="q4" value="B"><span class="opt-label">B)</span><span class="opt-text"><code>=TOPO(D2:D13)</code></span></label>
+        <label class="option"><input type="radio" name="q4" value="C"><span class="opt-label">C)</span><span class="opt-text"><code>=MAIOR(D2:D13)</code></span></label>
+        <label class="option"><input type="radio" name="q4" value="D"><span class="opt-label">D)</span><span class="opt-text"><code>=MÁXIMO(D2:D13)</code></span></label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">05</div>
+        <div class="q-text">Observe a fórmula: <code>=SE(B2&gt;=6;"Aprovado";"Reprovado")</code>. Se a célula B2 contiver o valor <strong>5</strong>, qual será o resultado exibido?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q5" value="A"><span class="opt-label">A)</span><span class="opt-text">Aprovado</span></label>
+        <label class="option"><input type="radio" name="q5" value="B"><span class="opt-label">B)</span><span class="opt-text">Reprovado</span></label>
+        <label class="option"><input type="radio" name="q5" value="C"><span class="opt-label">C)</span><span class="opt-text">5</span></label>
+        <label class="option"><input type="radio" name="q5" value="D"><span class="opt-label">D)</span><span class="opt-text">#ERRO!</span></label>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">06</div>
+        <div class="q-text">Você quer pintar automaticamente de vermelho todas as células com nota inferior a 6. Qual recurso do Excel/Sheets é o mais adequado?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q6" value="A"><span class="opt-label">A)</span><span class="opt-text">Pintar manualmente cada célula uma a uma</span></label>
+        <label class="option"><input type="radio" name="q6" value="B"><span class="opt-label">B)</span><span class="opt-text">Formatação Condicional com regra de valor menor que 6</span></label>
+        <label class="option"><input type="radio" name="q6" value="C"><span class="opt-label">C)</span><span class="opt-text">Inserir um comentário em cada célula abaixo de 6</span></label>
+        <label class="option"><input type="radio" name="q6" value="D"><span class="opt-label">D)</span><span class="opt-text">Fórmula SE com código de cor</span></label>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">07</div>
+        <div class="q-text">Você precisa criar um gráfico para mostrar como as <strong>vendas mensais evoluíram ao longo de 12 meses</strong>. Qual tipo de gráfico é o mais indicado?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q7" value="A"><span class="opt-label">A)</span><span class="opt-text">Gráfico de Pizza</span></label>
+        <label class="option"><input type="radio" name="q7" value="B"><span class="opt-label">B)</span><span class="opt-text">Gráfico de Linhas</span></label>
+        <label class="option"><input type="radio" name="q7" value="C"><span class="opt-label">C)</span><span class="opt-text">Gráfico de Dispersão</span></label>
+        <label class="option"><input type="radio" name="q7" value="D"><span class="opt-label">D)</span><span class="opt-text">Gráfico de Área empilhada</span></label>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">08</div>
+        <div class="q-text">Um relatório traz a <strong>participação percentual de cada categoria de produto</strong> nas vendas totais (Eletrônicos 40%, Roupas 35%, Alimentos 25%). Qual gráfico comunica melhor essa informação?</div>
+      </div>
+      <div class="options-grid">
+        <label class="option"><input type="radio" name="q8" value="A"><span class="opt-label">A)</span><span class="opt-text">Gráfico de Linhas</span></label>
+        <label class="option"><input type="radio" name="q8" value="B"><span class="opt-label">B)</span><span class="opt-text">Gráfico de Colunas agrupadas</span></label>
+        <label class="option"><input type="radio" name="q8" value="C"><span class="opt-label">C)</span><span class="opt-text">Gráfico de Pizza</span></label>
+        <label class="option"><input type="radio" name="q8" value="D"><span class="opt-label">D)</span><span class="opt-text">Gráfico de Dispersão</span></label>
+      </div>
+    </div>
+
+  </div><!-- /questions-wrapper -->
+
+  <!-- ===== PARTE II — VERDADEIRO OU FALSO ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">II · Verdadeiro ou Falso</div>
+      <div class="sec-subtitle">Circule V ou F para cada afirmação</div>
+    </div>
+    <div class="sec-pts">6 afirmações · 0,5 pt cada = 3,0 pts</div>
+  </div>
+
+  <div class="questions-wrapper">
+    <div class="question">
+      <table class="tf-table">
+        <thead>
+          <tr><th>#</th><th>Afirmação</th><th>V / F</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>09</strong></td>
+            <td>Se você digitar <code>SOMA(B2:B10)</code> sem o sinal de <code>=</code> no início, a planilha trata o conteúdo como texto e não realiza nenhum cálculo.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf09')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf09')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>10</strong></td>
+            <td>A fórmula <code>=MÉDIA(B2:B13)</code> produz o mesmo resultado que a fórmula <code>=SOMA(B2:B13)/12</code> somente quando o intervalo contém exatamente 12 células preenchidas com números.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf10')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf10')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>11</strong></td>
+            <td>O Gráfico de Pizza é ideal para comparar a evolução de vendas ao longo de 12 meses consecutivos, pois destaca as variações de tendência no tempo.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf11')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf11')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>12</strong></td>
+            <td>A Formatação Condicional aplica cores, negrito ou ícones automaticamente nas células com base em regras definidas pelo usuário, sem precisar formatar manualmente cada célula.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf12')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf12')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>13</strong></td>
+            <td>No Excel, para inserir um gráfico é necessário primeiro selecionar os dados e depois acessar a aba <strong>Inserir → Gráficos</strong>.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf13')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf13')">F</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>14</strong></td>
+            <td>A fórmula <code>=SE()</code> pode ser usada de forma aninhada — ou seja, um SE dentro de outro SE — para criar classificações com mais de dois resultados possíveis.</td>
+            <td>
+              <div class="tf-choices">
+                <button class="tf-btn v" onclick="toggleTF(this,'v','tf14')">V</button>
+                <button class="tf-btn f" onclick="toggleTF(this,'f','tf14')">F</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PARTE III — CORRESPONDÊNCIA ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">III · Correspondência</div>
+      <div class="sec-subtitle">Relacione a Coluna A com a Coluna B</div>
+    </div>
+    <div class="sec-pts">2 questões · 1,0 pt cada = 2,0 pts</div>
+  </div>
+
+  <div class="questions-wrapper">
+
+    <!-- Q15 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">15</div>
+        <div class="q-text">Relacione cada <strong>fórmula ou função</strong> da Coluna A com sua <strong>descrição</strong> na Coluna B. Escreva a letra da Coluna B no espaço ao lado de cada número.</div>
+      </div>
+      <div class="match-wrapper">
+        <div>
+          <h4>Coluna A — Fórmula / Função</h4>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">1.</span> =SOMA()</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">2.</span> =MÉDIA()</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">3.</span> =SE()</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">4.</span> =MÍNIMO()</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">5.</span> =MÁXIMO()</div>
+        </div>
+        <div>
+          <h4>Coluna B — Descrição</h4>
+          <div class="match-desc"><span class="match-desc-key">A.</span> Retorna o menor valor de um intervalo de células</div>
+          <div class="match-desc"><span class="match-desc-key">B.</span> Adiciona todos os valores de um intervalo</div>
+          <div class="match-desc"><span class="match-desc-key">C.</span> Retorna o maior valor de um intervalo de células</div>
+          <div class="match-desc"><span class="match-desc-key">D.</span> Calcula a média aritmética dos valores de um intervalo</div>
+          <div class="match-desc"><span class="match-desc-key">E.</span> Avalia uma condição e retorna um valor se verdadeira e outro se falsa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">18</div>
+        <div class="q-text">Relacione cada <strong>tipo de gráfico</strong> da Coluna A com sua <strong>melhor aplicação</strong> na Coluna B.</div>
+      </div>
+      <div class="match-wrapper">
+        <div>
+          <h4>Coluna A — Tipo de Gráfico</h4>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">1.</span> Gráfico de Colunas</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">2.</span> Gráfico de Linhas</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">3.</span> Gráfico de Pizza</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">4.</span> Gráfico de Área</div>
+          <div class="match-item"><input type="text" class="match-input" maxlength="1" placeholder="?"> <span class="match-key">5.</span> Formatação Condicional</div>
+        </div>
+        <div>
+          <h4>Coluna B — Melhor Aplicação</h4>
+          <div class="match-desc"><span class="match-desc-key">A.</span> Mostrar proporções percentuais (partes de um todo) com no máximo 6 categorias</div>
+          <div class="match-desc"><span class="match-desc-key">B.</span> Destacar visualmente células de acordo com regras automáticas (ex: notas baixas em vermelho)</div>
+          <div class="match-desc"><span class="match-desc-key">C.</span> Comparar valores entre 2 a 10 categorias diferentes no mesmo período</div>
+          <div class="match-desc"><span class="match-desc-key">D.</span> Visualizar volume acumulado e tendência ao longo do tempo</div>
+          <div class="match-desc"><span class="match-desc-key">E.</span> Mostrar evolução ou tendência de dados ao longo do tempo</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== PARTE IV — DISSERTATIVAS ===== -->
+  <div class="section-header">
+    <div>
+      <div class="sec-title">IV · Questões Dissertativas</div>
+      <div class="sec-subtitle">Responda de forma clara e objetiva</div>
+    </div>
+    <div class="sec-pts">2 questões · 0,5 pt cada = 1,0 pt</div>
+  </div>
+
+  <div class="questions-wrapper">
+
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">19</div>
+        <div class="q-text">Explique com suas próprias palavras o que faz a fórmula <strong>=SE()</strong> e dê um exemplo prático de uso dela em uma planilha escolar (sistema de notas).</div>
+      </div>
+      <div class="essay-area">
+        <textarea placeholder="Escreva sua resposta aqui..."></textarea>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-header">
+        <div class="q-num">20</div>
+        <div class="q-text">Cite e explique <strong>dois tipos diferentes de gráfico</strong> que você aprendeu, indicando uma situação real em que cada um seria a melhor escolha para comunicar os dados.</div>
+      </div>
+      <div class="essay-area">
+        <textarea placeholder="Escreva sua resposta aqui..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <p>📚 Projetos de Tecnologia de Informação e Comunicação · ETEC Centro Paula Souza · 2026</p>
+    <p style="margin-top:6px;"><a href="gabarito_semanas07_08_graficos.html">Ver Gabarito e Correção Comentada</a> · <a href="index.html">Voltar ao Índice</a></p>
+  </div>
+
+</main>
+
+<script>
+// Opções de múltipla escolha
+document.querySelectorAll('.option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const name = opt.querySelector('input').name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
+      i.closest('.option').classList.remove('selected');
+    });
+    opt.querySelector('input').checked = true;
+    opt.classList.add('selected');
+  });
+});
+
+// Verdadeiro/Falso
+function toggleTF(btn, type, group) {
+  const row = btn.closest('tr');
+  row.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
