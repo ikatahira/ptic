@@ -1,0 +1,1288 @@
+html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Gráficos no Sheets | TIC 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue:#4285f4; --green:#34a853; --yellow:#fbbc04; --red:#ea4335;
+  --purple:#7c3aed; --pink:#ec4899; --cyan:#06b6d4; --orange:#f97316;
+  --dark:#0f172a; --dark2:#1e293b; --dark3:#334155;
+  --light:#f8fafc; --border:#e2e8f0;
+  --xp-color:#f59e0b; --xp-glow:rgba(245,158,11,.4);
+  --r:16px; --r-sm:10px; --r-xs:6px;
+  --shadow:0 4px 24px rgba(0,0,0,.15); --shadow-lg:0 8px 48px rgba(0,0,0,.25);
+  --glow-blue:0 0 30px rgba(66,133,244,.35);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:#e2e8f0;line-height:1.6;min-height:100vh;overflow-x:hidden;font-size:17px;}
+
+/* ======== NOISE TEXTURE OVERLAY ======== */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+
+/* ========= SCREEN SYSTEM ========= */
+.screen-wrap{position:relative;z-index:1;}
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+
+/* ========= FLOATING XP BAR ========= */
+#xpbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);padding:10px 24px;display:flex;align-items:center;gap:16px;transform:translateY(-100%);transition:transform .4s ease;}
+#xpbar.visible{transform:translateY(0);}
+.xpbar-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1em;font-weight:800;border:2px solid rgba(255,255,255,.2);}
+.xpbar-name{font-weight:700;font-size:.9em;color:white;}
+.xpbar-email{font-size:.72em;color:#64748b;}
+.xpbar-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.xp-display{display:flex;align-items:center;gap:6px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:50px;padding:5px 14px;}
+.xp-icon{font-size:1em;}
+.xp-amount{font-family:'Space Mono',monospace;font-weight:700;color:var(--xp-color);font-size:.88em;}
+.xp-label{font-size:.72em;color:#94a3b8;}
+.streak-display{display:flex;align-items:center;gap:5px;background:rgba(234,67,53,.15);border:1px solid rgba(234,67,53,.3);border-radius:50px;padding:5px 12px;font-size:.82em;font-weight:700;color:#fca5a5;}
+.progress-mini{flex:1;max-width:200px;height:6px;background:rgba(255,255,255,.1);border-radius:50px;overflow:hidden;}
+.progress-mini-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:50px;transition:width .5s ease;}
+.progress-mini-label{font-size:.7em;color:#64748b;white-space:nowrap;}
+
+/* ========= SCREEN 1: LOGIN ========= */
+#screen-login{display:flex;align-items:center;justify-content:center;padding:24px;background:var(--dark);min-height:100vh;position:relative;overflow:hidden;}
+#screen-login::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(66,133,244,.15) 0%,transparent 70%);top:-100px;left:-100px;pointer-events:none;}
+#screen-login::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);bottom:-50px;right:-50px;pointer-events:none;}
+
+.login-card{background:rgba(30,41,59,.7);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:48px;max-width:480px;width:100%;text-align:center;position:relative;box-shadow:var(--shadow-lg);}
+.login-card::before{content:'';position:absolute;inset:-1px;border-radius:25px;background:linear-gradient(135deg,rgba(66,133,244,.3),rgba(124,58,237,.2),rgba(52,168,83,.2));z-index:-1;}
+.login-logo{font-size:3.5em;margin-bottom:8px;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);};}
+.login-badge{display:inline-block;background:linear-gradient(135deg,rgba(66,133,244,.2),rgba(124,58,237,.2));border:1px solid rgba(66,133,244,.4);border-radius:50px;padding:4px 14px;font-size:.75em;font-weight:700;color:#93c5fd;letter-spacing:.08em;margin-bottom:16px;}
+.login-title{font-size:1.8em;font-weight:800;color:white;margin-bottom:6px;letter-spacing:-.03em;}
+.login-sub{font-size:.9em;color:#94a3b8;margin-bottom:32px;line-height:1.5;}
+.login-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:#475569;font-size:.78em;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.input-group{margin-bottom:16px;text-align:left;}
+.input-label{font-size:.8em;font-weight:600;color:#94a3b8;margin-bottom:6px;display:block;}
+.input-field{width:100%;background:rgba(15,23,42,.6);border:2px solid rgba(255,255,255,.08);border-radius:var(--r-sm);padding:13px 18px;font-family:'Outfit',sans-serif;font-size:.95em;color:white;transition:all .2s;outline:none;}
+.input-field:focus{border-color:var(--blue);background:rgba(66,133,244,.08);box-shadow:0 0 0 4px rgba(66,133,244,.12);}
+.input-field::placeholder{color:#475569;}
+.btn-google{width:100%;background:white;color:#3c4043;border:none;border-radius:var(--r-sm);padding:14px;font-family:'Outfit',sans-serif;font-size:.95em;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.btn-google:hover{box-shadow:0 4px 16px rgba(0,0,0,.3);transform:translateY(-1px);}
+.btn-google svg{width:20px;height:20px;}
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r-sm);padding:14px;font-family:'Outfit',sans-serif;font-size:1em;font-weight:700;color:white;cursor:pointer;transition:all .25s;box-shadow:0 4px 16px rgba(66,133,244,.3);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(66,133,244,.4);}
+.btn-primary:active{transform:translateY(0);}
+.login-tip{font-size:.75em;color:#475569;margin-top:20px;}
+.login-tip strong{color:#64748b;}
+.google-accounts-hint{background:rgba(15,23,42,.5);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;}
+.google-accounts-hint:hover{border-color:rgba(66,133,244,.4);background:rgba(66,133,244,.08);}
+.gah-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4285f4,#34a853);display:flex;align-items:center;justify-content:center;font-size:1em;font-weight:800;color:white;flex-shrink:0;}
+.gah-info{text-align:left;}
+.gah-name{font-size:.88em;font-weight:600;color:#e2e8f0;}
+.gah-email{font-size:.75em;color:#64748b;}
+.gah-check{margin-left:auto;color:#34a853;font-size:1em;}
+.step-indicator{display:flex;gap:6px;justify-content:center;margin-bottom:28px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .3s;}
+.step-dot.active{width:24px;border-radius:4px;background:var(--blue);}
+.step-dot.done{background:var(--green);}
+
+/* ========= SCREEN 2: SHEETS GUIDE ========= */
+#screen-sheets{padding-top:60px;display:none;}
+#screen-sheets.active{display:block;}
+
+/* ========= HERO ========= */
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1a1f35 50%,#0f172a 100%);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(66,133,244,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(66,133,244,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.hero-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(66,133,244,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto;}
+.hero-emoji{font-size:4em;margin-bottom:12px;display:block;animation:float 3s ease-in-out infinite;}
+.hero-week{display:inline-block;background:rgba(66,133,244,.15);border:1px solid rgba(66,133,244,.3);border-radius:50px;padding:5px 16px;font-size:.78em;font-weight:700;color:#93c5fd;letter-spacing:.1em;margin-bottom:16px;}
+.hero-title{font-size:clamp(2em,6vw,3.2em);font-weight:900;letter-spacing:-.04em;color:white;margin-bottom:12px;line-height:1.1;}
+.hero-title span{background:linear-gradient(135deg,#4285f4,#34a853,#fbbc04);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{font-size:1.15em;color:#94a3b8;max-width:500px;margin:0 auto 28px;}
+.hero-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.hero-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50px;padding:6px 14px;font-size:.8em;font-weight:600;color:#cbd5e1;}
+
+/* ========= XP NOTIFICATION ========= */
+.xp-notif{position:fixed;top:80px;right:24px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:.9em;font-weight:700;color:var(--xp-color);z-index:2000;transform:translateX(200px);transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+.xp-notif.show{transform:translateX(0);}
+.xp-notif-icon{font-size:1.4em;}
+
+/* ========= CONTAINER ========= */
+.container{max-width:900px;margin:0 auto;padding:0 24px 80px;}
+
+/* ========= SECTION ========= */
+.section{margin:48px 0;}
+.section-label{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.section-num{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em;flex-shrink:0;box-shadow:var(--glow-blue);}
+.section-title{font-size:1.35em;font-weight:800;color:white;letter-spacing:-.02em;}
+.section-line{flex:1;height:1px;background:rgba(255,255,255,.06);}
+
+/* ========= CARDS ========= */
+.card{background:rgba(30,41,59,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:28px;margin-bottom:16px;position:relative;overflow:hidden;transition:all .3s;}
+.card:hover{border-color:rgba(66,133,244,.2);transform:translateY(-2px);box-shadow:var(--shadow);}
+.card-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));}
+.card-accent.green{background:linear-gradient(90deg,var(--green),var(--cyan));}
+.card-accent.yellow{background:linear-gradient(90deg,var(--yellow),var(--orange));}
+.card-accent.purple{background:linear-gradient(90deg,var(--purple),var(--pink));}
+.card-accent.red{background:linear-gradient(90deg,var(--red),var(--orange));}
+
+/* ========= STEP BADGE ========= */
+.step-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(66,133,244,.15);border:1px solid rgba(66,133,244,.3);border-radius:50px;padding:4px 12px;font-size:.75em;font-weight:700;color:#93c5fd;margin-bottom:12px;}
+.card-title{font-size:1.2em;font-weight:800;color:white;margin-bottom:10px;}
+.card-desc{color:#94a3b8;font-size:1em;line-height:1.75;margin-bottom:18px;}
+
+/* ========= STEPS LIST ========= */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.step-item{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:rgba(15,23,42,.5);border-radius:12px;border:1px solid rgba(255,255,255,.05);transition:all .2s;}
+.step-item:hover{border-color:rgba(66,133,244,.2);background:rgba(66,133,244,.05);}
+.step-n{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78em;flex-shrink:0;}
+.step-text{font-size:.95em;color:#cbd5e1;line-height:1.65;}
+.step-text strong{color:white;}
+.step-text code{background:rgba(255,255,255,.08);padding:2px 7px;border-radius:5px;font-family:'Space Mono',monospace;font-size:.82em;color:#93c5fd;}
+
+/* ========= CLICK PATH ========= */
+.click-path{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:14px 0;}
+.cp-item{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 12px;font-size:.8em;font-weight:700;color:#e2e8f0;}
+.cp-item.active{background:rgba(66,133,244,.2);border-color:rgba(66,133,244,.5);color:#93c5fd;}
+.cp-arrow{color:#475569;font-size:.8em;}
+
+/* ========= INFO BOXES ========= */
+.info-box{display:flex;gap:14px;padding:16px 20px;border-radius:12px;margin:14px 0;}
+.info-box.blue{background:rgba(66,133,244,.08);border:1px solid rgba(66,133,244,.2);}
+.info-box.green{background:rgba(52,168,83,.08);border:1px solid rgba(52,168,83,.2);}
+.info-box.yellow{background:rgba(251,188,4,.08);border:1px solid rgba(251,188,4,.2);}
+.info-box.red{background:rgba(234,67,53,.08);border:1px solid rgba(234,67,53,.2);}
+.info-box.purple{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);}
+.info-icon{font-size:1.4em;flex-shrink:0;}
+.info-text{font-size:.95em;color:#cbd5e1;line-height:1.7;}
+.info-text strong{color:white;}
+
+/* ========= SHEETS MOCKUP ========= */
+.sheets-mockup{background:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);margin:16px 0;box-shadow:var(--shadow);}
+.sm-bar{background:#202124;padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.sm-dots{display:flex;gap:6px;}
+.sm-dot{width:12px;height:12px;border-radius:50%;}
+.sd-r{background:#ff5f57;}.sd-y{background:#ffbd2e;}.sd-g{background:#28c840;}
+.sm-url{flex:1;background:#2d2e32;border-radius:20px;padding:5px 16px;font-family:'Space Mono',monospace;font-size:.75em;color:#9aa0a6;}
+.sm-grid{overflow-x:auto;}
+.sg{border-collapse:collapse;min-width:100%;font-size:.8em;}
+.sg th,.sg td{border:1px solid rgba(255,255,255,.06);padding:0;}
+.sg-ch{background:#1e293b;color:#64748b;text-align:center;font-weight:600;font-size:.72em;padding:5px 10px;min-width:90px;}
+.sg-rh{background:#1e293b;color:#64748b;text-align:center;font-size:.72em;padding:5px 8px;min-width:36px;}
+.sg-c{padding:4px 8px;white-space:nowrap;color:#e2e8f0;font-size:.82em;}
+.sg-c.hd{background:rgba(66,133,244,.15);font-weight:700;color:#93c5fd;}
+.sg-c.num{text-align:right;color:#34d399;}
+.sg-c.lbl{color:#94a3b8;}
+.sg-c.sel{background:rgba(66,133,244,.2);outline:2px solid #4285f4;}
+.sg-c.hi{background:rgba(251,188,4,.1);}
+.formula-bar{display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(15,23,42,.5);}
+.fb-ref{font-family:'Space Mono',monospace;font-size:.78em;color:#64748b;min-width:44px;}
+.fb-input{flex:1;background:transparent;border:none;font-family:'Space Mono',monospace;font-size:.78em;color:#93c5fd;outline:none;}
+
+/* ========= CHART TYPES ========= */
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0;}
+.ct{background:rgba(15,23,42,.5);border:2px solid rgba(255,255,255,.08);border-radius:14px;padding:20px 16px;text-align:center;cursor:pointer;transition:all .25s;}
+.ct:hover{border-color:rgba(66,133,244,.4);background:rgba(66,133,244,.08);transform:translateY(-3px);box-shadow:var(--glow-blue);}
+.ct.sel{border-color:var(--blue);background:rgba(66,133,244,.12);box-shadow:var(--glow-blue);}
+.ct-emoji{font-size:2.2em;margin-bottom:10px;}
+.ct-name{font-weight:800;font-size:.88em;color:white;margin-bottom:4px;}
+.ct-desc{font-size:.75em;color:#64748b;line-height:1.4;}
+.ct-tag{display:inline-block;background:rgba(66,133,244,.2);color:#93c5fd;border-radius:50px;padding:2px 10px;font-size:.68em;font-weight:700;margin-top:8px;}
+.ct.sel .ct-tag{background:rgba(52,168,83,.2);color:#34d399;}
+
+/* ========= MINI BAR CHART ========= */
+.mini-chart{background:rgba(15,23,42,.6);border-radius:14px;padding:24px;margin:16px 0;border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.mini-chart-title{font-size:.9em;font-weight:700;color:#94a3b8;text-align:center;margin-bottom:18px;}
+.bars-wrap{display:flex;align-items:flex-end;gap:8px;height:160px;padding-bottom:0;border-bottom:2px solid rgba(255,255,255,.08);}
+.bar-grp{display:flex;gap:4px;align-items:flex-end;flex:1;height:100%;}
+.mbar{border-radius:5px 5px 0 0;transition:all .4s cubic-bezier(.34,1.56,.64,1);cursor:pointer;position:relative;min-height:4px;}
+.mbar:hover{filter:brightness(1.35);transform:scaleY(1.03);transform-origin:bottom;}
+.mbar:hover::after{content:attr(data-v);position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#0f172a;color:white;border-radius:6px;padding:3px 8px;font-size:.72em;white-space:nowrap;border:1px solid rgba(255,255,255,.15);font-weight:700;}
+.chart-lbls{display:flex;justify-content:space-around;margin-top:10px;}
+.chart-lbl{font-size:.78em;color:#64748b;text-align:center;flex:1;font-weight:600;}
+.chart-legend{display:flex;gap:16px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:.82em;color:#94a3b8;font-weight:600;}
+.leg-dot{width:12px;height:12px;border-radius:4px;}
+
+/* ========= COMPARISON TABLE ========= */
+.comp-table{width:100%;border-collapse:collapse;font-size:.92em;margin:16px 0;border-radius:12px;overflow:hidden;}
+.comp-table th{background:rgba(66,133,244,.15);color:#93c5fd;padding:14px 18px;text-align:left;font-weight:700;font-size:.88em;}
+.comp-table td{padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05);color:#94a3b8;vertical-align:top;}
+.comp-table tr:hover td{background:rgba(255,255,255,.02);}
+.comp-table td:first-child{font-weight:700;color:#e2e8f0;}
+
+/* ========= OBJECTIVES GRID ========= */
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:32px;}
+.obj-card{background:rgba(30,41,59,.6);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;transition:all .25s;}
+.obj-card:hover{border-color:rgba(66,133,244,.3);transform:translateY(-2px);}
+.obj-emoji{font-size:1.8em;margin-bottom:10px;}
+.obj-title{font-weight:800;font-size:.88em;color:white;margin-bottom:4px;}
+.obj-desc{font-size:.78em;color:#64748b;line-height:1.5;}
+
+/* ========= THINK & DO (metodologia ativa) ========= */
+.think-do{background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(236,72,153,.08));border:1px solid rgba(124,58,237,.3);border-radius:16px;padding:24px;margin:16px 0;}
+.think-do-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.think-do-badge{background:linear-gradient(135deg,var(--purple),var(--pink));color:white;border-radius:50px;padding:4px 14px;font-size:.78em;font-weight:800;}
+.think-do-title{font-size:1em;font-weight:800;color:white;}
+.think-do-prompt{font-size:1em;color:#c4b5fd;margin-bottom:16px;font-style:italic;}
+.think-input{width:100%;background:rgba(15,23,42,.7);border:2px solid rgba(124,58,237,.3);border-radius:10px;padding:14px 16px;font-family:'Outfit',sans-serif;font-size:1em;color:#e2e8f0;resize:vertical;min-height:90px;outline:none;transition:all .2s;}
+.think-input:focus{border-color:var(--purple);background:rgba(124,58,237,.08);}
+.btn-reveal{background:linear-gradient(135deg,var(--purple),var(--pink));border:none;border-radius:10px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:.88em;font-weight:700;color:white;cursor:pointer;margin-top:10px;transition:all .2s;}
+.btn-reveal:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(124,58,237,.4);}
+.think-reveal{background:rgba(15,23,42,.5);border:1px solid rgba(124,58,237,.2);border-radius:10px;padding:14px 16px;margin-top:12px;font-size:.88em;color:#c4b5fd;display:none;}
+.think-reveal.show{display:block;}
+
+/* ========= ACHIEVEMENT ========= */
+.achievement-pop{position:fixed;bottom:24px;right:24px;background:rgba(30,41,59,.95);border:1px solid rgba(251,188,4,.4);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:14px;z-index:2000;transform:translateY(100px);transition:all .5s cubic-bezier(.34,1.56,.64,1);max-width:300px;box-shadow:0 8px 32px rgba(251,188,4,.2);}
+.achievement-pop.show{transform:translateY(0);}
+.ach-icon{font-size:2.4em;}
+.ach-info{flex:1;}
+.ach-label{font-size:.7em;font-weight:700;color:var(--xp-color);letter-spacing:.1em;margin-bottom:2px;}
+.ach-name{font-size:.95em;font-weight:800;color:white;}
+.ach-desc{font-size:.75em;color:#94a3b8;}
+
+/* ========= QUIZ SCREEN ========= */
+#screen-quiz{padding-top:60px;display:none;background:var(--dark);}
+#screen-quiz.active{display:block;}
+.quiz-hero{background:linear-gradient(135deg,rgba(251,188,4,.08),rgba(234,67,53,.06));border-bottom:1px solid rgba(255,255,255,.06);padding:48px 24px 36px;text-align:center;}
+.quiz-hero-emoji{font-size:3em;margin-bottom:12px;display:block;}
+.quiz-hero-title{font-size:2em;font-weight:900;color:white;letter-spacing:-.03em;margin-bottom:8px;}
+.quiz-hero-sub{color:#94a3b8;font-size:.95em;margin-bottom:20px;}
+.quiz-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.quiz-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 20px;text-align:center;}
+.quiz-stat-n{font-size:1.4em;font-weight:900;color:white;}
+.quiz-stat-l{font-size:.72em;color:#64748b;font-weight:600;}
+
+/* ========= QUIZ GAME ========= */
+.quiz-game{max-width:700px;margin:0 auto;padding:40px 24px 80px;}
+.q-progress-bar{height:6px;background:rgba(255,255,255,.08);border-radius:50px;margin-bottom:32px;overflow:hidden;}
+.q-progress-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--orange));border-radius:50px;transition:width .5s ease;}
+.q-num{font-size:.8em;font-weight:700;color:#64748b;margin-bottom:4px;}
+.q-text{font-size:1.25em;font-weight:700;color:white;margin-bottom:24px;line-height:1.5;}
+.q-text strong{color:#93c5fd;}
+.q-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.q-opt{background:rgba(30,41,59,.6);border:2px solid rgba(255,255,255,.08);border-radius:12px;padding:18px 22px;cursor:pointer;font-size:1em;color:#e2e8f0;transition:all .25s;display:flex;align-items:center;gap:12px;font-weight:500;}
+.q-opt:hover:not(.locked){border-color:rgba(66,133,244,.4);background:rgba(66,133,244,.08);transform:translateX(4px);}
+.q-opt.correct{border-color:var(--green);background:rgba(52,168,83,.15);color:white;}
+.q-opt.wrong{border-color:var(--red);background:rgba(234,67,53,.12);color:#fca5a5;}
+.q-opt.locked{cursor:default;}
+.q-opt-icon{font-size:1.2em;flex-shrink:0;}
+.q-opt-letter{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8em;flex-shrink:0;transition:all .25s;}
+.q-opt.correct .q-opt-letter{background:var(--green);color:white;}
+.q-opt.wrong .q-opt-letter{background:var(--red);color:white;}
+.q-feedback{border-radius:12px;padding:16px 20px;font-size:.9em;display:none;margin-bottom:16px;line-height:1.6;}
+.q-feedback.ok{background:rgba(52,168,83,.1);border:1px solid rgba(52,168,83,.3);color:#86efac;}
+.q-feedback.err{background:rgba(234,67,53,.1);border:1px solid rgba(234,67,53,.3);color:#fca5a5;}
+.q-feedback.show{display:block;}
+.q-xp-reward{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:50px;padding:3px 12px;font-size:.78em;font-weight:700;color:var(--xp-color);margin-bottom:12px;display:none;}
+.q-xp-reward.show{display:inline-flex;}
+.btn-next-q{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:12px;padding:13px 28px;font-family:'Outfit',sans-serif;font-size:.95em;font-weight:700;color:white;cursor:pointer;transition:all .25s;display:none;}
+.btn-next-q:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(66,133,244,.4);}
+.btn-next-q.show{display:block;}
+
+/* ========= QUIZ RESULTS ========= */
+.quiz-result{max-width:600px;margin:0 auto;padding:48px 24px;text-align:center;display:none;}
+.quiz-result.show{display:block;}
+.result-emoji{font-size:5em;display:block;margin-bottom:16px;animation:float 2s ease-in-out infinite;}
+.result-title{font-size:2.2em;font-weight:900;color:white;margin-bottom:8px;}
+.result-score-wrap{background:rgba(30,41,59,.7);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;margin:24px 0;}
+.result-score{font-family:'Space Mono',monospace;font-size:4em;font-weight:700;color:white;margin-bottom:4px;}
+.result-score span{color:var(--xp-color);}
+.result-label{font-size:.9em;color:#64748b;}
+.result-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.rb-item{background:rgba(15,23,42,.5);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;}
+.rb-n{font-size:1.6em;font-weight:900;}
+.rb-l{font-size:.75em;color:#64748b;font-weight:600;}
+.result-message{font-size:.95em;color:#94a3b8;margin-bottom:28px;line-height:1.6;}
+.result-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
+.result-badge{background:rgba(30,41,59,.8);border:1px solid rgba(255,255,255,.1);border-radius:50px;padding:8px 18px;font-size:.82em;font-weight:700;color:#e2e8f0;}
+.result-badge.earned{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.1);color:var(--xp-color);}
+.btn-retry{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px 28px;font-family:'Outfit',sans-serif;font-size:.95em;font-weight:700;color:#e2e8f0;cursor:pointer;margin-right:10px;transition:all .2s;}
+.btn-retry:hover{border-color:rgba(255,255,255,.25);}
+.btn-finish{background:linear-gradient(135deg,var(--green),var(--cyan));border:none;border-radius:12px;padding:13px 28px;font-family:'Outfit',sans-serif;font-size:.95em;font-weight:700;color:white;cursor:pointer;transition:all .25s;}
+.btn-finish:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(52,168,83,.4);}
+
+/* ========= MISSION ========= */
+.mission{background:linear-gradient(135deg,rgba(66,133,244,.1),rgba(52,168,83,.08));border:1px solid rgba(66,133,244,.3);border-radius:20px;padding:32px;margin:24px 0;}
+.mission-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06);}
+.mission-icon{font-size:2.5em;}
+.mission-title-text{font-size:1.2em;font-weight:900;color:white;}
+.mission-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.mtag{background:rgba(255,255,255,.08);border-radius:50px;padding:3px 12px;font-size:.75em;font-weight:700;color:#94a3b8;}
+.mission-desc{color:#94a3b8;font-size:.92em;margin-bottom:20px;line-height:1.7;}
+
+/* ========= NAV BOTTOM ========= */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.08);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;z-index:500;}
+.bnav-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:.85em;font-weight:700;color:#e2e8f0;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+.bnav-btn:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1);}
+.bnav-btn.primary{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;color:white;box-shadow:0 4px 16px rgba(66,133,244,.3);}
+.bnav-btn.primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(66,133,244,.4);}
+.bnav-btn.quiz-cta{background:linear-gradient(135deg,var(--yellow),var(--orange));border:none;color:white;animation:pulse-btn 2s ease-in-out infinite;}
+@keyframes pulse-btn{0%,100%{box-shadow:0 4px 16px rgba(251,188,4,.3);}50%{box-shadow:0 4px 24px rgba(251,188,4,.6);}}
+
+/* ========= ANIMATIONS ========= */
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;};}
+.animate{animation:slideUp .5s ease both;}
+.animate:nth-child(2){animation-delay:.07s;}
+.animate:nth-child(3){animation-delay:.14s;}
+.animate:nth-child(4){animation-delay:.21s;}
+
+/* ========= RESPONSIVE ========= */
+@media(max-width:640px){
+  .container{padding:0 16px 80px;}
+  .hero{padding:60px 16px 40px;}
+  .chart-grid{grid-template-columns:repeat(2,1fr);}
+  .result-breakdown{grid-template-columns:1fr 1fr;}
+  .quiz-game{padding:24px 16px 80px;}
+}
+
+/* ========= TIMER RING ========= */
+.timer-ring{width:48px;height:48px;position:relative;flex-shrink:0;}
+.timer-ring svg{transform:rotate(-90deg);}
+.timer-ring-bg{stroke:rgba(255,255,255,.08);fill:none;stroke-width:4;}
+.timer-ring-fill{stroke:var(--yellow);fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .5s linear;}
+.timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-weight:700;font-size:.8em;color:var(--yellow);}
+</style>
+</head>
+<body>
+
+<!-- ============= XP FLOATING BAR ============= -->
+<div id="xpbar">
+  <div class="xpbar-avatar" id="xpbar-avatar">?</div>
+  <div>
+    <div class="xpbar-name" id="xpbar-name">—</div>
+    <div class="xpbar-email" id="xpbar-email">—</div>
+  </div>
+  <div class="xpbar-right">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
+      <div class="progress-mini"><div class="progress-mini-fill" id="lesson-progress" style="width:0%"></div></div>
+      <span class="progress-mini-label" id="lesson-progress-label">0% da aula</span>
+    </div>
+    <div class="streak-display">🔥 <span id="streak-count">0</span></div>
+    <div class="xp-display"><span class="xp-icon">⚡</span><span class="xp-amount" id="xp-count">0</span><span class="xp-label">XP</span></div>
+  </div>
+</div>
+
+<!-- ============= XP NOTIFICATION ============= -->
+<div class="xp-notif" id="xp-notif"><span class="xp-notif-icon">⚡</span><span id="xp-notif-text">+50 XP</span></div>
+
+<!-- ============= ACHIEVEMENT POP ============= -->
+<div class="achievement-pop" id="ach-pop">
+  <div class="ach-icon" id="ach-icon">🏆</div>
+  <div class="ach-info">
+    <div class="ach-label">CONQUISTA DESBLOQUEADA!</div>
+    <div class="ach-name" id="ach-name">Nome</div>
+    <div class="ach-desc" id="ach-desc">Descrição</div>
+  </div>
+</div>
+
+<!-- ==================== SCREEN 1: LOGIN ==================== -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <span class="login-logo">📊</span>
+    <div class="login-badge">TIC 2026 · SEMANA 08</div>
+    <h1 class="login-title">Gráficos no Sheets</h1>
+    <p class="login-sub">Antes de começar, entre com sua conta Google da escola para salvar seu progresso!</p>
+
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <div class="step-dot active" id="ldot1"></div>
+      <div class="step-dot" id="ldot2"></div>
+      <div class="step-dot" id="ldot3"></div>
+    </div>
+
+    <!-- STEP 1: Google accounts picker -->
+    <div id="login-step1">
+      <div class="login-divider">Entrar com conta Google</div>
+      <div class="google-accounts-hint" onclick="selectAccount(this)" data-email="aluno@etec.edu.br" data-name="Seu Nome">
+        <div class="gah-icon">G</div>
+        <div class="gah-info">
+          <div class="gah-name">Conta da Escola (ETEC)</div>
+          <div class="gah-email">seulogin@etec.edu.br</div>
+        </div>
+        <div class="gah-check">›</div>
+      </div>
+      <div class="login-divider">ou digite seu e-mail</div>
+      <div class="input-group">
+        <label class="input-label">E-mail Google da escola</label>
+        <input type="email" class="input-field" id="email-input" placeholder="seunome@aluno.etec.sp.gov.br" oninput="checkEmail()">
+      </div>
+      <button class="btn-primary" onclick="goStep2()" id="btn-step1" style="opacity:.5;pointer-events:none;">Continuar →</button>
+      <p class="login-tip">Use sempre o e-mail <strong>@etec</strong> ou <strong>@aluno.etec</strong> fornecido pela escola.</p>
+    </div>
+
+    <!-- STEP 2: Name + confirm -->
+    <div id="login-step2" style="display:none;">
+      <div class="input-group">
+        <label class="input-label">Seu nome completo</label>
+        <input type="text" class="input-field" id="name-input" placeholder="Nome Sobrenome" oninput="checkName()">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Turma</label>
+        <input type="text" class="input-field" id="turma-input" placeholder="Ex: 1A, 2B..." style="max-width:140px;">
+      </div>
+      <button class="btn-google" onclick="goStep3()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Entrar com Google e Continuar
+      </button>
+      <p class="login-tip">Ao continuar, você vai abrir o Google Sheets para a atividade desta aula.</p>
+    </div>
+
+    <!-- STEP 3: Open Sheets -->
+    <div id="login-step3" style="display:none;text-align:center;">
+      <div style="font-size:3em;margin-bottom:16px;">🎉</div>
+      <div style="font-size:1.1em;font-weight:800;color:white;margin-bottom:8px;">Tudo certo, <span id="welcome-name">aluno</span>!</div>
+      <div style="font-size:.88em;color:#94a3b8;margin-bottom:24px;">Agora abra o Google Sheets no link abaixo e deixe ele pronto. Vamos usar durante a aula!</div>
+      <a href="https://sheets.new" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#34a853,#188038);color:white;text-decoration:none;border-radius:12px;padding:14px 20px;font-weight:700;font-size:.95em;margin-bottom:14px;transition:all .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <span style="font-size:1.2em;">📊</span> Abrir Google Sheets (nova planilha)
+      </a>
+      <div style="font-size:.78em;color:#475569;margin-bottom:24px;">Vai abrir em outra aba. Volte aqui quando estiver aberto!</div>
+      <button class="btn-primary" onclick="startLesson()">🚀 Comecei! Vamos à aula!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SCREEN 2: LESSON ==================== -->
+<div id="screen-sheets" class="screen">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <span class="hero-emoji">📊</span>
+      <div class="hero-week">SEMANA 08 · 1º BIMESTRE</div>
+      <h1 class="hero-title">Gráficos no<br><span>Google Sheets</span></h1>
+      <p class="hero-desc">Transforme números chatos em gráficos que impressionam. Hoje você vira analista de dados!</p>
+      <div class="hero-tags">
+        <span class="hero-tag">🆓 100% Online</span>
+        <span class="hero-tag">☁️ Google Workspace</span>
+        <span class="hero-tag">⚡ Metodologia Ativa</span>
+        <span class="hero-tag">🏆 Gamificado</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Objectives -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">🎯</div>
+        <div class="section-title">O que você vai dominar hoje</div>
+        <div class="section-line"></div>
+      </div>
+      <div class="obj-grid">
+        <div class="obj-card animate"><div class="obj-emoji">🔑</div><div class="obj-title">Abrir o Sheets</div><div class="obj-desc">Criar e acessar planilhas no Google</div></div>
+        <div class="obj-card animate"><div class="obj-emoji">📋</div><div class="obj-title">Montar Tabelas</div><div class="obj-desc">Organizar dados como um pro</div></div>
+        <div class="obj-card animate"><div class="obj-emoji">📊</div><div class="obj-title">4 Tipos de Gráfico</div><div class="obj-desc">Saber qual usar em cada situação</div></div>
+        <div class="obj-card animate"><div class="obj-emoji">🎨</div><div class="obj-title">Personalizar</div><div class="obj-desc">Títulos, cores, rótulos e mais</div></div>
+        <div class="obj-card animate"><div class="obj-emoji">🔗</div><div class="obj-title">Compartilhar</div><div class="obj-desc">Enviar para o professor via link</div></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 1: ABRINDO O SHEETS ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">1</div>
+        <div class="section-title">Abrindo o Google Sheets</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent"></div>
+        <div class="step-badge">🔑 Passo 1 — Login</div>
+        <div class="card-title">Entrar com sua conta Google da escola</div>
+        <div class="card-desc">O Google Sheets é gratuito e funciona direto no navegador. Só precisa da sua conta Google da escola!</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text">Abra <strong>sheets.new</strong> no navegador (ou google.com → apps → Sheets)</div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text">Se pedir login, entre com seu <strong>e-mail da escola (@etec)</strong></div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text">Uma planilha em branco vai abrir — pronto pra usar!</div></div>
+        </div>
+        <div class="info-box blue">
+          <div class="info-icon">💡</div>
+          <div class="info-text"><strong>Dica:</strong> O Sheets salva automaticamente no Google Drive. Nada de Ctrl+S!</div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent green"></div>
+        <div class="step-badge">🗺️ Passo 2 — Interface</div>
+        <div class="card-title">Mapa da interface do Sheets</div>
+        <div class="sheets-mockup">
+          <div class="sm-bar">
+            <div class="sm-dots"><div class="sm-dot sd-r"></div><div class="sm-dot sd-y"></div><div class="sm-dot sd-g"></div></div>
+            <div class="sm-url">🔒 docs.google.com/spreadsheets/d/...</div>
+          </div>
+          <div class="formula-bar">
+            <span class="fb-ref">A1</span>
+            <span style="color:#475569;font-size:.9em;">fx</span>
+            <input class="fb-input" value="Mês" readonly>
+          </div>
+          <div class="sm-grid">
+            <table class="sg">
+              <thead><tr>
+                <th class="sg-ch" style="min-width:36px;"></th>
+                <th class="sg-ch">A</th><th class="sg-ch">B</th><th class="sg-ch">C</th><th class="sg-ch">D</th>
+              </tr></thead>
+              <tbody>
+                <tr><td class="sg-rh">1</td><td class="sg-c hd sel">Mês</td><td class="sg-c hd">Eletrônicos</td><td class="sg-c hd">Roupas</td><td class="sg-c hd">Alimentos</td></tr>
+                <tr><td class="sg-rh">2</td><td class="sg-c lbl">Janeiro</td><td class="sg-c num">4200</td><td class="sg-c num">1800</td><td class="sg-c num">3100</td></tr>
+                <tr><td class="sg-rh">3</td><td class="sg-c lbl">Fevereiro</td><td class="sg-c num">3800</td><td class="sg-c num">2200</td><td class="sg-c num">2900</td></tr>
+                <tr><td class="sg-rh">4</td><td class="sg-c lbl">Março</td><td class="sg-c num">5100</td><td class="sg-c num">1600</td><td class="sg-c num">3400</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="info-box yellow">
+          <div class="info-icon">⚠️</div>
+          <div class="info-text"><strong>Regra de ouro:</strong> Números sem ponto ou vírgula! Escreva <code>4200</code> não <code>4.200</code>. Se o número ficar alinhado à esquerda, foi reconhecido como texto.</div>
+        </div>
+
+        <!-- THINK & DO #1 -->
+        <div class="think-do">
+          <div class="think-do-header">
+            <div class="think-do-badge">🧠 PENSE ANTES!</div>
+            <div class="think-do-title">Metodologia Ativa</div>
+          </div>
+          <div class="think-do-prompt">Por que a primeira linha da tabela tem um visual diferente das outras? O que ela representa?</div>
+          <textarea class="think-input" id="think1" placeholder="Escreva sua resposta aqui antes de ver a explicação..."></textarea>
+          <button class="btn-reveal" onclick="revealThink('think-r1','think1')">Ver Resposta 🔍</button>
+          <div class="think-reveal" id="think-r1">✅ A primeira linha é o <strong>cabeçalho</strong> — ela dá nome para cada coluna. O Sheets usa ela automaticamente como legenda nos gráficos. Por isso é tão importante ter cabeçalhos bem escritos!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 2: DADOS ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">2</div>
+        <div class="section-title">Digitando os Dados</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent yellow"></div>
+        <div class="step-badge">⌨️ Passo 3 — Tabela</div>
+        <div class="card-title">Monte sua tabela de vendas</div>
+        <div class="card-desc">Esta é a tabela que vamos usar hoje. Digite exatamente assim na sua planilha aberta!</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text">Clique em <strong>A1</strong> → digite <code>Mês</code> → pressione <strong>Tab</strong></div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text">Continue: <code>Eletrônicos</code> Tab <code>Roupas</code> Tab <code>Alimentos</code> Enter</div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text">Clique em <strong>A2</strong> e preencha os dados mês a mês (Tab move direita, Enter move para baixo)</div></div>
+          <div class="step-item"><div class="step-n">4</div><div class="step-text"><strong>Dica pro:</strong> <code>Ctrl+Shift+End</code> seleciona tudo até o último dado</div></div>
+        </div>
+        <div class="sheets-mockup">
+          <div class="sm-bar">
+            <div class="sm-dots"><div class="sm-dot sd-r"></div><div class="sm-dot sd-y"></div><div class="sm-dot sd-g"></div></div>
+            <div class="sm-url">📊 Planilha1 — dados de vendas</div>
+          </div>
+          <div class="sm-grid">
+            <table class="sg">
+              <thead><tr><th class="sg-ch" style="min-width:36px;"></th><th class="sg-ch">A</th><th class="sg-ch">B</th><th class="sg-ch">C</th><th class="sg-ch">D</th></tr></thead>
+              <tbody>
+                <tr><td class="sg-rh">1</td><td class="sg-c hd">Mês</td><td class="sg-c hd">Eletrônicos</td><td class="sg-c hd">Roupas</td><td class="sg-c hd">Alimentos</td></tr>
+                <tr><td class="sg-rh">2</td><td class="sg-c lbl">Janeiro</td><td class="sg-c num">4200</td><td class="sg-c num">1800</td><td class="sg-c num">3100</td></tr>
+                <tr><td class="sg-rh">3</td><td class="sg-c lbl">Fevereiro</td><td class="sg-c num">3800</td><td class="sg-c num">2200</td><td class="sg-c num">2900</td></tr>
+                <tr><td class="sg-rh">4</td><td class="sg-c lbl">Março</td><td class="sg-c num">5100</td><td class="sg-c num">1600</td><td class="sg-c num">3400</td></tr>
+                <tr><td class="sg-rh">5</td><td class="sg-c lbl">Abril</td><td class="sg-c num">4700</td><td class="sg-c num">2500</td><td class="sg-c num">3200</td></tr>
+                <tr><td class="sg-rh">6</td><td class="sg-c lbl">Maio</td><td class="sg-c num">5300</td><td class="sg-c num">2100</td><td class="sg-c num">3600</td></tr>
+                <tr><td class="sg-rh">7</td><td class="sg-c lbl">Junho</td><td class="sg-c num">4900</td><td class="sg-c num">2800</td><td class="sg-c num">3300</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:16px;">
+          <button class="btn-primary" style="width:auto;padding:12px 24px;font-size:.9em;" onclick="awardXP(75,'Tabela digitada! +75 XP')">✅ Terminei de digitar a tabela!</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 3: TIPOS DE GRÁFICO ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">3</div>
+        <div class="section-title">Tipos de Gráfico — Qual Usar?</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent purple"></div>
+        <div class="step-badge">📊 Conceito — Clique para explorar!</div>
+        <div class="card-title">Cada gráfico conta um tipo de história diferente</div>
+        <div class="card-desc">Antes de criar, pense: <em>o que quero mostrar?</em> Clique em cada tipo para ver mais:</div>
+        <div class="chart-grid" id="chart-types">
+          <div class="ct sel" onclick="selectChartType(this,'bars')">
+            <div class="ct-emoji">📊</div>
+            <div class="ct-name">Colunas / Barras</div>
+            <div class="ct-desc">Comparar categorias entre si</div>
+            <div class="ct-tag">Comparação</div>
+          </div>
+          <div class="ct" onclick="selectChartType(this,'lines')">
+            <div class="ct-emoji">📈</div>
+            <div class="ct-name">Linhas</div>
+            <div class="ct-desc">Mostrar evolução no tempo</div>
+            <div class="ct-tag">Tendência</div>
+          </div>
+          <div class="ct" onclick="selectChartType(this,'pie')">
+            <div class="ct-emoji">🥧</div>
+            <div class="ct-name">Pizza</div>
+            <div class="ct-desc">Mostrar partes de um todo</div>
+            <div class="ct-tag">Proporção</div>
+          </div>
+          <div class="ct" onclick="selectChartType(this,'area')">
+            <div class="ct-emoji">📉</div>
+            <div class="ct-name">Área</div>
+            <div class="ct-desc">Volume acumulado ao longo do tempo</div>
+            <div class="ct-tag">Volume</div>
+          </div>
+        </div>
+        <!-- Dynamic chart info -->
+        <div id="chart-info" style="background:rgba(15,23,42,.5);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 20px;margin-top:12px;font-size:.88em;color:#94a3b8;line-height:1.7;transition:all .3s;">
+          📊 <strong style="color:white;">Colunas/Barras</strong> — Use quando quiser <strong style="color:#93c5fd;">comparar</strong> valores entre categorias diferentes no mesmo período. Exemplo: quantas vendas cada categoria fez em Janeiro. Funciona melhor com 2 a 10 categorias.
+        </div>
+        <div class="mini-chart" id="mini-chart">
+          <div class="mini-chart-title">👇 Visualização interativa — passe o mouse nas barras!</div>
+          <div class="bars-wrap" id="bars-viz">
+            <!-- JS will render -->
+          </div>
+          <div class="chart-lbls"><span class="chart-lbl">Jan</span><span class="chart-lbl">Fev</span><span class="chart-lbl">Mar</span><span class="chart-lbl">Abr</span><span class="chart-lbl">Mai</span><span class="chart-lbl">Jun</span></div>
+          <div class="chart-legend">
+            <div class="leg-item"><div class="leg-dot" style="background:#4285f4;"></div>Eletrônicos</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#34a853;"></div>Roupas</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#fbbc04;"></div>Alimentos</div>
+          </div>
+        </div>
+
+        <table class="comp-table">
+          <thead><tr><th>Tipo</th><th>Use quando…</th><th>Evite quando…</th></tr></thead>
+          <tbody>
+            <tr><td>📊 Colunas</td><td>Comparar 2 a 10 categorias</td><td>Tiver muitas colunas (fica apertado)</td></tr>
+            <tr><td>📈 Linhas</td><td>Mostrar evolução no tempo</td><td>Tiver só 2 ou 3 pontos no tempo</td></tr>
+            <tr><td>🥧 Pizza</td><td>Mostrar % de um todo (máx. 6 fatias)</td><td>Tiver muitas categorias parecidas</td></tr>
+            <tr><td>📉 Área</td><td>Comparar volumes ao longo do tempo</td><td>As linhas se sobrepõem demais</td></tr>
+          </tbody>
+        </table>
+
+        <!-- THINK & DO #2 -->
+        <div class="think-do">
+          <div class="think-do-header">
+            <div class="think-do-badge">🧠 DESAFIO</div>
+            <div class="think-do-title">Aplique o que aprendeu!</div>
+          </div>
+          <div class="think-do-prompt">Você trabalha no marketing de uma loja e quer mostrar para o chefe como as vendas de "Eletrônicos" cresceram de Janeiro a Junho. Qual gráfico você escolhe e por quê?</div>
+          <textarea class="think-input" id="think2" placeholder="Minha resposta..."></textarea>
+          <button class="btn-reveal" onclick="revealThink('think-r2','think2')">Verificar 🔍</button>
+          <div class="think-reveal" id="think-r2">✅ <strong>Gráfico de Linhas!</strong> Porque você quer mostrar a <em>evolução ao longo do tempo</em> (6 meses = tendência). Se fosse comparar categorias no mesmo mês, seria colunas. Se fosse mostrar a fatia de participação, seria pizza.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 4: CRIANDO O GRÁFICO ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">4</div>
+        <div class="section-title">Criando Seu Primeiro Gráfico</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent"></div>
+        <div class="step-badge">🖱️ Passo 4 — Selecionar e Inserir</div>
+        <div class="card-title">Selecionando os dados certos</div>
+        <div class="card-desc">O gráfico usa exatamente o que você selecionou. Selecionar errado = gráfico errado!</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text">Clique em <strong>A1</strong> (célula "Mês")</div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text">Segure <strong>Shift</strong> + clique em <strong>D7</strong> — toda a tabela fica azul</div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text">Menu <strong>Inserir</strong> → clique em <strong>Gráfico</strong></div></div>
+          <div class="step-item"><div class="step-n">4</div><div class="step-text">O gráfico aparece na planilha e o <strong>Editor de gráficos</strong> abre na lateral!</div></div>
+        </div>
+        <div class="click-path">
+          <span class="cp-item">Selecionar A1:D7</span>
+          <span class="cp-arrow">→</span>
+          <span class="cp-item">Menu Inserir</span>
+          <span class="cp-arrow">→</span>
+          <span class="cp-item active">Gráfico ✨</span>
+        </div>
+        <div class="info-box blue">
+          <div class="info-icon">⚡</div>
+          <div class="info-text"><strong>Atalho ninja:</strong> Clique em A1, depois <code>Ctrl+Shift+End</code> para selecionar tudo até o último dado de uma vez só!</div>
+        </div>
+        <div style="text-align:center;margin-top:16px;">
+          <button class="btn-primary" style="width:auto;padding:12px 24px;font-size:.9em;" onclick="awardXP(100,'Primeiro gráfico criado! +100 XP')">🎉 Criei meu primeiro gráfico!</button>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent green"></div>
+        <div class="step-badge">🎨 Passo 5 — Personalizar</div>
+        <div class="card-title">Customizando o gráfico como um designer</div>
+        <div class="card-desc">Um gráfico sem título não diz nada. Vamos deixá-lo profissional!</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text">No Editor de gráficos → aba <strong>Personalizar</strong></div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text"><strong>Títulos do gráfico e eixos</strong> → Título: <code>Vendas por Categoria — 1º Semestre</code></div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text"><strong>Série</strong> → ative <strong>"Rótulos de dados"</strong> (mostra o número em cima de cada barra)</div></div>
+          <div class="step-item"><div class="step-n">4</div><div class="step-text"><strong>Legenda</strong> → posição: <strong>Inferior</strong></div></div>
+          <div class="step-item"><div class="step-n">5</div><div class="step-text">Mude as cores das séries para ficarem mais vibrantes!</div></div>
+        </div>
+        <div class="info-box purple">
+          <div class="info-icon">🎯</div>
+          <div class="info-text"><strong>Para editar um gráfico depois:</strong> Dê <strong>duplo clique</strong> no gráfico. O Editor vai abrir na lateral. Um único clique só seleciona — não abre o editor.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 5: GRÁFICO DE PIZZA ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">5</div>
+        <div class="section-title">Gráfico de Pizza com Fórmula SOMA</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent red"></div>
+        <div class="step-badge">🥧 Passo 6 — Pizza</div>
+        <div class="card-title">Criando a tabela de totais com SOMA</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text">Na célula <strong>F1</strong> escreva <code>Categoria</code> e em <strong>G1</strong> escreva <code>Total Semestre</code></div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text">Em <strong>F2, F3, F4</strong>: escreva <code>Eletrônicos</code>, <code>Roupas</code>, <code>Alimentos</code></div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text">Em <strong>G2</strong> digite a fórmula: <code>=SOMA(B2:B7)</code> e pressione Enter</div></div>
+          <div class="step-item"><div class="step-n">4</div><div class="step-text">Repita para G3: <code>=SOMA(C2:C7)</code> e G4: <code>=SOMA(D2:D7)</code></div></div>
+          <div class="step-item"><div class="step-n">5</div><div class="step-text">Selecione <strong>F1:G4</strong> → Inserir → Gráfico → escolha <strong>Gráfico de pizza</strong></div></div>
+        </div>
+        <div class="sheets-mockup">
+          <div class="sm-bar"><div class="sm-dots"><div class="sm-dot sd-r"></div><div class="sm-dot sd-y"></div><div class="sm-dot sd-g"></div></div><div class="sm-url">📊 Fórmula SOMA</div></div>
+          <div class="formula-bar"><span class="fb-ref">G2</span><span style="color:#475569;font-size:.9em;">fx</span><input class="fb-input" value="=SOMA(B2:B7)" readonly></div>
+          <div class="sm-grid">
+            <table class="sg">
+              <thead><tr><th class="sg-ch" style="min-width:36px;"></th><th class="sg-ch">F</th><th class="sg-ch">G</th></tr></thead>
+              <tbody>
+                <tr><td class="sg-rh">1</td><td class="sg-c hd">Categoria</td><td class="sg-c hd">Total Semestre</td></tr>
+                <tr><td class="sg-rh">2</td><td class="sg-c lbl">Eletrônicos</td><td class="sg-c num hi">=SOMA(B2:B7)</td></tr>
+                <tr><td class="sg-rh">3</td><td class="sg-c lbl">Roupas</td><td class="sg-c num hi">=SOMA(C2:C7)</td></tr>
+                <tr><td class="sg-rh">4</td><td class="sg-c lbl">Alimentos</td><td class="sg-c num hi">=SOMA(D2:D7)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="info-box yellow">
+          <div class="info-icon">⚠️</div>
+          <div class="info-text"><strong>Cuidado com pizza:</strong> Só use quando tiver <strong>máximo 6 fatias</strong>. Com mais categorias, um gráfico de barras comunica melhor!</div>
+        </div>
+        <div style="text-align:center;margin-top:16px;">
+          <button class="btn-primary" style="width:auto;padding:12px 24px;font-size:.9em;" onclick="awardXP(120,'Gráfico de pizza feito! +120 XP')">🥧 Pizza criada com sucesso!</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 6: COMPARTILHAR ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">6</div>
+        <div class="section-title">Compartilhando com o Professor</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-accent green"></div>
+        <div class="step-badge">🔗 Passo 7 — Entregar</div>
+        <div class="card-title">Como enviar sua planilha</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text">Renomeie: clique em <strong>"Planilha sem título"</strong> no topo → escreva <code>Painel Vendas 2026 — Seu Nome</code></div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text">Botão verde <strong>"Compartilhar"</strong> (canto superior direito)</div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text">Digite o e-mail do professor → escolha <strong>"Editor"</strong> → clique em <strong>Enviar</strong></div></div>
+          <div class="step-item"><div class="step-n">4</div><div class="step-text">Ou copie o link e mande no grupo da turma</div></div>
+        </div>
+        <div class="info-box green">
+          <div class="info-icon">🔗</div>
+          <div class="info-text"><strong>O link sempre mostra a versão mais recente!</strong> Quem receber o link vai ver exatamente o que está na sua planilha agora — o Sheets atualiza em tempo real.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MISSÃO FINAL ===== -->
+    <div class="section">
+      <div class="section-label">
+        <div class="section-num">🏆</div>
+        <div class="section-title">Missão Final da Aula</div>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="mission">
+        <div class="mission-header">
+          <div class="mission-icon">🏆</div>
+          <div>
+            <div class="mission-title-text">Painel de Vendas Completo</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 40 min</span>
+              <span class="mtag">📊 4 gráficos</span>
+              <span class="mtag">💯 Avaliado</span>
+              <span class="mtag">⚡ +500 XP</span>
+            </div>
+          </div>
+        </div>
+        <div class="mission-desc">Usando os dados da aula, crie um painel com 4 gráficos diferentes, cada um respondendo uma pergunta de negócio!</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-n">1</div><div class="step-text"><strong>Gráfico de Colunas:</strong> "Quais categorias vendem mais em cada mês?" → Selecione A1:D7</div></div>
+          <div class="step-item"><div class="step-n">2</div><div class="step-text"><strong>Gráfico de Linhas:</strong> "Como Eletrônicos evoluiu no semestre?" → Selecione A1:B7</div></div>
+          <div class="step-item"><div class="step-n">3</div><div class="step-text"><strong>Gráfico de Pizza:</strong> "Qual categoria tem maior fatia do total?" → Use a tabela de SOMA que você criou</div></div>
+          <div class="step-item"><div class="step-n">4</div><div class="step-text"><strong>Colunas Empilhadas:</strong> "Total vendido por mês?" → No tipo de gráfico, escolha "Colunas empilhadas"</div></div>
+          <div class="step-item"><div class="step-n">5</div><div class="step-text">Todos os gráficos precisam de <strong>título</strong>, <strong>legenda</strong> e <strong>rótulos de dados</strong></div></div>
+          <div class="step-item"><div class="step-n">6</div><div class="step-text">Renomeie para <strong>"Painel Vendas 2026 — Seu Nome"</strong> e compartilhe com o professor</div></div>
+        </div>
+        <div class="info-box purple" style="margin-top:16px;">
+          <div class="info-icon">🌟</div>
+          <div class="info-text"><strong>Desafio Extra (+200 XP):</strong> Adicione uma coluna E com <code>=B2+C2+D2</code> calculando o total mensal. Crie um 5º gráfico de linhas mostrando a tendência geral. As vendas estão crescendo ou caindo?</div>
+        </div>
+        <div style="text-align:center;margin-top:20px;">
+          <button class="btn-primary" style="width:auto;padding:14px 32px;font-size:1em;" onclick="awardXP(500,'MISSÃO COMPLETA! +500 XP 🏆');unlockAchievement('🏆','Data Analyst','Missão completa com 4 gráficos!')">🏆 Missão Completa! Entreguei tudo!</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA QUIZ -->
+    <div style="background:linear-gradient(135deg,rgba(251,188,4,.1),rgba(234,67,53,.08));border:1px solid rgba(251,188,4,.3);border-radius:20px;padding:32px;text-align:center;margin:24px 0;">
+      <div style="font-size:3em;margin-bottom:12px;">🧠</div>
+      <div style="font-size:1.4em;font-weight:900;color:white;margin-bottom:8px;">Hora do Quiz!</div>
+      <div style="color:#94a3b8;font-size:.95em;margin-bottom:20px;">7 perguntas · Cronometrado · Ganhe XP bônus por velocidade!</div>
+      <button class="btn-primary" style="font-size:1em;padding:14px 32px;" onclick="startQuiz()">⚡ Fazer o Quiz e Ganhar XP!</button>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a href="index.html" class="bnav-btn">🏠 Índice</a>
+    <span style="font-size:.78em;color:#475569;font-weight:600;" id="lesson-pct">Aula em progresso</span>
+    <button class="bnav-btn quiz-cta" onclick="startQuiz()">🧠 Fazer Quiz!</button>
+  </div>
+</div>
+
+<!-- ==================== SCREEN 3: QUIZ ==================== -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-hero">
+    <span class="quiz-hero-emoji">🧠</span>
+    <div class="quiz-hero-title">Quiz — Gráficos</div>
+    <div class="quiz-hero-sub">7 perguntas · Responda rápido para bônus de XP!</div>
+    <div class="quiz-stats">
+      <div class="quiz-stat"><div class="quiz-stat-n" style="color:var(--xp-color);" id="q-xp-total">0</div><div class="quiz-stat-l">XP Ganho</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-n" style="color:var(--green);" id="q-correct">0</div><div class="quiz-stat-l">Corretas</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-n" id="q-num">1/7</div><div class="quiz-stat-l">Questão</div></div>
+    </div>
+  </div>
+
+  <div class="quiz-game" id="quiz-game">
+    <div class="q-progress-bar"><div class="q-progress-fill" id="q-progress" style="width:0%"></div></div>
+    <div class="q-num" id="q-num-label">Questão 1 de 7</div>
+    <div class="q-text" id="q-text">...</div>
+    <div class="q-opts" id="q-opts"></div>
+    <div class="q-xp-reward" id="q-xp-reward">⚡ +100 XP</div>
+    <div class="q-feedback" id="q-feedback"></div>
+    <button class="btn-next-q" id="btn-next-q" onclick="nextQuestion()">Próxima →</button>
+  </div>
+
+  <div class="quiz-result" id="quiz-result">
+    <span class="result-emoji" id="result-emoji">🎉</span>
+    <div class="result-title" id="result-title">Incrível!</div>
+    <div class="result-score-wrap">
+      <div class="result-score"><span id="res-correct">0</span>/<span>7</span></div>
+      <div class="result-label">questões corretas</div>
+    </div>
+    <div class="result-breakdown">
+      <div class="rb-item"><div class="rb-n" style="color:var(--xp-color);" id="res-xp">0</div><div class="rb-l">XP TOTAL GANHO</div></div>
+      <div class="rb-item"><div class="rb-n" style="color:var(--green);" id="res-pct">0%</div><div class="rb-l">APROVEITAMENTO</div></div>
+    </div>
+    <div class="result-message" id="result-message"></div>
+    <div class="result-badges" id="result-badges"></div>
+    <div style="margin-top:24px;">
+      <button class="btn-retry" onclick="restartQuiz()">🔄 Tentar de novo</button>
+      <button class="btn-finish" onclick="finishAll()">🏠 Finalizar Aula</button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="bnav-btn" onclick="showScreen('screen-sheets')">← Voltar à Aula</button>
+    <div class="xp-display"><span class="xp-icon">⚡</span><span class="xp-amount" id="q-xp-display">0</span><span class="xp-label">XP</span></div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let state = {
+  name: '', email: '', turma: '',
+  xp: 0, streak: 0, correctStreak: 0,
+  lessonsCompleted: [],
+  quizScore: 0, quizXP: 0,
+  currentQ: 0, answered: false
+};
+
+// ===== LOGIN FLOW =====
+function checkEmail() {
+  const v = document.getElementById('email-input').value;
+  const btn = document.getElementById('btn-step1');
+  const valid = v.includes('@') && v.length > 5;
+  btn.style.opacity = valid ? '1' : '.5';
+  btn.style.pointerEvents = valid ? 'auto' : 'none';
+}
+
+function selectAccount(el) {
+  document.getElementById('email-input').value = el.dataset.email;
+  el.style.borderColor = 'rgba(52,168,83,.5)';
+  el.querySelector('.gah-check').textContent = '✓';
+  el.querySelector('.gah-check').style.color = '#34a853';
+  checkEmail();
+}
+
+function goStep2() {
+  const email = document.getElementById('email-input').value.trim();
+  if (!email.includes('@')) return;
+  state.email = email;
+  document.getElementById('login-step1').style.display = 'none';
+  document.getElementById('login-step2').style.display = 'block';
+  document.getElementById('ldot1').classList.remove('active');
+  document.getElementById('ldot1').classList.add('done');
+  document.getElementById('ldot2').classList.add('active');
+}
+
+function checkName() {
+  const n = document.getElementById('name-input').value.trim();
+  // Could enable/disable button here
+}
+
+function goStep3() {
+  const name = document.getElementById('name-input').value.trim();
+  if (!name) { alert('Digite seu nome!'); return; }
+  state.name = name;
+  state.turma = document.getElementById('turma-input').value.trim();
+  document.getElementById('welcome-name').textContent = name.split(' ')[0];
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'block';
+  document.getElementById('ldot2').classList.remove('active');
+  document.getElementById('ldot2').classList.add('done');
+  document.getElementById('ldot3').classList.add('active');
+}
+
+function startLesson() {
+  showScreen('screen-sheets');
+  updateXPBar();
+  document.getElementById('xpbar').classList.add('visible');
+  awardXP(50, '🎉 Bem-vindo! +50 XP por fazer login!');
+  setTimeout(() => unlockAchievement('🔑', 'Conectado!', 'Entrou com a conta Google'), 1500);
+}
+
+// ===== SCREENS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+  const s = document.getElementById(id);
+  s.style.display = 'block';
+  s.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ===== XP SYSTEM =====
+function awardXP(amount, msg) {
+  state.xp += amount;
+  updateXPBar();
+  showXPNotif(msg || `+${amount} XP`);
+}
+
+function updateXPBar() {
+  document.getElementById('xp-count').textContent = state.xp;
+  document.getElementById('q-xp-display').textContent = state.xp;
+  const initials = state.name ? state.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase() : '?';
+  document.getElementById('xpbar-avatar').textContent = initials;
+  document.getElementById('xpbar-name').textContent = state.name || '—';
+  document.getElementById('xpbar-email').textContent = state.email || '—';
+}
+
+function showXPNotif(msg) {
+  const n = document.getElementById('xp-notif');
+  document.getElementById('xp-notif-text').textContent = msg;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+function unlockAchievement(icon, name, desc) {
+  document.getElementById('ach-icon').textContent = icon;
+  document.getElementById('ach-name').textContent = name;
+  document.getElementById('ach-desc').textContent = desc;
+  const p = document.getElementById('ach-pop');
+  p.classList.add('show');
+  setTimeout(() => p.classList.remove('show'), 3500);
+}
+
+// ===== LESSON PROGRESS =====
+let sectionsRead = 0;
+const totalSections = 6;
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = el.scrollTop / (el.scrollHeight - el.clientHeight);
+  const p = Math.round(pct * 100);
+  document.getElementById('lesson-progress').style.width = p + '%';
+  document.getElementById('lesson-progress-label').textContent = p + '% da aula';
+  document.getElementById('lesson-pct').textContent = p + '% lido';
+  if (p > 30 && !state.lessonsCompleted.includes('30')) {
+    state.lessonsCompleted.push('30');
+    awardXP(30, '📖 +30 XP por continuar lendo!');
+  }
+  if (p > 70 && !state.lessonsCompleted.includes('70')) {
+    state.lessonsCompleted.push('70');
+    awardXP(50, '🔥 +50 XP — quase no final!');
+    unlockAchievement('📖', 'Leitor Dedicado', '70% da aula lida!');
+  }
+});
+
+// ===== CHART TYPE SELECTOR =====
+const chartInfo = {
+  bars: '📊 <strong style="color:white;">Colunas/Barras</strong> — Use quando quiser <strong style="color:#93c5fd;">comparar</strong> valores entre categorias diferentes. Exemplo: vendas de cada categoria em cada mês. Perfeito para 2 a 10 categorias.',
+  lines: '📈 <strong style="color:white;">Linhas</strong> — Use para mostrar <strong style="color:#93c5fd;">evolução ao longo do tempo</strong>. Cada ponto da linha = um período (mês, ano). Ótimo para ver tendências: está crescendo ou caindo?',
+  pie: '🥧 <strong style="color:white;">Pizza</strong> — Use para mostrar <strong style="color:#93c5fd;">fatias de um todo</strong> (proporções, porcentagens). Máximo de 6 fatias! Com mais categorias, vira bagunça visual.',
+  area: '📉 <strong style="color:white;">Área</strong> — Como linhas, mas preenche a área abaixo. Bom para mostrar <strong style="color:#93c5fd;">volume acumulado</strong>. Cuidado quando as linhas se sobrepõem muito!'
+};
+
+function selectChartType(el, type) {
+  document.querySelectorAll('.ct').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('chart-info').innerHTML = chartInfo[type];
+  renderMiniChart(type);
+  awardXP(10, `+10 XP — explorou gráfico de ${el.querySelector('.ct-name').textContent}!`);
+}
+
+// ===== MINI CHART RENDERER =====
+const data = {
+  elet: [4200,3800,5100,4700,5300,4900],
+  roup: [1800,2200,1600,2500,2100,2800],
+  alim: [3100,2900,3400,3200,3600,3300]
+};
+const maxV = 5300;
+const colors = ['#4285f4','#34a853','#fbbc04'];
+
+function renderMiniChart(type) {
+  const container = document.getElementById('bars-viz');
+  const MAX_PX = 150; // max bar height in pixels
+  if (type === 'pie') {
+    container.style.height = '160px';
+    container.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:center;width:100%;gap:20px;flex-wrap:wrap;padding:10px 0;">
+        <svg viewBox="0 0 160 160" width="130" height="130" style="flex-shrink:0;">
+          <!-- Eletrônicos 47.8% = 172° -->
+          <circle r="50" cx="80" cy="80" fill="transparent" stroke="#4285f4" stroke-width="32" stroke-dasharray="${172/360*314.16} ${314.16}" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+          <!-- Alimentos 34.1% = 123° offset 172° -->
+          <circle r="50" cx="80" cy="80" fill="transparent" stroke="#fbbc04" stroke-width="32" stroke-dasharray="${123/360*314.16} ${314.16}" stroke-dashoffset="${-172/360*314.16}" transform="rotate(-90 80 80)"/>
+          <!-- Roupas 18.1% = 65° offset 295° -->
+          <circle r="50" cx="80" cy="80" fill="transparent" stroke="#34a853" stroke-width="32" stroke-dasharray="${65/360*314.16} ${314.16}" stroke-dashoffset="${-295/360*314.16}" transform="rotate(-90 80 80)"/>
+          <circle r="34" cx="80" cy="80" fill="#0f172a"/>
+        </svg>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:.85em;color:#e2e8f0;font-weight:700;"><span style="width:14px;height:14px;background:#4285f4;border-radius:4px;display:inline-block;"></span> Eletrônicos <span style="color:#4285f4;">47.8%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:.85em;color:#e2e8f0;font-weight:700;"><span style="width:14px;height:14px;background:#fbbc04;border-radius:4px;display:inline-block;"></span> Alimentos <span style="color:#fbbc04;">34.1%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:.85em;color:#e2e8f0;font-weight:700;"><span style="width:14px;height:14px;background:#34a853;border-radius:4px;display:inline-block;"></span> Roupas <span style="color:#34a853;">18.1%</span></div>
+        </div>
+      </div>`;
+    return;
+  }
+  container.style.height = '160px';
+  const months = [0,1,2,3,4,5];
+  let html = '';
+  months.forEach((m) => {
+    const vals = [data.elet[m], data.roup[m], data.alim[m]];
+    if (type === 'bars') {
+      html += '<div class="bar-grp">';
+      vals.forEach((v,j) => {
+        const h = Math.round((v/maxV)*MAX_PX);
+        html += `<div class="mbar" style="height:${h}px;background:${colors[j]};flex:1;" data-v="${v.toLocaleString('pt-BR')}"></div>`;
+      });
+      html += '</div>';
+    } else if (type === 'lines') {
+      const h = Math.round((vals[0]/maxV)*MAX_PX);
+      const hLine = MAX_PX - h;
+      html += `<div class="bar-grp" style="position:relative;">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:${h}px;display:flex;align-items:flex-end;justify-content:center;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#4285f4;box-shadow:0 0 8px rgba(66,133,244,.8);position:absolute;bottom:${h-6}px;left:50%;transform:translateX(-50%);"></div>
+          <div style="width:3px;height:${h}px;background:linear-gradient(180deg,#4285f4,rgba(66,133,244,.15));border-radius:2px 2px 0 0;"></div>
+        </div>
+      </div>`;
+    } else if (type === 'area') {
+      const h = Math.round((vals[0]/maxV)*MAX_PX);
+      html += `<div class="bar-grp"><div class="mbar" style="height:${h}px;background:linear-gradient(180deg,rgba(66,133,244,.9),rgba(66,133,244,.15));flex:1;border-top:2px solid #4285f4;" data-v="${vals[0].toLocaleString('pt-BR')}"></div></div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+
+// ===== THINK & DO =====
+function revealThink(revId, inputId) {
+  const input = document.getElementById(inputId).value.trim();
+  const rev = document.getElementById(revId);
+  rev.classList.add('show');
+  if (input.length > 10) awardXP(25, '🧠 +25 XP por responder!');
+}
+
+// ===== QUIZ =====
+const questions = [
+  {
+    q: 'Você quer mostrar como as vendas de eletrônicos <strong>cresceram ao longo de 12 meses</strong>. Qual gráfico é mais adequado?',
+    opts: ['🥧 Gráfico de Pizza','📈 Gráfico de Linhas','📊 Gráfico de Colunas agrupadas','📉 Gráfico de Área'],
+    correct: 1,
+    feedback_ok: '✅ Perfeito! Linhas mostram evolução no tempo — cada ponto = um mês. É o gráfico ideal para tendências!',
+    feedback_err: '❌ Para mostrar evolução ao longo do tempo, o gráfico de Linhas é o ideal. Cada ponto da linha representa um período.'
+  },
+  {
+    q: 'Qual atalho de teclado seleciona automaticamente todos os dados até a última célula preenchida?',
+    opts: ['⌨️ Ctrl + A','⌨️ Ctrl + Shift + End','⌨️ Ctrl + Shift + Home','⌨️ Ctrl + End'],
+    correct: 1,
+    feedback_ok: '✅ Isso! Ctrl+Shift+End seleciona da célula atual até a última com dados — super útil em tabelas grandes!',
+    feedback_err: '❌ Ctrl+Shift+End seleciona até a última célula com dado. Ctrl+A seleciona tudo (incluindo vazias).'
+  },
+  {
+    q: 'Você quer comparar a <strong>fatia de mercado</strong> de 4 empresas concorrentes. Qual gráfico comunica melhor essa informação?',
+    opts: ['📈 Gráfico de Linhas','📊 Gráfico de Colunas','🥧 Gráfico de Pizza','📉 Gráfico de Área'],
+    correct: 2,
+    feedback_ok: '✅ Pizza é ideal para mostrar proporções (fatias de mercado) quando há poucas categorias!',
+    feedback_err: '❌ Para mostrar fatias de participação de um total, o gráfico de pizza é o mais indicado — especialmente com 4 empresas.'
+  },
+  {
+    q: 'Para abrir o <strong>Editor de gráficos</strong> e personalizar um gráfico já criado, o que você faz?',
+    opts: ['🖱️ Um clique simples no gráfico','🖱️ Duplo clique no gráfico','🖱️ Clique direito → "Inserir gráfico"','🖱️ Menu Inserir → Gráfico novamente'],
+    correct: 1,
+    feedback_ok: '✅ Exato! Duplo clique abre o Editor de gráficos. Um clique simples só seleciona.',
+    feedback_err: '❌ Duplo clique no gráfico abre o Editor de gráficos na lateral direita. Um clique simples apenas seleciona o gráfico.'
+  },
+  {
+    q: 'Qual fórmula calcula a soma de todos os valores da coluna B, da linha 2 até a linha 7?',
+    opts: ['=SOMA(B:B)','=SOMA(2:7)','=SOMA(B2:B7)','=ADICIONAR(B2,B7)'],
+    correct: 2,
+    feedback_ok: '✅ Correto! =SOMA(B2:B7) soma todas as células de B2 até B7. O ":" significa "até".',
+    feedback_err: '❌ A fórmula correta é =SOMA(B2:B7). O ":" significa "de B2 até B7".'
+  },
+  {
+    q: 'Você digitou o número 4200 numa célula, mas ele ficou <strong>alinhado à esquerda</strong>. O que aconteceu?',
+    opts: ['O Sheets formatou como moeda','O número foi reconhecido como texto','A célula está bloqueada','A coluna está muito estreita'],
+    correct: 1,
+    feedback_ok: '✅ Isso mesmo! Números alinhados à esquerda = o Sheets reconheceu como TEXTO. Números ficam alinhados à direita automaticamente.',
+    feedback_err: '❌ Quando um número fica à esquerda, o Sheets o reconheceu como texto (não número). Isso acontece quando você digita espaços extras ou usa vírgula errada.'
+  },
+  {
+    q: 'Qual o número <strong>máximo de fatias</strong> recomendado em um gráfico de pizza para manter a legibilidade?',
+    opts: ['3 fatias','6 fatias','10 fatias','12 fatias'],
+    correct: 1,
+    feedback_ok: '✅ Certo! Máximo de 6 fatias em um gráfico de pizza. Com mais categorias, vira uma bagunça visual — use barras!',
+    feedback_err: '❌ O recomendado é no máximo 6 fatias. Com mais, o gráfico fica ilegível. Para muitas categorias, prefira barras.'
+  }
+];
+
+let currentQ = 0, qAnswered = false, qCorrect = 0, quizXP = 0;
+let qTimer = null, qTimeLeft = 15;
+
+function startQuiz() {
+  currentQ = 0; qAnswered = false; qCorrect = 0; quizXP = 0;
+  document.getElementById('q-correct').textContent = '0';
+  document.getElementById('q-xp-total').textContent = '0';
+  document.getElementById('quiz-game').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  qAnswered = false;
+  document.getElementById('q-num-label').textContent = `Questão ${currentQ+1} de ${questions.length}`;
+  document.getElementById('q-num').textContent = `${currentQ+1}/${questions.length}`;
+  document.getElementById('q-progress').style.width = ((currentQ/questions.length)*100) + '%';
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('q-feedback').className = 'q-feedback';
+  document.getElementById('q-xp-reward').className = 'q-xp-reward';
+  document.getElementById('btn-next-q').className = 'btn-next-q';
+
+  const letters = ['A','B','C','D'];
+  const optsHtml = q.opts.map((o,i) =>
+    `<div class="q-opt" onclick="answerQ(this,${i})" data-idx="${i}">
+      <div class="q-opt-letter">${letters[i]}</div>
+      <span>${o}</span>
+    </div>`
+  ).join('');
+  document.getElementById('q-opts').innerHTML = optsHtml;
+  document.getElementById('q-xp-total').textContent = quizXP;
+}
+
+function answerQ(el, idx) {
+  if (qAnswered) return;
+  qAnswered = true;
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.q-opt');
+  opts.forEach(o => { o.classList.add('locked'); });
+  const isCorrect = idx === q.correct;
+
+  if (isCorrect) {
+    el.classList.add('correct');
+    qCorrect++;
+    const xpEarned = 100;
+    quizXP += xpEarned;
+    awardXP(xpEarned, `⚡ +${xpEarned} XP — Correto!`);
+    document.getElementById('q-xp-reward').textContent = `⚡ +${xpEarned} XP`;
+    document.getElementById('q-xp-reward').classList.add('show');
+    document.getElementById('q-correct').textContent = qCorrect;
+    document.getElementById('q-xp-total').textContent = quizXP;
+  } else {
+    el.classList.add('wrong');
+    opts[q.correct].classList.add('correct');
+  }
+
+  const fb = document.getElementById('q-feedback');
+  fb.textContent = isCorrect ? q.feedback_ok : q.feedback_err;
+  fb.className = 'q-feedback show ' + (isCorrect ? 'ok' : 'err');
+  document.getElementById('btn-next-q').className = 'btn-next-q show';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-game').style.display = 'none';
+  const pct = Math.round((qCorrect/questions.length)*100);
+  const result = document.getElementById('quiz-result');
+  result.classList.add('show');
+
+  document.getElementById('res-correct').textContent = qCorrect;
+  document.getElementById('res-xp').textContent = quizXP + state.xp;
+  document.getElementById('res-pct').textContent = pct + '%';
+
+  let emoji = '😅', title = 'Continue praticando!', msg = 'Revise o conteúdo e tente novamente. Cada erro é uma chance de aprender!';
+  let badges = [];
+
+  if (pct >= 86) { emoji='🏆'; title='Mestre dos Gráficos!'; msg='Impressionante! Você dominou o conteúdo. Está pronto para criar dashboards profissionais!'; badges=['🏆 Mestre','⚡ Expert']; unlockAchievement('🏆','Mestre dos Gráficos!','100% no quiz!'); }
+  else if (pct >= 70) { emoji='🎉'; title='Muito bem!'; msg='Ótimo resultado! Você entendeu a maioria do conteúdo. Revise os erros e tente superar sua pontuação!'; badges=['🎯 Ótimo desempenho']; unlockAchievement('🎯','Bom resultado!','Mais de 70% no quiz!'); }
+  else if (pct >= 50) { emoji='💪'; title='Bom esforço!'; msg='Você tá no caminho certo! Revise os tipos de gráfico e tente novamente para melhorar.'; badges=['📚 Em progresso']; }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-message').textContent = msg;
+
+  const badgesEl = document.getElementById('result-badges');
+  badgesEl.innerHTML = badges.map(b => `<span class="result-badge earned">${b}</span>`).join('');
+}
+
+function restartQuiz() {
+  startQuiz();
+}
+
+function finishAll() {
+  showScreen('screen-sheets');
+  awardXP(200, '🏆 +200 XP por completar o quiz!');
+}
+
+// ===== INIT =====
+renderMiniChart('bars');
+</script>
+</body>
+</html>
+
