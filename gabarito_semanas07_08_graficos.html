@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabarito — Planilhas e Gráficos · Projetos de TIC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0a1628;--blue:#1a56db;--blue-light:#dbeafe;
+  --green:#059669;--green-light:#d1fae5;
+  --red:#dc2626;--red-light:#fee2e2;
+  --amber:#d97706;--amber-light:#fef3c7;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
+  --gray-600:#475569;--gray-800:#1e293b;
+  --white:#fff;--radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;}
+.topbar{background:var(--navy);color:white;padding:10px 32px;font-size:.8em;display:flex;align-items:center;gap:12px;}
+.topbar a{color:#60a5fa;text-decoration:none;}
+.topbar-sep{color:#475569;}
+.hero{background:linear-gradient(135deg,#064e3b,#059669 60%,#10b981);color:white;padding:40px 32px;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:6px 18px;font-size:.8em;font-weight:600;margin-bottom:16px;}
+.hero h1{font-size:clamp(1.5em,3.5vw,2.2em);font-weight:700;letter-spacing:-.02em;margin-bottom:6px;}
+.hero h1 span{color:#a7f3d0;}
+.hero-sub{opacity:.8;font-size:.9em;}
+.main{max-width:860px;margin:36px auto;padding:0 28px 60px;}
+.section-header{background:var(--navy);color:white;border-radius:var(--radius) var(--radius) 0 0;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:32px;}
+.section-header .sec-title{font-size:.95em;font-weight:700;}
+.section-header .sec-pts{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:.78em;font-weight:600;}
+.answers-wrapper{background:white;border:1px solid var(--gray-200);border-top:none;border-radius:0 0 var(--radius) var(--radius);}
+.answer-item{padding:18px 22px;border-bottom:1px solid var(--gray-100);display:flex;gap:14px;align-items:flex-start;}
+.answer-item:last-child{border-bottom:none;}
+.ans-num{background:var(--green);color:white;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.78em;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.ans-body{flex:1;}
+.ans-correct{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1em;color:var(--green);margin-bottom:6px;}
+.ans-explain{font-size:.88em;color:var(--gray-600);line-height:1.6;}
+.ans-explain strong{color:var(--gray-800);}
+.ans-explain code{font-family:'IBM Plex Mono',monospace;background:var(--gray-100);color:var(--blue);padding:1px 6px;border-radius:3px;font-size:.88em;}
+.tf-row{padding:14px 22px;border-bottom:1px solid var(--gray-100);display:flex;gap:12px;align-items:flex-start;}
+.tf-row:last-child{border-bottom:none;}
+.tf-num{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--gray-600);font-size:.82em;min-width:24px;margin-top:3px;}
+.tf-badge{font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:.9em;border-radius:5px;padding:2px 10px;margin-right:10px;}
+.badge-v{background:var(--green-light);color:var(--green);}
+.badge-f{background:var(--red-light);color:var(--red);}
+.tf-text{font-size:.88em;color:var(--gray-600);line-height:1.55;flex:1;}
+.match-answer{background:var(--green-light);border:1px solid var(--green);border-radius:var(--radius);padding:14px 18px;margin:8px 22px 8px 52px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center;}
+.match-pair{font-family:'IBM Plex Mono',monospace;font-size:.88em;}
+.match-pair span{color:var(--green);font-weight:700;}
+.essay-answer{background:var(--amber-light);border:1px solid #fde68a;border-radius:var(--radius);padding:16px 18px;margin:0 22px 12px 52px;font-size:.88em;line-height:1.7;}
+.essay-answer strong{color:var(--amber);}
+.page-footer{text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid var(--gray-200);color:var(--gray-600);font-size:.82em;}
+.page-footer a{color:var(--blue);}
+@media(max-width:640px){.main{padding:0 14px 40px;}.match-answer{margin-left:14px;grid-template-columns:repeat(3,1fr);}.essay-answer{margin-left:14px;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html">← Índice</a>
+  <span class="topbar-sep">›</span>
+  <span>2º Bimestre</span>
+  <span class="topbar-sep">›</span>
+  <span>Gabarito — Planilhas e Gráficos</span>
+</div>
+
+<header class="hero">
+  <div class="hero-tag">✅ Gabarito Comentado</div>
+  <h1>Correção — <span>Planilhas &amp; Gráficos</span></h1>
+  <p class="hero-sub">Projetos de TIC · Semanas 07, 08 e Aula de Gráficos · ETEC 2026</p>
+</header>
+
+<div class="main">
+
+  <!-- PARTE I -->
+  <div class="section-header">
+    <div class="sec-title">I · Múltipla Escolha — Gabarito</div>
+    <div class="sec-pts">0,4 pt cada</div>
+  </div>
+  <div class="answers-wrapper">
+
+    <div class="answer-item">
+      <div class="ans-num">01</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa B) Sinal de igual ( = )</div>
+        <div class="ans-explain">No Excel e no Google Sheets, <strong>toda fórmula começa obrigatoriamente com =</strong>. Sem o sinal de igual, a planilha entende o conteúdo como texto e não realiza nenhum cálculo.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">02</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa B) B2</div>
+        <div class="ans-explain">O endereço de uma célula é formado pela <strong>letra da coluna seguida do número da linha</strong>. O valor R$ 42.000 está na coluna B (Receita), linha 2 → endereço <code>B2</code>. Nunca invertemos: 2B seria incorreto.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">03</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa C) <code>=SOMA(B2:B13)</code></div>
+        <div class="ans-explain">A função correta é <code>=SOMA()</code>, sempre precedida de <code>=</code>. O intervalo <code>B2:B13</code> indica "de B2 até B13". As demais opções usam funções inexistentes (TOTAL, SOMAR) ou sintaxe errada.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">04</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa D) <code>=MÁXIMO(D2:D13)</code></div>
+        <div class="ans-explain"><code>=MÁXIMO()</code> retorna o maior valor de um intervalo. <code>SOMA</code> somaria tudo; <code>TOPO</code> e <code>MAIOR</code> (sem número de posição) não são funções válidas neste contexto.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">05</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa B) Reprovado</div>
+        <div class="ans-explain">A condição <code>B2&gt;=6</code> é Falsa quando B2 = 5 (pois 5 não é ≥ 6). Portanto, o SE retorna o <strong>segundo argumento</strong>: "Reprovado".</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">06</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa B) <code>=PROCV(A2;$D$2:$F$10;2;0)</code></div>
+        <div class="ans-explain">A estrutura correta do PROCV é: <code>=PROCV(valor_buscado; tabela; coluna_retorno; correspondência)</code>. O <code>$</code> trava a tabela ao copiar; o <code>0</code> no final exige correspondência exata.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">07</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa B) Formatação Condicional com regra de valor menor que 6</div>
+        <div class="ans-explain">A <strong>Formatação Condicional</strong> aplica cores automaticamente baseada em regras. No Excel: <em>Início → Formatação Condicional → Nova Regra</em>. No Sheets: <em>Formatar → Formatação Condicional</em>. Muito mais eficiente do que pintar manualmente.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">08</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa B) Gráfico de Linhas</div>
+        <div class="ans-explain">O <strong>Gráfico de Linhas</strong> é o mais indicado para mostrar <strong>tendências e evoluções ao longo do tempo</strong>. Pizza mostra proporções; Dispersão mostra correlação; Área mostra volume acumulado.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">09</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa C) Gráfico de Pizza</div>
+        <div class="ans-explain">O <strong>Gráfico de Pizza</strong> é ideal para mostrar <strong>proporções percentuais — partes de um todo</strong>. Recomenda-se no máximo 6 fatias para manter a legibilidade. Com muitas categorias, prefira Colunas ou Barras.</div>
+      </div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">10</div>
+      <div class="ans-body">
+        <div class="ans-correct">✔ Alternativa C) Trava a referência, impedindo que ela mude ao copiar a fórmula</div>
+        <div class="ans-explain">O símbolo <code>$</code> é chamado de <strong>referência absoluta</strong>. <code>$D$2:$F$10</code> significa que, ao copiar a fórmula para outras células, o endereço da tabela nunca muda. Essencial no PROCV para não "deslocar" a tabela de busca.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PARTE II -->
+  <div class="section-header">
+    <div class="sec-title">II · Verdadeiro ou Falso — Gabarito</div>
+    <div class="sec-pts">0,5 pt cada</div>
+  </div>
+  <div class="answers-wrapper">
+    <div class="tf-row">
+      <span class="tf-num">11</span>
+      <span class="tf-badge badge-v">V</span>
+      <span class="tf-text">Verdadeiro. Sem o <code>=</code> inicial, a planilha trata "SOMA(B2:B10)" como texto puro. Nenhum cálculo é executado.</span>
+    </div>
+    <div class="tf-row">
+      <span class="tf-num">12</span>
+      <span class="tf-badge badge-v">V</span>
+      <span class="tf-text">Verdadeiro. Quando o intervalo tem exatamente 12 células numéricas, <code>=MÉDIA(B2:B13)</code> e <code>=SOMA(B2:B13)/12</code> produzem o mesmo resultado. A diferença surge se houver células vazias (a MÉDIA as ignora, a divisão por 12 não).</span>
+    </div>
+    <div class="tf-row">
+      <span class="tf-num">13</span>
+      <span class="tf-badge badge-f">F</span>
+      <span class="tf-text">Falso. O Gráfico de Pizza é ideal para mostrar <strong>proporções (partes de um todo)</strong>, não para comparar evolução temporal. Para 12 meses consecutivos, o Gráfico de <strong>Linhas</strong> é o mais adequado.</span>
+    </div>
+    <div class="tf-row">
+      <span class="tf-num">14</span>
+      <span class="tf-badge badge-v">V</span>
+      <span class="tf-text">Verdadeiro. A Formatação Condicional automatiza a aplicação de estilos visuais com base em regras (ex: nota &lt; 6 → fundo vermelho), eliminando a necessidade de formatação manual célula a célula.</span>
+    </div>
+    <div class="tf-row">
+      <span class="tf-num">15</span>
+      <span class="tf-badge badge-v">V</span>
+      <span class="tf-text">Verdadeiro. No Excel, o fluxo é: selecionar os dados → aba <strong>Inserir</strong> → grupo Gráficos → escolher o tipo desejado. O gráfico é inserido na própria planilha.</span>
+    </div>
+    <div class="tf-row">
+      <span class="tf-num">16</span>
+      <span class="tf-badge badge-f">F</span>
+      <span class="tf-text">Falso. O <code>0</code> (ou FALSO) indica <strong>correspondência EXATA</strong> — o oposto do descrito. Com <code>1</code> (ou VERDADEIRO) seria correspondência aproximada. Use sempre <code>0</code> para evitar resultados incorretos no PROCV.</span>
+    </div>
+  </div>
+
+  <!-- PARTE III -->
+  <div class="section-header">
+    <div class="sec-title">III · Correspondência — Gabarito</div>
+    <div class="sec-pts">1,0 pt cada</div>
+  </div>
+  <div class="answers-wrapper">
+
+    <div class="answer-item">
+      <div class="ans-num">17</div>
+      <div class="ans-body">
+        <div class="ans-correct">Fórmulas e funções</div>
+        <div class="ans-explain">Respostas: 1–B · 2–D · 3–E · 4–A · 5–C</div>
+      </div>
+    </div>
+    <div class="match-answer">
+      <div class="match-pair">1 → <span>B</span></div>
+      <div class="match-pair">2 → <span>D</span></div>
+      <div class="match-pair">3 → <span>E</span></div>
+      <div class="match-pair">4 → <span>A</span></div>
+      <div class="match-pair">5 → <span>C</span></div>
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">18</div>
+      <div class="ans-body">
+        <div class="ans-correct">Tipos de gráfico e aplicações</div>
+        <div class="ans-explain">Respostas: 1–C · 2–E · 3–A · 4–D · 5–B</div>
+      </div>
+    </div>
+    <div class="match-answer">
+      <div class="match-pair">1 → <span>C</span></div>
+      <div class="match-pair">2 → <span>E</span></div>
+      <div class="match-pair">3 → <span>A</span></div>
+      <div class="match-pair">4 → <span>D</span></div>
+      <div class="match-pair">5 → <span>B</span></div>
+    </div>
+
+  </div>
+
+  <!-- PARTE IV -->
+  <div class="section-header">
+    <div class="sec-title">IV · Dissertativas — Critérios de Correção</div>
+    <div class="sec-pts">0,5 pt cada</div>
+  </div>
+  <div class="answers-wrapper">
+
+    <div class="answer-item">
+      <div class="ans-num">19</div>
+      <div class="ans-body">
+        <div class="ans-correct">Resposta esperada — fórmula =SE()</div>
+      </div>
+    </div>
+    <div class="essay-answer">
+      <strong>Resposta modelo:</strong> A fórmula <code>=SE()</code> avalia uma condição lógica e retorna um valor diferente dependendo se essa condição for verdadeira ou falsa. Sua estrutura é: <code>=SE(condição; valor_se_verdadeiro; valor_se_falso)</code>.<br><br>
+      <strong>Exemplo escolar:</strong> <code>=SE(D2&gt;=6;"Aprovado";"Reprovado")</code> — se a média do aluno em D2 for 6 ou mais, a célula exibe "Aprovado"; caso contrário, exibe "Reprovado". Isso automatiza a classificação de todos os alunos sem precisar analisar nota por nota.<br><br>
+      <strong>Critérios (0,5 pt):</strong> 0,25 pt pela explicação correta do funcionamento (condição + dois resultados) e 0,25 pt pelo exemplo pertinente.
+    </div>
+
+    <div class="answer-item">
+      <div class="ans-num">20</div>
+      <div class="ans-body">
+        <div class="ans-correct">Resposta esperada — dois tipos de gráfico</div>
+      </div>
+    </div>
+    <div class="essay-answer">
+      <strong>Resposta modelo (entre os tipos aceitos):</strong><br><br>
+      <strong>1. Gráfico de Linhas:</strong> ideal para mostrar a evolução ou tendência de dados ao longo do tempo. Exemplo: acompanhar as vendas mensais de uma loja ao longo de 12 meses para identificar sazonalidade ou crescimento.<br><br>
+      <strong>2. Gráfico de Pizza:</strong> ideal para exibir proporções percentuais — a participação de cada parte em relação ao total. Exemplo: mostrar quanto cada categoria de produto (Eletrônicos, Roupas, Alimentos) representa nas vendas totais de um mês. Recomenda-se no máximo 6 categorias.<br><br>
+      <em>Outros pares aceitos: Colunas + Linhas, Colunas + Pizza, Área + Linhas, etc.</em><br><br>
+      <strong>Critérios (0,5 pt):</strong> 0,25 pt por cada tipo com nome correto + situação de uso adequada.
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <p>📚 Projetos de Tecnologia de Informação e Comunicação · ETEC Centro Paula Souza · 2026</p>
+    <p style="margin-top:6px;"><a href="avaliacao_semanas07_08_graficos.html">← Voltar à Prova</a> · <a href="index.html">Índice</a></p>
+  </div>
+
+</div>
+</body>
+</html>
