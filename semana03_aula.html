@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia – Gerenciamento de Arquivos – Google Drive | GSO I</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f4ff;
+    --surface: #ffffff;
+    --surface2: #f8faff;
+    --border: #dde5ff;
+    --accent1: #1a73e8;
+    --accent2: #34a853;
+    --accent3: #ea4335;
+    --accent4: #fbbc04;
+    --text: #1c2033;
+    --text2: #4a5080;
+    --text3: #7b82a8;
+    --chip-blue: #e8f0fe;
+    --chip-green: #e6f4ea;
+    --chip-red: #fce8e6;
+    --chip-yellow: #fef7e0;
+    --shadow: 0 2px 16px rgba(26,115,232,0.09);
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── TOP BADGE ── */
+  .top-badge {
+    text-align: center;
+    padding: 10px 20px;
+    background: var(--accent1);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 12.5px;
+    letter-spacing: .08em;
+    font-weight: 600;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 20px;
+    text-align: center;
+  }
+
+  .header-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--chip-blue);
+    color: var(--accent1);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(18px, 4vw, 26px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  header .sub {
+    color: var(--text2);
+    font-size: 13px;
+  }
+
+  /* ── NAV BAR ── */
+  .nav-bar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .18s;
+  }
+  .nav-btn:hover { border-color: var(--accent1); color: var(--accent1); }
+  .nav-btn.primary { background: var(--accent1); color: #fff; border-color: var(--accent1); }
+  .nav-btn.primary:hover { background: #1558b0; }
+
+  /* ── SCORE CARD ── */
+  .score-card {
+    max-width: 760px;
+    margin: 24px auto;
+    background: linear-gradient(135deg, #1a73e8 0%, #1558b0 100%);
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .score-card .score-info { flex: 1; min-width: 160px; }
+  .score-card h2 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; opacity: .85; margin-bottom: 4px; letter-spacing: .05em; }
+
+  .score-pills { display: flex; gap: 12px; flex-wrap: wrap; }
+  .score-pill {
+    background: rgba(255,255,255,.18);
+    border-radius: 12px;
+    padding: 10px 20px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .score-pill .val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; display: block; }
+  .score-pill .lbl { font-size: 11px; opacity: .8; }
+
+  .score-tip {
+    background: rgba(255,255,255,.12);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 280px;
+  }
+  .score-tip strong { display: block; margin-bottom: 2px; }
+
+  /* ── MAIN ── */
+  main { max-width: 760px; margin: 0 auto; padding: 0 16px 60px; }
+
+  /* ── EXERCISE CARD ── */
+  .exercise {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .exercise-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .ex-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .ex-icon.blue { background: var(--chip-blue); }
+  .ex-icon.teal { background: #e6f4ea; }
+  .ex-icon.green { background: #e8f5e9; }
+
+  .ex-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+  .ex-meta { display: flex; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
+  .chip {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: .04em;
+  }
+  .chip-blue { background: var(--chip-blue); color: var(--accent1); }
+  .chip-green { background: var(--chip-green); color: #1e7e34; }
+  .chip-gray { background: #f0f0f4; color: var(--text3); }
+
+  /* ── TABS ── */
+  .tabs { display: flex; border-bottom: 1px solid var(--border); }
+  .tab {
+    padding: 11px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--text3);
+    transition: all .15s;
+    user-select: none;
+  }
+  .tab:hover { color: var(--accent1); }
+  .tab.active { color: var(--accent1); border-bottom-color: var(--accent1); font-weight: 600; }
+
+  .tab-content { padding: 24px; display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── ENUNCIADO ── */
+  .enunciado {
+    background: var(--chip-blue);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  /* ── RUBRICA ── */
+  .rubrica-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .rubrica-table th {
+    background: #f0f4ff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text2);
+    border-bottom: 2px solid var(--border);
+  }
+  .rubrica-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .rubrica-table tr:last-child td { border-bottom: none; }
+  .grade { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+  .g0 { background: #fce8e6; color: #c62828; }
+  .g6 { background: #fff3cd; color: #9a6700; }
+  .g8 { background: #d1ecf1; color: #0c5460; }
+  .g10 { background: #d4edda; color: #155724; }
+
+  /* ── STEPS ── */
+  .steps { list-style: none; }
+  .step { display: flex; gap: 14px; margin-bottom: 22px; }
+  .step-num {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent1);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .step-desc { color: var(--text2); font-size: 13.5px; margin-bottom: 10px; }
+
+  /* ── FILE TREE ── */
+  .file-tree {
+    background: #fafbff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'DM Mono', 'Fira Code', monospace;
+    font-size: 12.5px;
+    line-height: 1.9;
+    margin: 10px 0;
+  }
+  .file-tree .folder { color: var(--accent1); font-weight: 600; }
+  .file-tree .file { color: var(--text2); }
+  .file-tree .moved { color: var(--accent4); }
+  .file-tree .deleted { color: var(--accent3); text-decoration: line-through; }
+  .file-tree .label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .label-new { background: var(--chip-green); color: #1e7e34; }
+  .label-moved { background: var(--chip-yellow); color: #9a6700; }
+  .label-del { background: var(--chip-red); color: var(--accent3); }
+
+  /* ── TIP BOX ── */
+  .tip {
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    margin: 10px 0;
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+  }
+  .tip-blue { background: var(--chip-blue); border-left: 3px solid var(--accent1); }
+  .tip-green { background: var(--chip-green); border-left: 3px solid var(--accent2); }
+  .tip-red { background: var(--chip-red); border-left: 3px solid var(--accent3); }
+  .tip-yellow { background: var(--chip-yellow); border-left: 3px solid var(--accent4); }
+  .tip-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* ── SHORTCUT KEY ── */
+  kbd {
+    display: inline-block;
+    background: #f0f2f5;
+    border: 1px solid #cdd0e0;
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-size: 12px;
+    font-family: monospace;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  }
+
+  /* ── ARROW FLOW ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+  }
+  .flow-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .flow-arrow { color: var(--accent1); font-size: 18px; font-weight: 700; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: background .1s;
+    border-radius: 6px;
+    padding-left: 4px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { background: var(--surface2); }
+  .check-box {
+    width: 19px; height: 19px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+  }
+  .checklist li.done .check-box { background: var(--accent2); border-color: var(--accent2); }
+  .checklist li.done .check-box::after { content: '✓'; color: #fff; font-size: 12px; font-weight: 700; }
+  .checklist li.done span { color: var(--text3); text-decoration: line-through; }
+
+  /* ── GDRIVE-SPECIFIC STYLES ── */
+  .gdrive-path {
+    background: #fff3e0;
+    border: 1px dashed #f57c00;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: monospace;
+    font-size: 13px;
+    margin: 8px 0;
+    color: #e65100;
+  }
+  .gdrive-path::before { content: '📂 '; }
+
+  .badge-gdrive {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(90deg, #4285f4, #34a853, #fbbc04, #ea4335);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .gdrive-note {
+    background: linear-gradient(135deg, #e8f0fe, #e6f4ea);
+    border: 1px solid #c5d8fc;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    margin: 14px 0;
+  }
+  .gdrive-note strong { display: block; margin-bottom: 4px; font-family: 'Syne', sans-serif; }
+
+  /* ── COMPARISON BOX ── */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  .compare-box { border-radius: 10px; padding: 12px 14px; font-size: 13px; }
+  .compare-before { background: var(--chip-red); border: 1px solid #f5c6cb; }
+  .compare-after { background: var(--chip-green); border: 1px solid #c3e6cb; }
+  .compare-label { font-weight: 700; font-size: 11px; letter-spacing: .06em; margin-bottom: 6px; text-transform: uppercase; }
+
+  @media (max-width: 520px) {
+    .compare { grid-template-columns: 1fr; }
+    .score-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-badge">📝 Guia · S06/20 · GSO I · Prof. Isaque Katahira · 2026</div>
+
+<header>
+  <div class="header-label">🎮 Interativo</div>
+  <h1>Gerenciamento de Arquivos e Pastas – Parte 2<br><span style="color:var(--accent1);">Versão <span class="badge-gdrive">Google Drive</span></span></h1>
+  <p class="sub">Rubricas · Resoluções · Atividades Interativas · GSO I · Prof. Isaque Katahira · 2026</p>
+</header>
+
+<nav class="nav-bar">
+  <a class="nav-btn" href="#">⬅ Anterior</a>
+  <a class="nav-btn" href="#">🏠 Índice</a>
+  <a class="nav-btn primary" href="#">📖 Ver Aula</a>
+  <a class="nav-btn" href="#">Próximo ➡</a>
+</nav>
+
+<main>
+
+  <!-- SCORE -->
+  <div class="score-card">
+    <div class="score-info">
+      <h2>🏆 SEU PROGRESSO NAS ATIVIDADES</h2>
+      <p style="font-size:13px;opacity:.8;margin-top:4px;">Complete todas as atividades interativas e acompanhe sua pontuação!</p>
+    </div>
+    <div class="score-pills">
+      <div class="score-pill"><span class="val" id="pts">0</span><span class="lbl">Pontos</span></div>
+      <div class="score-pill"><span class="val" id="acts">0</span><span class="lbl">Atividades</span></div>
+    </div>
+    <div class="score-tip">
+      <strong>📝 Como usar este Guia</strong>
+      Tente resolver por conta própria primeiro. Consulte a resolução para comparar — nunca para copiar! Use a rubrica como guia de qualidade. 🎯
+    </div>
+  </div>
+
+  <!-- ──────────────── EXERCÍCIO 1 ──────────────── -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <div class="ex-icon blue">☁️</div>
+      <div>
+        <div class="ex-title">1 · Gerenciamento Completo de Arquivos no Google Drive</div>
+        <div class="ex-meta">
+          <span class="chip chip-blue">🔬 Laboratório</span>
+          <span class="chip chip-gray">⏱ 30 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'e1-enunc')">📋 Enunciado</div>
+      <div class="tab" onclick="switchTab(this,'e1-rubrica')">📊 Rubrica</div>
+      <div class="tab" onclick="switchTab(this,'e1-resolucao')">✅ Resolução</div>
+      <div class="tab" onclick="switchTab(this,'e1-checklist')">☑️ Checklist</div>
+    </div>
+
+    <div class="tab-content active" id="e1-enunc">
+      <div class="enunciado">
+        Execute uma série de operações de gerenciamento de arquivos simulando o trabalho real de organização de documentos de uma empresa — desta vez utilizando o <strong>Google Drive</strong> como plataforma de armazenamento em nuvem.
+      </div>
+      <div class="gdrive-note">
+        <strong>🌐 Por que Google Drive?</strong>
+        No ambiente corporativo moderno, arquivos são gerenciados na nuvem em vez de apenas localmente. O Google Drive oferece a mesma lógica hierárquica de pastas e arquivos do Windows Explorer, acessível de qualquer dispositivo.
+      </div>
+    </div>
+
+    <div class="tab-content" id="e1-rubrica">
+      <div style="overflow-x:auto;">
+        <table class="rubrica-table">
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th><span class="grade g0">0–5</span> Insuficiente</th>
+              <th><span class="grade g6">6–7</span> Básico</th>
+              <th><span class="grade g8">8–9</span> Proficiente</th>
+              <th><span class="grade g10">10</span> Excelente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Execução Técnica</strong></td><td>Não executou</td><td>Erros graves</td><td>Correta com minor issues</td><td>Exemplar e eficiente</td></tr>
+            <tr><td><strong>Precisão</strong></td><td>Resultado ausente</td><td>Imprecisão comprometeu</td><td>Correto, pequenas falhas</td><td>Precisão perfeita</td></tr>
+            <tr><td><strong>Documentação</strong></td><td>Sem prints/docs</td><td>Mínima e incompleta</td><td>Clara e organizada</td><td>Profissional e completa</td></tr>
+            <tr><td><strong>Metodologia</strong></td><td>Sem método</td><td>Básico, sem planejamento</td><td>Bom método</td><td>Metodologia exemplar</td></tr>
+            <tr><td><strong>Resultado Final</strong></td><td>Objetivo não atingido</td><td>Parcialmente atingido</td><td>Atingido satisfatoriamente</td><td>Superado com excelência</td></tr>
+            <tr><td><strong>Apresentação</strong></td><td>Mal apresentado</td><td>Básica e legível</td><td>Clara e organizada</td><td>Apresentação profissional</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" id="e1-resolucao">
+      <ul class="steps">
+
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Acessar o Google Drive e criar a pasta raiz <code>Empresa</code></div>
+            <div class="step-desc">Acesse <strong>drive.google.com</strong> com sua conta Google. Clique em <strong>+ Novo → Pasta</strong> e crie a pasta <code>Empresa</code>. Dentro dela, crie as 4 subpastas clicando em <strong>+ Novo → Pasta</strong>:</div>
+            <div class="file-tree">
+              <span class="folder">📁 Meu Drive</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 Empresa</span> <span class="label label-new">NOVA</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 RH</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 Financeiro</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 TI</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 Projetos</span>
+            </div>
+            <div class="gdrive-path">Meu Drive / Empresa</div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">💡</span>
+              <span>No Google Drive, não existe letra de disco (C:\). Tudo fica em <strong>Meu Drive</strong> como raiz. A lógica de pastas e subpastas é idêntica ao Windows.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Criar subpastas <code>2025</code> e <code>2026</code> dentro de cada departamento</div>
+            <div class="step-desc">Entre em cada pasta de departamento e crie as duas subpastas de ano com <strong>+ Novo → Pasta</strong>:</div>
+            <div class="file-tree">
+              <span class="folder">📁 Empresa</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 RH</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span>&nbsp;<span class="folder">📅 2026</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 Financeiro</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span>&nbsp;<span class="folder">📅 2026</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 TI</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span>&nbsp;<span class="folder">📅 2026</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 Projetos</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span>&nbsp;<span class="folder">📅 2026</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Criar pelo menos 3 arquivos do Google Docs em cada subpasta</div>
+            <div class="step-desc">Dentro de cada subpasta, clique em <strong>+ Novo → Documentos Google</strong>. Renomeie clicando no título <em>"Documento sem título"</em> no topo. Use nomes descritivos:</div>
+            <div class="file-tree">
+              <span class="folder">📁 RH / 2025</span><br>
+              &nbsp;&nbsp;<span class="file">📄 folha_pagamento_jan2025</span><br>
+              &nbsp;&nbsp;<span class="file">📄 admissao_ana_silva</span><br>
+              &nbsp;&nbsp;<span class="file">📄 ferias_equipe_2025</span><br>
+              <br>
+              <span class="folder">📁 Financeiro / 2025</span><br>
+              &nbsp;&nbsp;<span class="file">📄 orcamento_anual_2025</span><br>
+              &nbsp;&nbsp;<span class="file">📄 fluxo_caixa_jan2025</span><br>
+              &nbsp;&nbsp;<span class="file">📄 relatorio_despesas</span>
+            </div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">💡</span>
+              <span><strong>Dica:</strong> No Google Drive não se cria <code>.txt</code> nativamente. Use <strong>Documentos Google</strong> (equivalente ao Word/Bloco de Notas na nuvem). Os arquivos ficam salvos automaticamente.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Mover 2 arquivos de RH/2025 para RH/2026</div>
+            <div class="step-desc">No Drive, selecione o arquivo → clique com o botão direito → <strong>Mover para</strong> → navegue até <strong>RH / 2026</strong> → clique em <strong>Mover</strong>:</div>
+            <div class="compare">
+              <div class="compare-box compare-before">
+                <div class="compare-label">🗂 RH/2025 — Antes</div>
+                <div>📄 folha_pagamento_jan2025</div>
+                <div style="color:var(--accent3);">✂️ admissao_ana_silva</div>
+                <div style="color:var(--accent3);">✂️ ferias_equipe_2025</div>
+              </div>
+              <div class="compare-box compare-after">
+                <div class="compare-label">✅ RH/2026 — Depois</div>
+                <div>📄 metas_rh_2026</div>
+                <div>📄 treinamento_jan2026</div>
+                <div style="color:var(--accent2);">📥 admissao_ana_silva</div>
+                <div style="color:var(--accent2);">📥 ferias_equipe_2025</div>
+              </div>
+            </div>
+            <div class="tip tip-yellow">
+              <span class="tip-icon">⚠️</span>
+              <span><strong>Mover ≠ Copiar!</strong> Após mover, o arquivo <strong>desaparece da pasta de origem</strong>. Confirme que RH/2025 ficou com apenas 1 arquivo.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Copiar a pasta Financeiro/2025 para Financeiro/Backup</div>
+            <div class="step-desc">Crie a pasta <code>Backup</code> dentro de Financeiro. Selecione a pasta <code>2025</code> → botão direito → <strong>Fazer uma cópia</strong>. O Drive criará <em>"Cópia de 2025"</em> — renomeie para <code>2025</code> e mova para dentro de <code>Backup</code>:</div>
+            <div class="file-tree">
+              <span class="folder">📁 Financeiro</span><br>
+              &nbsp;&nbsp;<span class="folder">📅 2025</span> (original mantida)<br>
+              &nbsp;&nbsp;<span class="folder">📅 2026</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 Backup</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span> <span class="label label-new">CÓPIA</span>
+            </div>
+            <div class="tip tip-green">
+              <span class="tip-icon">💡</span>
+              <span>No Google Drive, a cópia de uma pasta copia também os arquivos dentro dela. A pasta original permanece intacta.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <div class="step-title">Renomear arquivos de TI adicionando o prefixo <code>ti_</code></div>
+            <div class="step-desc">Abra cada subpasta de TI. Clique com o botão direito no arquivo → <strong>Renomear</strong> → adicione <code>ti_</code> no início do nome → <strong>OK</strong>:</div>
+            <div class="compare">
+              <div class="compare-box compare-before">
+                <div class="compare-label">TI/2025 — Antes</div>
+                <div>📄 inventario_equipamentos</div>
+                <div>📄 chamados_suporte</div>
+                <div>📄 backup_servidores</div>
+              </div>
+              <div class="compare-box compare-after">
+                <div class="compare-label">TI/2025 — Depois</div>
+                <div>📄 ti_inventario_equipamentos</div>
+                <div>📄 ti_chamados_suporte</div>
+                <div>📄 ti_backup_servidores</div>
+              </div>
+            </div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">💡</span>
+              <span>Repita para TI/2026 também. O Drive não tem renomeação em lote — faça um por um para preservar os nomes descritivos.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <div class="step-title">Mover a pasta Projetos para a Lixeira → Verificar → Restaurar</div>
+            <div class="step-desc">Selecione a pasta <code>Projetos</code> → botão direito → <strong>Mover para lixeira</strong>. Depois acesse <strong>Lixeira</strong> (menu lateral esquerdo) e confirme que a pasta aparece listada. Restaure clicando com o botão direito → <strong>Restaurar</strong>:</div>
+            <div class="flow">
+              <div class="flow-box">🖱️ Botão direito em Projetos</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">🗑️ Mover para lixeira</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">👁️ Verificar na Lixeira</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">↩️ Restaurar</div>
+            </div>
+            <div class="tip tip-yellow">
+              <span class="tip-icon">📸</span>
+              <span><strong>Boa hora para o print!</strong> Tire um screenshot da Lixeira com a pasta Projetos visível.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">8</div>
+          <div class="step-body">
+            <div class="step-title">Excluir definitivamente a pasta Projetos</div>
+            <div class="step-desc">Após restaurar, mova Projetos para a Lixeira novamente. Na <strong>Lixeira</strong>, clique com o botão direito em Projetos → <strong>Excluir definitivamente</strong>. Confirme clicando em <strong>Excluir para sempre</strong>:</div>
+            <div class="tip tip-red">
+              <span class="tip-icon">🚨</span>
+              <span><strong>Atenção:</strong> Após excluir definitivamente no Google Drive, o arquivo <strong>não pode ser recuperado</strong> pelo usuário comum. Administradores de Workspace têm 25 dias para recuperar via Admin Console.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">9</div>
+          <div class="step-body">
+            <div class="step-title">Documentar resultado final e salvar como <code>sem06_ex1_SeuNome</code></div>
+            <div class="step-desc">Crie um novo Documento Google com o nome <code>sem06_ex1_SeuNome</code> (ex: <code>sem06_ex1_JoaoSilva</code>). Cole os prints usando <kbd>Ctrl+V</kbd> e documente cada passo. A estrutura final esperada:</div>
+            <div class="file-tree">
+              <span class="folder">📁 Meu Drive / Empresa</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 RH</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span> (1 arquivo)<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2026</span> (originais + 2 movidos)<br>
+              &nbsp;&nbsp;<span class="folder">📁 Financeiro</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span>&nbsp;<span class="folder">📅 2026</span>&nbsp;<span class="folder">📁 Backup</span><br>
+              &nbsp;&nbsp;<span class="folder">📁 TI</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📅 2025</span> (ti_*.gdoc)&nbsp;<span class="folder">📅 2026</span><br>
+              &nbsp;&nbsp;<span class="deleted">📁 Projetos (excluída definitivamente)</span>
+            </div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">💡</span>
+              <span>Use <kbd>Ctrl+Shift+S</kbd> (Windows) ou <kbd>Cmd+Shift+4</kbd> (Mac) para captura de tela. Cole diretamente no Documento Google.</span>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="tab-content" id="e1-checklist">
+      <ul class="checklist" id="cl1">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Criar a estrutura: Meu Drive / Empresa / {RH, Financeiro, TI, Projetos}</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Dentro de cada pasta, criar subpastas 2025 e 2026</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Criar pelo menos 3 Documentos Google em cada subpasta com nomes descritivos</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Mover 2 arquivos de RH/2025 para RH/2026 (botão direito → Mover para)</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Copiar pasta Financeiro/2025 para Financeiro/Backup</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Renomear arquivos de TI adicionando prefixo ti_</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Mover Projetos para Lixeira → verificar → restaurar → excluir definitivamente</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem06_ex1_SeuNome)</span></li>
+      </ul>
+    </div>
+  </div><!-- /exercise 1 -->
+
+
+  <!-- ──────────────── EXERCÍCIO 2 ──────────────── -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <div class="ex-icon teal">🔒</div>
+      <div>
+        <div class="ex-title">2 · Configurando Permissões de Compartilhamento no Google Drive</div>
+        <div class="ex-meta">
+          <span class="chip chip-blue">🔬 Laboratório</span>
+          <span class="chip chip-gray">⏱ 35 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'e2-enunc')">📋 Enunciado</div>
+      <div class="tab" onclick="switchTab(this,'e2-rubrica')">📊 Rubrica</div>
+      <div class="tab" onclick="switchTab(this,'e2-resolucao')">✅ Resolução</div>
+      <div class="tab" onclick="switchTab(this,'e2-checklist')">☑️ Checklist</div>
+    </div>
+
+    <div class="tab-content active" id="e2-enunc">
+      <div class="enunciado">
+        Configure permissões de compartilhamento no Google Drive simulando um ambiente corporativo com diferentes níveis de acesso para diferentes departamentos — equivalente às permissões NTFS no Windows.
+      </div>
+      <div class="gdrive-note">
+        <strong>🔄 NTFS vs Google Drive</strong>
+        No Windows, usamos permissões NTFS (Leitura/Gravação/Controle Total). No Google Drive, o equivalente é o sistema de compartilhamento: <strong>Visualizador</strong> (só leitura), <strong>Comentador</strong> e <strong>Editor</strong> (equivale a Controle Total).
+      </div>
+    </div>
+
+    <div class="tab-content" id="e2-rubrica">
+      <div style="overflow-x:auto;">
+        <table class="rubrica-table">
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th><span class="grade g0">0–5</span></th>
+              <th><span class="grade g6">6–7</span></th>
+              <th><span class="grade g8">8–9</span></th>
+              <th><span class="grade g10">10</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Funcionamento</strong></td><td>Não funciona</td><td>Parcialmente</td><td>Corretamente</td><td>Perfeitamente</td></tr>
+            <tr><td><strong>Estrutura Técnica</strong></td><td>Inadequada</td><td>Básica funcional</td><td>Boa estrutura</td><td>Exemplar</td></tr>
+            <tr><td><strong>Tratamento de Erros</strong></td><td>Sem tratamento</td><td>Mínimo presente</td><td>Bem tratado</td><td>Robusto e completo</td></tr>
+            <tr><td><strong>Eficiência</strong></td><td>Ineficiente</td><td>Pouco eficiente</td><td>Eficiente</td><td>Altamente otimizado</td></tr>
+            <tr><td><strong>Documentação</strong></td><td>Sem comentários</td><td>Básica</td><td>Bem documentado</td><td>Completa e exemplar</td></tr>
+            <tr><td><strong>Boas Práticas</strong></td><td>Nenhuma</td><td>Algumas</td><td>Aplicadas</td><td>Padrões profissionais</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" id="e2-resolucao">
+      <ul class="steps">
+
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Acessar as configurações de compartilhamento da pasta RH</div>
+            <div class="step-desc">No Google Drive, clique com o botão direito na pasta <code>RH</code> → <strong>Compartilhar → Compartilhar</strong>. Uma janela de compartilhamento abrirá mostrando quem já tem acesso:</div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">📸</span>
+              <span>Tire um print desta janela com as configurações originais — documenta o estado antes das alterações.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Configurar a pasta RH como somente leitura (Visualizador) para outro usuário</div>
+            <div class="step-desc">Na janela de compartilhamento, adicione o e-mail de um colega (ou e-mail de teste). No menu de nível de acesso, selecione <strong>Visualizador</strong> — equivalente a Leitura=Permitir / Gravação=Negar:</div>
+            <div class="compare">
+              <div class="compare-box compare-before">
+                <div class="compare-label">📁 RH — Visualizador</div>
+                <div>✅ Pode abrir e ler</div>
+                <div>✅ Pode baixar</div>
+                <div>🚫 Não pode editar</div>
+                <div>🚫 Não pode criar arquivos</div>
+              </div>
+              <div class="compare-box compare-after">
+                <div class="compare-label">📁 TI — Editor</div>
+                <div>✅ Pode abrir e ler</div>
+                <div>✅ Pode editar</div>
+                <div>✅ Pode criar arquivos</div>
+                <div>✅ Pode mover/excluir</div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Configurar pasta TI com acesso total (Editor) para seu usuário</div>
+            <div class="step-desc">Acesse <strong>Compartilhar</strong> na pasta TI. Adicione seu próprio e-mail (ou de outro usuário de teste) com o nível <strong>Editor</strong>. Isso equivale a Controle Total no sistema NTFS.</div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">📸</span>
+              <span>Capture a janela de compartilhamento da pasta TI com <strong>Editor</strong> selecionado.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Testar as permissões na prática</div>
+            <div class="step-desc">Para simular o teste com outro usuário, use o modo anônimo do navegador logado com a conta de teste:</div>
+            <div class="file-tree">
+              <span style="color:var(--accent3);">a) Acesse a pasta RH como Visualizador</span><br>
+              &nbsp;&nbsp;→ Tente criar um arquivo: botão + Novo aparecerá desabilitado 🚫<br>
+              &nbsp;&nbsp;→ Confirma que permissão de gravação está negada<br><br>
+              <span style="color:var(--accent2);">b) Acesse a pasta TI como Editor</span><br>
+              &nbsp;&nbsp;→ Crie um arquivo: Novo → Documentos Google ✅<br>
+              &nbsp;&nbsp;→ Nomeie como <em>teste_permissao_ti</em><br>
+              &nbsp;&nbsp;→ Confirma acesso total funciona
+            </div>
+            <div class="tip tip-yellow">
+              <span class="tip-icon">📸</span>
+              <span><strong>Print obrigatório!</strong> Capture a interface mostrando que o botão "+ Novo" está desativado/bloqueado na pasta RH (modo Visualizador).</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Documentar e salvar como <code>sem06_ex2_SeuNome</code></div>
+            <div class="step-desc">Crie um Documento Google com os prints e uma explicação dos níveis de permissão do Drive. Inclua:</div>
+            <div class="file-tree">
+              📌 Print 1 — Compartilhamento original da pasta RH (antes)<br>
+              📌 Print 2 — Configuração Visualizador na pasta RH<br>
+              📌 Print 3 — Botão "+ Novo" bloqueado para Visualizador<br>
+              📌 Print 4 — Arquivo criado com sucesso na pasta TI (Editor)
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="tab-content" id="e2-checklist">
+      <ul class="checklist" id="cl2">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Clique direito na pasta RH → Compartilhar → observar configurações originais</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Adicionar usuário com nível Visualizador (somente leitura) na pasta RH</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Configurar pasta TI com nível Editor (controle total) para seu usuário</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Testar: confirmar que Visualizador não consegue criar arquivos em RH</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Testar: confirmar que Editor consegue criar arquivos em TI</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem06_ex2_SeuNome)</span></li>
+      </ul>
+    </div>
+  </div><!-- /exercise 2 -->
+
+
+  <!-- ──────────────── EXERCÍCIO 3 ──────────────── -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <div class="ex-icon green">🔄</div>
+      <div>
+        <div class="ex-title">3 · Recuperação e Segurança de Dados no Google Drive</div>
+        <div class="ex-meta">
+          <span class="chip chip-blue">🔬 Laboratório</span>
+          <span class="chip chip-gray">⏱ 25 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'e3-enunc')">📋 Enunciado</div>
+      <div class="tab" onclick="switchTab(this,'e3-rubrica')">📊 Rubrica</div>
+      <div class="tab" onclick="switchTab(this,'e3-resolucao')">✅ Resolução</div>
+      <div class="tab" onclick="switchTab(this,'e3-checklist')">☑️ Checklist</div>
+    </div>
+
+    <div class="tab-content active" id="e3-enunc">
+      <div class="enunciado">
+        Pratique técnicas de recuperação de arquivos usando a Lixeira do Google Drive e entenda as configurações de segurança para evitar perda acidental de dados na nuvem.
+      </div>
+    </div>
+
+    <div class="tab-content" id="e3-rubrica">
+      <div style="overflow-x:auto;">
+        <table class="rubrica-table">
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th><span class="grade g0">0–5</span></th>
+              <th><span class="grade g6">6–7</span></th>
+              <th><span class="grade g8">8–9</span></th>
+              <th><span class="grade g10">10</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Diagnóstico</strong></td><td>Não identificou</td><td>Superficial</td><td>Bom diagnóstico</td><td>Preciso e completo</td></tr>
+            <tr><td><strong>Raciocínio Técnico</strong></td><td>Sem lógica</td><td>Básico</td><td>Bom raciocínio</td><td>Exemplar e sistemático</td></tr>
+            <tr><td><strong>Solução Aplicada</strong></td><td>Incorreta/ausente</td><td>Parcial</td><td>Adequada</td><td>Ótima e elegante</td></tr>
+            <tr><td><strong>Documentação do Processo</strong></td><td>Sem registro</td><td>Mínimo</td><td>Bem documentado</td><td>Técnica completa</td></tr>
+            <tr><td><strong>Eficácia</strong></td><td>Não resolvido</td><td>Parcialmente</td><td>Satisfatoriamente</td><td>Com excelência</td></tr>
+            <tr><td><strong>Comunicação</strong></td><td>Incapaz de explicar</td><td>Básica</td><td>Clara</td><td>Técnica exemplar</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" id="e3-resolucao">
+      <ul class="steps">
+
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Criar 5 Documentos Google com conteúdo relevante</div>
+            <div class="step-desc">Em <code>RH / 2026</code>, crie 5 Documentos Google com conteúdo real (escreva pelo menos uma linha em cada):</div>
+            <div class="file-tree">
+              <span class="file">📄 relatorio_mensal</span> — Relatório de desempenho Jan/2026<br>
+              <span class="file">📄 contratos_vigentes</span> — Lista de contratos ativos 2026<br>
+              <span class="file">📄 folha_fev2026</span> — Folha de pagamento Fev/2026<br>
+              <span class="file">📄 reuniao_gestores</span> — Ata da reunião Mar/2026<br>
+              <span class="file">📄 plano_treinamento</span> — Plano de treinamento equipe 2026
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Mover todos os 5 arquivos para a Lixeira</div>
+            <div class="step-desc">Selecione os 5 arquivos (<kbd>Ctrl+A</kbd> ou clique segurando <kbd>Shift</kbd>) → botão direito → <strong>Mover para lixeira</strong>. A pasta ficará vazia:</div>
+            <div class="flow">
+              <div class="flow-box">📁 Pasta com 5 arquivos</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">Selecionar todos</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">🗑️ Mover para lixeira</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">📁 Pasta vazia</div>
+            </div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">📸</span>
+              <span>Tire um print da pasta vazia para documentar que os arquivos foram removidos.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Verificar os arquivos na Lixeira do Google Drive</div>
+            <div class="step-desc">No menu lateral esquerdo, clique em <strong>Lixeira</strong>. Confirme que os 5 arquivos aparecem listados com a data de exclusão:</div>
+            <div class="tip tip-yellow">
+              <span class="tip-icon">📸</span>
+              <span><strong>Print obrigatório!</strong> Capture a Lixeira mostrando os 5 arquivos — é a principal evidência desta etapa.</span>
+            </div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">💡</span>
+              <span>No Google Drive, arquivos na Lixeira ficam por <strong>30 dias</strong> antes de serem excluídos definitivamente de forma automática (diferente do Windows, que mantém até encher).</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Restaurar 3 dos 5 arquivos</div>
+            <div class="step-desc">Na Lixeira, selecione 3 arquivos → botão direito → <strong>Restaurar</strong>. Eles voltam para a pasta de origem automaticamente:</div>
+            <div class="compare">
+              <div class="compare-box compare-after">
+                <div class="compare-label">✓ Restaurados → RH/2026</div>
+                <div>📄 relatorio_mensal</div>
+                <div>📄 contratos_vigentes</div>
+                <div>📄 folha_fev2026</div>
+              </div>
+              <div class="compare-box compare-before">
+                <div class="compare-label">🗑️ Permanecem na Lixeira</div>
+                <div>📄 reuniao_gestores</div>
+                <div>📄 plano_treinamento</div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Verificar o espaço de armazenamento do Google Drive</div>
+            <div class="step-desc">No Google Drive, o equivalente à configuração de tamanho da Lixeira do Windows é verificar o espaço total disponível. Clique em <strong>Armazenamento</strong> no menu lateral esquerdo para ver quanto espaço está sendo usado e quanto resta (conta gratuita = 15 GB):</div>
+            <div class="tip tip-blue">
+              <span class="tip-icon">💡</span>
+              <span>O Google Drive não tem configuração de "tamanho máximo de lixeira" como o Windows. A Lixeira ocupa o espaço da sua cota (15 GB gratuito). <strong>Esvaziar a lixeira</strong> libera espaço de armazenamento.</span>
+            </div>
+            <div class="tip tip-yellow">
+              <span class="tip-icon">📸</span>
+              <span>Capture a tela de Armazenamento mostrando o espaço utilizado e disponível.</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <div class="step-title">Pesquisar sobre o Histórico de Versões do Google Drive</div>
+            <div class="step-desc">Um recurso exclusivo da nuvem: clique com o botão direito em qualquer Documento Google → <strong>Gerenciar versões</strong> ou abra o doc e acesse <strong>Arquivo → Histórico de versões</strong>. Você pode recuperar qualquer versão anterior do arquivo — mesmo que tenha sido editado e salvo:</div>
+            <div class="tip tip-green">
+              <span class="tip-icon">🔧</span>
+              <span><strong>Recursos de recuperação no Google Drive:</strong> Lixeira (30 dias) · Histórico de versões (ilimitado no Docs) · Backup automático no Google Fotos · Google Vault (para Workspace corporativo)</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <div class="step-title">Escrever parágrafo sobre boas práticas e salvar como <code>sem06_ex3_SeuNome</code></div>
+            <div class="step-desc">Crie um Documento Google com prints e um parágrafo (mínimo 5 linhas) sobre boas práticas para evitar perda de dados na nuvem. Sugestões:</div>
+            <div class="file-tree">
+              ✅ Use a Lixeira como seguro — verifique antes de esvaziar<br>
+              ✅ Ative o histórico de versões para arquivos importantes<br>
+              ✅ Nunca exclua definitivamente sem ter outra cópia<br>
+              ✅ Compartilhe com permissões adequadas (não dê Editor a todos)<br>
+              ✅ Use Google Takeout para backup local periódico<br>
+              ✅ Organize por pastas para facilitar a recuperação
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="tab-content" id="e3-checklist">
+      <ul class="checklist" id="cl3">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Criar 5 Documentos Google com conteúdo relevante em RH/2026</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Mover todos os 5 arquivos para a Lixeira do Google Drive</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Verificar os 5 arquivos na Lixeira (menu lateral → Lixeira)</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Restaurar 3 dos 5 arquivos (botão direito → Restaurar)</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Verificar espaço de armazenamento e explorar Histórico de Versões</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem06_ex3_SeuNome)</span></li>
+      </ul>
+    </div>
+  </div><!-- /exercise 3 -->
+
+  <nav class="nav-bar" style="margin-top:8px;border-radius:var(--radius);border:1px solid var(--border);">
+    <a class="nav-btn" href="#">⬅ Anterior</a>
+    <a class="nav-btn" href="#">🏠 Índice</a>
+    <a class="nav-btn primary" href="#">📖 Ver Aula</a>
+    <a class="nav-btn" href="#">Próximo ➡</a>
+  </nav>
+
+</main>
+
+<script>
+  function switchTab(el, contentId) {
+    const exercise = el.closest('.exercise');
+    exercise.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    exercise.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById(contentId).classList.add('active');
+  }
+
+  function toggleCheck(li) {
+    li.classList.toggle('done');
+    updateScore();
+  }
+
+  function updateScore() {
+    const done = document.querySelectorAll('.checklist li.done').length;
+    const total = document.querySelectorAll('.checklist li').length;
+    document.getElementById('pts').textContent = done * 10;
+    document.getElementById('acts').textContent = done + '/' + total;
+  }
+</script>
+</body>
+</html>
