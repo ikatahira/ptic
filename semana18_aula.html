@@ -145,7 +145,27 @@ body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line
 .abnt-rule-title{font-weight:800;font-size:.9em;margin-bottom:6px}
 .abnt-rule-val{font-size:.85em;font-weight:700;color:var(--acc);font-family:'DM Mono',monospace;margin-bottom:2px}
 .abnt-rule-desc{font-size:.8em;color:var(--gray);margin-top:6px;line-height:1.5}
-@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}}
+.led-sim{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;padding:36px 16px;background:var(--ink);border-radius:var(--r);margin-top:4px}
+.led-unit{display:flex;flex-direction:column;align-items:center;gap:10px}
+.led-circle{width:48px;height:48px;border-radius:50%;background:#3a3a3a;border:3px solid #555;transition:background .25s,border-color .25s,box-shadow .25s}
+.led-circle.comparing{background:#fbbf24;border-color:#fbbf24;box-shadow:0 0 22px 6px rgba(251,191,36,.65);animation:ledPulse .55s ease-in-out infinite alternate}
+.led-circle.sorted{background:var(--green);border-color:var(--green);box-shadow:0 0 18px 5px rgba(21,128,61,.55);animation:none}
+@keyframes ledPulse{0%{transform:scale(1)}100%{transform:scale(1.14)}}
+.led-value{font-family:'DM Mono',monospace;font-weight:700;color:#fff;font-size:1.05em}
+.led-index{font-size:.7em;color:var(--acc-light);opacity:.55;font-family:'DM Mono',monospace}
+.sim-log{margin-top:16px;background:var(--acc-pale);border-radius:8px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:.8em;color:var(--ink);min-height:24px;max-height:160px;overflow-y:auto;line-height:1.7}
+.sim-log .line-new{animation:lineIn .3s ease}
+@keyframes lineIn{0%{opacity:0;transform:translateY(-4px)}100%{opacity:1;transform:translateY(0)}}
+.sim-status{font-size:.85em;font-weight:700;margin-top:10px;color:var(--gray)}
+.sim-status.done{color:var(--green)}
+.code-block{background:var(--ink);color:var(--acc-light);border-radius:8px;padding:18px 20px;font-family:'DM Mono',monospace;font-size:.76em;line-height:1.65;overflow-x:auto;white-space:pre;margin-top:6px}
+.code-block-wrap{margin-top:16px}
+.code-block-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.code-block-label{font-size:.85em;font-weight:800}
+.copy-btn{background:var(--acc);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-family:'Syne',sans-serif;font-weight:700;font-size:.78em;cursor:pointer;transition:background .2s}
+.copy-btn:hover{background:#333}
+.copy-btn.copied{background:var(--green)}
+@media(max-width:768px){.container{padding:16px}.card{padding:18px}.xp-track{width:60px}.led-sim{gap:16px;padding:26px 10px}.led-circle{width:38px;height:38px}.code-block{font-size:.68em}}
 </style>
 </head>
 <body>
@@ -372,6 +392,146 @@ body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line
     </div>
   </div>
   <div class="card">
+    <div class="card-header"><span class="card-icon">🔌</span><h2 class="card-title">Projeto Extra — Ordenando com LEDs (Simulador Arduino)</h2></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🔌</div><div class="info-text">Aqui está a estrutura sequencial saindo da tela e virando <strong>hardware de verdade</strong>: um Arduino Uno com 4 LEDs executa, passo a passo e em ordem — sequencialmente! — o algoritmo de <strong>Ordenação por Seleção</strong>.<br><br>
+<strong>Como funciona:</strong><br>
+🟡 LED piscando = essa posição está sendo <strong>comparada</strong> agora<br>
+🟢 LED aceso fixo = essa posição já está <strong>ordenada</strong> (não muda mais)<br><br>
+Clique em "Iniciar Simulação" para ver a animação — é exatamente isso que os LEDs físicos do Arduino vão fazer.</div></div>
+
+      <div class="card-body" style="padding:0;gap:12px">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Em cada rodada, procure o menor valor</div>
+            <div class="step-desc">O Arduino olha só para as posições que ainda não foram ordenadas e tenta descobrir qual delas tem o menor valor.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Compare posição por posição</div>
+            <div class="step-desc">Para descobrir o menor valor, ele acende brevemente o LED de cada posição candidata, uma de cada vez — é o LED piscando em amarelo que você vê na animação.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Troque e fixe a posição</div>
+            <div class="step-desc">Encontrado o menor valor da rodada, o Arduino troca os valores (se precisar) e acende o LED daquela posição em verde — ela já está no lugar certo e não muda mais.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Repita até sobrar só a última posição</div>
+            <div class="step-desc">O processo se repete para as posições restantes. Quando sobra só uma posição, ela já está ordenada automaticamente — não precisa nem comparar.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="led-sim" id="ledSim">
+        <div class="led-unit"><div class="led-circle" id="led0"></div><div class="led-value" id="val0">26</div><div class="led-index">pos 0</div></div>
+        <div class="led-unit"><div class="led-circle" id="led1"></div><div class="led-value" id="val1">8</div><div class="led-index">pos 1</div></div>
+        <div class="led-unit"><div class="led-circle" id="led2"></div><div class="led-value" id="val2">35</div><div class="led-index">pos 2</div></div>
+        <div class="led-unit"><div class="led-circle" id="led3"></div><div class="led-value" id="val3">1</div><div class="led-index">pos 3</div></div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+        <button class="drag-btn drag-btn-check" id="simStartBtn" onclick="iniciarSimulacao()">▶️ Iniciar Simulação</button>
+        <button class="drag-btn drag-btn-reset" onclick="resetSimulacao()">🔄 Reiniciar</button>
+      </div>
+      <div class="sim-status" id="simStatus">Pronto para começar. Os valores acima ainda não foram ordenados.</div>
+      <div class="sim-log" id="simLog"></div>
+
+      <div class="code-block-wrap">
+        <div class="code-block-head">
+          <div class="code-block-label">📋 Código completo — cole no Arduino IDE</div>
+          <button class="copy-btn" id="copyBtn" onclick="copiarCodigo()">📄 Copiar código</button>
+        </div>
+        <pre class="code-block" id="arduinoCode">// VERSAO FINAL: visualizacao automatica da ordenacao por selecao
+// Pinos: LED pos.0=2, pos.1=3, pos.2=4, pos.3=5 (sem botoes - use o RESET do Arduino para repetir)
+
+const int LEDS[4] = {2, 3, 4, 5};
+int vetor[4] = {26, 8, 35, 1}; // valores de exemplo (ajuste os cartoes fisicos para bater com esses numeros)
+
+void setup() {
+  for (int i = 0; i < 4; i++) pinMode(LEDS[i], OUTPUT);
+
+  Serial.begin(9600);
+  Serial.println("Vetor inicial:");
+  imprimirVetor();
+
+  delay(1500); // pausa inicial com tudo apagado, antes de comecar
+  ordenarPorSelecao();
+}
+
+void loop() {
+  // nao faz nada aqui: a ordenacao ja rodou uma vez dentro do setup()
+  // para rodar de novo, aperte o botao RESET do proprio Arduino
+}
+
+void ordenarPorSelecao() {
+  for (int i = 0; i < 3; i++) {
+    int menor = i;
+
+    Serial.print("Rodada ");
+    Serial.println(i);
+
+    // varre as posicoes candidatas desta rodada, comparando uma por uma
+    for (int j = i + 1; j < 4; j++) {
+      digitalWrite(LEDS[j], HIGH); // acende: "comparando esta posicao agora"
+      Serial.print("  Comparando posicao ");
+      Serial.print(j);
+      Serial.print(" (valor ");
+      Serial.print(vetor[j]);
+      Serial.println(")");
+      delay(700);
+      digitalWrite(LEDS[j], LOW); // apaga depois de comparar
+
+      if (vetor[j] < vetor[menor]) {
+        menor = j;
+      }
+    }
+
+    if (menor != i) {
+      trocar(i, menor);
+    }
+
+    digitalWrite(LEDS[i], HIGH); // fica aceso PARA SEMPRE: esta posicao ja esta ordenada
+    Serial.print("Posicao ");
+    Serial.print(i);
+    Serial.println(" ordenada.");
+    delay(600);
+  }
+
+  // a ultima posicao sempre fica ordenada automaticamente
+  digitalWrite(LEDS[3], HIGH);
+
+  Serial.println("Vetor ordenado!");
+  imprimirVetor();
+}
+
+void trocar(int a, int b) {
+  int temp = vetor[a];
+  vetor[a] = vetor[b];
+  vetor[b] = temp;
+
+  Serial.println("  Troca de valores! Lembre de trocar os cartoes fisicos tambem.");
+}
+
+void imprimirVetor() {
+  for (int i = 0; i < 4; i++) {
+    Serial.print(vetor[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="card">
     <div class="card-header"><span class="card-icon">🗡</span><h2 class="card-title">Missões Práticas — Mão na Massa!</h2></div>
     <div class="card-body"><div class="mission-list">
         <div class="mission" id="m0" onclick="toggleMission(0)">
@@ -413,6 +573,26 @@ body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line
 <div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Crie as mesmas calculadoras para os algoritmos 2, 3 e 4 da missão anterior</div></div></div>
           </div>
           <div class="mission-check">○</div>
+        </div>
+        <div class="mission" id="m2" onclick="toggleMission(2)">
+          <div class="mission-num">3</div>
+          <div class="mission-content">
+            <div class="mission-title">🔌 Montar o Ordenador de LEDs no Arduino</div>
+            <div class="mission-desc">Construa fisicamente o circuito com 4 LEDs e programe o Arduino para reproduzir a simulação da tela com hardware de verdade.</div>
+            <div class="mission-tags">
+              <span class="mtag">⏱ 50 min</span>
+              <span class="mtag">🔌 Arduino Uno</span>
+              <span class="mtag mtag-xp">⚡ +90 XP</span>
+            </div>
+            <div class="mission-steps" id="ms2"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-text">Separe os materiais: 1 Arduino Uno, 4 LEDs, 4 resistores de <span class="mstep-code">220Ω</span>, protoboard, jumpers e 4 cartõezinhos numerados</div></div>
+<div class="mstep"><div class="mstep-num">2</div><div class="mstep-text">Monte os 4 LEDs na protoboard: anodo (perna maior) → resistor → pino digital; catodo (perna menor) → GND</div></div>
+<div class="mstep"><div class="mstep-num">3</div><div class="mstep-text">Use os pinos <span class="mstep-code">2, 3, 4, 5</span> do Arduino para os LEDs das posições 0, 1, 2 e 3</div></div>
+<div class="mstep"><div class="mstep-num">4</div><div class="mstep-text">Coloque um cartão numerado do lado de cada LED com os mesmos valores da simulação: <span class="mstep-code">26, 8, 35, 1</span></div></div>
+<div class="mstep"><div class="mstep-num">5</div><div class="mstep-text">No código, cada LED pisca (<span class="mstep-code">HIGH</span> por um instante) enquanto sua posição está sendo comparada, e fica <span class="mstep-code">HIGH</span> permanentemente quando a posição já está ordenada — igual à simulação acima</div></div>
+<div class="mstep"><div class="mstep-num">6</div><div class="mstep-text">Toda vez que o algoritmo trocar dois valores, troque também os cartões físicos de posição, para o circuito continuar batendo com os números reais</div></div>
+<div class="mstep"><div class="mstep-num">7</div><div class="mstep-text">Para rodar a demonstração de novo, aperte o botão de RESET do próprio Arduino Uno — não precisa de nenhum botão extra</div></div></div>
+          </div>
+          <div class="mission-check">○</div>
         </div></div></div>
   </div>
   <div class="progress-bar">
@@ -421,7 +601,7 @@ body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);line
       <div class="prog-item"><div class="prog-icon">✏️</div><div><div class="prog-label">Digitação</div><div class="prog-sub" id="pt">0/4 completos</div></div></div>
       <div class="prog-item"><div class="prog-icon">🧠</div><div><div class="prog-label">Quiz</div><div class="prog-sub" id="pq">0/6 respondidos</div></div></div>
       <div class="prog-item"><div class="prog-icon">🎯</div><div><div class="prog-label">Drag & Drop</div><div class="prog-sub" id="pd">Não realizado</div></div></div>
-      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="pm">0/2 concluídas</div></div></div>
+      <div class="prog-item"><div class="prog-icon">🗡</div><div><div class="prog-label">Missões</div><div class="prog-sub" id="pm">0/3 concluídas</div></div></div>
     </div>
     <div class="total-xp"><div class="total-xp-label">⚡ XP Total</div><div class="total-xp-num" id="txp">0 / 300 XP</div></div>
   </div>
@@ -456,8 +636,81 @@ function dragLeave(e){e.currentTarget.classList.remove('over')}
 function dropItem(e){e.preventDefault();e.currentTarget.classList.remove('over');if(!dToken)return;const zone=e.currentTarget,slot=zone.querySelector('.drag-zone-slot');dSlots[slot.id]=dToken.dataset.val;slot.textContent=dToken.dataset.val;slot.classList.add('filled');dToken.classList.add('used');dToken.classList.remove('dragging');dToken=null}
 function checkDrag(){let c=0,t=Object.keys(DRAG_ANS).length;for(const[id,exp]of Object.entries(DRAG_ANS)){const slot=document.getElementById(id),zone=slot.parentElement;if(dSlots[id]===exp){zone.classList.add('correct');c++}else zone.classList.add('wrong')}const r=document.getElementById('dr');r.classList.add('show');if(c===t){r.style.background='var(--green-light)';r.style.color='var(--green)';r.textContent='🎉 Perfeito! Todas corretas! +50 XP';addXP('drag',50);document.getElementById('pd').textContent='✅ Concluído'}else{r.style.background='var(--red-light)';r.style.color='var(--red)';r.textContent='Você acertou '+c+'/'+t+'. Tente novamente!'}}
 function resetDrag(){document.querySelectorAll('.drag-token').forEach(t=>t.classList.remove('used','dragging'));document.querySelectorAll('.drag-zone').forEach(z=>z.classList.remove('correct','wrong','over'));document.querySelectorAll('.drag-zone-slot').forEach(s=>s.classList.remove('filled'));Object.keys(dSlots).forEach(k=>delete dSlots[k]);document.getElementById('dr').classList.remove('show');dToken=null}
-const mXP=[80,70];let mDone={};
-function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';addXP('m_'+id,mXP[id]);document.getElementById('pm').textContent=Object.keys(mDone).length+'/2 concluídas'}}
+const mXP=[80,70,90];let mDone={};
+function toggleMission(id){const s=document.getElementById('ms'+id);s.classList.toggle('open');const m=document.getElementById('m'+id);if(!mDone[id]){mDone[id]=true;m.classList.add('done');m.querySelector('.mission-check').textContent='✓';addXP('m_'+id,mXP[id]);document.getElementById('pm').textContent=Object.keys(mDone).length+'/3 concluídas'}}
+const SIM_ORIGINAL=[26,8,35,1];let simVetor=[...SIM_ORIGINAL],simRunning=false,simDoneOnce=false;
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+function simLogLine(txt){const log=document.getElementById('simLog');const line=document.createElement('div');line.className='line-new';line.textContent=txt;log.appendChild(line);log.scrollTop=log.scrollHeight}
+function simRenderValues(){for(let i=0;i<4;i++)document.getElementById('val'+i).textContent=simVetor[i]}
+async function iniciarSimulacao(){
+  if(simRunning)return;
+  simRunning=true;
+  resetVisualOnly();
+  document.getElementById('simStartBtn').disabled=true;
+  document.getElementById('simStatus').classList.remove('done');
+  document.getElementById('simStatus').textContent='Rodando... observe os LEDs.';
+  simLogLine('▶ Vetor inicial: ['+simVetor.join(', ')+']');
+  await wait(700);
+  for(let i=0;i<3;i++){
+    let menor=i;
+    simLogLine('— Rodada '+(i+1)+': procurando o menor valor a partir da posição '+i);
+    for(let j=i+1;j<4;j++){
+      document.getElementById('led'+j).classList.add('comparing');
+      simLogLine('  Comparando posição '+j+' (valor '+simVetor[j]+')');
+      await wait(750);
+      document.getElementById('led'+j).classList.remove('comparing');
+      if(simVetor[j]<simVetor[menor])menor=j;
+    }
+    if(menor!==i){
+      simLogLine('  Trocando valores das posições '+i+' e '+menor+'!');
+      await trocarSim(i,menor);
+    }
+    document.getElementById('led'+i).classList.add('sorted');
+    simLogLine('  ✅ Posição '+i+' ordenada (valor '+simVetor[i]+')');
+    await wait(500);
+  }
+  document.getElementById('led3').classList.add('sorted');
+  simLogLine('🏁 Vetor ordenado: ['+simVetor.join(', ')+']');
+  document.getElementById('simStatus').textContent='Ordenação concluída! 🎉';
+  document.getElementById('simStatus').classList.add('done');
+  document.getElementById('simStartBtn').disabled=false;
+  simRunning=false;
+  if(!simDoneOnce){simDoneOnce=true;addXP('sim_led',30)}
+}
+async function trocarSim(a,b){
+  for(let k=0;k<3;k++){
+    document.getElementById('led'+a).classList.add('comparing');
+    document.getElementById('led'+b).classList.add('comparing');
+    await wait(180);
+    document.getElementById('led'+a).classList.remove('comparing');
+    document.getElementById('led'+b).classList.remove('comparing');
+    await wait(180);
+  }
+  const t=simVetor[a];simVetor[a]=simVetor[b];simVetor[b]=t;
+  simRenderValues();
+}
+function resetVisualOnly(){for(let i=0;i<4;i++){const led=document.getElementById('led'+i);led.classList.remove('comparing','sorted')}}
+function resetSimulacao(){
+  if(simRunning)return;
+  simVetor=[...SIM_ORIGINAL];
+  simRenderValues();
+  resetVisualOnly();
+  document.getElementById('simLog').innerHTML='';
+  document.getElementById('simStatus').classList.remove('done');
+  document.getElementById('simStatus').textContent='Pronto para começar. Os valores acima ainda não foram ordenados.';
+}
+function copiarCodigo(){
+  const code=document.getElementById('arduinoCode').textContent;
+  const btn=document.getElementById('copyBtn');
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.textContent='✅ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📄 Copiar código';btn.classList.remove('copied')},1800);
+  }).catch(()=>{
+    btn.textContent='⚠️ Selecione manualmente';
+    setTimeout(()=>{btn.textContent='📄 Copiar código'},1800);
+  });
+}
 document.addEventListener('touchstart',e=>{const t=e.target.closest('.drag-token');if(t&&!t.classList.contains('used'))dToken=t});
 document.addEventListener('touchend',e=>{if(!dToken)return;const touch=e.changedTouches[0],el=document.elementFromPoint(touch.clientX,touch.clientY),zone=el?el.closest('.drag-zone'):null;if(zone){const fk={preventDefault:()=>{},currentTarget:zone};dropItem(fk)}dToken=null});
 </script>
