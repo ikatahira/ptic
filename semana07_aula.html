@@ -320,6 +320,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line
     </div>
   </div>
 
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-title">🧭 Navegue pela aula</div>
+    <div class="toc-items">
+      <a href="#sec-anatomia" class="toc-item"><span class="toc-ico">🗂️</span><span class="toc-label">Ato I — Anatomia da Planilha</span><span class="toc-xp">+50 XP</span></a>
+      <a href="#sec-formulas" class="toc-item"><span class="toc-ico">🧮</span><span class="toc-label">Ato II — As Fórmulas</span><span class="toc-xp">+80 XP</span></a>
+      <a href="#sec-quiz" class="toc-item"><span class="toc-ico">🧠</span><span class="toc-label">Ato III — Quiz</span><span class="toc-xp">+90 XP</span></a>
+      <a href="#sec-drag" class="toc-item"><span class="toc-ico">🧩</span><span class="toc-label">Ato IV — Encaixe as Peças</span><span class="toc-xp">+40 XP</span></a>
+      <a href="#sec-missoes" class="toc-item"><span class="toc-ico">🚀</span><span class="toc-label">Ato V — Missões Práticas</span><span class="toc-xp">+90 XP</span></a>
+    </div>
+  </div>
+
   <!-- PROGRESS -->
   <div class="progress-track">
     <div class="pt-title">🗺 Sua jornada esta semana</div>
@@ -492,12 +504,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line
     <!-- TYPING CHALLENGE -->
     <div class="typing-box" id="ty1" style="margin-top:20px">
       <div class="ty-header">
-        <span class="ty-badge">⚡ +10 XP</span>
+        <span class="ty-badge">⚡ +50 XP</span>
         <span style="font-size:.78em;color:var(--muted)">Desafio de Fixação</span>
       </div>
       <div class="ty-question">🎯 Na planilha da TechMercado acima, qual é o endereço da célula onde fica o preço do "Mouse Sem Fio"?</div>
       <div class="ty-target">B3</div>
-      <input class="ty-input" type="text" placeholder="Digite o endereço da célula..." oninput="checkTyping(this,'B3','ty1','badge0',10)">
+      <input class="ty-input" type="text" placeholder="Digite o endereço da célula..." oninput="checkTyping(this,'B3','ty1','badge0',50)">
       <div class="ty-feedback" id="ty1-fb"></div>
     </div>
   </div>
@@ -652,12 +664,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line
     <!-- TYPING 2 -->
     <div class="typing-box" id="ty2" style="margin-top:20px">
       <div class="ty-header">
-        <span class="ty-badge">⚡ +15 XP</span>
+        <span class="ty-badge">⚡ +80 XP</span>
         <span style="font-size:.78em;color:var(--muted)">Desafio de Fixação</span>
       </div>
       <div class="ty-question">🎯 O Lucas pediu para calcular a soma das receitas que estão em B2 até B13. Qual é a fórmula correta?</div>
       <div class="ty-target">=SOMA(B2:B13)</div>
-      <input class="ty-input" type="text" placeholder="Digite a fórmula..." oninput="checkTyping(this,'=SOMA(B2:B13)','ty2','badge1',15)">
+      <input class="ty-input" type="text" placeholder="Digite a fórmula..." oninput="checkTyping(this,'=SOMA(B2:B13)','ty2','badge1',80)">
       <div class="ty-feedback" id="ty2-fb"></div>
     </div>
   </div>
@@ -710,7 +722,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line
         <div class="quiz-q">Q3 — O que acontece se você digitar <span style="font-family:'Fira Code',monospace;color:var(--acc)">SOMA(B2:B10)</span> sem o sinal de = no início?</div>
         <div class="quiz-opts">
           <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q3')">A planilha calcula normalmente</button>
-          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q3',null,20)">A planilha mostra como texto, não calcula</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q3',null,25)">A planilha mostra como texto, não calcula</button>
           <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q3')">A planilha mostra um erro #NOME?</button>
           <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q3')">A célula fica em branco</button>
         </div>
@@ -722,7 +734,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line
         <div class="quiz-q">Q4 — A TechMercado tem receitas em B2:B13. Para calcular a média mensal, qual fórmula usar?</div>
         <div class="quiz-opts">
           <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q4')">SOMA(B2:B13)/12</button>
-          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q4',null,20)">MÉDIA(B2:B13)</button>
+          <button class="quiz-opt" onclick="answerQuiz(this,'correct','Q4',null,25)">MÉDIA(B2:B13)</button>
           <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q4')">CALCULAR(B2:B13)</button>
           <button class="quiz-opt" onclick="answerQuiz(this,'wrong','Q4')">MEDIANA(B2:B13)</button>
         </div>
@@ -1023,8 +1035,8 @@ function checkDrag() {
   res.classList.add('show');
   if (correct === 5) {
     res.classList.add('ok');
-    res.textContent = '🎉 Perfeito! Você conectou tudo certo! +25 XP';
-    if (!earned['drag-done']) { earned['drag-done'] = true; addXP(25, 'badge3'); }
+    res.textContent = '🎉 Perfeito! Você conectou tudo certo! +40 XP';
+    if (!earned['drag-done']) { earned['drag-done'] = true; addXP(40, 'badge3'); }
   } else {
     res.classList.add('bad');
     res.textContent = '❌ ' + correct + '/5 corretos. Revise e tente novamente!';
