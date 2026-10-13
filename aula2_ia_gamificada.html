@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Aula 2 de Introdução à IA · Modo Jogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: página de aula em 7 missões, com HUD de XP fixo no topo, atividades de arrastar e soltar e caixas "Para o caderno". */
+:root{
+  --bg:#F1F3F8; --surface:#FFFFFF; --ink:#101936; --muted:#4F5985; --line:#D3D9EB;
+  --accent:#2B50F5; --accent-ink:#FFFFFF; --soft:#E6EBFF; --hi:#FFD93D; --hi-ink:#101936;
+  --good:#0F7A58; --good-bg:#DDF4EA; --bad:#B3302A; --bad-bg:#FBE3E0;
+  --paper:#FFFBE6; --paperink:#2B2A1F; --paperline:#CFE0F5; --margin:#E57373;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'DM Sans','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1122; --surface:#151C36; --ink:#E9ECFA; --muted:#9BA5CC; --line:#2A3358;
+  --accent:#7C93FF; --accent-ink:#0C1122; --soft:#1E2850;
+  --good:#5FD9AA; --good-bg:#12372B; --bad:#FF9A92; --bad-bg:#40201F;
+  --paper:#23253A; --paperink:#E9ECFA; --paperline:#33406A; color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:940px;margin-inline:auto}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)}
+[hidden]{display:none!important}
+
+/* hero */
+.hero{display:grid;gap:20px;padding-block:32px 24px}
+.herotop{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.kicker{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-size:clamp(2.1rem,6vw,3.9rem);font-weight:800;letter-spacing:-.02em}
+.hero h1 mark{background:var(--hi);color:var(--hi-ink);padding:0 .12em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.lead{font-size:1.12rem;max-width:62ch;color:var(--muted)}
+.bubble{position:relative;background:var(--surface);border:2px solid var(--ink);border-radius:14px;padding:10px 14px;max-width:44ch;font-weight:500}
+.mapa{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
+.mapa a{display:grid;gap:2px;justify-items:center;text-align:center;text-decoration:none;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 6px;font-size:.82rem}
+.mapa a .em{font-size:1.8rem}
+.mapa a b{font-family:var(--display);font-size:.95rem}
+.mapa a:hover{border-color:var(--accent)}
+.rules{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.rules li{border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;font-size:.9rem}
+
+/* hud + nav */
+nav.steps{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:8px 16px}
+.hud{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;max-width:940px;margin:0 auto 8px}
+.lvl{font:800 1rem var(--display)}
+.xpw{flex:1;min-width:170px;display:grid;gap:2px}
+.xpbar{height:12px;border-radius:6px;background:var(--soft);overflow:hidden;border:1px solid var(--line)}
+.xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--hi));transition:width .4s}
+.xptxt{font:700 .75rem var(--mono);color:var(--muted)}
+.badges{display:flex;gap:4px}
+.badge{font-size:1.3rem;filter:grayscale(1);opacity:.35}
+.badge.on{filter:none;opacity:1}
+nav.steps ol{display:flex;gap:8px;list-style:none;margin:0 auto;padding:0;max-width:940px;overflow-x:auto;scrollbar-width:thin}
+nav.steps a{display:flex;gap:8px;align-items:baseline;white-space:nowrap;text-decoration:none;color:var(--ink);padding:5px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:.86rem;font-weight:500}
+nav.steps a b{font:700 .78rem var(--mono);color:var(--accent)}
+nav.steps a.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav.steps a.on b{color:var(--hi)}
+
+/* toasts */
+#toasts{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:grid;gap:8px;z-index:20;pointer-events:none;width:min(92vw,420px)}
+.toast{background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-weight:700;text-align:center;animation:pop .25s}
+.toast.big{background:var(--hi);color:var(--hi-ink);font-size:1.1rem;border-radius:14px;padding:12px 16px}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* etapas */
+section.etapa{padding-block:52px 8px;display:grid;gap:22px}
+.etapa-head{display:grid;gap:10px}
+.etapa-head .tag{font:700 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.etapa-head h2{font-size:clamp(1.8rem,4.6vw,2.7rem);font-weight:800;letter-spacing:-.01em}
+.etapa-head p{max-width:64ch;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:16px;min-width:0}
+.panel h3{font-size:1.25rem;font-weight:600}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.cols>*{min-width:0}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:9px 16px;font-weight:700;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:hover:not(:disabled){filter:brightness(1.08)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-block;justify-self:start;font:700 .75rem var(--mono);padding:3px 8px;border-radius:6px;background:var(--soft);color:var(--ink)}
+.pill.xp{background:var(--hi);color:var(--hi-ink)}
+.callout{border-left:4px solid var(--hi);background:var(--surface);padding:12px 16px;border-radius:0 8px 8px 0;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.callout b{font-family:var(--display)}
+.bell{text-align:center;padding:14px;border:2px dashed var(--accent);border-radius:14px;background:var(--soft);font-weight:700}
+.score{font:700 .9rem var(--mono);color:var(--muted)}
+ul.plain{margin:0;padding-left:20px}
+.fb{font-size:.92rem;padding:8px 12px;border-radius:8px}
+.fb.ok{background:var(--good-bg);color:var(--good)}
+.fb.no{background:var(--bad-bg);color:var(--bad)}
+.bytebox{display:flex;gap:12px;align-items:center}
+.bytebox .bubble{font-size:.95rem}
+
+/* quiz */
+.qrow{display:grid;gap:8px;padding-block:12px;border-top:1px solid var(--line)}
+.qrow:first-child{border-top:0}
+
+/* drag and drop */
+.tray{display:flex;flex-wrap:wrap;gap:10px;min-height:60px;padding:10px;border:2px dashed var(--line);border-radius:14px;background:var(--bg)}
+.dcard{display:flex;gap:8px;align-items:center;padding:8px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);cursor:grab;user-select:none;max-width:100%;font-size:.92rem}
+.dcard .em{font-size:1.6rem;line-height:1}
+.dcard.sel{border-color:var(--accent);box-shadow:0 0 0 3px var(--soft)}
+.dcard.ok{border-color:var(--good);background:var(--good-bg);color:var(--good);cursor:default}
+.dcard.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.zone{border:2px dashed var(--accent);border-radius:14px;padding:10px;display:grid;gap:8px;align-content:start;min-height:120px;background:var(--surface)}
+.zone.over{background:var(--soft)}
+.zone h4{font-size:1rem}
+.zbody{display:grid;gap:6px}
+.sortlist{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.sorti{display:flex;align-items:center;gap:10px;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);cursor:grab}
+.sorti .n{font:800 1.2rem var(--display);color:var(--accent);width:1.4em}
+.sorti .em{font-size:1.6rem;line-height:1}
+.sorti .t{flex:1}
+.sorti.good{border-color:var(--good);background:var(--good-bg)}
+.sorti.bad{border-color:var(--bad);background:var(--bad-bg)}
+.sorti button{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:2px 8px}
+
+/* detector */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px}
+.dc{border:2px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px;text-align:center;background:var(--surface);align-content:start}
+.dc.ok{border-color:var(--good)}
+.dc.no{border-color:var(--bad)}
+.dc .big{font-size:2.3rem;line-height:1.1}
+.dc .nm{font-size:.82rem;font-weight:700}
+.dc .st{font-size:.78rem}
+.dc .st.ok{color:var(--good)}
+.dc .st.no{color:var(--bad)}
+.bar{display:grid;grid-template-columns:1fr 40px;gap:6px;align-items:center;font:400 .8rem var(--mono)}
+.bar i{display:block;height:10px;border-radius:5px;background:var(--soft);overflow:hidden}
+.bar i span{display:block;height:100%;background:var(--accent);width:0}
+.bar.best i span{background:var(--good)}
+.bar.lbl{grid-template-columns:90px 1fr 46px}
+ul.goalsx{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+ul.goalsx li{padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--surface)}
+ul.goalsx li.done{border-color:var(--good);background:var(--good-bg);color:var(--good);font-weight:700}
+
+/* texto / abas */
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{border:1px solid var(--line);background:var(--bg);padding:8px 14px;border-radius:8px;font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabpanel{display:grid;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:400 .9rem var(--mono);padding:4px 8px;border-radius:6px;background:var(--soft)}
+.chip.pos{background:var(--good-bg);color:var(--good)}
+.chip.neg{background:var(--bad-bg);color:var(--bad)}
+textarea,input[type=text],select{width:100%;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{resize:vertical;min-height:84px}
+.genout{font:700 1.15rem/1.5 var(--display);min-height:2.4em;padding:12px 14px;border:2px dashed var(--line);border-radius:10px;background:var(--bg)}
+.cards4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.rk{border:2px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px;background:var(--surface);align-content:start}
+.rk .big{font-size:2rem;line-height:1}
+
+/* caderno */
+.note{position:relative;background:var(--paper);color:var(--paperink);border:1px solid var(--paperline);border-left:6px solid var(--margin);border-radius:6px;padding:12px 16px 12px 22px;display:grid;gap:6px;
+  background-image:repeating-linear-gradient(transparent,transparent 27px,var(--paperline) 28px);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.note .nh{font:800 1.05rem/28px var(--display)}
+.note ul{margin:0;padding-left:20px;line-height:28px}
+.note li{margin:0}
+.note .btn.ghost{color:var(--paperink);border-color:var(--paperline);background:var(--paper)}
+.noteall{display:grid;gap:14px}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.93rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:700}
+
+.vcard{display:grid;gap:10px;align-content:start}
+.vcard a.btn{justify-self:start}
+.prompt{display:grid;gap:12px}
+.prompt .ph{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.prompt .num{font:800 1.6rem var(--display);color:var(--accent)}
+.prompt .pbox{display:grid;gap:8px}
+.prompt textarea{font:400 .9rem/1.5 var(--mono);min-height:96px}
+.check{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{margin-top:6px;accent-color:var(--accent)}
+fieldset{border:0;border-top:1px solid var(--line);margin:0;padding:14px 0 0;display:grid;gap:8px;min-width:0}
+fieldset legend{font-weight:700;padding:0}
+fieldset label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+fieldset input{margin-top:6px;accent-color:var(--accent)}
+details.plan{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0}
+details.plan summary{padding:14px 20px;cursor:pointer;font-weight:700}
+details.plan .in{padding:0 20px 20px;display:grid;gap:14px}
+details.plan ul{margin:0;padding-left:20px}
+footer{padding-top:56px;color:var(--muted);font-size:.9rem}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.dcard.shake,.toast{animation:none}.xpbar i{transition:none}}
+@media print{
+  body.pc header,body.pc nav,body.pc section.etapa:not(#caderno),body.pc footer,body.pc #toasts,body.pc .noprint{display:none!important}
+  body.pc{background:#fff;padding:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="herotop">
+    <div id="byteHero"></div>
+    <div style="display:grid;gap:8px;flex:1;min-width:240px">
+      <div class="kicker">Informática para Internet · 1º ano do Ensino Médio · Aula 2 · 13h20 às 15h00</div>
+      <div class="bubble">Oi! Eu sou o <b>Byte</b>. Hoje a aula é um jogo: complete missões, junte XP, destrave medalhas e suba de nível. Vamos?</div>
+    </div>
+  </div>
+  <h1>Introdução à IA, parte 2: <mark>como ela aprende e onde erra</mark></h1>
+  <p class="lead">Continuação da aula anterior, em modo jogo. São 7 missões em dois tempos de aula, com cartas para arrastar, desafios, medalhas e anotações prontas para o caderno.</p>
+  <ul class="rules">
+    <li>⭐ Cada acerto vale XP</li>
+    <li>🏅 Cada missão tem uma medalha</li>
+    <li>🧗 Cinco níveis, de Calouro a Mestre da IA</li>
+    <li>✏️ Procure as caixas "Para o caderno"</li>
+    <li>⚠️ Não atualize a página: o progresso é perdido</li>
+  </ul>
+  <div class="mapa" id="mapa" aria-label="Mapa das missões"></div>
+  <details class="plan">
+    <summary>Plano para o professor (horários, XP, materiais, avaliação)</summary>
+    <div class="in">
+      <div class="tablewrap"><table>
+        <thead><tr><th>Missão</th><th>Horário</th><th>Atividades</th><th>XP</th></tr></thead>
+        <tbody>
+          <tr><td>1 Retomada</td><td>13h20–13h28</td><td>Quiz-relâmpago da aula 1 e carta "ligue à área"</td><td>22</td></tr>
+          <tr><td>2 Como a máquina aprende</td><td>13h28–13h48</td><td>Ordenar o ciclo, desafio do detector de gatos com metas, quiz de problemas</td><td>35</td></tr>
+          <tr><td>3 Linguagem</td><td>13h48–14h10</td><td>Analisador de sentimento (desafio de enganá-lo), ordenar a IA generativa, gerador por pares de palavras</td><td>28</td></tr>
+          <tr><td>4 Riscos</td><td>14h10–14h20</td><td>Cartas "qual risco é?" e "tradicional ou generativa?"</td><td>24</td></tr>
+          <tr><td>5 Vídeos</td><td>14h20–14h28</td><td>Pesquisa guiada e registro da resposta do grupo</td><td>10</td></tr>
+          <tr><td>6 ChatGPT</td><td>14h28–14h50</td><td>Quatro exercícios + um bônus, ficha de registro da dupla</td><td>50</td></tr>
+          <tr><td>7 Fechamento</td><td>14h50–15h00</td><td>Quiz final e bilhete de saída</td><td>30</td></tr>
+        </tbody>
+      </table></div>
+      <div><b>Total possível:</b> 199 XP. Níveis: Calouro (0), Aprendiz (25), Explorador (70), Cientista de Dados (120), Mestre da IA (170). Cada medalha sai com 70% do XP da missão. <b>Materiais:</b> projetor, internet, acesso ao ChatGPT, caderno. <b>Avaliação sugerida:</b> ficha de registro (missão 6), quiz final, bilhete de saída e a folha do caderno.</div>
+      <ul>
+        <li><b>Sequência:</b> esta página continua a <a href="https://ikatahira.github.io/ptic/aula_ia.html?classId=77d61e88-3f9b-419b-a607-1268305a1c5c&assignmentId=cfc77ea3-e4bc-4815-be3b-ccd13bb2a6a0" target="_blank" rel="noopener">Aula de Introdução à IA</a>. Só a missão 1 revisita conteúdo; o resto é novo.</li>
+        <li><b>Troca de aula às 14h10:</b> há um aviso entre as missões 3 e 4. Se os alunos trocarem de sala ou computador, o XP não é salvo; as anotações podem ser copiadas pelo botão "Copiar texto".</li>
+        <li><b>Ritmo:</b> cada missão tem um horário-alvo. Se atrasar, na missão 6 faça os exercícios 1 a 3 e deixe o 4 e o bônus como tarefa.</li>
+        <li><b>Em equipe:</b> as cartas funcionam bem projetadas, com a turma decidindo em voz alta; o XP pode ser somado por fileira.</li>
+        <li><b>Celular e touch:</b> nas cartas, toque na carta e depois na área; nas listas, use as setas ▲ ▼.</li>
+        <li><b>Sem contas ou sem internet para todos:</b> o professor opera o ChatGPT no projetor e a turma sugere os prompts, em duplas. Confira a política de idade da plataforma e a autorização da escola e dos responsáveis antes de pedir que os alunos criem contas.</li>
+        <li><b>Vídeos:</b> a missão 5 abre buscas no YouTube em vez de links fixos, porque não foi possível assistir a vídeos prontos na montagem. Se preferir, escolha os vídeos antes.</li>
+        <li><b>Números dos experimentos:</b> a confiança do detector de gatos é inventada, só para ilustrar.</li>
+      </ul>
+    </div>
+  </details>
+</header>
+
+<nav class="steps" aria-label="Missões e progresso">
+  <div class="hud">
+    <div class="lvl" id="lvl"></div>
+    <div class="xpw"><div class="xpbar"><i id="xpfill"></i></div><div class="xptxt" id="xptxt"></div></div>
+    <div class="badges" id="badges" aria-label="Medalhas"></div>
+  </div>
+  <ol id="navlist">
+    <li><a href="#e1"><b>1</b>Retomada</a></li>
+    <li><a href="#e2"><b>2</b>Como aprende</a></li>
+    <li><a href="#e3"><b>3</b>Linguagem</a></li>
+    <li><a href="#e4"><b>4</b>Riscos</a></li>
+    <li><a href="#e5"><b>5</b>Vídeos</a></li>
+    <li><a href="#e6"><b>6</b>ChatGPT</a></li>
+    <li><a href="#e7"><b>7</b>Fechamento</a></li>
+    <li><a href="#caderno"><b>📒</b>Caderno</a></li>
+  </ol>
+</nav>
+<div id="toasts" aria-live="polite"></div>
+
+<!-- MISSÃO 1 -->
+<section class="etapa" id="e1">
+  <div class="etapa-head">
+    <div class="tag">Missão 1 · 13h20–13h28 · até 22 XP</div>
+    <h2>🧠 O que ficou da aula passada?</h2>
+    <p>Na aula 1 vimos a definição e o histórico da IA, as áreas (visão computacional, PLN e aprendizado de máquina), IA tradicional x generativa e um primeiro uso crítico do ChatGPT. Mostre que você lembra.</p>
+  </div>
+  <div class="bytebox" data-tip="Quiz-relâmpago! Quem responde de primeira ganha o XP cheio."></div>
+  <div class="panel">
+    <h3>⚡ Quiz-relâmpago <span class="pill xp">2 XP por acerto</span></h3>
+    <div id="q1"></div>
+    <div class="score" id="q1score">Acertos: 0 de 5</div>
+  </div>
+  <div class="panel">
+    <h3>🃏 Ligue a aplicação à área <span class="pill xp">2 XP por carta</span></h3>
+    <div id="dnd1"></div>
+  </div>
+  <div class="callout"><b>Pergunta-ponte.</b> A aula passada mostrou o que a IA faz. Hoje: o que acontece dentro dela quando "aprende"? E onde ela erra, mesmo parecendo confiante?</div>
+  <div class="notehost" data-note="0"></div>
+</section>
+
+<!-- MISSÃO 2 -->
+<section class="etapa" id="e2">
+  <div class="etapa-head">
+    <div class="tag">Missão 2 · 13h28–13h48 · até 35 XP</div>
+    <h2>🎯 Como a máquina aprende de verdade</h2>
+    <p>Aprender, para uma máquina, é ajustar números a partir de exemplos. Mas aprender não basta: é preciso testar com exemplos que ela nunca viu.</p>
+  </div>
+  <div class="bytebox" data-tip="No detector, nenhum limite é perfeito. Seu desafio é escolher qual erro você aceita."></div>
+  <div class="panel">
+    <h3>🔄 Ponha o ciclo na ordem <span class="pill xp">8 XP</span></h3>
+    <p class="muted">Arraste as etapas (ou use ▲ ▼) até formar o ciclo de vida de um modelo de IA.</p>
+    <div id="sort1"></div>
+  </div>
+  <div class="callout"><b>Desafio: o detector de gatos (visão computacional).</b> O modelo dá uma confiança de 0 a 100% para "tem gato na foto". Quem decide o limite é você: acima dele, o sistema diz "gato". Mexa no limite e cumpra as três metas.</div>
+  <div class="panel">
+    <h3>😺 Detector de gatos <span class="pill xp">3 metas · 5 XP cada</span></h3>
+    <label for="thr" class="row" style="gap:10px"><span>Limite de confiança: <b id="thrv">50</b>%</span>
+      <input type="range" id="thr" min="0" max="100" step="1" value="50" style="accent-color:var(--accent);flex:1;min-width:140px"></label>
+    <div class="score" id="detsum" aria-live="polite"></div>
+    <ul class="goalsx" id="detgoals"></ul>
+    <div class="dgrid" id="detlist"></div>
+    <p class="muted" style="font-size:.9rem">Limite baixo encontra mais gatos, mas dá mais falsos alarmes. Limite alto reduz falsos alarmes, mas deixa gatos passarem. Nesta amostra, o máximo possível é 7 acertos em 10: o modelo é imperfeito, e é preciso escolher qual erro custa menos.</p>
+  </div>
+  <div class="cols">
+    <div class="panel"><h3>💭 Pergunta para a turma</h3>
+      <ul class="plain"><li>Em um exame médico por imagem, qual erro é pior: falso alarme ou doença perdida?</li><li>E em uma câmera que abre um portão?</li><li>Quem decide o limite: o programador, o médico, o usuário?</li></ul></div>
+    <div class="panel"><h3>📦 Dados também erram</h3>
+      <p>Se um modelo só viu fotos de gatos bem iluminados, ele falha no escuro. Se só viu certos rostos, erra mais com outros. Isso se chama <b>viés nos dados</b>.</p></div>
+  </div>
+  <div class="panel">
+    <h3>🔍 Qual é o problema? <span class="pill xp">3 XP por acerto</span></h3>
+    <div id="q2"></div>
+    <div class="score" id="q2score">Acertos: 0 de 4</div>
+  </div>
+  <div class="notehost" data-note="1"></div>
+</section>
+
+<!-- MISSÃO 3 -->
+<section class="etapa" id="e3">
+  <div class="etapa-head">
+    <div class="tag">Missão 3 · 13h48–14h10 · até 28 XP</div>
+    <h2>💬 Linguagem: PLN e IA generativa por dentro</h2>
+    <p>Na aula passada, o texto virou números. Agora veja duas coisas que se fazem com esses números: classificar sentimentos e gerar texto novo.</p>
+  </div>
+  <div class="bytebox" data-tip="Dois desafios aqui: enganar o analisador e fazer o gerador escrever uma frase específica."></div>
+  <div class="panel">
+    <div class="tabs" role="tablist" id="langtabs">
+      <button type="button" role="tab" aria-selected="true" aria-controls="p-sent" id="t-sent">🙂 PLN: sentimento</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="p-gen" id="t-gen">✨ Generativa: como o texto nasce</button>
+    </div>
+
+    <div role="tabpanel" class="tabpanel" id="p-sent" aria-labelledby="t-sent">
+      <p><b>Análise de sentimento</b> é uma tarefa de PLN: dizer se uma opinião é positiva, negativa ou neutra. Empresas usam para ler milhares de avaliações de uma vez.</p>
+      <div class="callout"><b>Desafio <span class="pill xp">10 XP</span>: engane o analisador.</b> Ele só conta palavras de uma lista. Escreva você mesmo uma frase que, para uma pessoa, é negativa, mas que ele classifica como POSITIVO. Dica: negação ("não gostei") ou ironia ("que ótimo, outra aula cancelada").</div>
+      <label for="sentin" class="muted">Escreva uma opinião:</label>
+      <textarea id="sentin" rows="2">Adorei o curso, mas o site é lento e confuso.</textarea>
+      <div class="row" id="sentpre"></div>
+      <div class="chips" id="sentchips" aria-live="polite"></div>
+      <div class="score" id="sentres" aria-live="polite"></div>
+      <div class="fb no" id="sentchal" hidden></div>
+      <p class="muted" style="font-size:.9rem">Ele ignora o contexto: não percebe negação nem ironia. Modelos modernos usam o contexto e acertam bem mais, mas ainda tropeçam em ironia.</p>
+    </div>
+
+    <div role="tabpanel" class="tabpanel" id="p-gen" aria-labelledby="t-gen" hidden>
+      <p><b>IA generativa</b> como o ChatGPT é construída em três passos. Ponha na ordem certa:</p>
+      <h3 style="font-size:1rem">🧱 Ordene os passos <span class="pill xp">6 XP</span></h3>
+      <div id="sort2"></div>
+      <div class="callout"><b>Desafio <span class="pill xp">12 XP</span>: gerador por pares de palavras.</b> Este modelo minúsculo aprendeu com 10 frases e só olha a última palavra. Monte uma frase escolhendo as palavras possíveis, ou deixe que ele gere sozinho. Primeira frase completa: 4 XP. <b>Missão extra: gere uma frase que contenha a palavra "errar" (8 XP).</b></div>
+      <div class="genout" id="genout" aria-live="polite"></div>
+      <div class="muted" style="font-size:.85rem" id="genlabel"></div>
+      <div class="row" id="genopts"></div>
+      <div class="row"><button class="btn" id="genauto" type="button">🎲 Gerar sozinho</button><button class="btn ghost" id="genreset" type="button">Recomeçar</button></div>
+      <div class="fb ok" id="genmsg" hidden></div>
+      <p class="muted" style="font-size:.9rem">A frase pode parecer fluente, mas ninguém verificou se é verdade: o modelo segue o que é provável depois da palavra anterior. O ChatGPT faz algo parecido com bilhões de exemplos e muito mais contexto. Por isso o texto é convincente, e por isso ele pode errar com segurança.</p>
+    </div>
+  </div>
+  <div class="notehost" data-note="2"></div>
+</section>
+
+<div class="bell">🔔 14h10: troca de aula! Segunda metade do jogo. Quem está no Nível 3 ou mais já tem uma boa vantagem.</div>
+
+<!-- MISSÃO 4 -->
+<section class="etapa" id="e4">
+  <div class="etapa-head">
+    <div class="tag">Missão 4 · 14h10–14h20 · até 24 XP</div>
+    <h2>🛡️ Riscos e quando usar cada IA</h2>
+    <p>IA tradicional e generativa resolvem problemas diferentes e trazem riscos diferentes. Saber escolher e saber desconfiar faz parte de usar bem.</p>
+  </div>
+  <div class="bytebox" data-tip="Leia os quatro cartões de risco e depois use a cabeça rápido: o relógio está correndo!"></div>
+  <div class="cards4">
+    <div class="rk"><span class="big">🌀</span><h3>Alucinação</h3><p>A IA generativa inventa fatos, números e fontes com tom de certeza.</p><p class="muted"><b>Cuidado:</b> confira em fontes que você consegue abrir.</p></div>
+    <div class="rk"><span class="big">⚖️</span><h3>Viés</h3><p>A IA repete padrões e estereótipos presentes nos dados de treino.</p><p class="muted"><b>Cuidado:</b> peça variedade e questione os resultados.</p></div>
+    <div class="rk"><span class="big">🔒</span><h3>Privacidade</h3><p>O que você digita pode ser armazenado e usado pela plataforma.</p><p class="muted"><b>Cuidado:</b> nunca cole dados pessoais, senhas ou documentos sigilosos.</p></div>
+    <div class="rk"><span class="big">✍️</span><h3>Autoria</h3><p>Entregar texto de IA como se fosse seu é desonesto e prejudica o aprendizado.</p><p class="muted"><b>Cuidado:</b> diga que usou IA e reescreva com suas ideias.</p></div>
+  </div>
+  <div class="panel">
+    <h3>🃏 Qual risco é? <span class="pill xp">2 XP por carta</span></h3>
+    <div id="dnd2"></div>
+  </div>
+  <div class="panel">
+    <h3>🃏 Tradicional ou generativa? <span class="pill xp">2 XP por carta</span></h3>
+    <div id="dnd3"></div>
+  </div>
+  <div class="notehost" data-note="3"></div>
+</section>
+
+<!-- MISSÃO 5 -->
+<section class="etapa" id="e5">
+  <div class="etapa-head">
+    <div class="tag">Missão 5 · 14h20–14h28 · até 10 XP</div>
+    <h2>🎬 Pesquisa guiada em vídeo</h2>
+    <p>Cada grupo clica no botão, escolhe um vídeo de 3 a 6 minutos de um canal confiável (de preferência recente), assiste e registra a resposta. O botão abre uma busca no YouTube em outra aba.</p>
+  </div>
+  <div class="callout"><b>Escolha com critério.</b> Quem publicou? Quando? O vídeo cita fontes? Desconfie de títulos exagerados ("a IA vai acabar com tudo").</div>
+  <div class="cols" id="videos"></div>
+  <div class="panel">
+    <h3>📝 Registro do grupo <span class="pill xp">10 XP</span></h3>
+    <label for="vgroup" class="muted">Grupo</label>
+    <select id="vgroup"></select>
+    <label for="vtitle" class="muted">Título do vídeo escolhido</label><input type="text" id="vtitle">
+    <label for="vans" class="muted">Resposta à pergunta-guia (pelo menos 30 letras)</label><textarea id="vans"></textarea>
+    <div class="row"><button class="btn" id="vreg" type="button">Registrar</button><span class="score" id="vmsg"></span></div>
+  </div>
+  <div class="notehost" data-note="4"></div>
+</section>
+
+<!-- MISSÃO 6 -->
+<section class="etapa" id="e6">
+  <div class="etapa-head">
+    <div class="tag">Missão 6 · 14h28–14h50 · até 50 XP</div>
+    <h2>⚡ Prática no ChatGPT</h2>
+    <p>Em duplas, faça os exercícios na ordem, com cerca de 5 minutos cada. Copie o prompt (+2 XP), cole no ChatGPT, compare com o que você viu hoje e marque o que observou (+2 XP por item). O exercício 5 é bônus.</p>
+    <div class="row"><a class="btn" href="https://chatgpt.com" target="_blank" rel="noopener">Abrir o ChatGPT</a></div>
+  </div>
+  <div class="callout"><b>Regras de uso.</b> Não digite dados pessoais seus nem de colegas (nome completo, endereço, telefone, senhas). Trate toda resposta como rascunho: a IA pode errar. Ao usar IA em trabalhos, diga que usou.</div>
+  <div id="exs" style="display:grid;gap:16px"></div>
+  <div class="panel">
+    <h3>📋 Ficha de registro da dupla <span class="pill xp">10 XP</span></h3>
+    <label for="f-names" class="muted">Nomes da dupla</label><input type="text" id="f-names">
+    <label for="f-best" class="muted">Qual prompt deu a melhor resposta e por quê?</label><textarea id="f-best"></textarea>
+    <label for="f-err" class="muted">Onde o ChatGPT errou, inventou ou mostrou viés?</label><textarea id="f-err"></textarea>
+    <label for="f-learn" class="muted">O que vocês aprenderam sobre como pedir melhor e como conferir respostas?</label><textarea id="f-learn"></textarea>
+    <div class="row"><button class="btn" id="fcopy" type="button">Gerar texto da ficha</button></div>
+    <textarea id="fout" readonly hidden style="min-height:140px" aria-label="Texto da ficha para copiar"></textarea>
+    <div class="score" id="fmsg"></div>
+  </div>
+  <div class="notehost" data-note="5"></div>
+</section>
+
+<!-- MISSÃO 7 -->
+<section class="etapa" id="e7">
+  <div class="etapa-head">
+    <div class="tag">Missão 7 · 14h50–15h00 · até 30 XP</div>
+    <h2>🏆 Chefão final</h2>
+    <p>Responda sem consultar e confira. Cada acerto vale 4 XP.</p>
+  </div>
+  <div class="panel">
+    <div id="fq"></div>
+    <div class="row"><button class="btn" id="fqgo" type="button">Corrigir</button><span class="score" id="fqscore"></span></div>
+  </div>
+  <div class="panel">
+    <h3>🎫 Bilhete de saída <span class="pill xp">10 XP</span></h3>
+    <label for="x3" class="muted">3 coisas novas que aprendi hoje</label><textarea id="x3"></textarea>
+    <label for="x2" class="muted">2 cuidados que vou ter ao usar IA</label><textarea id="x2"></textarea>
+    <label for="x1" class="muted">1 ideia de uso de IA no meu curso de Informática para Internet</label><textarea id="x1"></textarea>
+    <div class="row"><button class="btn" id="exitgo" type="button">Registrar bilhete</button><span class="score" id="exitmsg"></span></div>
+  </div>
+  <div class="notehost" data-note="6"></div>
+</section>
+
+<!-- CADERNO -->
+<section class="etapa" id="caderno">
+  <div class="etapa-head">
+    <div class="tag">Folha final</div>
+    <h2>📒 Tudo para o caderno</h2>
+    <p>Todas as caixas "Para o caderno" juntas. Copie à mão, copie o texto ou imprima esta folha. Complete as lacunas com suas palavras.</p>
+  </div>
+  <div class="noteall" id="noteall"></div>
+  <div class="panel noprint">
+    <h3>🎖️ Cartão do jogador</h3>
+    <label for="pname" class="muted">Seu apelido</label><input type="text" id="pname">
+    <div class="row"><button class="btn" id="pcard" type="button">Gerar cartão</button><button class="btn ghost" id="pprint" type="button">🖨️ Imprimir folha do caderno</button></div>
+    <textarea id="pout" readonly hidden style="min-height:120px" aria-label="Cartão do jogador"></textarea>
+  </div>
+</section>
+
+<footer>Aula 2 de Introdução à IA · modo jogo · material de apoio para o professor e a turma.</footer>
+</div>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+function el(tag,attrs,kids){const e=document.createElement(tag);if(attrs)for(const k in attrs){if(k==='class')e.className=attrs[k];else if(k==='text')e.textContent=attrs[k];else e.setAttribute(k,attrs[k]);}(kids||[]).forEach(c=>e.appendChild(c));return e;}
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+function copyText(t,btn,label){
+  const ok=()=>{if(btn){btn.textContent='Copiado ✔';setTimeout(()=>btn.textContent=label,1600);}};
+  function fallback(){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let r=false;try{r=document.execCommand('copy');}catch(e){}document.body.removeChild(ta);if(r)ok();else if(btn){btn.textContent='Selecione e use Ctrl+C';setTimeout(()=>btn.textContent=label,2200);}}
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fallback);}else fallback();}catch(e){fallback();}
+}
+
+/* ---------- mascote ---------- */
+const BYTE='<svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Byte, o robô mascote"><line x1="32" y1="8" x2="32" y2="14" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="6" r="4" fill="var(--hi)" stroke="var(--ink)" stroke-width="2"/><rect x="10" y="14" width="44" height="36" rx="12" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="23" cy="30" r="6" fill="#fff" stroke="var(--ink)" stroke-width="2"/><circle cx="41" cy="30" r="6" fill="#fff" stroke="var(--ink)" stroke-width="2"/><circle cx="24" cy="31" r="2.5" fill="#101936"/><circle cx="42" cy="31" r="2.5" fill="#101936"/><path d="M23 41 Q32 48 41 41" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="4" y="26" width="6" height="12" rx="3" fill="var(--hi)" stroke="var(--ink)" stroke-width="2"/><rect x="54" y="26" width="6" height="12" rx="3" fill="var(--hi)" stroke="var(--ink)" stroke-width="2"/><rect x="20" y="52" width="24" height="8" rx="4" fill="var(--soft)" stroke="var(--ink)" stroke-width="2"/></svg>';
+$('#byteHero').innerHTML=BYTE;
+$$('.bytebox').forEach(b=>{const w=el('div');w.innerHTML=BYTE.replace('width="64" height="64"','width="48" height="48"');b.appendChild(w);b.appendChild(el('div',{class:'bubble',text:b.getAttribute('data-tip')}));});
+
+/* ---------- navegação ativa ---------- */
+const links=$$('#navlist a');
+const secs=links.map(a=>$(a.getAttribute('href')));
+function onScroll(){let cur=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<160)cur=i;});links.forEach((a,i)=>a.classList.toggle('on',i===cur&&window.scrollY>200));}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- mapa ---------- */
+const ETAPAS=[
+ {e:'🧠',n:'Retomada',h:'13h20',xp:22},{e:'🎯',n:'Como aprende',h:'13h28',xp:35},{e:'💬',n:'Linguagem',h:'13h48',xp:28},
+ {e:'🛡️',n:'Riscos',h:'14h10',xp:24},{e:'🎬',n:'Vídeos',h:'14h20',xp:10},{e:'⚡',n:'ChatGPT',h:'14h28',xp:50},{e:'🏆',n:'Chefão',h:'14h50',xp:30}
+];
+ETAPAS.forEach((x,i)=>{
+  $('#mapa').appendChild(el('a',{href:'#e'+(i+1)},[el('span',{class:'em',text:x.e}),el('b',{text:(i+1)+'. '+x.n}),el('span',{text:x.h+' · '+x.xp+' XP'})]));
+});
+
+/* ---------- XP, níveis e medalhas ---------- */
+const MAXXP=ETAPAS.map(x=>x.xp);
+const state={xp:0,done:{},ex:[0,0,0,0,0,0,0],badges:[false,false,false,false,false,false,false]};
+const LEVELS=[{n:'Calouro',e:'🐣',min:0},{n:'Aprendiz',e:'🔧',min:25},{n:'Explorador',e:'🧭',min:70},{n:'Cientista de Dados',e:'🔬',min:120},{n:'Mestre da IA',e:'🏆',min:170}];
+const BADGES=[{e:'🧠',n:'Memória de Elefante'},{e:'🎯',n:'Mira Afiada'},{e:'💬',n:'Mestre das Palavras'},{e:'🛡️',n:'Detetive de Riscos'},{e:'🎬',n:'Crítico de Vídeos'},{e:'⚡',n:'Domador de Prompts'},{e:'🏆',n:'Chefão Derrotado'}];
+function levelIdx(xp){let l=0;LEVELS.forEach((x,i)=>{if(xp>=x.min)l=i;});return l;}
+function toast(msg,big){const t=el('div',{class:'toast'+(big?' big':''),text:msg});$('#toasts').appendChild(t);setTimeout(()=>{if(t.parentNode)t.parentNode.removeChild(t);},big?3400:2000);}
+function renderHud(){
+  const li=levelIdx(state.xp),L=LEVELS[li],N=LEVELS[li+1];
+  $('#lvl').textContent=L.e+' Nível '+(li+1)+' · '+L.n;
+  const pct=N?Math.round(100*(state.xp-L.min)/(N.min-L.min)):100;
+  $('#xpfill').style.width=pct+'%';
+  $('#xptxt').textContent='⭐ '+state.xp+' XP'+(N?' · faltam '+(N.min-state.xp)+' para '+N.n:' · nível máximo!');
+  const b=$('#badges');b.innerHTML='';
+  BADGES.forEach((x,i)=>b.appendChild(el('span',{class:'badge'+(state.badges[i]?' on':''),title:x.n+(state.badges[i]?' (conquistada)':' (bloqueada)'),text:x.e})));
+}
+function award(key,pts,et,msg){
+  if(state.done[key])return false;
+  state.done[key]=true;
+  const before=levelIdx(state.xp);
+  state.xp+=pts;state.ex[et]+=pts;
+  toast('+'+pts+' XP'+(msg?' · '+msg:''));
+  const after=levelIdx(state.xp);
+  if(after>before)toast('🎉 Nível '+(after+1)+': '+LEVELS[after].n+'!',true);
+  if(!state.badges[et]&&state.ex[et]>=Math.ceil(MAXXP[et]*0.7)){state.badges[et]=true;toast(BADGES[et].e+' Medalha: '+BADGES[et].n,true);}
+  renderHud();
+  return true;
+}
+renderHud();
+
+/* ---------- quiz por botões ---------- */
+function makeQuiz(box,scoreEl,items,labels,cfg){
+  let hits=0,done=0;
+  items.forEach((it,i)=>{
+    const opts=it.o||labels;
+    const fb=el('div',{class:'fb'});fb.hidden=true;
+    const btns=opts.map((l,j)=>{
+      const b=el('button',{class:'btn ghost',type:'button',text:l});
+      b.onclick=()=>{
+        btns.forEach(x=>x.disabled=true);done++;
+        const ok=(j===it.a);if(ok){hits++;award(cfg.key+i,cfg.pts,cfg.et,'');}
+        fb.hidden=false;fb.className='fb '+(ok?'ok':'no');
+        fb.textContent=(ok?'Certo! ':'Quase. ')+it.e;
+        b.classList.remove('ghost');
+        scoreEl.textContent='Acertos: '+hits+' de '+items.length+(done===items.length?' (fim)':'');
+      };
+      return b;
+    });
+    box.appendChild(el('div',{class:'qrow'},[el('div',{text:(i+1)+'. '+it.t,style:'font-weight:700'}),el('div',{class:'row'},btns),fb]));
+  });
+}
+
+/* ---------- arrastar e soltar em áreas ---------- */
+function makeDnD(box,cfg){
+  const n=cfg.items.length;let sel=null,hits=0,tries=0;
+  const cards={},wrong={},zbody={};
+  const tray=el('div',{class:'tray'});
+  const zonesEl=el('div',{class:'zones'});
+  const score=el('div',{class:'score',text:'Acertos: 0 de '+n});
+  const msg=el('div',{class:'fb'});msg.hidden=true;
+  function clearSel(){if(sel){sel.classList.remove('sel');sel=null;}}
+  function place(id,zid){
+    const it=cfg.items.find(x=>x.id===id);const card=cards[id];
+    if(!it||!card||card.dataset.locked)return;
+    tries++;
+    if(it.z===zid){
+      card.dataset.locked='1';card.draggable=false;card.classList.remove('sel');card.classList.add('ok');card.setAttribute('aria-disabled','true');
+      zbody[zid].appendChild(card);hits++;
+      msg.hidden=false;msg.className='fb ok';msg.textContent='Certo! '+it.e;
+      const p=wrong[id]?Math.max(1,Math.floor(cfg.pts/2)):cfg.pts;
+      award(cfg.key+id,p,cfg.et,'');
+    }else{
+      wrong[id]=true;card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
+      msg.hidden=false;msg.className='fb no';msg.textContent='Quase: essa carta não vai aí. Pense de novo.';
+    }
+    clearSel();
+    score.textContent='Acertos: '+hits+' de '+n+' · Tentativas: '+tries+(hits===n?' · Missão cumprida! 🎉':'');
+  }
+  cfg.items.forEach(it=>{
+    const c=el('div',{class:'dcard',draggable:'true',tabindex:'0',role:'button','data-id':it.id,'aria-label':it.t},[el('span',{class:'em',text:it.emoji}),el('span',{text:it.t})]);
+    c.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',it.id);e.dataTransfer.effectAllowed='move';});
+    c.addEventListener('click',()=>{if(c.dataset.locked)return;if(sel===c){clearSel();return;}clearSel();sel=c;c.classList.add('sel');});
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click();}});
+    cards[it.id]=c;tray.appendChild(c);
+  });
+  cfg.zones.forEach(z=>{
+    const body=el('div',{class:'zbody'});zbody[z.id]=body;
+    const zone=el('div',{class:'zone',tabindex:'0',role:'button','aria-label':'Área '+z.t},[el('h4',{text:z.emoji+' '+z.t}),el('div',{class:'muted',style:'font-size:.8rem',text:z.d||''}),body]);
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+    zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('over');place(e.dataTransfer.getData('text/plain'),z.id);});
+    zone.addEventListener('click',()=>{if(sel)place(sel.dataset.id,z.id);});
+    zone.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&sel){e.preventDefault();place(sel.dataset.id,z.id);}});
+    zonesEl.appendChild(zone);
+  });
+  box.appendChild(el('p',{class:'muted',style:'font-size:.9rem',text:'Arraste cada carta para a área certa. No celular, toque na carta e depois na área.'}));
+  box.appendChild(tray);box.appendChild(zonesEl);box.appendChild(score);box.appendChild(msg);
+}
+
+/* ---------- lista para ordenar ---------- */
+function makeSort(box,cfg){
+  let order=cfg.start.slice(),locked=false,dragIdx=null,marks=null;
+  const byId={};cfg.items.forEach(i=>{byId[i.id]=i;});
+  const ul=el('ol',{class:'sortlist'});
+  const msg=el('div',{class:'fb'});msg.hidden=true;
+  const btn=el('button',{class:'btn',type:'button',text:'Conferir ordem'});
+  function move(a,b){if(locked||a===b||b<0||b>=order.length)return;const x=order.splice(a,1)[0];order.splice(b,0,x);marks=null;render();}
+  function render(){
+    ul.innerHTML='';
+    order.forEach((id,idx)=>{
+      const it=byId[id];
+      const li=el('li',{class:'sorti'+(marks?(marks[idx]?' good':' bad'):''),draggable:locked?'false':'true'});
+      const up=el('button',{type:'button','aria-label':'Subir',text:'▲'});
+      const dn=el('button',{type:'button','aria-label':'Descer',text:'▼'});
+      up.disabled=dn.disabled=locked;
+      up.onclick=()=>move(idx,idx-1);dn.onclick=()=>move(idx,idx+1);
+      li.appendChild(el('span',{class:'n',text:String(idx+1)}));
+      li.appendChild(el('span',{class:'em',text:it.emoji}));
+      li.appendChild(el('span',{class:'t',text:it.t}));
+      li.appendChild(up);li.appendChild(dn);
+      li.addEventListener('dragstart',e=>{dragIdx=idx;e.dataTransfer.setData('text/plain',String(idx));e.dataTransfer.effectAllowed='move';});
+      li.addEventListener('dragover',e=>{if(!locked)e.preventDefault();});
+      li.addEventListener('drop',e=>{e.preventDefault();if(dragIdx!==null)move(dragIdx,idx);dragIdx=null;});
+      ul.appendChild(li);
+    });
+  }
+  btn.onclick=()=>{
+    if(locked)return;
+    marks=order.map((id,i)=>id===cfg.order[i]);
+    const okAll=marks.every(Boolean);
+    msg.hidden=false;
+    if(okAll){locked=true;msg.className='fb ok';msg.textContent='Ordem certa! '+cfg.ok;award(cfg.key,cfg.pts,cfg.et,'');btn.disabled=true;}
+    else{msg.className='fb no';msg.textContent='Ainda não: os itens em vermelho estão na posição errada. Dica: '+cfg.hint;}
+    render();
+  };
+  box.appendChild(ul);box.appendChild(el('div',{class:'row'},[btn]));box.appendChild(msg);render();
+}
+
+/* ---------- missão 1 ---------- */
+makeQuiz($('#q1'),$('#q1score'),[
+ {t:'Qual frase descreve melhor o aprendizado de máquina?',o:['Seguir só regras escritas à mão','Aprender padrões a partir de exemplos','Copiar respostas da internet'],a:1,e:'Ele aprende padrões a partir de dados, em vez de receber cada regra pronta.'},
+ {t:'Qual área da IA interpreta imagens e vídeos?',o:['Tradução de textos','Visão computacional','Planilhas'],a:1,e:'Visão computacional, como no desbloqueio facial.'},
+ {t:'Um filtro de spam é IA...',o:['Tradicional (classifica)','Generativa (cria texto)'],a:0,e:'Ele recebe uma mensagem e devolve um rótulo: classificação.'},
+ {t:'Por que o ChatGPT pode inventar uma resposta?',o:['Prevê a continuação mais provável, sem checar fatos','Quer enganar','Nunca viu textos'],a:0,e:'Ele gera texto plausível; por isso é preciso conferir.'},
+ {t:'Em que evento nasceu o termo "inteligência artificial"?',o:['Conferência de Dartmouth, 1956','Vitória do Deep Blue, 1997','Lançamento do ChatGPT, 2022'],a:0,e:'Dartmouth, em 1956, marca o nascimento do campo.'}
+],[],{key:'q1_',pts:2,et:0});
+
+makeDnD($('#dnd1'),{key:'d1_',pts:2,et:0,
+ zones:[{id:'vis',emoji:'👁️',t:'Visão computacional',d:'Interpreta imagens e vídeos'},{id:'pln',emoji:'💬',t:'PLN',d:'Entende e gera linguagem'},{id:'ml',emoji:'📊',t:'Aprendizado de máquina',d:'Prevê e recomenda a partir de dados'}],
+ items:[
+  {id:'a',emoji:'📱',t:'Desbloqueio do celular pelo rosto',z:'vis',e:'Interpreta uma imagem: visão computacional.'},
+  {id:'b',emoji:'🎤',t:'Assistente de voz que entende pedidos',z:'pln',e:'Entende linguagem falada: PLN.'},
+  {id:'c',emoji:'🎬',t:'Sugestão de séries',z:'ml',e:'Prevê o que você gosta a partir do que assistiu: aprendizado de máquina.'},
+  {id:'d',emoji:'🌐',t:'Tradutor automático',z:'pln',e:'Trabalha com textos de dois idiomas: PLN.'},
+  {id:'e',emoji:'🚗',t:'Carro que reconhece pedestres',z:'vis',e:'Interpreta imagens da câmera: visão computacional.'},
+  {id:'f',emoji:'🗺️',t:'Previsão de trânsito no aplicativo de mapas',z:'ml',e:'Prevê tempos a partir de dados: aprendizado de máquina.'}
+ ]});
+
+/* ---------- missão 2 ---------- */
+makeSort($('#sort1'),{key:'s1',pts:8,et:1,
+ items:[{id:'dados',emoji:'📦',t:'Reunir os dados'},{id:'treino',emoji:'🏋️',t:'Treinar o modelo'},{id:'teste',emoji:'📝',t:'Testar com exemplos novos'},{id:'uso',emoji:'🚀',t:'Usar no mundo real'}],
+ order:['dados','treino','teste','uso'],start:['teste','uso','dados','treino'],
+ hint:'sem dados não há o que treinar, e o teste vem antes do uso.',ok:'Dados, treino, teste e uso.'});
+
+const imgs=[
+ {em:'🐱',n:'Gato siamês deitado no sofá',g:true,c:96},
+ {em:'🐶',n:'Cachorro de orelhas pontudas',g:false,c:71},
+ {em:'🌿',n:'Gato escondido atrás de uma planta',g:true,c:48},
+ {em:'🧸',n:'Almofada de pelúcia em forma de gato',g:false,c:82},
+ {em:'⛰️',n:'Paisagem com montanhas',g:false,c:3},
+ {em:'🌙',n:'Gatinho filhote em um quarto escuro',g:true,c:55},
+ {em:'🦁',n:'Leão no zoológico',g:false,c:64},
+ {em:'🐈‍⬛',n:'Gato preto na calçada à noite',g:true,c:39},
+ {em:'🚲',n:'Foto de uma bicicleta',g:false,c:5},
+ {em:'😺',n:'Gato de lado, bem iluminado',g:true,c:93}
+];
+const goalsDef=[
+ {k:'g1',t:'🎯 Meta 1: consiga 7 acertos',f:(ok,fa,miss)=>ok>=7},
+ {k:'g2',t:'🛡️ Meta 2: 7 acertos e nenhum falso alarme',f:(ok,fa,miss)=>ok>=7&&fa===0},
+ {k:'g3',t:'🔎 Meta 3: 7 acertos e nenhum gato perdido',f:(ok,fa,miss)=>ok>=7&&miss===0}
+];
+const goalEls={};
+goalsDef.forEach(g=>{const li=el('li',{text:g.t+' (+5 XP)'});goalEls[g.k]=li;$('#detgoals').appendChild(li);});
+function renderDet(){
+  const T=parseInt($('#thr').value,10);$('#thrv').textContent=String(T);
+  const box=$('#detlist');box.innerHTML='';
+  let ok=0,fa=0,miss=0;
+  imgs.forEach(it=>{
+    const says=it.c>=T;let st,cls;
+    if(says&&it.g){ok++;st='✅ Gato achado';cls='ok';}
+    else if(!says&&!it.g){ok++;st='✅ Não é gato, e ele disse que não';cls='ok';}
+    else if(says&&!it.g){fa++;st='❌ Falso alarme';cls='no';}
+    else{miss++;st='❌ Gato perdido';cls='no';}
+    box.appendChild(el('div',{class:'dc '+cls},[
+      el('div',{class:'big',text:it.em}),
+      el('div',{class:'nm',text:it.n}),
+      el('div',{class:'bar'},[el('i',{},[el('span',{style:'width:'+it.c+'%'})]),el('span',{text:it.c+'%'})]),
+      el('div',{class:'st '+cls,text:st})
+    ]));
+  });
+  $('#detsum').textContent='Acertos: '+ok+' de '+imgs.length+' · Falsos alarmes: '+fa+' · Gatos perdidos: '+miss;
+  goalsDef.forEach(g=>{
+    if(g.f(ok,fa,miss)){goalEls[g.k].className='done';goalEls[g.k].textContent='✅ '+g.t.slice(2)+' (+5 XP)';award('goal_'+g.k,5,1,'meta cumprida');}
+  });
+}
+$('#thr').oninput=renderDet;renderDet();
+
+makeQuiz($('#q2'),$('#q2score'),[
+ {t:'Um reconhecimento facial treinado quase só com rostos de um grupo erra mais com os outros grupos.',o:['Dados de treino pouco variados (viés)','Falta de energia','Internet lenta'],a:0,e:'O modelo só aprende o que os dados mostram: viés nos dados.'},
+ {t:'Um modelo acerta quase tudo no treino, mas vai mal em fotos novas.',o:['Decorou os exemplos em vez de aprender (overfitting)','Foi treinado com dados demais','Está sem prompt'],a:0,e:'Por isso se testa com exemplos que o modelo nunca viu.'},
+ {t:'Um detector de fraude bloqueia compras normais com frequência.',o:['Muitos falsos alarmes','Muitos casos perdidos','Nenhum erro'],a:0,e:'Bloqueia o que não era fraude: falso alarme.'},
+ {t:'Um sistema de apoio médico deixa passar doenças que existem.',o:['Muitos falsos alarmes','Muitos casos perdidos','Nenhum erro'],a:1,e:'Deixa de apontar o que existe: caso perdido (falso negativo).'}
+],[],{key:'q2_',pts:3,et:1});
+
+/* ---------- missão 3 ---------- */
+const tabs=$$('#langtabs button');
+const panels=['p-sent','p-gen'].map(id=>document.getElementById(id));
+function selTab(i){tabs.forEach((b,j)=>b.setAttribute('aria-selected',j===i?'true':'false'));panels.forEach((p,j)=>{p.hidden=j!==i;});}
+tabs.forEach((b,i)=>{b.onclick=()=>selTab(i);});selTab(0);
+
+const POS=['adorei','gostei','otimo','bom','legal','incrivel','excelente','rapido','facil','claro','util','melhor','amei','maravilhoso'].map(norm);
+const NEG=['ruim','pessimo','lento','confuso','dificil','chato','odiei','horrivel','bug','erro','travou','pior','inutil'].map(norm);
+function doSent(fromUser){
+  const txt=$('#sentin').value,box=$('#sentchips');box.innerHTML='';
+  const ws=norm(txt).match(/[a-z]+/g)||[];
+  let p=0,n=0;
+  ws.forEach(w=>{
+    if(POS.indexOf(w)>=0){p++;box.appendChild(el('span',{class:'chip pos',text:w+' +1'}));}
+    else if(NEG.indexOf(w)>=0){n++;box.appendChild(el('span',{class:'chip neg',text:w+' −1'}));}
+  });
+  const v=p>n?'POSITIVO':(n>p?'NEGATIVO':'NEUTRO');
+  $('#sentres').textContent='Palavras positivas: '+p+' · negativas: '+n+' → o analisador diz: '+v;
+  const ch=$('#sentchal');
+  if(fromUser&&v==='POSITIVO'&&txt.trim().length>=12&&/\b(nao|nunca|jamais|nem|outra|outro|mais um|de novo)\b/.test(norm(txt))){
+    ch.hidden=false;ch.className='fb ok';ch.textContent='🎭 Você enganou o analisador! Ele viu uma palavra positiva e ignorou o contexto.';
+    award('sentTrick',10,2,'você enganou o analisador!');
+  }else{ch.hidden=true;}
+}
+$('#sentin').oninput=()=>doSent(true);
+['Não gostei do atendimento.','Que ótimo, outra aula cancelada.','O app é rápido e fácil de usar.'].forEach(a=>{
+  const b=el('button',{class:'btn ghost',type:'button',text:a});
+  b.onclick=()=>{$('#sentin').value=a;doSent(false);};
+  $('#sentpre').appendChild(b);
+});
+doSent(false);
+
+makeSort($('#sort2'),{key:'s2',pts:6,et:2,
+ items:[{id:'pre',emoji:'📚',t:'Pré-treino: lê muito texto e aprende a prever a próxima palavra'},{id:'ajuste',emoji:'👍',t:'Ajuste: pessoas avaliam respostas para ficar útil e seguro'},{id:'uso',emoji:'💬',t:'Uso: você escreve o prompt e ele gera a resposta'}],
+ order:['pre','ajuste','uso'],start:['uso','pre','ajuste'],
+ hint:'primeiro ele aprende, depois é ajustado, só então é usado.',ok:'Pré-treino, ajuste e uso.'});
+
+const corpus=[
+ 'a inteligência artificial aprende com dados',
+ 'a inteligência artificial ajuda a resolver problemas',
+ 'a inteligência artificial pode errar com muita segurança',
+ 'o computador aprende com exemplos',
+ 'o computador não entende o mundo como nós',
+ 'a máquina aprende com muitos exemplos',
+ 'a máquina pode errar com dados ruins',
+ 'o modelo gera texto palavra por palavra',
+ 'o modelo pode errar com muita segurança',
+ 'o modelo aprende padrões nos dados'
+];
+const FIM='<fim>';
+const nxt={};
+corpus.forEach(l=>{const w=l.split(' ');w.forEach((x,i)=>{const nn=i<w.length-1?w[i+1]:FIM;(nxt[x]=nxt[x]||[]).push(nn);});});
+const startCount={};corpus.forEach(l=>{const f=l.split(' ')[0];startCount[f]=(startCount[f]||0)+1;});
+let gen=[],ended=false;
+const MAXW=14;
+function countOpts(arr){const c={};arr.forEach(x=>{c[x]=(c[x]||0)+1;});return c;}
+function currentPool(){
+  if(!gen.length){const pool=[];for(const k in startCount)for(let i=0;i<startCount[k];i++)pool.push(k);return pool;}
+  if(gen.length>=MAXW)return [FIM];
+  return nxt[gen[gen.length-1]]||[FIM];
+}
+function finishGen(){
+  const m=$('#genmsg');m.hidden=false;
+  award('gen1',4,2,'primeira frase!');
+  if(gen.indexOf('errar')>=0){m.className='fb ok';m.textContent='🎯 Missão extra cumprida: sua frase tem a palavra "errar"!';award('genErrar',8,2,'missão extra!');}
+  else{m.className='fb ok';m.textContent='Frase pronta. Tente de novo: consegue gerar uma que contenha a palavra "errar"?';}
+}
+function pick(w){if(w===FIM){ended=true;}else{gen.push(w);}renderGen();if(ended)finishGen();}
+function renderGen(){
+  $('#genout').textContent=gen.length?gen.join(' ')+(ended?'.':' …'):'(comece escolhendo a primeira palavra)';
+  const box=$('#genopts');box.innerHTML='';
+  if(ended){$('#genlabel').textContent='Frase pronta. Clique em "Recomeçar" para gerar outra.';return;}
+  const pool=currentPool(),c=countOpts(pool),tot=pool.length;
+  $('#genlabel').textContent=gen.length?'Palavras possíveis depois de "'+gen[gen.length-1]+'" (chance em %):':'Primeiras palavras possíveis (chance em %):';
+  Object.keys(c).forEach(w=>{
+    const b=el('button',{class:'btn ghost',type:'button',text:(w===FIM?'(fim da frase)':w)+' · '+Math.round(100*c[w]/tot)+'%'});
+    b.onclick=()=>pick(w);box.appendChild(b);
+  });
+}
+$('#genauto').onclick=()=>{
+  gen=[];ended=false;let guard=0;
+  while(!ended&&guard<30){guard++;const pool=currentPool();const w=pool[Math.floor(Math.random()*pool.length)];if(w===FIM)ended=true;else gen.push(w);}
+  renderGen();finishGen();
+};
+$('#genreset').onclick=()=>{gen=[];ended=false;$('#genmsg').hidden=true;renderGen();};
+renderGen();
+
+/* ---------- missão 4 ---------- */
+makeDnD($('#dnd2'),{key:'d2_',pts:2,et:3,
+ zones:[{id:'alu',emoji:'🌀',t:'Alucinação',d:'Inventa fatos'},{id:'vie',emoji:'⚖️',t:'Viés',d:'Repete estereótipos'},{id:'pri',emoji:'🔒',t:'Privacidade',d:'Dados pessoais expostos'},{id:'aut',emoji:'✍️',t:'Autoria',d:'Texto que não é seu'}],
+ items:[
+  {id:'a',emoji:'📚',t:'Cita um livro que não existe',z:'alu',e:'Inventar fontes com tom de certeza é alucinação.'},
+  {id:'b',emoji:'👔',t:'Seleção de currículos que prefere sempre o mesmo perfil',z:'vie',e:'Repete um padrão dos dados de treino: viés.'},
+  {id:'c',emoji:'🪪',t:'Aluno cola CPF e endereço no chat',z:'pri',e:'Dados pessoais não devem ser digitados: privacidade.'},
+  {id:'d',emoji:'📝',t:'Entrega texto da IA como se fosse seu',z:'aut',e:'É um problema de autoria e honestidade.'},
+  {id:'e',emoji:'📅',t:'Afirma com segurança uma data errada',z:'alu',e:'Erro dito com segurança: alucinação.'},
+  {id:'f',emoji:'🖼️',t:'Imagens de médicos quase sempre do mesmo grupo',z:'vie',e:'Reflete estereótipos dos dados: viés.'}
+ ]});
+makeDnD($('#dnd3'),{key:'d3_',pts:2,et:3,
+ zones:[{id:'tra',emoji:'🔍',t:'IA tradicional',d:'Analisa, classifica e prevê'},{id:'gen',emoji:'✨',t:'IA generativa',d:'Cria conteúdo novo'}],
+ items:[
+  {id:'a',emoji:'💳',t:'Detectar fraude em compras de cartão',z:'tra',e:'Classificar cada compra como normal ou suspeita: tradicional.'},
+  {id:'b',emoji:'📧',t:'Escrever o rascunho de um e-mail',z:'gen',e:'Exige criar texto novo: generativa.'},
+  {id:'c',emoji:'📦',t:'Prever a demanda de produtos no mês',z:'tra',e:'Prever um número a partir de histórico: tradicional.'},
+  {id:'d',emoji:'💡',t:'Sugerir nomes para um site',z:'gen',e:'Criar ideias novas e variadas: generativa.'},
+  {id:'e',emoji:'🎨',t:'Gerar uma imagem a partir de uma descrição',z:'gen',e:'Cria uma imagem que não existia: generativa.'},
+  {id:'f',emoji:'🧹',t:'Filtro de spam do e-mail',z:'tra',e:'Devolve um rótulo: tradicional.'}
+ ]});
+
+/* ---------- missão 5 ---------- */
+const vids=[
+ ['Grupo A · Como o ChatGPT funciona','como funciona o ChatGPT explicado','Em que etapa a IA aprende a prever a próxima palavra? Explique com suas palavras.'],
+ ['Grupo B · Alucinação','alucinação em inteligência artificial o que é','Dê um exemplo de alucinação e diga como detectá-la.'],
+ ['Grupo C · Viés','viés em inteligência artificial explicado','De onde vem o viés de um sistema de IA e como reduzi-lo?'],
+ ['Grupo D · Treino e teste','treino e teste em machine learning explicado','Por que se separam dados de treino e de teste?'],
+ ['Grupo E · Visão computacional no Brasil','visão computacional aplicações no Brasil','Que aplicação o vídeo mostra e que tipo de erro ela precisa evitar?'],
+ ['Grupo F · Uso responsável','como usar inteligência artificial nos estudos com responsabilidade','Que regra do vídeo a turma deveria adotar?']
+];
+const vbox=$('#videos');
+vids.forEach((v,i)=>{
+  vbox.appendChild(el('div',{class:'panel vcard'},[
+    el('span',{class:'pill',text:v[0]}),
+    el('p',{},[el('b',{text:'Pergunta: '}),document.createTextNode(v[2])]),
+    el('p',{class:'muted',style:'font-size:.9rem',text:'Busca: "'+v[1]+'"'}),
+    el('a',{class:'btn',href:'https://www.youtube.com/results?search_query='+encodeURIComponent(v[1]),target:'_blank',rel:'noopener',text:'🔎 Buscar no YouTube'})
+  ]));
+  $('#vgroup').appendChild(el('option',{value:String(i),text:v[0]}));
+});
+$('#vreg').onclick=()=>{
+  const t=$('#vtitle').value.trim(),a=$('#vans').value.trim();
+  if(t.length<3||a.length<30){$('#vmsg').textContent='Preencha o título e uma resposta com pelo menos 30 letras.';return;}
+  $('#vmsg').textContent='Registrado! ✔';
+  award('vid',10,4,'vídeo registrado');
+};
+
+/* ---------- missão 6 ---------- */
+const exs=[
+ {t:'Melhore o prompt',prompts:[
+   {l:'Prompt 1 (vago)',p:'Explique o que é overfitting.'},
+   {l:'Prompt 2 (papel, público, formato, pergunta final)',p:'Atue como professor de Informática para Internet. Explique o que é overfitting para um aluno do 1º ano do Ensino Médio, com uma analogia de estudar para uma prova, em até 5 linhas, e termine com uma pergunta para eu responder.'}],
+  o:['Qual resposta ficou mais clara para vocês?','O que no Prompt 2 fez diferença: papel, público, formato ou pergunta final?','A analogia da prova bate com o que vimos sobre treino e teste?']},
+ {t:'IA ajudando no código',prompts:[
+   {l:'Prompt 1',p:'Crie uma página HTML simples com título, um parágrafo sobre inteligência artificial e uma lista com 3 aplicações.'},
+   {l:'Prompt 2 (entenda e melhore)',p:'Explique cada linha do código acima como se eu estivesse começando a aprender HTML. Depois aponte 2 melhorias de acessibilidade.'}],
+  o:['Salvem o código em um arquivo .html e abram no navegador: funcionou?','O código tem o idioma da página (lang) e a meta viewport?','Alterem uma cor ou um texto na mão para ter certeza de que entenderam.']},
+ {t:'Caça à alucinação',prompts:[
+   {l:'Prompt 1 (pegadinha: o Nobel não tem categoria de Computação)',p:'Quem ganhou o Prêmio Nobel de Computação em 2015 e qual foi o motivo? Dê detalhes.'},
+   {l:'Prompt 2',p:'Se você não tiver certeza, diga que não sabe. Quais são as fontes dessa resposta?'}],
+  o:['O ChatGPT percebeu a pegadinha ou inventou uma resposta?','O prêmio equivalente em computação é o Prêmio Turing: confiram em um site confiável.','O que mudou no Prompt 2? As fontes citadas existem?']},
+ {t:'Procure o viés',prompts:[
+   {l:'Prompt 1',p:'Descreva em 3 linhas uma pessoa que trabalha como programadora ou programador.'},
+   {l:'Prompt 2',p:'Agora descreva outras 3 pessoas diferentes que trabalham com programação, com idades, origens e estilos variados.'}],
+  o:['Que perfil apareceu primeiro? Houve algum estereótipo?','O que mudou ao pedir variedade?','Por que isso mostra a importância dos dados de treino?']},
+ {t:'Bônus: regras da dupla para usar IA',bonus:true,prompts:[
+   {l:'Prompt',p:'Liste 5 boas práticas para um aluno usar IA nos estudos sem prejudicar o próprio aprendizado, em frases curtas.'}],
+  o:['Quais dessas práticas a dupla já faz?','Qual é a mais difícil de cumprir?','Escrevam uma regra da dupla para usar IA nesta turma.']}
+];
+const exbox=$('#exs');
+exs.forEach((x,i)=>{
+  const pbs=x.prompts.map((pr,k)=>{
+    const ta=el('textarea',{readonly:'','aria-label':'Prompt '+(k+1)+' do exercício '+(i+1)});ta.value=pr.p;
+    const cb=el('button',{class:'btn',type:'button',text:'Copiar prompt'});
+    cb.onclick=()=>{copyText(pr.p,cb,'Copiar prompt');award('excopy'+i,2,5,'prompt copiado');};
+    return el('div',{class:'pbox'},[el('div',{class:'muted',style:'font-size:.85rem;font-weight:700',text:pr.l}),ta,el('div',{class:'row'},[cb])]);
+  });
+  const ul=el('ul',{class:'check'});
+  x.o.forEach((o,j)=>{
+    const id='ck'+i+'_'+j;
+    const inp=el('input',{type:'checkbox',id:id});
+    inp.onchange=()=>{if(inp.checked)award('ck'+i+'_'+j,2,5,'observação feita');};
+    ul.appendChild(el('li',{},[el('label',{for:id},[inp,el('span',{text:o})])]));
+  });
+  exbox.appendChild(el('div',{class:'panel prompt'},[
+    el('div',{class:'ph'},[el('span',{class:'num mono',text:String(i+1)}),el('h3',{text:x.t}),el('span',{class:'pill',text:x.bonus?'bônus · 8 XP':'5 min · 8 XP'})])
+  ].concat(pbs,[el('div',{class:'muted',style:'font-size:.85rem;font-weight:700',text:'O que observar'}),ul])));
+});
+$('#fcopy').onclick=()=>{
+  const names=$('#f-names').value.trim();
+  const t='Dupla: '+$('#f-names').value+'\n\nMelhor prompt e por quê:\n'+$('#f-best').value+'\n\nErros, invenções ou viés do ChatGPT:\n'+$('#f-err').value+'\n\nO que aprendemos:\n'+$('#f-learn').value;
+  const o=$('#fout');o.hidden=false;o.value=t;
+  copyText(t,null,'');
+  $('#fmsg').textContent='Texto gerado. Cole onde o professor pedir.';
+  if(names.length>=2&&($('#f-best').value+$('#f-err').value+$('#f-learn').value).trim().length>=40){award('ficha',10,5,'ficha registrada');}
+  else{$('#fmsg').textContent='Texto gerado. Para ganhar o XP, preencha os nomes e escreva um pouco mais nas respostas.';}
+};
+
+/* ---------- missão 7 ---------- */
+const fq=[
+ {q:'Para que servem os dados de teste?',o:['Para treinar o modelo','Para medir se o modelo funciona em exemplos novos','Para deixar o modelo mais rápido','Para substituir os dados de treino'],a:1,e:'O teste usa exemplos que o modelo nunca viu, para avaliar se ele realmente aprendeu.'},
+ {q:'Ao baixar o limite de confiança do detector de gatos, o que tende a acontecer?',o:['Menos falsos alarmes e mais gatos perdidos','Mais gatos encontrados e mais falsos alarmes','Nada muda','O modelo aprende mais'],a:1,e:'Limite baixo aceita mais respostas: acha mais gatos, mas erra mais "gatos" que não são.'},
+ {q:'Por que um analisador de sentimento simples erra ironia?',o:['Porque conta palavras e ignora o contexto','Porque não tem internet','Porque lê rápido demais','Porque só entende inglês'],a:0,e:'Contar palavras não captura o sentido da frase inteira.'},
+ {q:'O que o gerador por pares de palavras mostra?',o:['Que texto fluente não garante que seja verdadeiro','Que a IA entende o que escreve','Que a IA nunca erra','Que o texto é copiado da internet'],a:0,e:'O modelo segue o que é provável; ninguém checa a verdade.'},
+ {q:'Qual é um cuidado adequado ao usar o ChatGPT nos estudos?',o:['Colar dados pessoais para receber respostas personalizadas','Conferir fatos e fontes e avisar que usou IA','Entregar o texto gerado sem mudar nada','Confiar sempre na primeira resposta'],a:1,e:'Conferir e declarar o uso protege sua aprendizagem e sua honestidade.'}
+];
+const fqb=$('#fq');
+fq.forEach((it,i)=>{
+  const fs=el('fieldset',{},[el('legend',{text:(i+1)+'. '+it.q})]);
+  it.o.forEach((o,j)=>{const id='fq'+i+'_'+j;fs.appendChild(el('label',{for:id},[el('input',{type:'radio',name:'fq'+i,id:id,value:String(j)}),el('span',{text:o})]));});
+  const fb=el('div',{class:'fb',id:'fqfb'+i});fb.hidden=true;
+  fs.appendChild(fb);fqb.appendChild(fs);
+});
+$('#fqgo').onclick=()=>{
+  let s=0,ans=0;
+  fq.forEach((it,i)=>{
+    const sel=document.querySelector('input[name="fq'+i+'"]:checked'),fb=$('#fqfb'+i);fb.hidden=false;
+    if(!sel){fb.className='fb no';fb.textContent='Sem resposta. '+it.e;return;}
+    ans++;const ok=parseInt(sel.value,10)===it.a;if(ok){s++;award('fq'+i,4,6,'');}
+    fb.className='fb '+(ok?'ok':'no');
+    fb.textContent=(ok?'Certo! ':'Resposta: '+it.o[it.a]+'. ')+it.e;
+  });
+  $('#fqscore').textContent='Nota: '+s+' de '+fq.length+(ans<fq.length?' (há perguntas sem resposta)':'');
+};
+$('#exitgo').onclick=()=>{
+  const a=$('#x3').value.trim(),b=$('#x2').value.trim(),c=$('#x1').value.trim();
+  if(a.length<5||b.length<5||c.length<5){$('#exitmsg').textContent='Preencha os três campos.';return;}
+  $('#exitmsg').textContent='Bilhete registrado! ✔';
+  award('exit',10,6,'bilhete de saída');
+};
+
+/* ---------- caderno ---------- */
+const NOTES=[
+ {t:'Aula 1 em poucas linhas',l:['IA: sistemas que fazem tarefas que exigiriam inteligência humana (perceber, aprender, decidir, usar linguagem).','Visão computacional: interpretar imagens e vídeos.','PLN: entender e gerar linguagem humana.','Aprendizado de máquina: aprender padrões a partir de dados.','IA tradicional analisa, classifica e prevê; IA generativa cria conteúdo novo.']},
+ {t:'Como a máquina aprende',l:['Ciclo: 1 dados → 2 treino → 3 teste → 4 uso.','Falso alarme: o modelo diz que é, mas não é.','Caso perdido (falso negativo): é, mas o modelo diz que não.','Limite de confiança mais baixo: acha mais, mas dá mais falsos alarmes.','Viés nos dados: o modelo repete o que os dados mostram.','Overfitting: decorar os exemplos em vez de aprender.']},
+ {t:'Linguagem e IA generativa',l:['Análise de sentimento (PLN): classificar uma opinião como positiva, negativa ou neutra.','Contar palavras falha com negação e ironia.','IA generativa: 1 pré-treino → 2 ajuste → 3 uso (prompt).','Ela gera uma palavra (token) de cada vez, escolhendo o que é provável.','Texto fluente não é o mesmo que texto verdadeiro.']},
+ {t:'Riscos e quando usar cada IA',l:['Alucinação: inventa fatos e fontes → conferir em fontes abertas.','Viés: repete estereótipos dos dados → pedir variedade e questionar.','Privacidade: o que digito pode ser guardado → não colar dados pessoais.','Autoria: não entregar texto de IA como meu → avisar que usei IA.','Tradicional: fraude, previsão de demanda, spam. Generativa: e-mail, nomes, imagens.']},
+ {t:'Anotações do vídeo (preencha)',l:['Título do vídeo: ____________________','Canal e data: ____________________','Ideia principal: ____________________','Um exemplo citado: ____________________','Uma dúvida que ficou: ____________________']},
+ {t:'Receita de um bom prompt',l:['Papel + Público + Tarefa + Formato + Restrição.','Exemplo: "Atue como professor. Explique X para o 1º ano, em 5 linhas, com um exemplo, e termine com uma pergunta."','Conferir: tem fonte que eu abro? Bate com 2 fontes? Datas e nomes certos? É bom demais para ser verdade?']},
+ {t:'Minhas regras para usar IA (preencha)',l:['1. Nunca vou digitar ____________________.','2. Sempre vou conferir ____________________.','3. Vou avisar que usei IA quando ____________________.']}
+];
+function noteText(i){const N=NOTES[i];return N.t+'\n'+N.l.map(x=>'• '+x).join('\n');}
+function noteEl(i,withCheck){
+  const N=NOTES[i];
+  const box=el('div',{class:'note'});
+  box.appendChild(el('div',{class:'nh',text:'✏️ Para o caderno · '+N.t}));
+  const ul=el('ul');N.l.forEach(x=>ul.appendChild(el('li',{text:x})));box.appendChild(ul);
+  if(withCheck){
+    const cb=el('button',{class:'btn ghost',type:'button',text:'Copiar texto'});
+    cb.onclick=()=>copyText(noteText(i),cb,'Copiar texto');
+    const chk=el('input',{type:'checkbox'});
+    box.appendChild(el('div',{class:'row noprint'},[cb,el('label',{class:'row',style:'gap:6px'},[chk,el('span',{text:'Já copiei no caderno'})])]));
+  }
+  return box;
+}
+$$('.notehost').forEach(h=>{h.appendChild(noteEl(parseInt(h.getAttribute('data-note'),10),true));});
+NOTES.forEach((n,i)=>{$('#noteall').appendChild(noteEl(i,false));});
+$('#pprint').onclick=()=>{document.body.classList.add('pc');window.print();};
+window.addEventListener('afterprint',()=>{document.body.classList.remove('pc');});
+$('#pcard').onclick=()=>{
+  const li=levelIdx(state.xp),L=LEVELS[li];
+  const medals=BADGES.filter((b,i)=>state.badges[i]).map(b=>b.e+' '+b.n);
+  const t='CARTÃO DO JOGADOR\nJogador: '+($('#pname').value.trim()||'(sem apelido)')+'\nNível: '+(li+1)+' · '+L.n+'\nXP: '+state.xp+' de 199\nMedalhas ('+medals.length+' de 7): '+(medals.length?medals.join(', '):'nenhuma ainda');
+  const o=$('#pout');o.hidden=false;o.value=t;
+};
+})();
+</script>
+</body>
+</html>
